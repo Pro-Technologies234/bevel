@@ -1,0 +1,8 @@
+{
+  "name": "@bevel/cli",
+  "version": "0.0.1",
+  "private": false,
+  "bin": {
+    "bevel": "./src/index.ts"
+  }
+}
