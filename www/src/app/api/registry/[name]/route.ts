@@ -1,6 +1,7 @@
 export async function GET(
   request: Request,
-  { params }: { params: { name: string } }
+  { params }: { params: Promise<{ name: string }> }
 ) {
-  return Response.json({ name: params.name, files: [], dependencies: {} });
+  const { name } = await params;
+  return Response.json({ name, files: [], dependencies: {} });
 }
