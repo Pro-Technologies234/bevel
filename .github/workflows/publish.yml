@@ -22,6 +22,11 @@ jobs:
         working-directory: packages/cli
         run: bun run build
 
+      - name: Setup npm auth
+        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish to npm
         working-directory: packages/cli
         run: npm publish --access public
