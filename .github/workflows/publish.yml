@@ -1,4 +1,4 @@
-name: Publish @bevel/cli
+name: Publish @bevelui/cli
 
 on:
   push:
@@ -9,9 +9,15 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       id-token: write
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          registry-url: "https://registry.npmjs.org"
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -20,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Build CLI
         working-directory: packages/cli
         run: bun run build
@@ -27,5 +36,3 @@ jobs:
       - name: Publish to npm
         working-directory: packages/cli
         run: npm publish --access public
-        env:
-          NPM_CONFIG_PROVENANCE: true
