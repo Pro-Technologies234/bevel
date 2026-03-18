@@ -3,7 +3,7 @@
   "version": "0.0.3",
   "private": false,
   "bin": {
-    "bevel": "./dist/index.js"
+    "bevel": "dist/index.js"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
@@ -21,6 +21,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Pro-Technologies234/bevel"
+    "url": "git+https://github.com/Pro-Technologies234/bevel.git"
   }
 }
