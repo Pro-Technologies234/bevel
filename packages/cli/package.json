@@ -1,5 +1,5 @@
 {
-  "name": "@bevel/cli",
+  "name": "@bevelui/cli",
   "version": "0.0.1",
   "private": false,
   "bin": {
