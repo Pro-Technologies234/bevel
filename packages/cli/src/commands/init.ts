@@ -23,7 +23,9 @@ export async function init() {
   );
 
   // Check shadcn
-  const hasShadcn = existsSync(join(process.cwd(), "components/ui"));
+  const hasShadcn =
+    existsSync(join(process.cwd(), "components/ui")) ||
+    existsSync(join(process.cwd(), "src/components/ui"));
 
   if (!hasShadcn) {
     console.log(chalk.yellow("\n  shadcn is required but was not found."));
@@ -37,7 +39,7 @@ export async function init() {
   const config = `import type { BevelConfig } from "@bevel/cli";
 
 const config: BevelConfig = {
-  outputPath: "components/bevel",
+  outputPath: "src/components/bevel",
   typescript: ${hasTS},
 };
 
