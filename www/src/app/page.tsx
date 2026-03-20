@@ -365,7 +365,7 @@ function RatingFieldExamples() {
           badge="disabled"
         >
           <RatingField
-            value={4}
+            defaultValue={4}
             onChange={() => {}}
             onHover={() => {}}
             max={5}

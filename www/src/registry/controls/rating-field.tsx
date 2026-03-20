@@ -5,6 +5,7 @@ import { useId, useState } from "react";
 
 function Rate({
   isActive,
+  disabled,
   setRating,
   setHover,
   value,
@@ -12,16 +13,17 @@ function Rate({
   icon = IconStarFilled,
   emptyIcon = IconStar,
   size = 40,
+  layoutId,
   className,
   showValue,
   allowDeselect,
   accentColor = "#fdc700",
 }: RateProps) {
-  const uid = useId()
-  const RateIcon = isActive ? icon : emptyIcon ;
+  const RateIcon = isActive ? icon : emptyIcon;
   return (
     <motion.button
-      whileHover={{ scale: 1.2, rotate: 5 }}
+    disabled={disabled}
+      whileHover={{ scale: disabled ? 1 : 1.2, rotate: disabled ? 0 :  5 }}
       whileTap={{ scale: 0.9 }}
       onClick={() => {
         if (!allowDeselect) {
@@ -47,14 +49,14 @@ function Rate({
         className={cn(
           `transition-all duration-300`,
           isActive
-            ? cn(`drop-shadow-md `,)
+            ? cn(`drop-shadow-md `)
             : "stroke-muted-foreground/30 group-hover:stroke-muted-foreground/50",
         )}
       />
       {showValue && <span>{value}</span>}
       {rating === value && (
         <motion.div
-          layoutId={uid}
+          layoutId={layoutId || "active-glow"}
           style={{
             backgroundColor: accentColor,
             opacity: 0.2,
@@ -80,11 +82,12 @@ function RatingField({
   allowDeselect,
   ...props
 }: RatingFieldProps) {
+  const uid = useId();
   const isControlled = "value" in props && props.value !== undefined;
   const [internalValue, setInternalValue] = useState<number | undefined>(
     !isControlled ? (props as RatingFieldUncontrolled).defaultValue : undefined,
   );
-  const [hover, setHover] = useState(0);
+  const [hover, setHover] = useState<undefined | number>(undefined);
   const currentDisplay = hover || internalValue || 0;
   const currentValue = isControlled
     ? (props as RatingFieldControlled).value
@@ -103,29 +106,30 @@ function RatingField({
       className={cn(
         "flex ",
         className,
-        disabled && "opacity-80 cursor-not-allowed ",
+        disabled && "opacity-70 cursor-not-allowed ",
       )}
     >
       {[...Array(max)]?.map((_, index) => {
         const starValue = index + 1;
-        const isActive = !single ? starValue <= currentDisplay : starValue == currentDisplay;
+        const isActive = !single
+          ? starValue <= currentDisplay
+          : starValue == currentDisplay;
         const level = levels?.[index];
         return (
           <Rate
             rating={currentValue}
             value={starValue}
-            icon={
-              level?.icon ||
-              icon
-            }
+            icon={level?.icon || icon}
             emptyIcon={level?.emptyIcon || emptyIcon}
             key={index}
             size={size}
             isActive={isActive}
             setHover={handleHoverChange}
+            disabled={disabled}
             showValue={showValue}
             accentColor={level?.color || accentColor}
             setRating={handleChange}
+            layoutId={uid}
           />
         );
       })}
@@ -150,8 +154,9 @@ interface RatingFieldUncontrolled {
 }
 
 type RateProps = {
+  layoutId?: string;
   icon?: Icon;
-  emptyIcon?: Icon
+  emptyIcon?: Icon;
   rating: number;
   value: number;
   showValue?: boolean; // shows numeric value next to rating
@@ -160,6 +165,7 @@ type RateProps = {
   accentColor?: string;
   isActive: boolean;
   hasFill?: boolean;
+  disabled?: boolean;
   size?: string | number;
   setRating: (rate: number) => void;
   setHover: (rate: number) => void;

@@ -96,7 +96,7 @@ function FeedbackModule({
   };
 
   return (
-    <div className="relative overflow-hidden p-8 rounded-3xl w-full shadow-2xl transition-all duration-500 bgemra">
+    <div className="relative overflow-hidden md:p-4 rounded-3xl w-full">
       <div className="relative z-10 flex flex-col gap-6">
         {/* Header Section */}
         <div className="text-center space-y-3 flex flex-col items-center">
