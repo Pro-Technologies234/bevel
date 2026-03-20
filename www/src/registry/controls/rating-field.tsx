@@ -20,10 +20,11 @@ function Rate({
   accentColor = "#fdc700",
 }: RateProps) {
   const RateIcon = isActive ? icon : emptyIcon;
+  const current = rating === value && !isActive;
   return (
     <motion.button
-    disabled={disabled}
-      whileHover={{ scale: disabled ? 1 : 1.2, rotate: disabled ? 0 :  5 }}
+      disabled={disabled}
+      whileHover={{ scale: disabled ? 1 : 1.2, rotate: disabled ? 0 : 5 }}
       whileTap={{ scale: 0.9 }}
       onClick={() => {
         if (!allowDeselect) {
@@ -44,13 +45,17 @@ function Rate({
         size={size}
         strokeWidth={1.5}
         style={{
-          color: accentColor,
+          ...(current
+            ? { color: accentColor, opacity: 0.6 }
+            : isActive
+              ? { color: accentColor }
+              : undefined),
         }}
         className={cn(
           `transition-all duration-300`,
           isActive
             ? cn(`drop-shadow-md `)
-            : "stroke-muted-foreground/30 group-hover:stroke-muted-foreground/50",
+            : "text-muted-foreground/30 group-hover:text-muted-foreground/50",
         )}
       />
       {showValue && <span>{value}</span>}
