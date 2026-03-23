@@ -8,75 +8,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { ReactNode, useState } from "react";
-
-// =============================================================================
-// TYPES — shared, types
-// =============================================================================
-
-export interface ChipOption {
-  value: string;
-  label: string;
-  icon?: ReactNode;
-  description?: string; // shows in shadcn Tooltip on hover
-  badge?: string | number;
-  disabled?: boolean;
-  color?: string; // overrides active bg color e.g. "#FF4560"
-}
-
-interface ChipSelectSharedProps {
-  options: ChipOption[];
-  isLoading?: boolean;
-  canWrap?: boolean;
-  size?: "sm" | "md" | "lg";
-  className?: string;
-  activeClassName?: string;
-}
-
-// =============================================================================
-// TYPES — self-contained
-// =============================================================================
-
-// Controlled single
-interface SingleControlled {
-  multiple?: false;
-  value: string;
-  defaultValue?: never;
-  onChange: (value: string) => void;
-}
-
-// Uncontrolled single
-interface SingleUncontrolled {
-  multiple?: false;
-  value?: never;
-  defaultValue?: string;
-  onChange?: (value: string) => void;
-}
-
-// Controlled multi
-interface MultiControlled {
-  multiple: true;
-  value: string[];
-  defaultValue?: never;
-  onChange: (value: string[]) => void;
-  max?: number;
-}
-
-// Uncontrolled multi
-interface MultiUncontrolled {
-  multiple: true;
-  value?: never;
-  defaultValue?: string[];
-  onChange?: (value: string[]) => void;
-  max?: number;
-}
-
-export type ChipSelectProps = ChipSelectSharedProps &
-  (SingleControlled | SingleUncontrolled | MultiControlled | MultiUncontrolled);
-
-// =============================================================================
-// CONSTANTS
-// =============================================================================
+import { Icon } from "@tabler/icons-react";
+import { useState } from "react";
 
 const SIZE = {
   sm: {
@@ -87,18 +20,14 @@ const SIZE = {
   md: {
     chip: "h-9 px-4 text-sm gap-2",
     badge: "text-[10px] px-1.5 h-5",
-    icon: "size-3.5",
+    icon: "size-4",
   },
   lg: {
     chip: "h-11 px-5 text-base gap-2.5",
     badge: "text-xs px-2 h-5",
-    icon: "size-4",
+    icon: "size-5",
   },
 } as const;
-
-// =============================================================================
-// SINGLE CHIP
-// =============================================================================
 
 function Chip({
   option,
@@ -127,7 +56,7 @@ function Chip({
       }
       className={cn(
         // base
-        "inline-flex items-center rounded-full border font-medium transition-all duration-200",
+        "inline-flex items-center rounded-full border font-medium transition-all duration-200 shrink-0",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         s.chip,
         // inactive
@@ -145,10 +74,10 @@ function Chip({
       )}
     >
       {option.icon && (
-        <span className={cn("shrink-0", s.icon)}>{option.icon}</span>
+        <option.icon className={cn("shrink-0", s.icon)} />
       )}
 
-      <span className="capitalize">{option.label}</span>
+      <span className="capitalize ">{option.label}</span>
 
       {option.badge !== undefined && (
         <span
@@ -176,11 +105,8 @@ function Chip({
   );
 }
 
-// =============================================================================
-// MAIN COMPONENT
-// =============================================================================
 
-export function ChipSelect({
+function ChipSelect({
   options,
   isLoading,
   canWrap = true,
@@ -267,4 +193,62 @@ export function ChipSelect({
   );
 }
 
+export interface ChipOption {
+  value: string;
+  label: string;
+  icon?: Icon;
+  description?: string; // shows in shadcn Tooltip on hover
+  badge?: string | number;
+  disabled?: boolean;
+  color?: string; // overrides active bg color e.g. "#FF4560"
+}
+
+interface ChipSelectSharedProps {
+  options: ChipOption[];
+  isLoading?: boolean;
+  canWrap?: boolean;
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  activeClassName?: string;
+}
+
+// Controlled single
+interface SingleControlled {
+  multiple?: false;
+  value: string;
+  defaultValue?: never;
+  onChange: (value: string) => void;
+}
+
+// Uncontrolled single
+interface SingleUncontrolled {
+  multiple?: false;
+  value?: never;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+}
+
+// Controlled multi
+interface MultiControlled {
+  multiple: true;
+  value: string[];
+  defaultValue?: never;
+  onChange: (value: string[]) => void;
+  max?: number;
+}
+
+// Uncontrolled multi
+interface MultiUncontrolled {
+  multiple: true;
+  value?: never;
+  defaultValue?: string[];
+  onChange?: (value: string[]) => void;
+  max?: number;
+}
+
+export type ChipSelectProps = ChipSelectSharedProps &
+  (SingleControlled | SingleUncontrolled | MultiControlled | MultiUncontrolled);
+
 ChipSelect.displayName = "ChipSelect";
+
+export { ChipSelect, Chip, };

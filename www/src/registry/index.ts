@@ -4,6 +4,7 @@ export type ShadcnDependencies =
   | "button"
   | "textarea"
   | "input"
+  | "select"
   | "skeleton"
   | "tooltip";
 export type RegistryTarget = `${RegistryCategory}${string}.tsx`;
@@ -75,8 +76,23 @@ export const registry: RegistryEntry[] = [
     category: "controls",
     dependencies: {
       bevel: [],
-      shadcn: ["skeleton", "tooltip"],
-      npm: [],
+      shadcn: ["skeleton", "tooltip","badge"],
+      npm: ["@tabler/icons-react"],
+    },
+    files: [
+      {
+        source: "src/registry/controls/chip-select.tsx",
+        target: "controls/chip-select.tsx",
+      },
+    ],
+  },
+  {
+    name: "select-field",
+    category: "controls",
+    dependencies: {
+      bevel: [],
+      shadcn: ["skeleton", "tooltip", "select"],
+      npm: ["@tabler/icons-react"],
     },
     files: [
       {

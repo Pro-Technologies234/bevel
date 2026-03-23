@@ -139,6 +139,7 @@ function TagInput({
       {isLoading
         ? Array.from({ length: max || 8 }).map((_, i) => (
             <Skeleton
+            key={i}
               style={{
                 width: `${(Math.random() + 1.1) * (i + 2)}rem`,
               }}
