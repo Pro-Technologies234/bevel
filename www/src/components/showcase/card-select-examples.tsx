@@ -201,7 +201,7 @@ export function CardSelectExamples() {
           description="Multi-select up to 4 features during project setup. Shows the active selection ring and max cap."
           badge="multiple · max={4}"
         >
-          <CardSelect
+          <CardSelect<string>
             options={featureOptions}
             multiple
             value={features}
