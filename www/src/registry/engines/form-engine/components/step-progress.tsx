@@ -10,29 +10,53 @@ import { useFormEngineContext } from "../context";
 export interface StepProgressProps {
   className?: string;
   variants?: "dots" | "segments" | "numbers";
-  renderStep?: (index: number, state: StepProgressState) => ReactNode
+  renderStep?: (index: number, state: StepProgressState) => ReactNode;
 }
 
-export type StepProgressState = "active" | "inactive" | "current"
+export type StepProgressState = "active" | "inactive" | "completed";
 
 export function StepProgress({
   className,
-  variants,
+  variants = "dots",
   renderStep,
 }: StepProgressProps) {
-    const {  currentStep, totalSteps } = useFormEngineContext()
-    const stepNumber = currentStep;
-    const isActive = stepNumber === currentStep;
-    const isCompleted = stepNumber < currentStep;
+  const { currentStep, totalSteps } = useFormEngineContext();
+  const steps = Array.from({ length: totalSteps });
 
-    if (renderStep) return null;
+  if (renderStep) {
+    return (
+      <div className={cn("flex items-center gap-2", className)}>
+        {steps.map((_, i) => {
+          const state: StepProgressState =
+            i === currentStep
+              ? "active"
+              : i < currentStep
+                ? "completed"
+                : "inactive";
+          return renderStep(i, state);
+        })}
+      </div>
+    );
+  }
 
-    switch(variants) {
-        case "dots":
-            return(
-                <PillStep state=""  />
-            )
-    }
+  switch (variants) {
+    case "dots":
+      return (
+        <div
+          className={cn("flex items-center justify-center gap-2", className)}
+        >
+          {steps.map((_, i) => {
+            const state: StepProgressState =
+              i === currentStep
+                ? "active"
+                : i < currentStep
+                  ? "completed"
+                  : "inactive";
+            return <PillStep key={i} state={state} />;
+          })}
+        </div>
+      );
+  }
 }
 
 StepProgress.displayName = "StepProgress";
@@ -48,7 +72,7 @@ export interface PillStepProps {
 }
 
 const PILL_VARIANTS = {
-  current: {
+  active: {
     width: 24,
     backgroundColor: "bg-primary",
   },
@@ -63,17 +87,23 @@ const PILL_VARIANTS = {
 };
 
 export function PillStep({ state, className, onClick }: PillStepProps) {
-    const isActive = state === "active";
+  const isActive = state === "active";
   return (
     <div
       onClick={onClick}
-      className={cn("relative py-4 flex items-center cursor-pointer", className)}
+      className={cn(
+        "relative py-4 flex items-center cursor-pointer",
+        className,
+      )}
     >
       <motion.div
         initial={false}
         animate={PILL_VARIANTS[state]}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className={cn("h-1.5 rounded-full", PILL_VARIANTS[state].backgroundColor)}
+        className={cn(
+          "h-1.5 rounded-full",
+          PILL_VARIANTS[state].backgroundColor,
+        )}
       />
 
       {isActive && (

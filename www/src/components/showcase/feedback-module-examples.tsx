@@ -1,64 +1,146 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { FeedbackModule, type Feedback } from "@/registry/modules/feedback-module"
+import { useState } from "react";
+import {
+  FeedbackModule,
+  type Feedback,
+} from "@/registry/modules/feedback-module";
 import {
   IconMessage,
-  IconMoodAngry,        IconMoodAngryFilled,
-  IconMoodSad,          IconMoodSadFilled,
-  IconMoodNeutral,      IconMoodNeutralFilled,
-  IconMoodSmile,        IconMoodSmileFilled,
-  IconMoodHappy,        IconMoodHappyFilled,
-  IconCircle,           IconCircleFilled,
-  IconCircleCheck,      IconCircleCheckFilled,
-  IconAlertCircle,      IconAlertCircleFilled,
-  IconThumbUp,          IconThumbUpFilled,
-  IconThumbDown,        IconThumbDownFilled,
-} from "@tabler/icons-react"
-import { SectionHeading, ExampleCard, SubmittedState } from "@/components/showcase/ui"
+  IconMoodAngry,
+  IconMoodAngryFilled,
+  IconMoodSad,
+  IconMoodSadFilled,
+  IconMoodNeutral,
+  IconMoodNeutralFilled,
+  IconMoodSmile,
+  IconMoodSmileFilled,
+  IconMoodHappy,
+  IconMoodHappyFilled,
+  IconCircle,
+  IconCircleFilled,
+  IconCircleCheck,
+  IconCircleCheckFilled,
+  IconAlertCircle,
+  IconAlertCircleFilled,
+  IconThumbUp,
+  IconThumbUpFilled,
+  IconThumbDown,
+  IconThumbDownFilled,
+} from "@tabler/icons-react";
+import {
+  SectionHeading,
+  ExampleCard,
+  SubmittedState,
+} from "@/components/showcase/ui";
 
 // Levels defined outside component — stable references, correct Tabler Icon types
 const restaurantLevels = [
-  { label: "Terrible",  color: "#ef4444", icon: IconMoodAngryFilled,   emptyIcon: IconMoodAngry   },
-  { label: "Poor",      color: "#f97316", icon: IconMoodSadFilled,     emptyIcon: IconMoodSad     },
-  { label: "Okay",      color: "#eab308", icon: IconMoodNeutralFilled, emptyIcon: IconMoodNeutral },
-  { label: "Good",      color: "#22c55e", icon: IconMoodSmileFilled,   emptyIcon: IconMoodSmile   },
-  { label: "Excellent", color: "#3b82f6", icon: IconMoodHappyFilled,   emptyIcon: IconMoodHappy   },
-]
+  {
+    label: "Terrible",
+    color: "#ef4444",
+    icon: IconMoodAngryFilled,
+    emptyIcon: IconMoodAngry,
+  },
+  {
+    label: "Poor",
+    color: "#f97316",
+    icon: IconMoodSadFilled,
+    emptyIcon: IconMoodSad,
+  },
+  {
+    label: "Okay",
+    color: "#eab308",
+    icon: IconMoodNeutralFilled,
+    emptyIcon: IconMoodNeutral,
+  },
+  {
+    label: "Good",
+    color: "#22c55e",
+    icon: IconMoodSmileFilled,
+    emptyIcon: IconMoodSmile,
+  },
+  {
+    label: "Excellent",
+    color: "#3b82f6",
+    icon: IconMoodHappyFilled,
+    emptyIcon: IconMoodHappy,
+  },
+];
 
 const productLevels = [
-  { label: "Unusable",    color: "#ef4444", icon: IconAlertCircleFilled, emptyIcon: IconAlertCircle    },
-  { label: "Needs work",  color: "#f97316", icon: IconCircleFilled,      emptyIcon: IconCircle         },
-  { label: "Acceptable",  color: "#eab308", icon: IconCircleFilled,      emptyIcon: IconCircle         },
-  { label: "Solid",       color: "#6366f1", icon: IconCircleCheckFilled, emptyIcon: IconCircleCheck    },
-  { label: "Exceptional", color: "#10b981", icon: IconCircleCheckFilled, emptyIcon: IconCircleCheck    },
-]
+  {
+    label: "Unusable",
+    color: "#ef4444",
+    icon: IconAlertCircleFilled,
+    emptyIcon: IconAlertCircle,
+  },
+  {
+    label: "Needs work",
+    color: "#f97316",
+    icon: IconCircleFilled,
+    emptyIcon: IconCircle,
+  },
+  {
+    label: "Acceptable",
+    color: "#eab308",
+    icon: IconCircleFilled,
+    emptyIcon: IconCircle,
+  },
+  {
+    label: "Solid",
+    color: "#6366f1",
+    icon: IconCircleCheckFilled,
+    emptyIcon: IconCircleCheck,
+  },
+  {
+    label: "Exceptional",
+    color: "#10b981",
+    icon: IconCircleCheckFilled,
+    emptyIcon: IconCircleCheck,
+  },
+];
 
 const supportLevels = [
-  { label: "Not resolved",       color: "#ef4444", icon: IconThumbDownFilled, emptyIcon: IconThumbDown },
-  { label: "Partially resolved", color: "#eab308", icon: IconCircleFilled,    emptyIcon: IconCircle    },
-  { label: "Resolved",           color: "#22c55e", icon: IconThumbUpFilled,   emptyIcon: IconThumbUp   },
-]
+  {
+    label: "Not resolved",
+    color: "#ef4444",
+    icon: IconThumbDownFilled,
+    emptyIcon: IconThumbDown,
+  },
+  {
+    label: "Partially resolved",
+    color: "#eab308",
+    icon: IconCircleFilled,
+    emptyIcon: IconCircle,
+  },
+  {
+    label: "Resolved",
+    color: "#22c55e",
+    icon: IconThumbUpFilled,
+    emptyIcon: IconThumbUp,
+  },
+];
 
-const EMPTY: Feedback = { rating: 0, comment: "" }
+const EMPTY: Feedback = { rating: 0, comment: "" };
 
 export function FeedbackModuleExamples() {
-  const [serviceValue,  setServiceValue]  = useState<Feedback>(EMPTY)
-  const [productValue,  setProductValue]  = useState<Feedback>(EMPTY)
-  const [supportValue,  setSupportValue]  = useState<Feedback>(EMPTY)
+  const [serviceValue, setServiceValue] = useState<Feedback>(EMPTY);
+  const [productValue, setProductValue] = useState<Feedback>(EMPTY);
+  const [supportValue, setSupportValue] = useState<Feedback>(EMPTY);
 
-  const [serviceSubmitted, setServiceSubmitted] = useState(false)
-  const [productSubmitted, setProductSubmitted] = useState(false)
-  const [supportLoading,   setSupportLoading]   = useState(false)
-  const [supportSubmitted, setSupportSubmitted] = useState(false)
+  const [serviceSubmitted, setServiceSubmitted] = useState(false);
+  const [productSubmitted, setProductSubmitted] = useState(false);
+  const [supportLoading, setSupportLoading] = useState(false);
+  const [supportSubmitted, setSupportSubmitted] = useState(false);
 
   const handleSupportSubmit = () => {
-    setSupportLoading(true)
+    setSupportLoading(true);
     setTimeout(() => {
-      setSupportLoading(false)
-      setSupportSubmitted(true)
-    }, 1800)
-  }
+      setSupportLoading(false);
+      setSupportSubmitted(true);
+    }, 1800);
+  };
 
   return (
     <section id="feedback-module">
@@ -70,7 +152,6 @@ export function FeedbackModuleExamples() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-
         <ExampleCard
           title="Restaurant Review"
           description="Post-visit feedback on a hospitality platform. Five mood levels with animated label and comment field."
@@ -81,7 +162,10 @@ export function FeedbackModuleExamples() {
               emoji="🙏"
               heading="Thank you for your review!"
               sub="Your feedback helps improve the experience."
-              onReset={() => { setServiceSubmitted(false); setServiceValue(EMPTY) }}
+              onReset={() => {
+                setServiceSubmitted(false);
+                setServiceValue(EMPTY);
+              }}
             />
           ) : (
             <FeedbackModule
@@ -108,7 +192,10 @@ export function FeedbackModuleExamples() {
               emoji="✅"
               heading="Feedback recorded!"
               sub="We'll use this to prioritise improvements."
-              onReset={() => { setProductSubmitted(false); setProductValue(EMPTY) }}
+              onReset={() => {
+                setProductSubmitted(false);
+                setProductValue(EMPTY);
+              }}
             />
           ) : (
             <FeedbackModule
@@ -135,7 +222,10 @@ export function FeedbackModuleExamples() {
               emoji="📬"
               heading="Rating submitted!"
               sub="Ticket #84291 has been closed."
-              onReset={() => { setSupportSubmitted(false); setSupportValue(EMPTY) }}
+              onReset={() => {
+                setSupportSubmitted(false);
+                setSupportValue(EMPTY);
+              }}
             />
           ) : (
             <FeedbackModule
@@ -152,8 +242,7 @@ export function FeedbackModuleExamples() {
             />
           )}
         </ExampleCard>
-
       </div>
     </section>
-  )
+  );
 }

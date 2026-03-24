@@ -1,83 +1,173 @@
-'use client'
+"use client";
 import { ChipSelect } from "@/registry/controls/chip-select";
-import { SelectField, SelectOptionGroup } from "@/registry/controls/select-field";
-import { IconBlender, IconCanary, IconCode, IconDatabase, IconTool, IconUTurnRight } from "@tabler/icons-react";
-const DUMMY_OPTIONS: SelectOptionGroup[] = [
-  {
-    group: "ENGINES",
-    // Note: To use these group-level props, ensure SelectOptionGroup 
-    // interface includes: icon?: React.ReactNode; className?: string;
-    className: "font-sans bg-green-400/20 text-green-400",
-    options: [
-      { label: "Unity Engine", value: "unity" },
-      { label: "Unreal Engine", value: "unreal" },
-      { label: "Godot Engine", value: "godot" },
-      { label: "Stride Engine", value: "stride" },
-      { label: "Flax Engine", value: "flax" },
-      { label: "Gamemaker Studios", value: "game-maker" },
-    ],
-  },
-  {
-    icon: IconUTurnRight,
-    group: "TOOLS",
-    className: "font-sans bg-pink-400/20 text-pink-400",
-    options: [
-      { label: "Blender", value: "blender", icon: IconBlender },
-      { label: "Figma", value: "figma" },
-      { label: "Framer", value: "framer" },
-      { label: "Canva", value: "canva" },
-    ],
-  },
-  {
-    icon: IconCode,
-    group: "LANGUAGES",
-    className: "font-sans bg-blue-400/20 text-blue-400",
-    options: [
-      { label: "TypeScript", value: "ts" },
-      { label: "Rust", value: "rust" },
-      { label: "C#", value: "csharp" },
-      { label: "C++", value: "cpp" },
-    ],
-  },
-  {
-    icon: IconDatabase,
-    group: "DATABASES",
-    className: "font-sans bg-yellow-400/20 text-yellow-400",
-    options: [
-      { label: "PostgreSQL", value: "postgres" },
-      { label: "Redis", value: "redis" },
-      { label: "MongoDB", value: "mongo", disabled: true },
-    ],
-  },
-];
+import { FormEngine } from "@/registry/engines/form-engine";
+import { FormConfig } from "@/registry/engines/form-engine/types";
+import {
+  SelectField,
+  SelectOptionGroup,
+} from "@/registry/controls/select-field";
+import {
+  IconBlender,
+  IconCanary,
+  IconCode,
+  IconDatabase,
+  IconTool,
+  IconUTurnRight,
+} from "@tabler/icons-react";
+import z from "zod";
 
+const testForm = z.object({
+  firstName: z.string().min(1, "Enter your First name"),
+  lastName: z.string(),
+  email: z.string(),
+  role: z.string(),
+  skills: z.array(z.string()),
+  rating: z.number(),
+  bio: z.string(),
+  agreeToTerms: z.boolean(),
+});
+type TestForm = z.infer<typeof testForm>;
 
+const config: FormConfig<TestForm> = {
+  mode: "multi-step",
+  validation: "per-step",
+  steps: [
+    {
+      id: "personal",
+      title: "Personal Info",
+      description: "Tell us a bit about yourself",
+      fields: [
+        {
+          key: "firstName",
+          variant: "text",
+          label: "First Name",
+          placeholder: "John",
+          required: true,
+        },
+        {
+          key: "lastName",
+          variant: "text",
+          label: "Last Name",
+          placeholder: "Doe",
+          required: true,
+        },
+        {
+          key: "email",
+          variant: "email",
+          label: "Email",
+          placeholder: "john@example.com",
+          required: true,
+        },
+      ],
+    },
+    {
+      id: "role",
+      title: "Your Role",
+      description: "What do you do?",
+      fields: [
+        {
+          key: "role",
+          variant: "card-select",
+          label: "I am a...",
+          required: true,
+          props: {
+            options: [
+              {
+                value: "developer",
+                label: "Developer",
+                description: "I build things",
+                colorConfig: {
+                  active: {
+                    card: "bg-blue-500/10 border-blue-500/20 border",
+                    text: "text-foreground",
+                  },
+                  disabled: { card: "opacity-70", text: "text-foreground" },
+                  destructive: {
+                    card: "bg-destructive",
+                    text: "text-foreground",
+                  },
+                },
+              },
+              {
+                value: "designer",
+                label: "Designer",
+                description: "I make things beautiful",
+                colorConfig: {
+                  active: {
+                    card: "bg-purple-500/10 border-purple-500/20 border",
+                    text: "text-foreground",
+                  },
+                  disabled: { card: "opacity-70", text: "text-foreground" },
+                  destructive: {
+                    card: "bg-destructive",
+                    text: "text-foreground",
+                  },
+                },
+              },
+              {
+                value: "manager",
+                label: "Manager",
+                description: "I lead teams",
+                colorConfig: {
+                  active: {
+                    card: "bg-green-500/10 border-green-500/20 border",
+                    text: "text-foreground",
+                  },
+                  disabled: { card: "opacity-70", text: "text-foreground" },
+                  destructive: {
+                    card: "bg-destructive",
+                    text: "text-foreground",
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          key: "skills",
+          variant: "tag-input",
+          label: "Your Skills",
+          placeholder: "Type a skill and press Enter",
+        },
+      ],
+    },
+    {
+      id: "feedback",
+      title: "Almost Done",
+      description: "Just a few more things",
+      fields: [
+        {
+          key: "rating",
+          variant: "rating",
+          label: "How would you rate your experience so far?",
+        },
+        {
+          key: "bio",
+          variant: "textarea",
+          label: "Short Bio",
+          placeholder: "Tell us about yourself...",
+        },
+        {
+          key: "agreeToTerms",
+          variant: "checkbox",
+          label: "I agree to the terms and conditions",
+          required: true,
+        },
+      ],
+    },
+  ],
+  onSubmit: async (values) => {
+    console.log("Form submitted:", values);
+    alert(JSON.stringify(values, null, 2));
+  },
+};
 
 export default function Preview() {
   return (
-    <section className=" h-screen mx-auto max-w-lg font-sans flex flex-col justify-center">
-      <ChipSelect
-        max={4}
-        multiple
-        size="sm"
-        activeClassName="bg-orange-600! "
-        options={[
-          {
-            label: "Unity Engine",
-            value: "unity",
-            description:
-              "This is unity engine, a multipurpose game engine, This is unity engine, a multipurpose game engine, This is unity engine, a multipurpose game engine",
-          },
-          { label: "Unreal Engine", value: "unreal" },
-          { label: "Godot Engine", value: "godot" },
-          { label: "Stride Engine", value: "stride" },
-          { label: "Flax Engine", value: "flax" },
-          { label: "Gamemaker studios", value: "game-maker" },
-        ]}
-      />
-      <SelectField
-        options={DUMMY_OPTIONS}
-      />
+    <section className=" h-screen mx-auto max-w-xl font-sans flex flex-col justify-center">
+      <div className="max-w-lg mx-auto py-16 px-4 w-full">
+        <FormEngine schema={testForm} config={config} />
+      </div>
     </section>
   );
 }

@@ -17,7 +17,7 @@ function Rate({
   className,
   showValue,
   allowDeselect,
-  accentColor = "#fdc700",
+  accentColor = "#ffdf20",
 }: RateProps) {
   const RateIcon = isActive ? icon : emptyIcon;
   const current = rating === value && !isActive;
@@ -192,4 +192,4 @@ export type RatingFieldProps = {
 
 RatingField.displayName = "RatingField";
 
-export { RatingField, Rate, };
+export { RatingField, Rate };

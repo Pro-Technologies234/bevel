@@ -12,7 +12,6 @@ import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
 import { useFormEngineContext } from "../context";
 
-
 /**
  * Layout behaviour:
  *
@@ -63,10 +62,6 @@ const layoutConfig = {
   }
 >;
 
-// =============================================================================
-// COMPONENT
-// =============================================================================
-
 export function StepActions({
   loading,
   submitLabel = "Complete Setup",
@@ -77,7 +72,14 @@ export function StepActions({
   hideBackOnFirst = true,
   styles,
 }: StepActionsProps) {
-    const {isFirstStep, isLastStep, isSubmitting, isValidating, goBack, goNext} = useFormEngineContext()
+  const {
+    isFirstStep,
+    isLastStep,
+    isSubmitting,
+    isValidating,
+    goBack,
+    goNext,
+  } = useFormEngineContext();
   const config = layoutConfig[layout];
   const showBack = !isFirstStep || !hideBackOnFirst;
   return (
@@ -189,12 +191,11 @@ export function StepActions({
   );
 }
 
-
 // =============================================================================
 // TYPES
 // =============================================================================
 
-export type ActionsLayout = "split" | "stack" | "compact"
+export type ActionsLayout = "split" | "stack" | "compact";
 
 export interface StepActionsProps {
   loading?: boolean;
@@ -203,7 +204,7 @@ export interface StepActionsProps {
   backLabel?: string;
   loadingLabel?: string;
   hideBackOnFirst?: boolean;
-  layout?: ActionsLayout
+  layout?: ActionsLayout;
   styles?: {
     container?: string;
     nextBtn?: string;
@@ -214,6 +215,5 @@ export interface StepActionsProps {
     submitIcon?: ReactNode;
   };
 }
-
 
 StepActions.displayName = "StepActions";

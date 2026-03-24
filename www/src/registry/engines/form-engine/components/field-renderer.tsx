@@ -39,6 +39,7 @@ function FieldRenderer<T extends Record<string, unknown>>({
         return (
           <InputGroup>
             <InputGroupInput
+              id={String(field.key)}
               type={field.variant}
               value={(value as string) ?? ""}
               onChange={(e) => onChange(e.target.value)}
@@ -99,6 +100,7 @@ function FieldRenderer<T extends Record<string, unknown>>({
         return (
           <RatingField
             {...((field.props ?? {}) as any)}
+            defaultValue={(value as number) ?? 0}
             value={(value as number) ?? 0}
             onChange={(val) => onChange(val)}
             disabled={disabled}
@@ -182,7 +184,7 @@ function FieldRenderer<T extends Record<string, unknown>>({
   return (
     <Field className={field.className}>
       {field.label && (
-        <FieldLabel>
+        <FieldLabel htmlFor={String(field.key)}>
           {field.label}
           {field.required && <span className="text-destructive ml-1">*</span>}
         </FieldLabel>

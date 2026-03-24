@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DefaultValues, Path, PathValue, useForm, UseFormReturn } from "react-hook-form";
+import {
+  DefaultValues,
+  Path,
+  PathValue,
+  Resolver,
+  useForm,
+  UseFormReturn,
+} from "react-hook-form";
 import { FieldState, FormEngineContextValue } from "../context";
 import {
   CompoundCondition,
@@ -8,19 +15,26 @@ import {
   FormEngineProps,
   SimpleCondition,
 } from "../types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
 
 // ─── Condition evaluator ───────────────────────────────────────────────────────
 
 function evaluateSimple<T>(condition: SimpleCondition<T>, values: T): boolean {
   const fieldValue = values[condition.field];
   switch (condition.operator) {
-    case "equals": return fieldValue === condition.value;
-    case "not": return fieldValue !== condition.value;
+    case "equals":
+      return fieldValue === condition.value;
+    case "not":
+      return fieldValue !== condition.value;
     case "contains":
-      return String(fieldValue).toLowerCase()
+      return String(fieldValue)
+        .toLowerCase()
         .includes(String(condition.value).toLowerCase());
-    case "gt": return Number(fieldValue) > Number(condition.value);
-    case "lt": return Number(fieldValue) < Number(condition.value);
+    case "gt":
+      return Number(fieldValue) > Number(condition.value);
+    case "lt":
+      return Number(fieldValue) < Number(condition.value);
     case "is-empty":
       return (
         fieldValue === undefined ||
@@ -35,7 +49,8 @@ function evaluateSimple<T>(condition: SimpleCondition<T>, values: T): boolean {
         fieldValue === "" ||
         (Array.isArray(fieldValue) && fieldValue.length === 0)
       );
-    default: return true;
+    default:
+      return true;
   }
 }
 
@@ -58,14 +73,18 @@ function evaluateCondition<T, C>(
 
 export function useFormEngine<
   T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>
+  C extends Record<string, unknown> = Record<string, unknown>,
 >({
   config,
   reactive,
   context = {} as C,
   plugins = [],
-}: FormEngineProps<T, C>): FormEngineContextValue<T, C> {
-
+  schema,
+  onSubmit,
+}: FormEngineProps<T, C> & {
+  schema?: z.ZodType<T>;
+  onSubmit?: (values: T) => Promise<void>;
+}): FormEngineContextValue<T, C> {
   // ── Initial values ──────────────────────────────────────────────────────────
   const initialValues = useMemo(() => {
     const vals = {} as T;
@@ -80,6 +99,7 @@ export function useFormEngine<
   // ── react-hook-form ─────────────────────────────────────────────────────────
   const form = useForm<T>({
     defaultValues: initialValues as DefaultValues<T>,
+    resolver: schema ? zodResolver(schema as any) : undefined,
     mode: config.validation === "per-step" ? "onBlur" : "onSubmit",
   });
 
@@ -184,9 +204,7 @@ export function useFormEngine<
 
     // Per-step validation via react-hook-form
     if (config.validation === "per-step") {
-      const stepFieldNames = step.fields.map(
-        (f) => f.key as Path<T>
-      );
+      const stepFieldNames = step.fields.map((f) => f.key as Path<T>);
       const valid = await form.trigger(stepFieldNames);
       if (!valid) {
         setIsValidating(false);
@@ -216,9 +234,11 @@ export function useFormEngine<
 
     setIsValidating(false);
 
+    const resolvedSubmit = onSubmit ?? config.onSubmit;
+
     if (isLastStep) {
       await form.handleSubmit(async (data) => {
-        await config.onSubmit(data);
+        if (resolvedSubmit) await resolvedSubmit(data);
         for (const plugin of allPlugins) {
           await plugin.onSubmit?.(data);
         }

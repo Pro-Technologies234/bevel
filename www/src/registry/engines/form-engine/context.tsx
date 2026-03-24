@@ -14,9 +14,9 @@ export type FieldState = {
 
 export type FormEngineContextValue<
   T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>
+  C extends Record<string, unknown> = Record<string, unknown>,
 > = {
-  form: UseFormReturn<T>
+  form: UseFormReturn<T>;
   values: T;
   setFieldValue: (field: keyof T, value: unknown) => void;
 
@@ -59,7 +59,7 @@ export { FormEngineContext };
 
 export function useFormEngineContext<
   T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>
+  C extends Record<string, unknown> = Record<string, unknown>,
 >(): FormEngineContextValue<T, C> {
   const ctx = useContext(FormEngineContext);
   if (!ctx) {
