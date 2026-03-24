@@ -12,7 +12,7 @@ import { KeyboardEvent, useState } from "react";
 
 const tagVariants = cva(
   // Base classes — always applied
-  "inline-flex items-center rounded-full font-medium relative group overflow-visible text-base!",
+  "inline-flex items-center rounded-full font-medium relative group overflow-visible ",
   {
     variants: {
       size: {
@@ -39,6 +39,7 @@ function Tag({
   variant,
   id,
   value,
+  size = "md",
   onRemove,
   className,
   ...props
@@ -49,7 +50,7 @@ function Tag({
       <TooltipTrigger asChild>
         <Badge
           variant={variant}
-          className={cn(tagVariants({ variant }), className)}
+          className={cn(tagVariants({ variant, size }), className)}
         >
           {value}
           <button
@@ -64,13 +65,13 @@ function Tag({
         </Badge>
       </TooltipTrigger>
       {onRemove && (
-        <TooltipContent side="top" className="flex gap-2 rounded-full p-1">
+        <TooltipContent side="top" className="flex gap-2 rounded-full p-0.5">
           <button
             type="button"
             onClick={() => onRemove?.(id)}
-            className="p-1 rounded-full bg-red-600/20 text-red-600 cursor-pointer hover:scale-125 z-1"
+            className="p-1 px-2 gap-1 rounded-full bg-red-600/20 text-red-600 cursor-pointer z-1 flex items-center"
           >
-            <IconX className="size-4" />
+            <IconX className="size-3" /> Remove
           </button>
         </TooltipContent>
       )}
@@ -90,7 +91,7 @@ function TagInput({
   className,
   tagClassName,
   ...props
-}: TagInputProps & VariantProps<typeof tagVariants>) {
+}: TagInputProps) {
   const isControlled = "value" in props && props.value !== undefined;
   const [internalValue, setInternalValue] = useState<string[] | undefined>(
     !isControlled ? (props as TagInputUncontrolled).defaultValue : undefined,
@@ -114,10 +115,10 @@ function TagInput({
     let newValue = [...(currentValue ? currentValue : [])];
     if (!allowDuplicates && currentValue?.includes(inputValue)) return;
     if (delimiter?.includes(inputValue)) {
-       e.currentTarget.value = ""
-       inputValue.slice(0,inputValue.length)
-    };
-    
+      e.currentTarget.value = "";
+      inputValue.slice(0, inputValue.length);
+    }
+
     if (delimiter.includes(key) && inputValue) {
       newValue.push(inputValue);
       handleChange(newValue);
@@ -131,7 +132,7 @@ function TagInput({
   return (
     <div
       className={cn(
-        "flex flex-wrap  min-w-0 rounded-lg border border-input bg-transparent p-2.5 text-base transition-colors outline-none  placeholder:text-muted-foreground focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 gap-2 items-center select-none",
+        "flex flex-wrap text-sm  min-w-0 rounded-lg border border-input bg-transparent p-1.5 px-2 transition-colors outline-none  placeholder:text-muted-foreground focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 gap-2 items-center select-none",
         className,
         disabled && "opacity-80 cursor-not-allowed ",
       )}
@@ -139,6 +140,7 @@ function TagInput({
       {isLoading
         ? Array.from({ length: max || 8 }).map((_, i) => (
             <Skeleton
+              key={i}
               style={{
                 width: `${(Math.random() + 1.1) * (i + 2)}rem`,
               }}
@@ -163,7 +165,7 @@ function TagInput({
           onKeyDown={handleDelimiter}
           placeholder={placeholder}
           className={cn(
-            "flex-1 outline-none focus-visible:ring-none bg-transparent text-base ",
+            "flex-1 outline-none focus-visible:ring-none bg-transparent ",
             disabled && "cursor-not-allowed",
           )}
         />
@@ -207,7 +209,8 @@ export type TagInputProps = {
   // Style
   className?: string;
   tagClassName?: string;
-} & (TagInputControlled | TagInputUncontrolled);
+} & (TagInputControlled | TagInputUncontrolled) &
+  VariantProps<typeof tagVariants>;
 
 TagInput.displayName = "TagInput";
 

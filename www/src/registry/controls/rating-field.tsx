@@ -17,7 +17,7 @@ function Rate({
   className,
   showValue,
   allowDeselect,
-  accentColor = "#fdc700",
+  accentColor = "#ffdf20",
 }: RateProps) {
   const RateIcon = isActive ? icon : emptyIcon;
   const current = rating === value && !isActive;
@@ -176,7 +176,7 @@ type RateProps = {
   setHover: (rate: number) => void;
 };
 
-type RatingFieldProps = {
+export type RatingFieldProps = {
   max?: number; // default 5
   icon?: Icon; // default IconStar from tabler
   emptyIcon?: Icon; // default IconStar from tabler
@@ -192,4 +192,4 @@ type RatingFieldProps = {
 
 RatingField.displayName = "RatingField";
 
-export { RatingField };
+export { RatingField, Rate };
