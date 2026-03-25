@@ -1,16 +1,59 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Navbar } from "@/components/shared/navbar";
 
-const geistSans = Geist({
-  variable: "--font-sans",
-  subsets: ["latin"],
+const nohemiSans = localFont({
+  src: [
+    {
+      path: "../assets/fonts/nohemi/Nohemi-Thin.woff2",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-SemiBold.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/nohemi/Nohemi-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-sans", // Optional: for Tailwind CSS integration
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const geistMono = Geist({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
@@ -27,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-white selection:text-black`}
       >
         <ThemeProvider
           attribute="class"
@@ -35,7 +78,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <Navbar />
+            {children}
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

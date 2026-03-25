@@ -178,7 +178,7 @@ function TagInput({
 interface TagInputControlled {
   value: string[];
   defaultValue?: never;
-  onChange: (tags: string[]) => void;
+  onChange?: (tags: string[]) => void;
 }
 
 // Uncontrolled

@@ -147,7 +147,7 @@ interface RatingFieldControlled {
   value: number;
   defaultValue?: never;
   onChange: (Stars: number) => void;
-  onHover: (rate: number) => void;
+  onHover?: (rate: number) => void;
 }
 
 // Uncontrolled
