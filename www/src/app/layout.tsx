@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Navbar } from "@/components/shared/navbar";
 
 const nohemiSans = localFont({
   src: [
@@ -70,18 +69,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-white selection:text-black`}
+        className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-white dark:bg-black bg-white selection:text-black`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>
-            <Navbar />
-            {children}
-          </TooltipProvider>
+          <TooltipProvider>{children}</TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
