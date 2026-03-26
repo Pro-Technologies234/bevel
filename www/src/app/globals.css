@@ -112,6 +112,18 @@
   html {
     @apply font-sans;
   }
+    ::-webkit-scrollbar {
+    @apply w-px h-px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-primary;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-card rounded-xl;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-card/90;
+  }
 }
 
 
