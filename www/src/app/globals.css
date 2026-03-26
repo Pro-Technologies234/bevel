@@ -129,6 +129,6 @@
 
 @layer utilities {
   .bevel {
-    @apply  after:absolute after:h-1.5 after:-inset-x-2 relative after:-bottom-1 after:bg-black/60 after:blur-[3px]
+    /* @apply  after:absolute after:h-1.5 after:-inset-x-2 relative after:-bottom-1 after:bg-black/60 after:blur-[3px] */
   }
 }

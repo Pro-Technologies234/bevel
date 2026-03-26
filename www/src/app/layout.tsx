@@ -69,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-white dark:bg-black bg-white selection:text-black`}
+        className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-foreground dark:bg-black bg-white selection:text-background`}
       >
         <ThemeProvider
           attribute="class"
