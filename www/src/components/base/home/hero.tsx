@@ -49,7 +49,7 @@ export function Hero() {
             className="z-1 bottom-0 inset-x-0 top-8 h-2" // ensures it stays behind the button
           />
           <Button variant={"inverted"} className="p-4.5 px-8 cursor-pointer">
-            <span>Browse Systems</span> <IconChevronRight />
+            <span className="z-1" >Browse Systems</span> <IconChevronRight />
           </Button>
         </div>
         <Button className="p-4.5 px-8 cursor-pointer bevel">

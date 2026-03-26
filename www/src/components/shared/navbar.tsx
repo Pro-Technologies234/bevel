@@ -21,7 +21,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
   return (
     <header
       className={cn(
-        " w-full z-50 flex justify-between items-center px-6 py-3 dark:bg-linear-to-t from-black/40 from-10% via-black to-black select-none ",
+        " w-full z-50 flex justify-between items-center px-6 py-3 not-dark:bg-white/80 dark:bg-linear-to-t from-black/40 from-10% via-black to-black select-none ",
         isFixed && "fixed top-0",
       )}
     >
