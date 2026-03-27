@@ -48,11 +48,14 @@ export function Hero() {
             blur="medium"
             className="z-1 bottom-0 inset-x-0 top-8 h-2" // ensures it stays behind the button
           />
-          <Button variant={"inverted"} className="p-4.5 px-8 cursor-pointer">
-            <span className="z-1" >Browse Systems</span> <IconChevronRight />
+          <Button
+            variant={"inverted"}
+            className="p-4.5 font-semibold tracking-tight cursor-pointer"
+          >
+            <span className="z-1">Browse Systems</span> <IconChevronRight />
           </Button>
         </div>
-        <Button className="p-4.5 px-8 cursor-pointer bevel">
+        <Button className="p-4.5 font-semibold tracking-tight cursor-pointer bevel">
           Browse Templates <IconChevronRight />
         </Button>
       </div>
