@@ -1,13 +1,7 @@
 "use client";
 
 import { BevelSidebar } from "@/components/shared/sidebar";
-import {
-  IconRocket,
-  IconComponents,
-  IconPalette,
-  IconBolt,
-  IconNews,
-} from "@tabler/icons-react";
+import { IconRocket, IconComponents, IconPalette } from "@tabler/icons-react";
 
 export function DocsSidebar() {
   return (
@@ -15,9 +9,6 @@ export function DocsSidebar() {
       sections={[
         {
           label: "Getting Started",
-          collapsible: true,
-          defaultOpen: true,
-          icon: IconRocket,
           actions: [
             { label: "Introduction" },
             { label: "Installation" },
@@ -27,9 +18,6 @@ export function DocsSidebar() {
         },
         {
           label: "Systems",
-          collapsible: true,
-          defaultOpen: true,
-          icon: IconComponents,
           actions: [
             { label: "Product Tour", badge: "Soon" },
             { label: "Multi-step Form", badge: "Soon" },
@@ -41,9 +29,6 @@ export function DocsSidebar() {
         },
         {
           label: "Theming",
-          collapsible: true,
-          defaultOpen: false,
-          icon: IconPalette,
           actions: [
             { label: "Colors" },
             { label: "Typography" },
