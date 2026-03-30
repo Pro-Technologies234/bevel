@@ -1,28 +1,36 @@
-import { cn } from "@/lib/utils";
-import { FormEngineContext,  } from "./form-engine-context";
-import { useFormEngine } from "./use-form-engine";
-import { FormEngineContextValue, FormEngineRootProps } from "./form-engine-types";
+"use client";
 
-export function FormEngineRoot<
-  T extends Record<string, unknown>,
-  C extends Record<string, unknown>,
->({
+import { cn } from "@/lib/utils";
+import { FormEngineContext } from "./form-engine-context";
+import { useFormEngineState } from "./form-engine-hook";
+import type { FormEngineRootProps } from "./form-engine-types";
+
+/**
+ * FormEngineRoot — provides the engine context without rendering any UI.
+ * Use this when you want full control of the layout.
+ *
+ * @example
+ * <FormEngineRoot config={config} plugins={[validationPlugin]}>
+ *   <FormEngineStepMeta />
+ *   <FormEngineStepCanvas />
+ *   <FormEngineNavigation submitLabel="Create account" />
+ * </FormEngineRoot>
+ */
+export function FormEngineRoot({
   config,
-  reactive,
-  context,
   plugins,
-  children,
   className,
-}: FormEngineRootProps<T, C>) {
-  const engine = useFormEngine({ config, reactive, context, plugins });
+  children,
+}: FormEngineRootProps) {
+  const engine = useFormEngineState({ config, plugins });
 
   return (
-    <FormEngineContext.Provider
-      value={engine as FormEngineContextValue<Record<string, unknown>>}
-    >
+    <FormEngineContext.Provider value={engine}>
       <div className={cn("flex flex-col gap-6 w-full", className)}>
         {children}
       </div>
     </FormEngineContext.Provider>
   );
 }
+
+FormEngineRoot.displayName = "FormEngineRoot";

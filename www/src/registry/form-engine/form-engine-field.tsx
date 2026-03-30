@@ -1,5 +1,6 @@
 "use client";
 
+import { useController, type Path } from "react-hook-form";
 import {
   InputGroup,
   InputGroupAddon,
@@ -13,20 +14,47 @@ import { ChipSelect } from "@/registry/controls/chip-select";
 import { RatingField } from "@/registry/controls/rating-field";
 import { SelectField } from "@/registry/controls/select-field";
 import { TagInput } from "@/registry/controls/tag-input";
-import { useField } from "../hooks/use-field";
-import { FormField } from "../form-engine-types";
 import { cn } from "@/lib/utils";
+import { useFormEngineContext } from "./form-engine-context";
+import type { FormEngineFieldDef } from "./form-engine-types";
+import { DatePicker } from "../controls/date-picker";
 
-type FieldRendererProps<T> = {
-  field: FormField<T>;
-};
+// ─── useFormEngineField ───────────────────────────────────────────────────────
 
-function FieldRenderer<T extends Record<string, unknown>>({
-  field,
-}: FieldRendererProps<T>) {
-  const { value, visible, disabled, onChange, options, error } = useField<T>(
-    field.key,
-  );
+/**
+ * useFormEngineField — read and write a single field from within the engine.
+ * Integrates with react-hook-form for error messages.
+ */
+export function useFormEngineField(key: string) {
+  const ctx = useFormEngineContext();
+
+  const { field, fieldState } = useController({
+    name: key as Path<Record<string, unknown>>,
+    control: ctx.form.control,
+  });
+
+  return {
+    value: field.value,
+    onChange: (value: unknown) => {
+      field.onChange(value);
+      ctx.setFieldValue(key, value);
+    },
+    onBlur: field.onBlur,
+    visible: ctx.fieldState[key]?.visible ?? true,
+    disabled: ctx.fieldState[key]?.disabled ?? false,
+    error: fieldState.error?.message,
+  };
+}
+
+// ─── FormEngineField ──────────────────────────────────────────────────────────
+
+interface FormEngineFieldProps {
+  field: FormEngineFieldDef;
+}
+
+export function FormEngineField({ field }: FormEngineFieldProps) {
+  const { value, onChange, onBlur, visible, disabled, error } =
+    useFormEngineField(field.key);
 
   if (!visible) return null;
 
@@ -40,12 +68,14 @@ function FieldRenderer<T extends Record<string, unknown>>({
         return (
           <InputGroup>
             <InputGroupInput
-              id={String(field.key)}
+              id={field.key}
               type={field.variant}
               value={(value as string) ?? ""}
               onChange={(e) => onChange(e.target.value)}
+              onBlur={onBlur}
               placeholder={field.placeholder}
               disabled={disabled}
+              aria-invalid={!!error}
             />
             {Icon && (
               <InputGroupAddon align="inline-end">
@@ -63,8 +93,10 @@ function FieldRenderer<T extends Record<string, unknown>>({
             <InputGroupTextarea
               value={(value as string) ?? ""}
               onChange={(e) => onChange(e.target.value)}
+              onBlur={onBlur}
               placeholder={field.placeholder}
               disabled={disabled}
+              aria-invalid={!!error}
             />
             {Icon && (
               <InputGroupAddon align="inline-end">
@@ -77,25 +109,23 @@ function FieldRenderer<T extends Record<string, unknown>>({
 
       case "checkbox":
         return (
-          <div >
-            <Checkbox
-              checked={(value as boolean) ?? false}
-              onCheckedChange={(checked) => onChange(checked)}
-              disabled={disabled}
-            />
-          </div>
+          <Checkbox
+            id={field.key}
+            checked={(value as boolean) ?? false}
+            onCheckedChange={(checked) => onChange(checked)}
+            disabled={disabled}
+            aria-invalid={!!error}
+          />
         );
 
       case "select":
         return (
           <SelectField
             {...(field.props ?? {})}
-            options={options ?? field.props?.options ?? []}
+            options={field.props?.options ?? []}
             value={value as string}
             onChange={onChange}
             placeholder={field.placeholder}
-            defaultValue={undefined}
-            // disabled={disabled}
           />
         );
 
@@ -103,7 +133,6 @@ function FieldRenderer<T extends Record<string, unknown>>({
         return (
           <RatingField
             {...((field.props ?? {}) as any)}
-            defaultValue={(value as number) ?? 0}
             value={(value as number) ?? 0}
             onChange={(val) => onChange(val)}
             disabled={disabled}
@@ -131,6 +160,7 @@ function FieldRenderer<T extends Record<string, unknown>>({
             disabled={disabled}
           />
         );
+
       case "tag-input":
         return (
           <TagInput
@@ -139,31 +169,31 @@ function FieldRenderer<T extends Record<string, unknown>>({
             onChange={(val) => onChange(val)}
             disabled={disabled}
             placeholder={field.placeholder}
-            defaultValue={undefined}
           />
         );
 
       case "date":
         return (
-          <InputGroup>
-            <InputGroupInput
-              type="date"
-              value={(value as string) ?? ""}
-              onChange={(e) => onChange(e.target.value)}
-              disabled={disabled}
-            />
-          </InputGroup>
+          <DatePicker
+            {...((field.props ?? {}) as any)}
+            // options={field.props ?? []}
+            value={value as string}
+            onChange={(val) => onChange(val)}
+            disabled={disabled}
+            withTime
+          />
         );
-
       case "phone":
         return (
           <InputGroup>
             <InputGroupInput
-              type="tel"
+              type={"tel"}
               value={(value as string) ?? ""}
               onChange={(e) => onChange(e.target.value)}
+              onBlur={onBlur}
               placeholder={field.placeholder}
               disabled={disabled}
+              aria-invalid={!!error}
             />
           </InputGroup>
         );
@@ -175,6 +205,7 @@ function FieldRenderer<T extends Record<string, unknown>>({
               type="file"
               onChange={(e) => onChange(e.target.files)}
               disabled={disabled}
+              aria-invalid={!!error}
             />
           </InputGroup>
         );
@@ -185,19 +216,28 @@ function FieldRenderer<T extends Record<string, unknown>>({
   };
 
   return (
-    <Field className={cn(field.variant == "checkbox" && "flex items-center", field.className)}>
+    <Field
+      orientation={field.variant == "checkbox" ? "horizontal" : "vertical"}
+      className={cn(
+        field.variant === "checkbox" && "flex-row-reverse",
+        field.className,
+      )}
+    >
       {field.label && (
-        <FieldLabel htmlFor={String(field.key)}>
+        <FieldLabel htmlFor={field.key}>
           {field.label}
-          {field.required && <span className="text-destructive ml-1">*</span>}
+          {field.required && (
+            <span className="text-destructive ms-1" aria-hidden>
+              *
+            </span>
+          )}
         </FieldLabel>
       )}
       {renderControl()}
-      {error && <FieldError>{error}</FieldError>}
+      {/* Error message from react-hook-form / zod */}
+      {error && <FieldError role="alert">{error}</FieldError>}
     </Field>
   );
 }
 
-FieldRenderer.displayName = "FieldRenderer";
-
-export { FieldRenderer };
+FormEngineField.displayName = "FormEngineField";
