@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
   IconArrowLeft,
@@ -7,29 +8,20 @@ import {
   IconChevronRight,
   IconCheck,
 } from "@tabler/icons-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
-import React, { ReactNode } from "react";
-import { useFormEngineContext } from "../form-engine-context";
+import { useFormEngineContext } from "./form-engine-context";
+
+// ─── Layout presets ───────────────────────────────────────────────────────────
 
 /**
- * Layout behaviour:
- *
- * flow    — Single-column, full-width next button. Back sits below centered.
- *           Typical for card-style or centered modal forms.
- *
- * panel   — Compact side-by-side. Back left, Next right with fixed min-width.
- *           Designed for drawer / side-panel contexts.
- *
- * wizard  — Back on left (icon only on mobile), Next on right with label.
- *           Classic multi-step wizard bar across a full-page layout.
+ * stack   — full-width next button, back centered below (card / modal forms)
+ * split   — back left, next right (drawer / side-panel forms)
+ * compact — back icon-only on mobile, next right (wizard / full-page forms)
  */
+export type FormEngineActionsLayout = "stack" | "split" | "compact";
 
-// =============================================================================
-// CONSTANTS
-// =============================================================================
-
-const layoutConfig = {
+const LAYOUT_CONFIG = {
   stack: {
     footer: "flex-col items-center gap-3",
     nextWrapper: "order-1 w-full",
@@ -49,10 +41,10 @@ const layoutConfig = {
     nextWrapper: "order-2 min-w-[160px]",
     backWrapper: "order-1",
     nextFull: false,
-    backIconOnly: true, // icon-only back on mobile for wizard
+    backIconOnly: true,
   },
-} satisfies Record<
-  ActionsLayout,
+} as const satisfies Record<
+  FormEngineActionsLayout,
   {
     footer: string;
     nextWrapper: string;
@@ -62,16 +54,39 @@ const layoutConfig = {
   }
 >;
 
-export function StepActions({
+// ─── Props ────────────────────────────────────────────────────────────────────
+
+export interface FormEngineActionsProps {
+  loading?: boolean;
+  submitLabel?: string;
+  nextLabel?: string;
+  backLabel?: string;
+  loadingLabel?: string;
+  hideBackOnFirst?: boolean;
+  layout?: FormEngineActionsLayout;
+  styles?: {
+    container?: string;
+    nextBtn?: string;
+    backBtn?: string;
+    nextIcon?: ReactNode;
+    backIcon?: ReactNode;
+    loadingIcon?: ReactNode;
+    submitIcon?: ReactNode;
+  };
+}
+
+// ─── FormEngineActions ────────────────────────────────────────────────────────
+
+export function FormEngineActions({
   loading,
-  submitLabel = "Complete Setup",
+  submitLabel = "Complete",
   nextLabel = "Continue",
   backLabel = "Go back",
   loadingLabel = "Processing...",
   layout = "stack",
   hideBackOnFirst = true,
   styles,
-}: StepActionsProps) {
+}: FormEngineActionsProps) {
   const {
     isFirstStep,
     isLastStep,
@@ -80,41 +95,43 @@ export function StepActions({
     goBack,
     goNext,
   } = useFormEngineContext();
-  const config = layoutConfig[layout];
+
+  const layoutCfg = LAYOUT_CONFIG[layout];
   const showBack = !isFirstStep || !hideBackOnFirst;
+  const busy = isSubmitting || isValidating || !!loading;
+
   return (
     <footer
       className={cn(
         "w-full flex transition-all duration-300",
-        config.footer,
+        layoutCfg.footer,
         styles?.container,
       )}
     >
-      {/* ── Back Action ─────────────────────────────────────────────── */}
-      <div className={cn("flex items-center", config.backWrapper)}>
+      {/* Back */}
+      <div className={cn("flex items-center", layoutCfg.backWrapper)}>
         <AnimatePresence mode="wait">
           {showBack && (
             <motion.button
-              key="back-btn"
+              key="back"
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: isFirstStep ? 0.35 : 1, x: 0 }}
               exit={{ opacity: 0, x: -8 }}
               transition={{ duration: 0.18 }}
               type="button"
-              disabled={isFirstStep || loading}
+              disabled={isFirstStep || busy}
               onClick={goBack}
               aria-label={backLabel}
               className={cn(
                 "flex items-center gap-1.5 text-sm font-medium transition-colors",
                 "text-muted-foreground hover:text-foreground",
                 "disabled:pointer-events-none disabled:opacity-35",
-                // wizard: show only icon on mobile, label on sm+
-                config.backIconOnly && "gap-0 sm:gap-1.5",
+                layoutCfg.backIconOnly && "gap-0 sm:gap-1.5",
                 styles?.backBtn,
               )}
             >
               {styles?.backIcon ?? <IconArrowLeft size={16} />}
-              <span className={cn(config.backIconOnly && "hidden sm:inline")}>
+              <span className={cn(layoutCfg.backIconOnly && "hidden sm:inline")}>
                 {backLabel}
               </span>
             </motion.button>
@@ -122,30 +139,28 @@ export function StepActions({
         </AnimatePresence>
       </div>
 
-      {/* ── Primary Action (Next / Submit) ──────────────────────────── */}
+      {/* Next / Submit */}
       <div
         className={cn(
-          config.nextWrapper,
-          config.nextFull ? "w-full" : "w-auto",
+          layoutCfg.nextWrapper,
+          layoutCfg.nextFull ? "w-full" : "w-auto",
         )}
       >
         <Button
           size="lg"
-          disabled={isSubmitting || isValidating}
+          disabled={busy}
           onClick={goNext}
           type="button"
           className={cn(
-            "relative text-base font-bold",
-            "transition-all duration-200",
+            "relative text-base font-bold transition-all duration-200",
             "hover:scale-[1.02] active:scale-[0.98]",
-            "shadow-[0_8px_32px_rgba(0,0,0,0.12)]",
             "disabled:pointer-events-none disabled:opacity-50",
-            config.nextFull ? "w-full" : "w-full sm:w-auto sm:px-8",
+            layoutCfg.nextFull ? "w-full" : "w-full sm:w-auto sm:px-8",
             styles?.nextBtn,
           )}
         >
           <AnimatePresence mode="wait">
-            {loading ? (
+            {busy ? (
               <motion.span
                 key="loading"
                 initial={{ opacity: 0, y: 6 }}
@@ -191,29 +206,4 @@ export function StepActions({
   );
 }
 
-// =============================================================================
-// TYPES
-// =============================================================================
-
-export type ActionsLayout = "split" | "stack" | "compact";
-
-export interface StepActionsProps {
-  loading?: boolean;
-  submitLabel?: string;
-  nextLabel?: string;
-  backLabel?: string;
-  loadingLabel?: string;
-  hideBackOnFirst?: boolean;
-  layout?: ActionsLayout;
-  styles?: {
-    container?: string;
-    nextBtn?: string;
-    backBtn?: string;
-    nextIcon?: ReactNode;
-    backIcon?: ReactNode;
-    loadingIcon?: ReactNode;
-    submitIcon?: ReactNode;
-  };
-}
-
-StepActions.displayName = "StepActions";
+FormEngineActions.displayName = "FormEngineActions";

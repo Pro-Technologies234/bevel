@@ -1,42 +1,61 @@
-import { InputGroupAddon } from "@/components/ui/input-group";
-import { CardSelectProps } from "@/registry/controls/card-select";
-import { ChipSelectProps } from "@/registry/controls/chip-select";
-import { RatingFieldProps } from "@/registry/controls/rating-field";
-import { SelectFieldProps } from "@/registry/controls/select-field";
-import { TagInputProps } from "@/registry/controls/tag-input";
-import { Icon } from "@tabler/icons-react";
-import { JSX, ReactNode } from "react";
-import { FieldErrors, UseFormReturn } from "react-hook-form";
-import { ZodSchema } from "zod";
+import type { JSX, ReactNode } from "react";
+import type { FieldErrors, UseFormReturn } from "react-hook-form";
+import type { ZodSchema } from "zod";
+import type { CardSelectProps } from "@/registry/controls/card-select";
+import type { ChipSelectProps } from "@/registry/controls/chip-select";
+import type { RatingFieldProps } from "@/registry/controls/rating-field";
+import type { SelectFieldProps } from "@/registry/controls/select-field";
+import type { TagInputProps } from "@/registry/controls/tag-input";
+import type { Icon } from "@tabler/icons-react";
 
-// ─── Form level ────────────────────────────────────────────────────────────────
+// ─── Form mode ────────────────────────────────────────────────────────────────
 
-export type FormMode = "multi-step" | "single";
-export type FormValidation = "per-step" | "on-submit";
+export type FormEngineMode = "multi-step" | "single";
+export type FormEngineValidation = "per-step" | "on-submit";
 
-// ─── Plugin system ─────────────────────────────────────────────────────────────
+// ─── Plugin system ────────────────────────────────────────────────────────────
 
-export type FormPluginHooks<T extends Record<string, unknown>> = {
-  onMount?: (values: T) => void;
-  onStepChange?: (step: number, values: T) => void;
-  onFieldChange?: (field: keyof T, value: unknown, values: T) => void;
-  onValidate?: (step: number, values: T) => Promise<boolean>;
-  onSubmit?: (values: T) => Promise<void>;
-  onReset?: (values: T) => void;
+/**
+ * Plugins are the primary extension point for the form engine.
+ *
+ * @example — zod validation plugin (use the built-in helper)
+ * plugins={[createZodPlugin(mySchema)]}
+ *
+ * @example — analytics plugin
+ * plugins={[{
+ *   name: "analytics",
+ *   onStepChange: (step, values) => track("step_viewed", { step }),
+ *   onSubmit: (values) => track("form_submitted"),
+ * }]}
+ */
+export type FormEnginePlugin = {
+  name: string;
+  onMount?: (values: Record<string, unknown>) => void;
+  onStepChange?: (step: number, values: Record<string, unknown>) => void;
+  onFieldChange?: (
+    field: string,
+    value: unknown,
+    values: Record<string, unknown>,
+  ) => void;
+  /**
+   * Return false to block navigation away from this step.
+   * Runs after react-hook-form per-step trigger passes.
+   * Use this for async checks (username availability, server validation).
+   */
+  onValidate?: (
+    step: number,
+    values: Record<string, unknown>,
+  ) => Promise<boolean> | boolean;
+  onSubmit?: (values: Record<string, unknown>) => Promise<void>;
 };
 
-export type FormPlugin<T extends Record<string, unknown>> = {
-  name: string;
-} & FormPluginHooks<T>;
-
-// ─── Field variants ────────────────────────────────────────────────────────────
+// ─── Field variants ───────────────────────────────────────────────────────────
 
 export type TextInputProps = {
   icon?: Icon;
-  align?: "inline-start" | "inline-end" | "block-start" | "block-end";
 };
 
-export type FieldVariant =
+export type FormEngineFieldVariant =
   | { variant: "text"; props?: TextInputProps }
   | { variant: "number"; props?: TextInputProps }
   | { variant: "email"; props?: TextInputProps }
@@ -52,157 +71,81 @@ export type FieldVariant =
   | { variant: "rating"; props?: RatingFieldProps }
   | { variant: "file"; props?: never };
 
-// ─── Conditional logic ─────────────────────────────────────────────────────────
+// ─── Field definition ─────────────────────────────────────────────────────────
 
-export type FieldConditionOperator =
-  | "equals"
-  | "not"
-  | "contains"
-  | "gt"
-  | "lt"
-  | "is-empty"
-  | "is-not-empty";
-
-export type SimpleCondition<T> = {
-  field: keyof T;
-  operator: FieldConditionOperator;
-  value?: unknown;
-};
-
-export type CompoundCondition<T> = {
-  operator: "and" | "or";
-  conditions: SimpleCondition<T>[];
-};
-
-// Config-level — only reacts to form field values
-export type ConfigFieldCondition<T> = SimpleCondition<T> | CompoundCondition<T>;
-
-// Engine-level — full access to form values and external context
-export type EngineFieldCondition<T, C> =
-  | ConfigFieldCondition<T>
-  | ((values: T, context: C) => boolean);
-
-// ─── Reactive dependency ───────────────────────────────────────────────────────
-
-export type FieldDependencyResult = {
-  options?: { label: string; value: string }[];
-  value?: unknown;
-  disabled?: boolean;
-};
-
-// Config-level — reacts to a specific form field
-export type ConfigFieldDependency<T> = {
-  field: keyof T;
-  effect: (
-    value: unknown,
-  ) => FieldDependencyResult | Promise<FieldDependencyResult>;
-};
-
-// Engine-level — full access, field is optional
-export type EngineFieldDependency<T, C> = {
-  field?: keyof T;
-  effect: (
-    value: unknown,
-    values: T,
-    context: C,
-  ) => FieldDependencyResult | Promise<FieldDependencyResult>;
-};
-
-// ─── Field ─────────────────────────────────────────────────────────────────────
-
-export type FormField<T> = {
-  key: keyof T;
+export type FormEngineFieldDef = {
+  /** Must match a key in your form values */
+  key: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
   className?: string;
-  // Config-level reactivity only
-  showWhen?: ConfigFieldCondition<T>;
-  dependsOn?: ConfigFieldDependency<T>;
-} & FieldVariant;
+  /**
+   * Conditionally show or hide this field.
+   * Return true to show, false to hide.
+   *
+   * @example
+   * showWhen: (values) => values.plan === "pro"
+   */
+  showWhen?: (values: Record<string, unknown>) => boolean;
+} & FormEngineFieldVariant;
 
-// ─── Step ──────────────────────────────────────────────────────────────────────
+// ─── Step definition ──────────────────────────────────────────────────────────
 
-export type FormStep<T> = {
+export type FormEngineStepDef = {
   id: string;
   title?: string;
   description?: string;
+  fields: FormEngineFieldDef[];
+  /**
+   * Custom layout — receives rendered fields and actions as JSX.
+   *
+   * @example
+   * layout: (fields, actions) => (
+   *   <div className="grid grid-cols-2 gap-8">
+   *     <div>{fields}</div>
+   *     <div className="mt-auto">{actions}</div>
+   *   </div>
+   * )
+   */
   layout?: (fields: JSX.Element, actions: JSX.Element) => JSX.Element;
-  guard?: (values: T) => Promise<boolean>;
-  fields: FormField<T>[];
+  /**
+   * Async guard — called after validation passes.
+   * Return false to block navigation (e.g. check username availability).
+   */
+  guard?: (values: Record<string, unknown>) => Promise<boolean> | boolean;
 };
 
-// ─── Reactive map — engine level override ──────────────────────────────────────
+// ─── Config ───────────────────────────────────────────────────────────────────
 
-export type FieldReactiveConfig<T, C> = {
-  showWhen?: EngineFieldCondition<T, C>;
-  dependsOn?: EngineFieldDependency<T, C>;
-};
-
-export type ReactiveMap<T extends Record<string, unknown>, C> = {
-  [K in keyof T]?: FieldReactiveConfig<T, C>;
-};
-
-// ─── Config ────────────────────────────────────────────────────────────────────
-
-export type FormConfig<
-  T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>,
-> = {
+export type FormEngineConfig = {
   id?: string;
-  mode?: FormMode;
-  validation?: FormValidation;
+  mode?: FormEngineMode;
+  validation?: FormEngineValidation;
+  /**
+   * Full-form Zod schema.
+   * For per-step zod validation, use createZodPlugin() instead.
+   */
   schema?: ZodSchema;
-  steps: FormStep<T>[];
-  plugins?: FormPlugin<T>[];
-  onSubmit: (values: T) => Promise<void>;
+  steps: FormEngineStepDef[];
 };
 
-// ─── FormEngine props ──────────────────────────────────────────────────────────
+// ─── Field state ──────────────────────────────────────────────────────────────
 
-export type FormEngineProps<
-  T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>,
-> = {
-  config: FormConfig<T>;
-  schema?: ZodSchema;
-  reactive?: ReactiveMap<T, C>;
-  context?: C;
-  plugins?: FormPlugin<T>[];
-  className?: string;
-  onSubmit?: (values: T) => Promise<void>;
-};
-
-export type FormEngineRootProps<
-  T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>,
-> = {
-  config: FormConfig<T>;
-  reactive?: ReactiveMap<T, C>;
-  context?: C;
-  plugins?: FormPlugin<T>[];
-  className?: string;
-  children: ReactNode;
-};
-
-
-export type FieldState = {
+export type FormEngineFieldState = {
   visible: boolean;
   disabled: boolean;
-  options?: { label: string; value: string }[];
 };
 
+// ─── Context value ────────────────────────────────────────────────────────────
 
-export type FormEngineContextValue<
-  T extends Record<string, unknown>,
-  C extends Record<string, unknown> = Record<string, unknown>,
-> = {
-  form: UseFormReturn<T>;
-  values: T;
-  setFieldValue: (field: keyof T, value: unknown) => void;
+export type FormEngineContextValue = {
+  /** The react-hook-form instance. Expose for advanced consumers. */
+  form: UseFormReturn<Record<string, unknown>>;
+  values: Record<string, unknown>;
+  setFieldValue: (field: string, value: unknown) => void;
 
-  // Step state
   currentStep: number;
   totalSteps: number;
   isFirstStep: boolean;
@@ -211,18 +154,29 @@ export type FormEngineContextValue<
   goBack: () => void;
   goTo: (step: number) => void;
 
-  // Field state — visibility, disabled, options per field
-  fieldState: Record<keyof T, FieldState>;
+  /** Computed visibility/disabled per field key */
+  fieldState: Record<string, FormEngineFieldState>;
 
-  // Loading and error state
   isSubmitting: boolean;
   isValidating: boolean;
-  errors: FieldErrors<T>;
+  errors: FieldErrors<Record<string, unknown>>;
 
-  // Context passed from outside
-  context: C;
+  config: FormEngineConfig;
+  plugins: FormEnginePlugin[];
+};
 
-  // Config
-  config: FormEngineProps<T, C>["config"];
-  reactive?: FormEngineProps<T, C>["reactive"];
+// ─── Component props ──────────────────────────────────────────────────────────
+
+export type FormEngineProps = {
+  config: FormEngineConfig;
+  plugins?: FormEnginePlugin[];
+  className?: string;
+};
+
+export type FormEngineRootProps = {
+  config: FormEngineConfig;
+  plugins?: FormEnginePlugin[];
+  className?: string;
+  children: ReactNode;
+  onSubmit: (values: Record<string, unknown>) => Promise<void>;
 };
