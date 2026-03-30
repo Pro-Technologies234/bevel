@@ -2,8 +2,10 @@
 
 import { BevelSidebar } from "@/components/shared/sidebar";
 import { IconRocket, IconComponents, IconPalette } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 export function DocsSidebar() {
+  const router = useRouter();
   return (
     <BevelSidebar
       sections={[
@@ -19,12 +21,36 @@ export function DocsSidebar() {
         {
           label: "Systems",
           actions: [
-            { label: "Product Tour", badge: "Soon" },
-            { label: "Multi-step Form", badge: "Soon" },
+            {
+              label: "Product Tour",
+              badge: "New",
+              onClick() {
+                router.push("/docs/components/tour");
+              },
+            },
+            {
+              label: "Command Palette",
+              badge: "New",
+              onClick() {
+                router.push("/docs/components/command-palette");
+              },
+            },
+            {
+              label: "File Upload",
+              badge: "New",
+              onClick() {
+                router.push("/docs/components/file-upload");
+              },
+            },
+            {
+              label: "Form Engine",
+              badge: "New",
+              onClick() {
+                router.push("/docs/components/form-engine");
+              },
+            },
             { label: "Onboarding Checklist", badge: "Soon" },
-            { label: "Command Palette", disabled: true },
             { label: "Notification Center", disabled: true },
-            { label: "File Upload", disabled: true },
           ],
         },
         {

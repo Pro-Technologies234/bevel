@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { FormEngine } from "@/registry/engines/form-engine";
-import type { FormConfig } from "@/registry/engines/form-engine/types";
+import { FormEngine } from "@/registry/form-engine";
+import type { FormConfig } from "@/registry/form-engine/form-engine-types";
 import {
   IconForms,
   IconCheck,
@@ -24,11 +24,11 @@ import {
   IconBolt,
 } from "@tabler/icons-react";
 import { SectionHeading, ExampleCard } from "@/components/showcase/ui";
-import { FormEngineRoot } from "@/registry/engines/form-engine/components/form-engin-root";
-import { StepProgress } from "@/registry/engines/form-engine/components/step-progress";
-import { StepMeta } from "@/registry/engines/form-engine/components/step-meta";
-import { StepCanvas } from "@/registry/engines/form-engine/components/step-canvas";
-import { StepActions } from "@/registry/engines/form-engine/components/step-actions";
+import { FormEngineRoot } from "@/registry/form-engine/form-engine-root";
+import { StepProgress } from "@/registry/form-engine/components/step-progress";
+import { StepMeta } from "@/registry/form-engine/components/step-meta";
+import { StepCanvas } from "@/registry/form-engine/components/step-canvas";
+import { StepActions } from "@/registry/form-engine/components/step-actions";
 
 // =============================================================================
 // CONFIG 1 — Developer Onboarding (all-in-one <FormEngine />)
@@ -171,7 +171,7 @@ type ApplicationForm = {
   terms: boolean;
 };
 
-const applicationConfig: FormConfig<ApplicationForm> = {
+export const applicationConfig: FormConfig<ApplicationForm> = {
   mode: "multi-step",
   validation: "per-step",
   steps: [
@@ -229,6 +229,7 @@ const applicationConfig: FormConfig<ApplicationForm> = {
           variant: "chip-select",
           label: "Applying for",
           props: {
+            size: 'sm',
             options: [
               { value: "eng", label: "Engineering", icon: IconCode },
               { value: "design", label: "Design", icon: IconPalette },

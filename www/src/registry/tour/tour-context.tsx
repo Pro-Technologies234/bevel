@@ -1,19 +1,108 @@
-import React from "react";
+"use client";
 
-interface TourContextType {
-  currentStep: number;
-  setStep: (step: number) => void;
-  totalSteps: number;
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import type { TourContextValue, TourStepDef } from "./tour-types";
+
+// ─── Context ──────────────────────────────────────────────────────────────────
+
+const TourContext = createContext<TourContextValue | undefined>(undefined);
+
+export function useTour(): TourContextValue {
+  const ctx = useContext(TourContext);
+  if (!ctx) throw new Error("useTour must be used within <TourProvider>");
+  return ctx;
 }
 
-const TourContext = React.createContext<TourContextType | undefined>(undefined);
+// ─── Provider ─────────────────────────────────────────────────────────────────
 
-export function useTour() {
-  const context = React.useContext(TourContext);
-  if (!context) {
-    throw new Error("useTour must be used within a TourProvider");
-  }
-  return context;
+interface TourProviderProps {
+  children: React.ReactNode;
+  steps: TourStepDef[];
+  /** Start the tour automatically on mount */
+  defaultOpen?: boolean;
+  onComplete?: () => void;
+  onSkip?: () => void;
+}
+
+export function TourProvider({
+  children,
+  steps,
+  defaultOpen = false,
+  onComplete,
+  onSkip,
+}: TourProviderProps) {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!isOpen) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") skip();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, currentStep]); // eslint-disable-line
+
+  const start = useCallback(() => {
+    setCurrentStep(1);
+    setIsOpen(true);
+  }, []);
+
+  const stop = useCallback(() => setIsOpen(false), []);
+
+  const next = useCallback(() => {
+    setCurrentStep((prev) => {
+      const next = prev + 1;
+      if (next > steps.length) {
+        setIsOpen(false);
+        onComplete?.();
+        return prev;
+      }
+      return next;
+    });
+  }, [steps.length, onComplete]);
+
+  const prev = useCallback(() => {
+    setCurrentStep((prev) => Math.max(1, prev - 1));
+  }, []);
+
+  const goTo = useCallback((step: number) => {
+    setCurrentStep(Math.max(1, Math.min(step, steps.length)));
+  }, [steps.length]);
+
+  const skip = useCallback(() => {
+    setIsOpen(false);
+    onSkip?.();
+  }, [onSkip]);
+
+  const currentStepDef = steps.find((s) => s.step === currentStep);
+
+  return (
+    <TourContext.Provider
+      value={{
+        steps,
+        currentStep,
+        totalSteps: steps.length,
+        isOpen,
+        currentStepDef,
+        start,
+        stop,
+        next,
+        prev,
+        goTo,
+        skip,
+      }}
+    >
+      {children}
+    </TourContext.Provider>
+  );
 }
