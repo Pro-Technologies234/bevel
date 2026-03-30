@@ -36,7 +36,7 @@ function OptionItem({ opt }: { opt: SelectOption }) {
     >
       <div className="flex items-center gap-2 w-full">
         {opt.icon && <opt.icon className="text-muted-foreground " />}
-        <div className="flex flex-col -space-y-0.5 items-start font-sans">
+        <div className="flex flex-col -space-y-0.5 items-start ">
           <span>{opt.label}</span>
         </div>
       </div>

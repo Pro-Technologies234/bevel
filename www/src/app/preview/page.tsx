@@ -1,7 +1,7 @@
 "use client";
 import { ChipSelect } from "@/registry/controls/chip-select";
-import { FormEngine } from "@/registry/engines/form-engine";
-import { FormConfig } from "@/registry/engines/form-engine/types";
+import { FormEngine } from "@/registry/form-engine";
+import { FormConfig } from "@/registry/form-engine/form-engine-types";
 import {
   SelectField,
   SelectOptionGroup,

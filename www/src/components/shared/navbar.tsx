@@ -47,14 +47,14 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <ButtonGroup className="max-w-72 hidden sm:flex ">
-            <Button size={"icon-lg"} variant={"outline"}>
-              <IconSearch />
-            </Button>
-            <Button size={"lg"} variant={"outline"}>
-              Search documentation...
-            </Button>
-          </ButtonGroup>
+          <Button
+            size={"lg"}
+            variant={"outline"}
+            className="max-w-72 hidden sm:flex text-muted-foreground "
+          >
+            <IconSearch />
+            Search documentation...
+          </Button>
 
           <Button
             size="lg"
