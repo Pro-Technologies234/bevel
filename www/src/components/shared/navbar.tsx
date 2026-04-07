@@ -17,7 +17,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
     <header
       className={cn(
         "w-full z-50 border-b border-border/60",
-        "bg-background/80 backdrop-blur-sm",
+        "bg-background/40  backdrop-blur-sm",
         isFixed && "fixed top-0",
       )}
     >

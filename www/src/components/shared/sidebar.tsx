@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,6 +34,7 @@ export function BevelSidebar({
   onActiveChange,
   className,
 }: SidebarProps) {
+  const pathName = usePathname()
   const [internalActive, setInternalActive] = useState<string | undefined>(
     activeItem,
   );
@@ -62,7 +64,7 @@ export function BevelSidebar({
 
           {/* Actions */}
           {section.actions.map((action, ai) => {
-            const isActive = active === action.label;
+            const isActive = active === action.label || pathName === action.href;
 
             return (
               <button

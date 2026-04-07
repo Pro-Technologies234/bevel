@@ -3,6 +3,13 @@ import { Accept } from "react-dropzone";
 
 // ─── Entry & Upload State ───────────────────────────────────────────────────────────
 
+type FileEntryMeta =  {
+    ext?: string;
+    size?: string;
+    [key: string]: unknown;
+  };
+
+
 export type FileEntry = {
   id: string;
   /** The Native browser file object */
@@ -16,7 +23,7 @@ export type FileEntry = {
   /** The File URL if status === "done" */
   url?: string;
   /** The File Meta data */
-  meta?: Record<string, unknown>;
+  meta?: FileEntryMeta
 };
 
 // ─── Upload COnfig ───────────────────────────────────────────────────────────
@@ -36,6 +43,10 @@ export type FileUploadConfig = {
   description?: string;
   /** Dropzone icon shows on the dropzone */
   icon?: React.ReactNode;
+  /** Upload file automaticaly */
+  auto?: boolean;
+  /** Upload file automaticaly */
+  initialFiles?: FileEntry[];
 };
 
 // ─── Context ───────────────────────────────────────────────────────────
@@ -55,6 +66,7 @@ export type FileUploadContextValue = {
   removeFile: (id: string) => void;
   uploadFile: (id: string) => void;
   uploadAll: () => void;
+  removeAll: () => void;
   cancelFile: (id: string) => void;
   retryFile: (id: string) => void;
 };

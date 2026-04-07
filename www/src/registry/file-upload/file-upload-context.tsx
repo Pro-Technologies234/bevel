@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -13,6 +14,7 @@ import type {
   FileUploadConfig,
   FileUploadContextValue,
 } from "./file-upload-types";
+import { formatBytes, getFileExt } from "./file-upload-utils";
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
@@ -62,7 +64,8 @@ export function FileUploadProvider({
 }: FileUploadProviderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [files, setFiles] = useState<FileEntry[]>([]);
+  const [files, setFiles] = useState<FileEntry[]>(config?.initialFiles ?? []);
+  const canAddMore = config.maxFiles && (config.maxFiles - files.length) >= 1;
 
   // Track abort controllers per file for real cancellation support
   const abortControllers = useRef<Map<string, AbortController>>(new Map());
@@ -70,11 +73,16 @@ export function FileUploadProvider({
   // ── Actions ───────────────────────────────────────────────────────────────
 
   const addFiles = useCallback((incoming: File[]) => {
+    if (!canAddMore) return;
     const entries: FileEntry[] = incoming.map((file) => ({
       id: crypto.randomUUID(),
       file,
       status: "idle",
       progress: 0,
+      meta: {
+        ext: getFileExt(file),
+        size: formatBytes(file.size)
+      }
     }));
     setFiles((prev) => [...prev, ...entries]);
   }, []);
@@ -162,6 +170,13 @@ export function FileUploadProvider({
     Promise.all(idleIds.map((id) => uploadFile(id)));
   }, [files, uploadFile]);
 
+
+
+  const removeAll = useCallback(async () => {
+    // Remove all files at call time
+    files.map(({id}) => removeFile(id),1000);
+  }, [files, uploadFile]);
+
   const cancelFile = useCallback((id: string) => {
     abortControllers.current.get(id)?.abort();
     abortControllers.current.delete(id);
@@ -173,6 +188,17 @@ export function FileUploadProvider({
       ),
     );
   }, []);
+
+
+  // Effect to handle Auto-Upload
+  useEffect(() => {
+    if (config.auto) {
+      const idleFiles = files.filter((f) => f.status === "idle");
+      if (idleFiles.length > 0) {
+        idleFiles.forEach((f) => uploadFile(f.id));
+      }
+    }
+  }, [files, config.auto, uploadFile]);
 
   const retryFile = useCallback(
     async (id: string) => {
@@ -191,9 +217,13 @@ export function FileUploadProvider({
 
   // ─────────────────────────────────────────────────────────────────────────
 
+
+
+
   return (
     <FileUploadContext.Provider
       value={{
+        removeAll,
         isDragging,
         files,
         isUploading,

@@ -27,6 +27,7 @@ export function DocsSidebar() {
               onClick() {
                 router.push("/docs/components/tour");
               },
+              href: "/docs/components/tour"
             },
             {
               label: "Command Palette",
@@ -34,6 +35,7 @@ export function DocsSidebar() {
               onClick() {
                 router.push("/docs/components/command-palette");
               },
+              href: "/docs/components/command-palette"
             },
             {
               label: "File Upload",
@@ -41,6 +43,7 @@ export function DocsSidebar() {
               onClick() {
                 router.push("/docs/components/file-upload");
               },
+              href: "/docs/components/file-upload"
             },
             {
               label: "Form Engine",
@@ -48,6 +51,7 @@ export function DocsSidebar() {
               onClick() {
                 router.push("/docs/components/form-engine");
               },
+              href: "/docs/components/form-engine",
             },
             { label: "Onboarding Checklist", badge: "Soon" },
             { label: "Notification Center", disabled: true },
@@ -65,3 +69,5 @@ export function DocsSidebar() {
     />
   );
 }
+
+

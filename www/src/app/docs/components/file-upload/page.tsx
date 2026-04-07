@@ -139,6 +139,7 @@ export default function FileUploadDocsPage() {
             <FileUploadRoot
               onUpload={simulateUpload}
               config={{
+                auto: true,
                 multiple: true,
                 maxFiles: 10,
                 maxSize: 10 * 1024 * 1024,

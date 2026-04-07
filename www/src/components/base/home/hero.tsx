@@ -23,8 +23,9 @@ export function Hero() {
     { label: "Motion", icon: IconBrandFramerMotion },
     // {label: "Framer "},
   ];
+  
   return (
-    <main className=" h-[48rem] flex items-center flex-col justify-center  space-y-4 ">
+    <main className=" h-192 flex items-center flex-col justify-center  space-y-4 ">
       <Badge
         variant={"secondary"}
         className="bg-muted/80 hover:bg-muted border! border-border/70! p-3.5 gap-2 text-xs uppercase select-none "
@@ -55,8 +56,8 @@ export function Hero() {
             <span className="z-1">Browse Systems</span> <IconChevronRight />
           </Button>
         </div>
-        <Button className="p-4.5 font-semibold tracking-tight cursor-pointer bevel">
-          Browse Templates <IconChevronRight />
+        <Button className="p-4.5 font-semibold tracking-tight cursor-pointer relative bevel">
+          Get Started <IconChevronRight />
         </Button>
       </div>
       <div className=" flex items-center gap-2 mt-8">

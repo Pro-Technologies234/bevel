@@ -7,10 +7,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="dark bg-black text-white" >
       <Navbar />
       {children}
       <Footer />
-    </>
+    </div>
   );
 }

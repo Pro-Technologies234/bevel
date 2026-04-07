@@ -21,25 +21,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { formatBytes, formatTimeLeft, getFileExt } from "./file-upload-utils";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function formatTimeLeft(progress: number, fileSize: number): string {
-  if (progress >= 100) return "Done";
-  if (progress === 0) return "Starting...";
-  const remaining = Math.round(((100 - progress) / progress) * 3);
-  return `${remaining} sec left`;
-}
-
-function getFileExt(file: File): string {
-  return file.name.split(".").pop()?.toUpperCase() ?? "FILE";
-}
 
 function FileTypeIcon({ file }: { file: File }) {
   const type = file.type;
@@ -111,21 +94,33 @@ function FileIcon({ file, size = 22 }: { file: File; size?: number }) {
   const stroke = 1.8;
   if (type.startsWith("video/"))
     return (
-      <IconVideo size={size} strokeWidth={stroke} className="text-primary" />
+      <IconVideo size={size} strokeWidth={stroke} className="stroke-primary" />
     );
   if (type.startsWith("image/"))
     return (
-      <IconPhoto size={size} strokeWidth={stroke} className="text-primary" />
+      <IconPhoto size={size} strokeWidth={stroke} className="stroke-primary" />
     );
   if (type === "application/pdf")
     return (
       <IconFileTypePdf
         size={size}
         strokeWidth={stroke}
-        className="text-primary"
+        className="stroke-primary"
       />
     );
-  return <IconFile size={size} strokeWidth={stroke} className="text-primary" />;
+      if (
+    type.includes("spreadsheet") ||
+    type.includes("excel") ||
+    file.name.endsWith(".xlsx")
+  )
+    return (
+      <IconFileTypeXls
+        size={size}
+        strokeWidth={stroke}
+        className="stroke-primary"
+      />
+    );
+  return <IconFile size={size} strokeWidth={stroke} className="stroke-primary" />;
 }
 
 // ─── Status indicator ─────────────────────────────────────────────────────────
@@ -173,14 +168,14 @@ export function FileUploadItem({
   status,
   progress,
   error,
+  meta,
   url,
   isList = false,
   onRemove,
   onRetry,
   onCancel,
 }: FileUploadItemProps) {
-  const ext = getFileExt(file);
-  const size = formatBytes(file.size);
+
   const timeLeft =
     status === "uploading"
       ? formatTimeLeft(progress, file.size)
@@ -226,7 +221,7 @@ export function FileUploadItem({
               {file.name.replace(/\.[^/.]+$/, "")}
             </p>
             <p className="text-xs text-muted-foreground mt-0.5 flex items-center justify-between gap-4">
-              {ext} · {size}
+              {meta?.ext} · {meta?.size}
                       <span className="flex items-center gap-1 text-xs">
           <Popover  >
             <PopoverTrigger>
@@ -328,7 +323,7 @@ export function FileUploadItem({
             {file.name.replace(/\.[^/.]+$/, "")}
           </p>
           <div className="text-xs text-muted-foreground mt-0.5">
-            {ext} · {size}
+            {meta?.ext} · {meta?.size}
           </div>
         </div>
 

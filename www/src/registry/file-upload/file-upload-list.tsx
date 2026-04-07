@@ -5,12 +5,13 @@ import { useFileUpload } from "./file-upload-context";
 import { FileUploadItem } from "./file-upload-item";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { IconLayoutGrid, IconList, IconUpload } from "@tabler/icons-react";
+import { IconClearAll, IconLayoutGrid, IconList, IconUpload } from "@tabler/icons-react";
 import { AnimatePresence } from "motion/react";
 
 export function FileUploadList() {
-  const { files, removeFile, uploadAll, cancelFile, retryFile, isUploading } =
+  const { config, files, removeFile, uploadAll,removeAll, cancelFile, retryFile, isUploading } =
     useFileUpload();
+    const { auto } = config
   const [isList, setIsList] = useState(false);
 
   if (files.length === 0) return null;
@@ -28,6 +29,11 @@ export function FileUploadList() {
         </span>
 
         <div className="flex items-center gap-1.5">
+                {files.length > 0 &&   (
+          <Button onClick={removeAll} variant={'destructive'} size={'sm'} >
+            <IconClearAll/>
+            Clear all
+          </Button>)}
           {/* View toggle */}
           <div className="flex items-center rounded-sm border border-border/60 overflow-hidden">
             <button
@@ -79,7 +85,7 @@ export function FileUploadList() {
       </div>
 
       {/* Upload all */}
-      {pendingCount > 0 && (
+      {pendingCount > 0 && !auto &&  (
         <div className="flex justify-end">
           <Button
             onClick={uploadAll}

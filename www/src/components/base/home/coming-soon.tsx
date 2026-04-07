@@ -63,7 +63,7 @@ export function ComingSoon() {
           <span className="h-1.5 w-1.5 rounded-full dark:bg-green-400 bg-green-600 animate-pulse" />
           Systems in progress
         </Badge>
-        <h2 className="text-4xl font-semibold tracking-tight max-w-2xl font-sans mt-5">
+        <h2 className="text-4xl font-semibold  max-w-2xl font-sans mt-5">
           Every hard UI system. Coming soon.
         </h2>
         <p className="text-muted-foreground max-w-lg">

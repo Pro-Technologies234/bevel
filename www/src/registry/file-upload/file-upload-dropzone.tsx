@@ -6,7 +6,7 @@ import { IconUpload } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 
 export function FileUploadDropzone() {
-  const { isDragging, setIsDragging, addFiles, config } = useFileUpload();
+  const { isDragging, setIsDragging, addFiles, config, files } = useFileUpload();
   const {
     accept,
     multiple,
@@ -16,12 +16,12 @@ export function FileUploadDropzone() {
     description = "Drag and drop files here, or click to browse",
     icon,
   } = config;
-
+  const uploadMax = maxFiles && maxFiles - files.length
   return (
     <Dropzone
       accept={accept}
       multiple={multiple}
-      maxFiles={maxFiles}
+      maxFiles={uploadMax}
       maxSize={maxSize}
       onDragEnter={() => setIsDragging(true)}
       onDragLeave={() => setIsDragging(false)}
@@ -30,6 +30,7 @@ export function FileUploadDropzone() {
         addFiles(f);
       }}
       onDropRejected={() => setIsDragging(false)}
+      
     >
       {({ getInputProps, getRootProps }) => (
         <div
@@ -58,7 +59,7 @@ export function FileUploadDropzone() {
 
           {/* Hints */}
           <div>
-            <span className=" font-medium text-foreground">{title}</span>
+            <span className=" font-medium text-foreground">{uploadMax} {title}</span>
             <p className="text-xs text-muted-foreground max-w-xs leading-relaxed">
               {description}
             </p>

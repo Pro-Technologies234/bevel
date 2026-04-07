@@ -31,7 +31,7 @@ export function Footer() {
             <Button
               size={"icon"}
               variant={"secondary"}
-              className="bg-primary/10 text-primary cursor-pointer"
+              className="cursor-pointer"
             >
               <IconBrandGithub size={18} strokeWidth={1.5} />
             </Button>
@@ -45,7 +45,7 @@ export function Footer() {
             <Button
               size={"icon"}
               variant={"secondary"}
-              className="bg-primary/10 text-primary cursor-pointer"
+              className="cursor-pointer"
             >
               <IconBrandX size={18} strokeWidth={1.5} />
             </Button>
