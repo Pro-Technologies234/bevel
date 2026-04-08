@@ -3,8 +3,8 @@
 import { useState } from "react";
 import {
   SelectField,
-  type SelectOption,
-  type SelectOptionGroup,
+  SelectFieldOption,
+  SelectFieldOptionGroup,
 } from "@/components/bevelui/controls/select-field";
 import {
   IconSelector,
@@ -26,7 +26,7 @@ import { SectionHeading, ExampleCard, Hint } from "@/components/showcase/ui";
 
 // ─── Flat option sets ─────────────────────────────────────────────────────────
 
-const countryOptions: SelectOption[] = [
+const countryOptions: SelectFieldOption[] = [
   { value: "ng", label: "Nigeria", icon: IconFlag },
   { value: "us", label: "United States", icon: IconFlag },
   { value: "gb", label: "United Kingdom", icon: IconFlag },
@@ -37,7 +37,7 @@ const countryOptions: SelectOption[] = [
   { value: "jp", label: "Japan", icon: IconFlag },
 ];
 
-const currencyOptions: SelectOption[] = [
+const currencyOptions: SelectFieldOption[] = [
   { value: "usd", label: "USD — US Dollar" },
   { value: "eur", label: "EUR — Euro" },
   { value: "gbp", label: "GBP — British Pound" },
@@ -46,7 +46,7 @@ const currencyOptions: SelectOption[] = [
   { value: "cad", label: "CAD — Canadian Dollar" },
 ];
 
-const timezoneOptions: SelectOption[] = [
+const timezoneOptions: SelectFieldOption[] = [
   { value: "utc-12", label: "UTC−12 · Baker Island" },
   { value: "utc-8", label: "UTC−8 · Pacific Time" },
   { value: "utc-5", label: "UTC−5 · Eastern Time" },
@@ -61,7 +61,7 @@ const timezoneOptions: SelectOption[] = [
 
 // ─── Grouped option sets ──────────────────────────────────────────────────────
 
-const departmentOptions: SelectOptionGroup[] = [
+const departmentOptions: SelectFieldOptionGroup[] = [
   {
     group: "Product",
     icon: IconBuilding,
@@ -91,7 +91,7 @@ const departmentOptions: SelectOptionGroup[] = [
   },
 ];
 
-const languageOptions: SelectOptionGroup[] = [
+const languageOptions: SelectFieldOptionGroup[] = [
   {
     group: "Most Popular",
     options: [

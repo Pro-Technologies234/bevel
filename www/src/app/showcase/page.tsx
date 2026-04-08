@@ -7,7 +7,6 @@ import { FeedbackModuleExamples } from "@/components/showcase/feedback-module-ex
 import { ChipSelectExamples } from "@/components/showcase/chip-select-examples";
 import { SelectFieldExamples } from "@/components/showcase/select-field-examples";
 import { CardSelectExamples } from "@/components/showcase/card-select-examples";
-import { FormEngineExamples } from "@/components/showcase/form-engine-examples";
 import { SectionDivider } from "@/components/showcase/ui";
 
 const NAV = [
@@ -147,7 +146,7 @@ export default function ShowcasePage() {
           <div className="flex-1 border-t border-zinc-800/60" />
         </div>
 
-        <FormEngineExamples />
+        {/* <FormEngineExamples /> */}
       </main>
 
       {/* ── Footer ─────────────────────────────────────────────────────── */}
