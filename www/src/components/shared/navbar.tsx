@@ -66,12 +66,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className={cn(
-                      "cursor-pointer text-sm font-medium",
-                      pathname === item.href
-                        ? "text-foreground"
-                        : "text-muted-foreground",
-                    )}
+                    className={cn("cursor-pointer text-sm font-medium")}
                     asChild
                   >
                     <Link href={item.href}>{item.label}</Link>

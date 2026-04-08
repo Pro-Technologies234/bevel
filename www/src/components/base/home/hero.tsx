@@ -15,6 +15,7 @@ import {
   IconBrandTypescript,
   IconChevronRight,
 } from "@tabler/icons-react";
+import Link from "next/link";
 
 export function Hero() {
   const brands = [
@@ -50,16 +51,20 @@ export function Hero() {
             blur="medium"
             className="z-1 bottom-0 inset-x-0 top-8 h-2" // ensures it stays behind the button
           />
-          <Button
-            variant={"inverted"}
-            className="px-4.5 py-4 font-semibold tracking-tight cursor-pointer"
-          >
-            <span className="z-1">Browse Systems</span> <IconChevronRight />
-          </Button>
+          <Link href={"/docs/components"}>
+            <Button
+              variant={"inverted"}
+              className="px-4.5 py-4 font-semibold tracking-tight cursor-pointer"
+            >
+              <span className="z-1">Browse Systems</span> <IconChevronRight />
+            </Button>
+          </Link>
         </div>
-        <Button className="px-4.5 py-4 font-semibold tracking-tight cursor-pointer relative bevel">
-          <IconBoltFilled /> Get Started <IconChevronRight />
-        </Button>
+        <Link href={"/docs/introduction"}>
+          <Button className="px-4.5 py-4 font-semibold tracking-tight cursor-pointer relative bevel">
+            <IconBoltFilled /> Get Started <IconChevronRight />
+          </Button>
+        </Link>
       </div>
       <div className=" flex items-center gap-2 mt-8">
         {brands.map((brand) => (
