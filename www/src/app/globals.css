@@ -86,16 +86,15 @@
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.894 0.202 123.6);
 
-  /* Syntax Light Mode Fallback */
-  --sh-keyword: #d73a49;
-  --sh-string: #22863a;
-  --sh-comment: #6a737d;
-  --sh-jsx: #005cc5;
-  --sh-identifier: #6f42c1;
-  --sh-sign: #24292e;
-  --sh-class: #e36209;
-  --sh-property: #005cc5;
-  --sh-entity: #22863a;
+  --sh-keyword: 221 70% 56%;
+  --sh-string: 151 55% 42%;
+  --sh-comment: 220 14% 58%;
+  --sh-jsx: 199 85% 45%;
+  --sh-identifier: 0 0% 16%;
+  --sh-sign: 220 14% 40%;
+  --sh-class: 28 80% 50%;
+  --sh-property: 262 60% 58%;
+  --sh-entity: 328 70% 52%;
 }
 
 .dark {
@@ -118,16 +117,15 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.894 0.202 123.6);
 
-  /* Neon Vibrant Dark Mode (Matching your Image) */
-  --sh-keyword: #c678dd;
-  --sh-string: #98c379;
-  --sh-comment: #5c6370;
-  --sh-jsx: #61afef;
-  --sh-identifier: #e06c75;
-  --sh-sign: #abb2bf;
-  --sh-class: #e5c07b;
-  --sh-property: #61afef;
-  --sh-entity: #56b6c2;
+  --sh-keyword: 210 80% 68%;
+  --sh-string: 130 60% 68%;
+  --sh-comment: 220 12% 50%;
+  --sh-jsx: 195 85% 65%;
+  --sh-identifier: 0 0% 90%;
+  --sh-sign: 220 12% 65%;
+  --sh-class: 35 90% 68%;
+  --sh-property: 270 65% 78%;
+  --sh-entity: 330 75% 72%;
 }
 
 @layer base {
@@ -155,30 +153,30 @@
 
 /* Syntax Highlighting Scoped Rules */
 .sh-container .sh-keyword {
-  color: var(--sh-keyword) !important;
+  color: oklch(var(--sh-keyword)) !important;
 }
 .sh-container .sh-string {
-  color: var(--sh-string) !important;
+  color: oklch(var(--sh-string)) !important;
 }
 .sh-container .sh-comment {
-  color: var(--sh-comment) !important;
+  color: oklch(var(--sh-comment)) !important;
   font-style: italic;
 }
 .sh-container .sh-jsxliterals {
-  color: var(--sh-jsx) !important;
+  color: oklch(var(--sh-jsx)) !important;
 }
 .sh-container .sh-identifier {
-  color: var(--sh-identifier) !important;
+  color: oklch(var(--sh-identifier)) !important;
 }
 .sh-container .sh-sign {
-  color: var(--sh-sign) !important;
+  color: oklch(var(--sh-sign)) !important;
 }
 .sh-container .sh-class {
-  color: var(--sh-class) !important;
+  color: oklch(var(--sh-class)) !important;
 }
 .sh-container .sh-property {
-  color: var(--sh-property) !important;
+  color: oklch(var(--sh-property)) !important;
 }
 .sh-container .sh-entity {
-  color: var(--sh-entity) !important;
+  color: oklch(var(--sh-entity)) !important;
 }
