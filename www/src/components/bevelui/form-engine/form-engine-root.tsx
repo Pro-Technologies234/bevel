@@ -21,8 +21,9 @@ export function FormEngineRoot({
   plugins,
   className,
   children,
+  onSubmit,
 }: FormEngineRootProps) {
-  const engine = useFormEngineState({ config, plugins });
+  const engine = useFormEngineState({ config, plugins, onSubmit });
 
   return (
     <FormEngineContext.Provider value={engine}>

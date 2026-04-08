@@ -164,7 +164,7 @@ function TimeColumn({
       </div>
 
       {/* Slot list */}
-      <ScrollArea className="flex-1" viewportRef={viewportRef}>
+      <ScrollArea className="flex-1" ref={viewportRef}>
         <div className="py-1">
           {slots.map((slot) => (
             <button
@@ -218,8 +218,8 @@ export function DatePicker({
   );
   const [internalRange, setInternalRange] = useState<RangeValue>(
     resolvedMode === "range" && !isControlled
-      ? ((props as RangeUncontrolled).defaultValue ?? {})
-      : {},
+      ? ((props as RangeUncontrolled).defaultValue ?? ({} as DateRange))
+      : ({} as DateRange),
   );
 
   // ── Time ──
@@ -238,7 +238,7 @@ export function DatePicker({
       ? isControlled
         ? (props as RangeControlled).value
         : internalRange
-      : {};
+      : ({} as DateRange);
 
   const hasValue =
     resolvedMode === "single"
@@ -267,7 +267,7 @@ export function DatePicker({
   };
 
   const handleRangeSelect = (range: RangeValue | undefined) => {
-    const next = range ?? {};
+    const next = range ?? ({} as DateRange);
     if (!isControlled) setInternalRange(next);
     (props as RangeControlled).onChange?.(next);
   };
@@ -279,8 +279,8 @@ export function DatePicker({
       if (!isControlled) setInternalSingle(undefined);
       (props as SingleControlled).onChange?.(undefined);
     } else {
-      if (!isControlled) setInternalRange({});
-      (props as RangeControlled).onChange?.({});
+      if (!isControlled) setInternalRange({} as DateRange);
+      (props as RangeControlled).onChange?.({} as DateRange);
     }
   };
 

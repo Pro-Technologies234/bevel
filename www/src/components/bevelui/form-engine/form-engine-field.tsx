@@ -123,6 +123,7 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
           <SelectField
             {...(field.props ?? {})}
             options={field.props?.options ?? []}
+            defaultValue={undefined}
             value={value as string}
             onChange={onChange}
             placeholder={field.placeholder}
@@ -166,6 +167,7 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
           <TagInput
             {...(field.props ?? {})}
             value={(value as string[]) ?? []}
+            defaultValue={undefined}
             onChange={(val) => onChange(val)}
             disabled={disabled}
             placeholder={field.placeholder}

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   useForm,
   type DefaultValues,
@@ -19,11 +13,15 @@ import type {
   FormEngineContextValue,
   FormEngineFieldState,
   FormEnginePlugin,
+  FormEngineRootProps,
 } from "./form-engine-types";
 
 // ─── useFormEngineState ───────────────────────────────────────────────────────
 
-export interface UseFormEngineStateProps {
+export interface UseFormEngineStateProps extends Pick<
+  FormEngineRootProps,
+  "config" | "plugins" | "onSubmit"
+> {
   config: FormEngineConfig;
   plugins?: FormEnginePlugin[];
 }
@@ -36,6 +34,7 @@ export interface UseFormEngineStateProps {
 export function useFormEngineState({
   config,
   plugins = [],
+  onSubmit,
 }: UseFormEngineStateProps): FormEngineContextValue {
   // ── Build initial values from step fields ─────────────────────────────────
   const initialValues = useMemo<Record<string, unknown>>(() => {
@@ -64,8 +63,8 @@ export function useFormEngineState({
   const [isValidating, setIsValidating] = useState(false);
 
   const allPlugins = useMemo(
-    () => [...(config.plugins ?? []), ...plugins],
-    [config.plugins, plugins],
+    () => [...(plugins ?? []), ...plugins],
+    [plugins, plugins],
   );
 
   // ── Mount hook ────────────────────────────────────────────────────────────
@@ -97,7 +96,10 @@ export function useFormEngineState({
     (field: string, value: unknown) => {
       form.setValue(
         field as Path<Record<string, unknown>>,
-        value as PathValue<Record<string, unknown>, Path<Record<string, unknown>>>,
+        value as PathValue<
+          Record<string, unknown>,
+          Path<Record<string, unknown>>
+        >,
         { shouldDirty: true, shouldValidate: config.validation === "per-step" },
       );
       const next = form.getValues();
@@ -118,7 +120,9 @@ export function useFormEngineState({
     try {
       // 1. react-hook-form per-step field validation
       if (config.validation === "per-step") {
-        const stepFields = step.fields.map((f) => f.key as Path<Record<string, unknown>>);
+        const stepFields = step.fields.map(
+          (f) => f.key as Path<Record<string, unknown>>,
+        );
         const valid = await form.trigger(stepFields);
         if (!valid) return;
       }
@@ -140,7 +144,7 @@ export function useFormEngineState({
       // 4. Submit on last step, advance on any other step
       if (isLastStep) {
         await form.handleSubmit(async (data) => {
-          await config.onSubmit(data);
+          await onSubmit(data);
           for (const plugin of allPlugins) {
             await plugin.onSubmit?.(data);
           }

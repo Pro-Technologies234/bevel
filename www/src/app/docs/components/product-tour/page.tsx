@@ -34,7 +34,7 @@ const STEPS: TourStepDef[] = [
     title: "Navigation sidebar",
     media: {
       type: "image",
-      src: "/images/car.webp",
+      src: "/images/tour-1.png",
     },
     description:
       "Switch between Home, Analytics, Users, and Settings. Your current section is always highlighted.",

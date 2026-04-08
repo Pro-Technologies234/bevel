@@ -1,31 +1,145 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
+import { useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
+import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
+import { IconChevronDown } from "@tabler/icons-react";
+import { Badge } from "@/components/ui/badge";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type SidebarAction = {
   label: string;
   href?: string;
+  /** Short badge label e.g. "New", "Beta", "Soon" */
   badge?: string;
+  /** Colour of the badge. Defaults to indigo gradient */
+  badgeVariant?: "primary" | "new" | "indigo" | "green" | "amber" | "red";
   disabled?: boolean;
+  /** Optional icon next to the label */
+  icon?: React.ComponentType<{
+    size?: number;
+    strokeWidth?: number;
+    className?: string;
+  }>;
   onClick?: () => void;
 };
 
 export type SidebarSection = {
   label: string;
+  /** Tabler icon shown next to the section label */
+  icon?: React.ComponentType<{
+    size?: number;
+    strokeWidth?: number;
+    className?: string;
+  }>;
+  /** Whether this section can be collapsed. Default true */
+  collapsible?: boolean;
+  /** Whether this section starts open. Default true */
+  defaultOpen?: boolean;
   actions: SidebarAction[];
 };
 
-export type SidebarProps = {
+export type BevelSidebarProps = {
   sections: SidebarSection[];
+  /** Externally controlled active item label */
   activeItem?: string;
   onActiveChange?: (label: string) => void;
   className?: string;
 };
+
+// ─── Badge colours ────────────────────────────────────────────────────────────
+
+const BADGE_CLASSES: Record<
+  NonNullable<SidebarAction["badgeVariant"]>,
+  string
+> = {
+  new: "bg-linear-to-tr text-white from-indigo-600  to-indigo-300 border-none",
+  primary: "bg-primary/15 text-primary border-primary/20",
+  indigo:
+    "bg-linear-to-tr from-indigo-600 to-indigo-400 text-white border-transparent",
+  green:
+    "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+  amber:
+    "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/20",
+  red: "bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/20",
+};
+
+// ─── Single action row ────────────────────────────────────────────────────────
+
+function SidebarItem({
+  action,
+  isActive,
+  onClick,
+}: {
+  action: SidebarAction;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  const Icon = action.icon;
+  const badgeClass = BADGE_CLASSES[action.badgeVariant ?? "indigo"];
+
+  const inner = (
+    <button
+      disabled={action.disabled}
+      onClick={onClick}
+      className={cn(
+        "group relative flex items-center  w-full px-2.5 py-1.5 rounded-md font-medium tracking-tight",
+        "text-left text-sm tracking-tight transition-colors duration-100",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "disabled:opacity-40 disabled:cursor-not-allowed",
+        isActive ? "bg-primary/8 text-primary " : " hover:bg-muted/50",
+      )}
+    >
+      {/* Active bar */}
+      <AnimatePresence>
+        {isActive && (
+          <motion.span
+            layoutId="sidebar-active-bar"
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-primary"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          />
+        )}
+      </AnimatePresence>
+
+      <span className="flex items-center gap-2 pl-1.5 min-w-0">
+        {Icon && (
+          <Icon
+            size={13}
+            strokeWidth={1.8}
+            className={cn(
+              "shrink-0 transition-colors",
+              isActive && "text-primary",
+            )}
+          />
+        )}
+        <span className="truncate">{action.label}</span>
+      </span>
+
+      {action.badge && (
+        <Badge
+          className={cn(
+            "text-[10px] font-semibold px-1.5 py-0.5 rounded-md border shrink-0 ml-2",
+            badgeClass,
+          )}
+        >
+          {action.badge}
+        </Badge>
+      )}
+    </button>
+  );
+
+  if (action.href && !action.disabled) {
+    return <Link href={action.href}>{inner}</Link>;
+  }
+  return inner;
+}
 
 // ─── BevelSidebar ─────────────────────────────────────────────────────────────
 
@@ -34,15 +148,52 @@ export function BevelSidebar({
   activeItem,
   onActiveChange,
   className,
-}: SidebarProps) {
-  const pathName = usePathname();
+}: BevelSidebarProps) {
+  const pathname = usePathname();
+
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>(
+    () =>
+      sections.reduce(
+        (acc, s) => ({ ...acc, [s.label]: s.defaultOpen ?? true }),
+        {},
+      ),
+  );
+
   const [internalActive, setInternalActive] = useState<string | undefined>(
     activeItem,
   );
 
   const active = activeItem ?? internalActive;
 
-  function handleClick(action: SidebarAction) {
+  // Sync active item from URL pathname automatically
+  useEffect(() => {
+    sections.forEach((section) => {
+      section.actions.forEach((action) => {
+        if (action.href && pathname === action.href) {
+          setInternalActive(action.label);
+        }
+      });
+    });
+  }, [pathname, sections]);
+
+  // Keyboard: Escape collapses all sections
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpenSections(
+          sections.reduce((acc, s) => ({ ...acc, [s.label]: false }), {}),
+        );
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [sections]);
+
+  const toggleSection = useCallback((label: string) => {
+    setOpenSections((prev) => ({ ...prev, [label]: !prev[label] }));
+  }, []);
+
+  function handleAction(action: SidebarAction) {
     if (action.disabled) return;
     setInternalActive(action.label);
     onActiveChange?.(action.label);
@@ -50,58 +201,65 @@ export function BevelSidebar({
   }
 
   return (
-    <div
+    <nav
+      aria-label="Documentation navigation"
       className={cn(
-        "relative w-56 flex flex-col py-6 px-4 gap-6 overflow-y-auto",
+        "relative flex flex-col py-6 px-3 gap-5 overflow-y-auto",
+        // Width is set by the parent — sidebar is width-agnostic
         className,
       )}
     >
-      {sections.map((section, si) => (
-        <div key={section.label + si} className="flex flex-col gap-0.5">
-          {/* Section label */}
-          <p className="text-[10px] font-medium text-muted-foreground mb-1 px-2">
-            {section.label}
-          </p>
+      {sections.map((section, si) => {
+        const SectionIcon = section.icon;
+        const isOpen = openSections[section.label] ?? true;
+        const collapsible = section.collapsible !== false;
 
-          {/* Actions */}
-          {section.actions.map((action, ai) => {
-            const isActive = pathName === action.href;
+        return (
+          <div key={section.label + si} className="flex flex-col gap-0.5">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              {SectionIcon && <SectionIcon size={12} strokeWidth={1.8} />}
+              <span className="text-[10px] font-semibold uppercase ">
+                {section.label}
+              </span>
+            </div>
+            {/* Actions */}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.18, ease: "easeInOut" }}
+                  className="overflow-hidden flex flex-col gap-0.5"
+                >
+                  {section.actions.map((action, ai) => {
+                    const isActive =
+                      active === action.label ||
+                      (action.href ? pathname === action.href : false);
 
-            return (
-              <Button
-                variant={"ghost"}
-                size={"sm"}
-                key={(action.label ?? "a") + ai}
-                disabled={action.disabled}
-                onClick={() => handleClick(action)}
-                className={cn(
-                  " w-fit rounded-md! hover:bg-secondary/80! cursor-pointer py-3 text-xs",
-                  isActive
-                    ? "text-primary bg-primary/10!"
-                    : " hover:text-foreground ",
-                )}
-              >
-                <span className=" line-clamp-1 tracking-tight">
-                  {action.label}
-                </span>
+                    return (
+                      <SidebarItem
+                        key={(action.label ?? "a") + ai}
+                        action={action}
+                        isActive={isActive}
+                        onClick={() => handleAction(action)}
+                      />
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-                {action.badge && (
-                  <span
-                    className={cn(
-                      "text-[10px] font-medium px-1.5 py-0.5 rounded-md shrink-0 ml-2 text-white bg-linear-to-tr from-indigo-600 to-indigo-400",
-                    )}
-                  >
-                    {action.badge}
-                  </span>
-                )}
-              </Button>
-            );
-          })}
-        </div>
-      ))}
+            {/* Divider — skip on last */}
+            {si < sections.length - 1 && (
+              <div className="mt-3 h-px bg-gradient-to-r from-transparent via-border/50 to-transparent" />
+            )}
+          </div>
+        );
+      })}
 
-      {/* Right border */}
-      <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
-    </div>
+      {/* Right border gradient */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-border/60 to-transparent" />
+    </nav>
   );
 }

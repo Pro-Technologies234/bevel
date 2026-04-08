@@ -6,7 +6,10 @@ import { useFormEngineState } from "./form-engine-hook";
 import { FormEngineProgress } from "./form-engine-progress";
 import { FormEngineStepMeta } from "./form-engine-step-meta";
 import { FormEngineStepCanvas } from "./form-engine-step-canvas";
-import { FormEngineActions, type FormEngineActionsProps } from "./form-engine-actions";
+import {
+  FormEngineActions,
+  type FormEngineActionsProps,
+} from "./form-engine-actions";
 import type { FormEngineProps } from "./form-engine-types";
 
 interface FormEngineComponentProps extends FormEngineProps {
@@ -33,8 +36,9 @@ export function FormEngine({
   plugins,
   className,
   actionsProps,
+  onSubmit,
 }: FormEngineComponentProps) {
-  const engine = useFormEngineState({ config, plugins });
+  const engine = useFormEngineState({ config, plugins, onSubmit });
 
   return (
     <FormEngineContext.Provider value={engine}>

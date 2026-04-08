@@ -34,7 +34,7 @@ async function simulateUpload(
 
 function FileUploadDemo() {
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-xl">
       <FileUploadRoot
         onUpload={simulateUpload}
         config={{

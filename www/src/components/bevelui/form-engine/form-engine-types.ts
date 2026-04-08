@@ -170,6 +170,7 @@ export type FormEngineContextValue = {
 export type FormEngineProps = {
   config: FormEngineConfig;
   plugins?: FormEnginePlugin[];
+  onSubmit: (values: Record<string, unknown>) => Promise<void>;
   className?: string;
 };
 

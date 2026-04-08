@@ -35,6 +35,44 @@ const tagVariants = cva(
   },
 );
 
+// Controlled
+interface TagInputControlled {
+  value: string[];
+  defaultValue?: never;
+  onChange?: (tags: string[]) => void;
+}
+
+// Uncontrolled
+interface TagInputUncontrolled {
+  value?: never;
+  defaultValue?: string[];
+  onChange?: (tags: string[]) => void;
+}
+
+export type TagProps = {
+  id: string;
+  value: string;
+  disabled?: boolean;
+  className?: string;
+  onRemove?: (id: string) => void;
+};
+export type TagInputProps = {
+  // Behaviour
+  max?: number; // max number of tags
+  allowDuplicates?: boolean; // default false
+  delimiter?: string[]; // default "," and Enter key
+  placeholder?: string;
+
+  // State
+  disabled?: boolean;
+  isLoading?: boolean;
+
+  // Style
+  className?: string;
+  tagClassName?: string;
+} & (TagInputControlled | TagInputUncontrolled) &
+  VariantProps<typeof tagVariants>;
+
 function Tag({
   variant,
   id,
@@ -173,44 +211,6 @@ function TagInput({
     </div>
   );
 }
-
-// Controlled
-interface TagInputControlled {
-  value: string[];
-  defaultValue?: never;
-  onChange?: (tags: string[]) => void;
-}
-
-// Uncontrolled
-interface TagInputUncontrolled {
-  value?: never;
-  defaultValue?: string[];
-  onChange?: (tags: string[]) => void;
-}
-
-export type TagProps = {
-  id: string;
-  value: string;
-  disabled?: boolean;
-  className?: string;
-  onRemove?: (id: string) => void;
-};
-export type TagInputProps = {
-  // Behaviour
-  max?: number; // max number of tags
-  allowDuplicates?: boolean; // default false
-  delimiter?: string[]; // default "," and Enter key
-  placeholder?: string;
-
-  // State
-  disabled?: boolean;
-  isLoading?: boolean;
-
-  // Style
-  className?: string;
-  tagClassName?: string;
-} & (TagInputControlled | TagInputUncontrolled) &
-  VariantProps<typeof tagVariants>;
 
 TagInput.displayName = "TagInput";
 

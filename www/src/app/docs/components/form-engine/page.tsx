@@ -24,7 +24,7 @@ const stepSchemas = {
   1: z.object({
     workspace: z.string().min(2, "Workspace name is required"),
     plan: z.enum(["free", "pro", "enterprise"], {
-      required_error: "Please select a plan",
+      error: "Please select a plan",
     }),
   }),
   // Step 2 (billing) is optional — no schema
@@ -140,25 +140,12 @@ const config: FormEngineConfig = {
       ],
     },
   ],
-  onSubmit: async (values) => {
-    // Simulate an API call
-    await new Promise((r) => setTimeout(r, 1200));
-    console.log("Form submitted:", values);
-  },
 };
 
 // ─── Demo ─────────────────────────────────────────────────────────────────────
 
 function FormEngineDemo() {
   const [submitted, setSubmitted] = useState(false);
-
-  const submittedConfig: FormEngineConfig = {
-    ...config,
-    onSubmit: async (values) => {
-      await new Promise((r) => setTimeout(r, 1200));
-      setSubmitted(true);
-    },
-  };
 
   const plugins: FormEnginePlugin[] = [
     createZodPlugin(stepSchemas),
@@ -190,7 +177,12 @@ function FormEngineDemo() {
   return (
     <div className="w-full max-w-md">
       <FormEngine
-        config={submittedConfig}
+        onSubmit={async (values: unknown) => {
+          // Simulate an API call
+          await new Promise((r) => setTimeout(r, 1200));
+          console.log("Form submitted:", values);
+        }}
+        config={config}
         plugins={plugins}
         actionsProps={{
           submitLabel: "Create account",

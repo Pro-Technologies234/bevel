@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <Fragment>
       <Hero />
-      <ValueProposition />
+      {/* <ValueProposition /> */}
       {/* <ComingSoon /> */}
     </Fragment>
   );

@@ -20,7 +20,7 @@ export function DocsTabs({ tabs, defaultTab = 0, className }: DocsTabsProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-border overflow-hidden",
+        "rounded-lg border border-border overflow-hidden",
         className,
       )}
     >

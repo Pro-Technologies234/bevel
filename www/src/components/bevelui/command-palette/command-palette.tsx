@@ -38,8 +38,8 @@ function CommandPaletteShell({
     <div
       className={cn(
         "flex flex-col bg-popover rounded-xl border border-border shadow-2xl overflow-hidden",
-        "min-w-[520px] max-w-[620px] w-full",
-        className
+        "sm:min-w-[520px] max-w-[620px] w-full",
+        className,
       )}
       // Prevent clicks inside from propagating to backdrop
       onClick={(e) => e.stopPropagation()}
@@ -47,10 +47,7 @@ function CommandPaletteShell({
       <CommandPaletteSearchbar />
 
       {sourceTabs && sourceTabs.length > 0 && (
-        <CommandPaletteSourceTabs
-          tabs={sourceTabs}
-          onAddSource={onAddSource}
-        />
+        <CommandPaletteSourceTabs tabs={sourceTabs} onAddSource={onAddSource} />
       )}
 
       {filterTabs && filterTabs.length > 0 && (
@@ -105,7 +102,7 @@ function CommandPaletteDialog(props: CommandPaletteDialogProps) {
         </>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   );
 }
 
@@ -119,7 +116,10 @@ export interface CommandPaletteProps extends CommandPaletteShellProps {
   asDialog?: boolean;
 }
 
-export function CommandPalette({ asDialog = true, ...props }: CommandPaletteProps) {
+export function CommandPalette({
+  asDialog = true,
+  ...props
+}: CommandPaletteProps) {
   if (!asDialog) {
     return <CommandPaletteShell {...props} />;
   }

@@ -1,0 +1,330 @@
+{
+  "sections": [
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "items": [
+        {
+          "id": "intro-what",
+          "title": "What is Bevel UI?",
+          "description": "Fully-engineered UI systems for React. Not a component library.",
+          "href": "/docs/introduction",
+          "category": "getting-started",
+          "keywords": ["introduction", "overview", "about", "bevel", "what is"]
+        },
+        {
+          "id": "intro-how",
+          "title": "How it works",
+          "description": "Install with shadcn CLI, copy source files, own it forever.",
+          "href": "/docs/introduction#how-it-works",
+          "category": "getting-started",
+          "keywords": ["shadcn", "cli", "install", "copy", "source"]
+        },
+        {
+          "id": "intro-philosophy",
+          "title": "Philosophy — No installs, no lock-in",
+          "description": "The principles behind every Bevel system.",
+          "href": "/docs/introduction#philosophy",
+          "category": "getting-started",
+          "keywords": ["philosophy", "no lock-in", "no installs", "shadcn compatible"]
+        },
+        {
+          "id": "installation-prereqs",
+          "title": "Prerequisites",
+          "description": "What you need before installing Bevel systems.",
+          "href": "/docs/installation#prerequisites",
+          "category": "getting-started",
+          "keywords": ["prerequisites", "next.js", "react", "tailwind", "shadcn setup"]
+        },
+        {
+          "id": "installation-cli",
+          "title": "Install a system",
+          "description": "npx shadcn@latest add https://bevelui.com/r/tour.json",
+          "href": "/docs/installation#install-system",
+          "category": "getting-started",
+          "keywords": ["install", "npx", "shadcn", "add", "cli command"]
+        },
+        {
+          "id": "installation-paths",
+          "title": "Import paths",
+          "description": "How to import Bevel systems after installation.",
+          "href": "/docs/installation#import-paths",
+          "category": "getting-started",
+          "keywords": ["import", "paths", "components/bevelui", "alias"]
+        },
+        {
+          "id": "installation-structure",
+          "title": "Folder structure",
+          "description": "Where files are placed after install: components/bevelui/",
+          "href": "/docs/installation#folder-structure",
+          "category": "getting-started",
+          "keywords": ["folder", "structure", "bevelui", "components", "directory"]
+        }
+      ]
+    },
+    {
+      "id": "product-tour",
+      "title": "Product Tour",
+      "items": [
+        {
+          "id": "tour-overview",
+          "title": "Product Tour — Overview",
+          "description": "Guided tour system with overlay, floating card, media, and keyboard navigation.",
+          "href": "/docs/components/product-tour",
+          "category": "product-tour",
+          "keywords": ["product tour", "guided tour", "walkthrough", "onboarding", "tour"]
+        },
+        {
+          "id": "tour-install",
+          "title": "Product Tour — Installation",
+          "description": "Install the tour system via shadcn CLI.",
+          "href": "/docs/components/product-tour#installation",
+          "category": "product-tour",
+          "keywords": ["tour install", "floating-ui", "motion", "peer dependencies"]
+        },
+        {
+          "id": "tour-usage",
+          "title": "TourRoot basic usage",
+          "description": "Wrap your page with TourRoot, define steps, place TourAnchor.",
+          "href": "/docs/components/product-tour#usage",
+          "category": "product-tour",
+          "keywords": ["TourRoot", "TourAnchor", "TourTrigger", "steps", "defaultOpen"]
+        },
+        {
+          "id": "tour-media",
+          "title": "Tour with media — video, gif, image",
+          "description": "Add video, gif, or image to each tour step.",
+          "href": "/docs/components/product-tour#with-media",
+          "category": "product-tour",
+          "keywords": ["media", "video", "gif", "image", "TourMedia", "photoshop tooltip"]
+        },
+        {
+          "id": "tour-programmatic",
+          "title": "useTour — programmatic control",
+          "description": "Control the tour with start, stop, next, prev, goTo, skip.",
+          "href": "/docs/components/product-tour#programmatic",
+          "category": "product-tour",
+          "keywords": ["useTour", "start", "stop", "next", "prev", "goTo", "skip", "hook"]
+        },
+        {
+          "id": "tour-api-stepdef",
+          "title": "TourStepDef — API reference",
+          "description": "step, title, description, side, sideOffset, media props.",
+          "href": "/docs/components/product-tour#api-tourstepdef",
+          "category": "product-tour",
+          "keywords": ["TourStepDef", "side", "sideOffset", "api", "props"]
+        },
+        {
+          "id": "tour-api-anchor",
+          "title": "TourAnchor — API reference",
+          "description": "step, asChild props for the anchor component.",
+          "href": "/docs/components/product-tour#api-touranchor",
+          "category": "product-tour",
+          "keywords": ["TourAnchor", "asChild", "step", "radix slot", "api"]
+        },
+        {
+          "id": "tour-api-root",
+          "title": "TourRoot — API reference",
+          "description": "steps, defaultOpen, onComplete, onSkip props.",
+          "href": "/docs/components/product-tour#api-tourroot",
+          "category": "product-tour",
+          "keywords": ["TourRoot", "defaultOpen", "onComplete", "onSkip", "api"]
+        }
+      ]
+    },
+    {
+      "id": "command-palette",
+      "title": "Command Palette",
+      "items": [
+        {
+          "id": "cp-overview",
+          "title": "Command Palette — Overview",
+          "description": "⌘K menu with fuzzy search, tab filtering, grouped results, avatar support.",
+          "href": "/docs/components/command-palette",
+          "category": "command-palette",
+          "keywords": ["command palette", "cmdk", "search", "⌘K", "keyboard shortcut"]
+        },
+        {
+          "id": "cp-usage",
+          "title": "CommandPaletteRoot basic usage",
+          "description": "Wrap your app with CommandPaletteRoot and pass sections.",
+          "href": "/docs/components/command-palette#usage",
+          "category": "command-palette",
+          "keywords": ["CommandPaletteRoot", "sections", "onSelect", "usage"]
+        },
+        {
+          "id": "cp-sections",
+          "title": "Sections and items",
+          "description": "Group results into sections. Fuzzy search sorts by score.",
+          "href": "/docs/components/command-palette#sections",
+          "category": "command-palette",
+          "keywords": ["sections", "items", "fuzzy search", "groups", "avatar"]
+        },
+        {
+          "id": "cp-tabs",
+          "title": "Source tabs and filter tabs",
+          "description": "Two-tier tab system for integration and content type filtering.",
+          "href": "/docs/components/command-palette#tabs",
+          "category": "command-palette",
+          "keywords": ["source tabs", "filter tabs", "integration", "content type", "filtering"]
+        },
+        {
+          "id": "cp-hook",
+          "title": "useCommandPalette hook",
+          "description": "Programmatically open, close, and query the command palette.",
+          "href": "/docs/components/command-palette#programmatic",
+          "category": "command-palette",
+          "keywords": ["useCommandPalette", "open", "close", "isOpen", "hook"]
+        },
+        {
+          "id": "cp-api-item",
+          "title": "CommandPaletteItem — API reference",
+          "description": "id, title, subtitle, meta, icon, initials, category, source props.",
+          "href": "/docs/components/command-palette#api-item",
+          "category": "command-palette",
+          "keywords": ["CommandPaletteItem", "initials", "initialsColor", "meta", "api"]
+        }
+      ]
+    },
+    {
+      "id": "file-upload",
+      "title": "File Upload",
+      "items": [
+        {
+          "id": "fu-overview",
+          "title": "File Upload — Overview",
+          "description": "Drag-and-drop upload with progress, cancel, retry, grid/list views.",
+          "href": "/docs/components/file-upload",
+          "category": "file-upload",
+          "keywords": ["file upload", "drag drop", "progress", "dropzone", "upload"]
+        },
+        {
+          "id": "fu-usage",
+          "title": "FileUploadRoot basic usage",
+          "description": "Pass onUpload and the system handles the rest.",
+          "href": "/docs/components/file-upload#usage",
+          "category": "file-upload",
+          "keywords": ["FileUploadRoot", "onUpload", "dropzone", "usage"]
+        },
+        {
+          "id": "fu-config",
+          "title": "FileUploadConfig — accept, maxSize, maxFiles",
+          "description": "Restrict file types and size. Dropzone shows hints automatically.",
+          "href": "/docs/components/file-upload#config",
+          "category": "file-upload",
+          "keywords": ["config", "accept", "maxSize", "maxFiles", "multiple", "MIME types"]
+        },
+        {
+          "id": "fu-progress",
+          "title": "Real upload progress with XHR",
+          "description": "Use XMLHttpRequest to report upload progress in real time.",
+          "href": "/docs/components/file-upload#progress",
+          "category": "file-upload",
+          "keywords": ["progress", "XHR", "XMLHttpRequest", "onProgress", "real upload"]
+        },
+        {
+          "id": "fu-modal",
+          "title": "FileUploadModal — dialog mode",
+          "description": "A shadcn Dialog-based upload UI with Cancel and Upload footer.",
+          "href": "/docs/components/file-upload#modal",
+          "category": "file-upload",
+          "keywords": ["modal", "dialog", "FileUploadModal", "asDialog", "cancel upload"]
+        },
+        {
+          "id": "fu-hook",
+          "title": "useFileUpload hook",
+          "description": "Access files, uploadAll, cancelFile, retryFile from any child.",
+          "href": "/docs/components/file-upload#programmatic",
+          "category": "file-upload",
+          "keywords": ["useFileUpload", "cancelFile", "retryFile", "addFiles", "hook"]
+        },
+        {
+          "id": "fu-api-entry",
+          "title": "FileEntry — API reference",
+          "description": "id, file, status, progress, url, error, meta fields.",
+          "href": "/docs/components/file-upload#api-entry",
+          "category": "file-upload",
+          "keywords": ["FileEntry", "status", "progress", "url", "error", "meta", "api"]
+        }
+      ]
+    },
+    {
+      "id": "form-engine",
+      "title": "Form Engine",
+      "items": [
+        {
+          "id": "fe-overview",
+          "title": "Form Engine — Overview",
+          "description": "Multi-step or single-step form orchestration with plugin support.",
+          "href": "/docs/components/form-engine",
+          "category": "form-engine",
+          "keywords": ["form engine", "multi-step form", "wizard", "form", "react-hook-form"]
+        },
+        {
+          "id": "fe-philosophy",
+          "title": "Form Engine philosophy",
+          "description": "The engine owns flow. react-hook-form owns state and validation.",
+          "href": "/docs/components/form-engine#philosophy",
+          "category": "form-engine",
+          "keywords": ["philosophy", "flow", "react-hook-form", "separation of concerns"]
+        },
+        {
+          "id": "fe-usage",
+          "title": "FormEngine basic usage",
+          "description": "Use the FormEngine component with a config object.",
+          "href": "/docs/components/form-engine#usage",
+          "category": "form-engine",
+          "keywords": ["FormEngine", "config", "steps", "fields", "onSubmit"]
+        },
+        {
+          "id": "fe-zod",
+          "title": "Zod validation with createZodPlugin",
+          "description": "Per-step zod schemas block navigation until valid.",
+          "href": "/docs/components/form-engine#with-zod",
+          "category": "form-engine",
+          "keywords": ["zod", "createZodPlugin", "validation", "per-step", "schema"]
+        },
+        {
+          "id": "fe-plugins",
+          "title": "Plugins — analytics, logging, server validation",
+          "description": "onMount, onStepChange, onFieldChange, onValidate, onSubmit hooks.",
+          "href": "/docs/components/form-engine#plugins",
+          "category": "form-engine",
+          "keywords": ["plugins", "analytics", "logging", "createLogPlugin", "createAnalyticsPlugin", "onValidate"]
+        },
+        {
+          "id": "fe-single",
+          "title": "Single step mode",
+          "description": "mode: single renders a regular form with submit on the first step.",
+          "href": "/docs/components/form-engine#single-step",
+          "category": "form-engine",
+          "keywords": ["single step", "mode single", "regular form", "contact form"]
+        },
+        {
+          "id": "fe-layout",
+          "title": "Custom layout with FormEngineRoot",
+          "description": "Compose progress, meta, canvas, and navigation yourself.",
+          "href": "/docs/components/form-engine#custom-layout",
+          "category": "form-engine",
+          "keywords": ["FormEngineRoot", "custom layout", "FormEngineProgress", "FormEngineStepCanvas"]
+        },
+        {
+          "id": "fe-showwhen",
+          "title": "Conditional fields with showWhen",
+          "description": "Show or hide fields based on other form values.",
+          "href": "/docs/components/form-engine#api-field",
+          "category": "form-engine",
+          "keywords": ["showWhen", "conditional", "visibility", "dynamic fields"]
+        },
+        {
+          "id": "fe-variants",
+          "title": "Field variants",
+          "description": "text, email, password, select, card-select, chip-select, rating, tag-input, date, phone, file, checkbox.",
+          "href": "/docs/components/form-engine#api-field",
+          "category": "form-engine",
+          "keywords": ["text", "email", "select", "card-select", "chip-select", "rating", "tag-input", "variants"]
+        }
+      ]
+    }
+  ]
+}

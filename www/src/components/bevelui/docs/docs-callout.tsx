@@ -19,9 +19,9 @@ export interface DocsCalloutProps {
 const CALLOUT_CONFIG = {
   info: {
     icon: IconInfoCircle,
-    containerClass: "bg-blue-500/8 border-blue-500/20",
-    iconClass: "text-blue-500",
-    titleClass: "text-blue-600 dark:text-blue-400",
+    containerClass: "bg-green-500/8 border-green-500/20",
+    iconClass: "text-green-500",
+    titleClass: "text-green-600 dark:text-green-400",
     defaultTitle: "Note",
   },
   warning: {
@@ -60,7 +60,7 @@ export function DocsCallout({
   return (
     <div
       className={cn(
-        "flex gap-3 p-4 rounded-xl border",
+        "flex gap-3 p-4 rounded-lg border",
         config.containerClass,
         className,
       )}

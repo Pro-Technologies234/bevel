@@ -56,8 +56,8 @@ export function DocsPropsTable({ rows, className }: DocsPropsTableProps) {
                     )}
                   </div>
                 </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <code className="font-mono text-muted-foreground text-[11px]">
+                <td className="px-4 py-3 ">
+                  <code className="font-mono text-muted-foreground text-[11px] ">
                     {row.type}
                   </code>
                 </td>

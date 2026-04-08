@@ -1,10 +1,4 @@
-import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import {
   Icon,
@@ -19,12 +13,9 @@ import {
   IconMoodSadFilled,
   IconMoodSmile,
   IconMoodSmileFilled,
-  IconShieldCheck,
-  IconX,
 } from "@tabler/icons-react";
-import { cva, VariantProps } from "class-variance-authority";
 import { AnimatePresence } from "motion/react";
-import { KeyboardEvent, useState } from "react";
+import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { RatingField } from "../controls/rating-field";
 import { Button } from "@/components/ui/button";

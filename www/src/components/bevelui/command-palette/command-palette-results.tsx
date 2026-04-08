@@ -56,15 +56,12 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
     <span>
       {chars.map((c, i) =>
         c.highlight ? (
-          <mark
-            key={i}
-            className="bg-transparent text-primary font-semibold"
-          >
+          <mark key={i} className="bg-transparent text-primary font-semibold">
             {c.char}
           </mark>
         ) : (
           <React.Fragment key={i}>{c.char}</React.Fragment>
-        )
+        ),
       )}
     </span>
   );
@@ -100,14 +97,12 @@ function ResultRow({
       className={cn(
         "group flex items-center gap-3 w-full px-3 py-2 text-left",
         "transition-colors duration-75 rounded-md mx-1",
-        isHighlighted
-          ? "bg-muted/60"
-          : "hover:bg-muted/40"
+        isHighlighted ? "bg-muted/60" : "hover:bg-muted/40",
       )}
       style={{ width: "calc(100% - 8px)" }}
     >
       {/* Avatar */}
-      <ItemAvatar item={item} />
+      {item.initialsColor && <ItemAvatar item={item} />}
 
       {/* Text */}
       <div className="flex-1 min-w-0 flex items-center gap-1.5">
