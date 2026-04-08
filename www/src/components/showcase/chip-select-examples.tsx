@@ -3,7 +3,7 @@
 import { useState } from "react";
 import {
   ChipSelect,
-  type ChipOption,
+  ChipSelectOption,
 } from "@/components/bevelui/controls/chip-select";
 import {
   IconLayoutGrid,
@@ -32,7 +32,7 @@ import { SectionHeading, ExampleCard, Hint } from "@/components/showcase/ui";
 
 // ─── Static option sets ───────────────────────────────────────────────────────
 
-const categoryOptions: ChipOption[] = [
+const categoryOptions: ChipSelectOption[] = [
   { value: "design", label: "Design", icon: IconPalette, badge: 24 },
   { value: "engineering", label: "Engineering", icon: IconCode, badge: 118 },
   { value: "marketing", label: "Marketing", icon: IconChartBar, badge: 36 },
@@ -41,7 +41,7 @@ const categoryOptions: ChipOption[] = [
   { value: "operations", label: "Operations", icon: IconBriefcase, badge: 17 },
 ];
 
-const planOptions: ChipOption[] = [
+const planOptions: ChipSelectOption[] = [
   {
     value: "hobby",
     label: "Hobby",
@@ -69,14 +69,14 @@ const planOptions: ChipOption[] = [
   },
 ];
 
-const priorityOptions: ChipOption[] = [
+const priorityOptions: ChipSelectOption[] = [
   { value: "urgent", label: "Urgent", icon: IconUrgent, color: "#ef4444" },
   { value: "high", label: "High", icon: IconArrowUp, color: "#f97316" },
   { value: "medium", label: "Medium", icon: IconArrowRight, color: "#eab308" },
   { value: "low", label: "Low", icon: IconArrowDown, color: "#22c55e" },
 ];
 
-const statusOptions: ChipOption[] = [
+const statusOptions: ChipSelectOption[] = [
   { value: "backlog", label: "Backlog", icon: IconClock },
   { value: "in_progress", label: "In Progress", icon: IconLoader },
   { value: "in_review", label: "In Review", icon: IconRefresh },
@@ -84,7 +84,7 @@ const statusOptions: ChipOption[] = [
   { value: "cancelled", label: "Cancelled", icon: IconX },
 ];
 
-const availabilityOptions: ChipOption[] = [
+const availabilityOptions: ChipSelectOption[] = [
   { value: "mon", label: "Mon" },
   { value: "tue", label: "Tue" },
   { value: "wed", label: "Wed" },
@@ -94,7 +94,7 @@ const availabilityOptions: ChipOption[] = [
   { value: "sun", label: "Sun", color: "#6366f1" },
 ];
 
-const tagOptions: ChipOption[] = [
+const tagOptions: ChipSelectOption[] = [
   { value: "bug", label: "Bug", icon: IconBug, color: "#ef4444" },
   { value: "feature", label: "Feature", icon: IconSparkles, color: "#6366f1" },
   { value: "perf", label: "Perf", icon: IconBolt, color: "#f59e0b" },

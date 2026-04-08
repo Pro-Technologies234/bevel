@@ -37,38 +37,38 @@ const projectTypeOptions: CardSelectOption[] = [
     value: "saas",
     label: "SaaS App",
     description: "Multi-tenant web application with auth and billing.",
-    icon: IconRocket,
+    icon: <IconRocket />,
     badge: "Popular",
   },
   {
     value: "ecommerce",
     label: "E-Commerce",
     description: "Storefront with product catalog and checkout flow.",
-    icon: IconBuildingStore,
+    icon: <IconBuildingStore />,
   },
   {
     value: "dashboard",
     label: "Dashboard",
     description: "Internal analytics or operations control panel.",
-    icon: IconChartBar,
+    icon: <IconChartBar />,
   },
   {
     value: "api",
     label: "API Service",
     description: "Backend-only REST or GraphQL API project.",
-    icon: IconCode,
+    icon: <IconCode />,
   },
   {
     value: "marketing",
     label: "Marketing Site",
     description: "Landing page or content-driven public website.",
-    icon: IconBolt,
+    icon: <IconBolt />,
   },
   {
     value: "enterprise",
     label: "Enterprise",
     description: "Large-scale internal tooling with SSO.",
-    icon: IconBuildingBank,
+    icon: <IconBuildingBank />,
     badge: "Custom",
   },
 ];
@@ -78,34 +78,34 @@ const teamRoleOptions: CardSelectOption[] = [
     value: "founder",
     label: "Founder",
     description: "Building the product from the ground up.",
-    icon: IconRocket,
+    icon: <IconRocket />,
   },
   {
     value: "engineer",
     label: "Engineer",
     description: "Writing and shipping production code.",
-    icon: IconCode,
+    icon: <IconCode />,
   },
   {
     value: "designer",
     label: "Designer",
     description: "Shaping the product's look and feel.",
-    icon: IconPalette,
+    icon: <IconPalette />,
   },
   {
     value: "pm",
     label: "Product Manager",
     description: "Defining roadmap and prioritising work.",
-    icon: IconBriefcase,
+    icon: <IconBriefcase />,
   },
 ];
 
 const frameworkOptions: CardSelectOption[] = [
-  { value: "react", label: "React", icon: IconBrandReact },
-  { value: "vue", label: "Vue", icon: IconBrandVue },
-  { value: "angular", label: "Angular", icon: IconBrandAngular },
-  { value: "nextjs", label: "Next.js", icon: IconBrandNextjs },
-  { value: "svelte", label: "Svelte", icon: IconBrandSvelte },
+  { value: "react", label: "React", icon: <IconBrandReact /> },
+  { value: "vue", label: "Vue", icon: <IconBrandVue /> },
+  { value: "angular", label: "Angular", icon: <IconBrandAngular /> },
+  { value: "nextjs", label: "Next.js", icon: <IconBrandNextjs /> },
+  { value: "svelte", label: "Svelte", icon: <IconBrandSvelte /> },
 ];
 
 const featureOptions: CardSelectOption[] = [
@@ -113,46 +113,46 @@ const featureOptions: CardSelectOption[] = [
     value: "auth",
     label: "Authentication",
     description: "Email/password, OAuth, MFA.",
-    icon: IconShield,
+    icon: <IconShield />,
   },
   {
     value: "billing",
     label: "Billing",
     description: "Stripe integration and subscription management.",
-    icon: IconBuildingBank,
+    icon: <IconBuildingBank />,
     badge: "Paid",
   },
   {
     value: "analytics",
     label: "Analytics",
     description: "Event tracking and custom dashboards.",
-    icon: IconChartBar,
+    icon: <IconChartBar />,
   },
   {
     value: "team",
     label: "Teams",
     description: "Invite members, roles, and permissions.",
-    icon: IconUsers,
+    icon: <IconUsers />,
   },
   {
     value: "api",
     label: "Public API",
     description: "RESTful API with API key management.",
-    icon: IconCode,
+    icon: <IconCode />,
     badge: "Beta",
   },
   {
     value: "cms",
     label: "CMS",
     description: "Content modeling and rich text editing.",
-    icon: IconDeviceLaptop,
+    icon: <IconDeviceLaptop />,
   },
 ];
 
 const themeOptions: CardSelectOption[] = [
-  { value: "light", label: "Light", icon: IconSun },
-  { value: "dark", label: "Dark", icon: IconMoon },
-  { value: "system", label: "System", icon: IconContrast },
+  { value: "light", label: "Light", icon: <IconSun /> },
+  { value: "dark", label: "Dark", icon: <IconMoon /> },
+  { value: "system", label: "System", icon: <IconContrast /> },
 ];
 
 export function CardSelectExamples() {
