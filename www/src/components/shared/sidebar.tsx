@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -34,7 +35,7 @@ export function BevelSidebar({
   onActiveChange,
   className,
 }: SidebarProps) {
-  const pathName = usePathname()
+  const pathName = usePathname();
   const [internalActive, setInternalActive] = useState<string | undefined>(
     activeItem,
   );
@@ -56,45 +57,44 @@ export function BevelSidebar({
       )}
     >
       {sections.map((section, si) => (
-        <div key={section.label + si} className="flex flex-col gap-1">
+        <div key={section.label + si} className="flex flex-col gap-0.5">
           {/* Section label */}
-          <p className="text-xs font-semibold text-foreground mb-1 px-2">
+          <p className="text-[10px] font-medium text-muted-foreground mb-1 px-2">
             {section.label}
           </p>
 
           {/* Actions */}
           {section.actions.map((action, ai) => {
-            const isActive = active === action.label || pathName === action.href;
+            const isActive = pathName === action.href;
 
             return (
-              <button
+              <Button
+                variant={"ghost"}
+                size={"sm"}
                 key={(action.label ?? "a") + ai}
                 disabled={action.disabled}
                 onClick={() => handleClick(action)}
                 className={cn(
-                  "flex items-center justify-between w-full px-2 py-1 rounded-md",
-                  "text-left text-sm transition-colors duration-100",
-                  "disabled:opacity-35 disabled:cursor-not-allowed",
+                  " w-fit rounded-md! hover:bg-secondary/80! cursor-pointer py-3 text-xs",
                   isActive
-                    ? "text-primary font-medium"
-                    : "text-muted-foreground hover:text-foreground font-normal",
+                    ? "text-primary bg-primary/10!"
+                    : " hover:text-foreground ",
                 )}
               >
-                <span className="truncate">{action.label}</span>
+                <span className=" line-clamp-1 tracking-tight">
+                  {action.label}
+                </span>
 
                 {action.badge && (
                   <span
                     className={cn(
-                      "text-[10px] font-medium px-1.5 py-0.5 rounded-md shrink-0 ml-2",
-                      isActive
-                        ? "text-primary bg-primary/10"
-                        : "text-muted-foreground bg-muted",
+                      "text-[10px] font-medium px-1.5 py-0.5 rounded-md shrink-0 ml-2 text-white bg-linear-to-tr from-indigo-600 to-indigo-400",
                     )}
                   >
                     {action.badge}
                   </span>
                 )}
-              </button>
+              </Button>
             );
           })}
         </div>

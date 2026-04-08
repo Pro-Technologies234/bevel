@@ -8,7 +8,7 @@ export default function Page() {
     <Fragment>
       <Hero />
       <ValueProposition />
-      <ComingSoon />
+      {/* <ComingSoon /> */}
     </Fragment>
   );
 }

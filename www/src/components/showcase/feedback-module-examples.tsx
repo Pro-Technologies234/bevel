@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   FeedbackModule,
   type Feedback,
-} from "@/registry/modules/feedback-module";
+} from "@/components/bevelui/modules/feedback-module";
 import {
   IconMessage,
   IconMoodAngry,

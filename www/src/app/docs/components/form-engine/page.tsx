@@ -1,76 +1,119 @@
 "use client";
+
+import { z } from "zod";
+import pageData from "@/content/docs/form-engine.json";
+import { DocPageRenderer } from "@/components/bevelui/docs/doc-page-renderer";
 import {
-  FormEngineConfig,
-  FormEngineProgress,
-  FormEngineStepCanvas,
-  FormEngineStepMeta,
-} from "@/registry/form-engine";
-import { FormEngineNavigation } from "@/registry/form-engine/form-engine-navigation";
-import { FormEngineRoot } from "@/registry/form-engine/form-engine-root";
-import {
-  IconBolt,
-  IconBriefcase,
-  IconChartBar,
-  IconCode,
-  IconPalette,
-} from "@tabler/icons-react";
+  FormEngine,
+  createZodPlugin,
+  createLogPlugin,
+  type FormEngineConfig,
+  type FormEnginePlugin,
+} from "@/components/bevelui/form-engine";
+import { IconCheck } from "@tabler/icons-react";
 import { useState } from "react";
 
-// ─── Example page ─────────────────────────────────────────────────────────────
+// ─── Zod schemas — one per step ───────────────────────────────────────────────
 
-type ApplicationForm = {
-  fullName: string;
-  email: string;
-  phone: string;
-  location: string;
-  department: string;
-  yearsExp: string;
-  bio: string;
-  availability: string;
-  remote: boolean;
-  terms: boolean;
+const stepSchemas = {
+  0: z.object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.string().email("Enter a valid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+  }),
+  1: z.object({
+    workspace: z.string().min(2, "Workspace name is required"),
+    plan: z.enum(["free", "pro", "enterprise"], {
+      required_error: "Please select a plan",
+    }),
+  }),
+  // Step 2 (billing) is optional — no schema
 };
-export const applicationConfig: FormEngineConfig = {
+
+// ─── Config ───────────────────────────────────────────────────────────────────
+
+const config: FormEngineConfig = {
   mode: "multi-step",
   validation: "per-step",
   steps: [
     {
-      id: "personal",
-      title: "Personal details",
-      description: "We use this information to get in touch with you.",
+      id: "account",
+      title: "Create your account",
+      description: "Your login credentials.",
       fields: [
         {
-          key: "fullName",
+          key: "name",
           variant: "text",
           label: "Full name",
-          placeholder: "Ngozi Adeyemi",
+          placeholder: "Alex Johnson",
           required: true,
         },
         {
           key: "email",
           variant: "email",
           label: "Email address",
-          placeholder: "ngozi@example.com",
+          placeholder: "alex@acme.com",
           required: true,
         },
         {
-          key: "phone",
-          variant: "phone",
-          label: "Phone number",
-          placeholder: "+234 800 000 0000",
+          key: "password",
+          variant: "password",
+          label: "Password",
+          placeholder: "8+ characters",
+          required: true,
+        },
+      ],
+    },
+    {
+      id: "workspace",
+      title: "Set up your workspace",
+      description: "Where your team will work.",
+      fields: [
+        {
+          key: "workspace",
+          variant: "text",
+          label: "Workspace name",
+          placeholder: "Acme Inc.",
+          required: true,
         },
         {
-          key: "location",
-          variant: "select",
-          label: "Location",
-          placeholder: "Select your country",
+          key: "plan",
+          variant: "card-select",
+          label: "Choose a plan",
+          required: true,
+          props: {
+            columns: 3,
+            size: "sm",
+            options: [
+              {
+                value: "free",
+                label: "Free",
+                description: "$0/mo",
+              },
+              {
+                value: "pro",
+                label: "Pro",
+                description: "$12/mo",
+                badge: "Popular",
+              },
+              {
+                value: "enterprise",
+                label: "Enterprise",
+                description: "Custom",
+              },
+            ],
+          },
+        },
+        {
+          key: "role",
+          variant: "chip-select",
+          label: "Your role",
           props: {
             options: [
-              { value: "ng", label: "Nigeria" },
-              { value: "gh", label: "Ghana" },
-              { value: "ke", label: "Kenya" },
-              { value: "za", label: "South Africa" },
-              { value: "eg", label: "Egypt" },
+              { value: "engineering", label: "Engineering" },
+              { value: "design", label: "Design" },
+              { value: "product", label: "Product" },
+              { value: "marketing", label: "Marketing" },
               { value: "other", label: "Other" },
             ],
           },
@@ -78,101 +121,91 @@ export const applicationConfig: FormEngineConfig = {
       ],
     },
     {
-      id: "experience",
-      title: "Your experience",
-      description:
-        "Help us understand your background and what you're looking for.",
+      id: "billing",
+      title: "Add billing details",
+      description: "Optional — you can do this later from settings.",
       fields: [
         {
-          key: "department",
-          variant: "chip-select",
-          label: "Applying for",
-          props: {
-            size: "sm",
-            options: [
-              { value: "eng", label: "Engineering", icon: IconCode },
-              { value: "design", label: "Design", icon: IconPalette },
-              { value: "product", label: "Product", icon: IconChartBar },
-              { value: "sales", label: "Sales", icon: IconBriefcase },
-              { value: "ops", label: "Operations", icon: IconBolt },
-            ],
-          },
+          key: "cardName",
+          variant: "text",
+          label: "Name on card",
+          placeholder: "Alex Johnson",
         },
         {
-          key: "yearsExp",
-          variant: "select",
-          label: "Years of experience",
-          placeholder: "Select range",
-          props: {
-            options: [
-              { value: "0-1", label: "Less than 1 year" },
-              { value: "1-3", label: "1–3 years" },
-              { value: "3-5", label: "3–5 years" },
-              { value: "5-10", label: "5–10 years" },
-              { value: "10+", label: "10+ years" },
-            ],
-          },
-        },
-        {
-          key: "bio",
-          variant: "textarea",
-          label: "Cover note",
-          placeholder:
-            "Tell us why you'd be a great fit and what you're most proud of…",
-        },
-      ],
-    },
-    {
-      id: "availability",
-      title: "Availability & consent",
-      description:
-        "Last step — when can you start, and a couple of quick preferences.",
-      fields: [
-        {
-          key: "availability",
-          variant: "date",
-          label: "Earliest start date",
-        },
-        {
-          key: "remote",
-          variant: "checkbox",
-          label: "I'm open to fully remote work",
-        },
-        {
-          key: "terms",
-          variant: "checkbox",
-          label: "I confirm the information above is accurate",
-          required: true,
+          key: "cardNumber",
+          variant: "text",
+          label: "Card number",
+          placeholder: "1234 5678 9012 3456",
         },
       ],
     },
   ],
+  onSubmit: async (values) => {
+    // Simulate an API call
+    await new Promise((r) => setTimeout(r, 1200));
+    console.log("Form submitted:", values);
+  },
 };
 
-export default function FormEngineExample() {
-  const config = {
-    ...applicationConfig,
+// ─── Demo ─────────────────────────────────────────────────────────────────────
+
+function FormEngineDemo() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const submittedConfig: FormEngineConfig = {
+    ...config,
+    onSubmit: async (values) => {
+      await new Promise((r) => setTimeout(r, 1200));
+      setSubmitted(true);
+    },
   };
 
-  return (
-    // FormEngineRoot — composable: lets you control layout, progress style, and action props
-    <FormEngineRoot
-      config={config}
-      onSubmit={async (values) => {
-        console.log("Application submitted:", values);
-      }}
-      className="max-w-xl bg-background p-8 mx-auto min-h-[80vh] justify-between"
-    >
-      <div className="flex-1 gap-4 overflow-y-auto overflow-x-hidden">
-        <FormEngineProgress variant="dots" />
-        <FormEngineStepMeta />
-        <FormEngineStepCanvas className="p-2" />
+  const plugins: FormEnginePlugin[] = [
+    createZodPlugin(stepSchemas),
+    createLogPlugin("[demo]"),
+  ];
+
+  if (submitted) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-12 text-center">
+        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+          <IconCheck size={24} strokeWidth={2.5} className="text-primary" />
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="text-base font-semibold">Account created!</span>
+          <span className="text-sm text-muted-foreground">
+            This is what your onSubmit receives.
+          </span>
+        </div>
+        <button
+          onClick={() => setSubmitted(false)}
+          className="text-xs text-muted-foreground underline hover:text-foreground transition-colors"
+        >
+          Reset demo
+        </button>
       </div>
-      <FormEngineNavigation
-        nextLabel="Next step"
-        submitLabel="Submit Application"
-        backLabel="Back"
+    );
+  }
+
+  return (
+    <div className="w-full max-w-md">
+      <FormEngine
+        config={submittedConfig}
+        plugins={plugins}
+        actionsProps={{
+          submitLabel: "Create account",
+          nextLabel: "Continue",
+          layout: "split",
+        }}
       />
-    </FormEngineRoot>
+    </div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
+export default function FormEnginePage() {
+  return (
+    <DocPageRenderer page={pageData as any} demoRegistry={{ FormEngineDemo }} />
   );
 }

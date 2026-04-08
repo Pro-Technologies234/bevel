@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "title": "Command Palette",
+    "description": "A fully-engineered ⌘K command menu with fuzzy search, two-tier tab filtering, keyboard navigation, grouped results, avatar support, and a keyboard shortcut footer.",
+    "badge": "System",
+    "slug": "command-palette",
+    "prev": { "label": "Product Tour", "href": "/docs/components/product-tour" },
+    "next": { "label": "File Upload", "href": "/docs/components/file-upload" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "sections", "label": "Sections and items", "depth": 1 },
+    { "id": "tabs", "label": "Source and filter tabs", "depth": 1 },
+    { "id": "programmatic", "label": "Programmatic control", "depth": 1 },
+    { "id": "api-item", "label": "CommandPaletteItem", "depth": 2 },
+    { "id": "api-section", "label": "CommandPaletteSection", "depth": 2 },
+    { "id": "api-root", "label": "CommandPaletteRoot", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": []
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Press ⌘K to open the palette. Type to search, use ↑↓ to navigate, Enter to select."
+        },
+        {
+          "type": "demo",
+          "component": "CommandPaletteDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx shadcn@latest add https://bevelui.com/r/command-palette.json"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "The command palette has no additional npm dependencies beyond what shadcn already installs. Fuzzy search is implemented from scratch — no external library required."
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your app with CommandPaletteRoot and pass your sections. The ⌘K shortcut is wired automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/layout.tsx",
+          "code": "import {\n  CommandPaletteRoot,\n  CommandPaletteTrigger,\n  type CommandPaletteSection,\n} from \"@/components/bevelui/command-palette\";\n\nconst sections: CommandPaletteSection[] = [\n  {\n    id: \"people\",\n    title: \"People\",\n    items: [\n      {\n        id: \"harper\",\n        title: \"Harper Martinez\",\n        subtitle: \"gmartinez@example.com\",\n        icon: \"https://i.pravatar.cc/150?img=47\",\n        category: \"people\",\n        href: \"/people/harper\",\n      },\n    ],\n  },\n];\n\nexport default function Layout({ children }) {\n  return (\n    <CommandPaletteRoot\n      sections={sections}\n      onSelect={(item) => router.push(item.href)}\n    >\n      {children}\n    </CommandPaletteRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "sections",
+      "title": "Sections and items",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Items are grouped into sections. Each section has a title shown as a header above its items. Results are filtered and sorted by fuzzy score when the user types."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const sections: CommandPaletteSection[] = [\n  {\n    id: \"recent\",\n    title: \"Recent\",\n    items: [\n      {\n        id: \"doc-1\",\n        title: \"Q3 Engineering Report\",\n        subtitle: \"Updated 2 hours ago\",\n        meta: \"Doc\",\n        initials: \"Q3\",\n        initialsColor: \"#6366f1\",\n        category: \"docs\",\n        href: \"/docs/q3\",\n      },\n    ],\n  },\n];"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Avatar rendering",
+          "content": "The icon field accepts a URL string (renders an <img>), a React node (renders as-is), or you can use initials + initialsColor for a coloured avatar fallback."
+        }
+      ]
+    },
+    {
+      "id": "tabs",
+      "title": "Source and filter tabs",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The palette supports two independent tab rows. Source tabs filter by integration (e.g. Gmail, Figma). Filter tabs filter by content type (People, Tasks, Files). Both are optional."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import type {\n  CommandPaletteSourceTab,\n  CommandPaletteFilterTab,\n} from \"@/components/bevelui/command-palette\";\n\nconst sourceTabs: CommandPaletteSourceTab[] = [\n  { id: \"all\", label: \"All\" },\n  { id: \"gmail\", label: \"Gmail\", logoSrc: \"/logos/gmail.svg\" },\n  { id: \"figma\", label: \"Figma\", logoSrc: \"/logos/figma.svg\" },\n];\n\nconst filterTabs: CommandPaletteFilterTab[] = [\n  { id: \"all\", label: \"All\" },\n  { id: \"people\", label: \"People\" },\n  { id: \"docs\", label: \"Docs\" },\n];\n\n<CommandPaletteRoot\n  sections={sections}\n  sourceTabs={sourceTabs}\n  filterTabs={filterTabs}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "Programmatic control",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useCommandPalette } from \"@/components/bevelui/command-palette\";\n\nfunction NavSearch() {\n  const { open, isOpen, query } = useCommandPalette();\n\n  return (\n    <button onClick={open}>\n      Search... <kbd>⌘K</kbd>\n    </button>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-item",
+      "title": "CommandPaletteItem",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "id", "type": "string", "required": true, "description": "Unique identifier." },
+            { "prop": "title", "type": "string", "required": true, "description": "Primary text shown in the result row." },
+            { "prop": "subtitle", "type": "string", "description": "Secondary text shown after a dot separator." },
+            { "prop": "meta", "type": "string", "description": "Text shown on the far right (e.g. role, file type)." },
+            { "prop": "icon", "type": "string | ReactNode", "description": "Avatar image URL or a React icon node." },
+            { "prop": "initials", "type": "string", "description": "Shown when icon is absent." },
+            { "prop": "initialsColor", "type": "string", "description": "Background colour for the initials avatar." },
+            { "prop": "category", "type": "string", "description": "Filter tab id — used to filter by content type." },
+            { "prop": "source", "type": "string", "description": "Source tab id — used to filter by integration." },
+            { "prop": "href", "type": "string", "description": "Navigation target." },
+            { "prop": "onSelect", "type": "(item) => void", "description": "Called when this item is selected." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-section",
+      "title": "CommandPaletteSection",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "id", "type": "string", "required": true, "description": "Unique identifier." },
+            { "prop": "title", "type": "string", "required": true, "description": "Section header label." },
+            { "prop": "items", "type": "CommandPaletteItem[]", "required": true, "description": "Items in this section." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "CommandPaletteRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "sections", "type": "CommandPaletteSection[]", "required": true, "description": "All item sections." },
+            { "prop": "sourceTabs", "type": "CommandPaletteSourceTab[]", "description": "Integration icon tabs row." },
+            { "prop": "filterTabs", "type": "CommandPaletteFilterTab[]", "description": "Content type filter tabs row." },
+            { "prop": "defaultOpen", "type": "boolean", "default": "false", "description": "Open on mount." },
+            { "prop": "onSelect", "type": "(item) => void", "description": "Called when any item is selected." },
+            { "prop": "onClose", "type": "() => void", "description": "Called when the palette closes." }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   CardSelect,
   type CardSelectOption,
-} from "@/registry/controls/card-select";
+} from "@/components/bevelui/controls/card-select";
 import {
   IconLayoutGrid,
   IconBolt,

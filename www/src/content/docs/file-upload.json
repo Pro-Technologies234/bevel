@@ -1,0 +1,292 @@
+{
+  "meta": {
+    "title": "File Upload",
+    "description": "A complete file upload system with drag-and-drop, per-file progress tracking, cancel support, error recovery, and grid/list views. Bring your own upload function — the system handles everything else.",
+    "badge": "System",
+    "slug": "file-upload",
+    "prev": {
+      "label": "Command Palette",
+      "href": "/docs/components/command-palette"
+    },
+    "next": { "label": "Form Engine", "href": "/docs/components/form-engine" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "config", "label": "With config", "depth": 1 },
+    { "id": "progress", "label": "Real upload progress", "depth": 1 },
+    { "id": "modal", "label": "Modal mode", "depth": 1 },
+    { "id": "programmatic", "label": "Programmatic control", "depth": 1 },
+    { "id": "api-root", "label": "FileUploadRoot", "depth": 2 },
+    { "id": "api-config", "label": "FileUploadConfig", "depth": 2 },
+    { "id": "api-entry", "label": "FileEntry", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": []
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drop any files below. Upload progress is simulated. Name a file starting with \"fail\" to trigger the error state."
+        },
+        {
+          "type": "demo",
+          "component": "FileUploadDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install the peer dependency",
+              "code": "npm install react-dropzone",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.com/r/file-upload.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The simplest usage is FileUploadRoot with your onUpload function. The system renders a dropzone, progress list, and upload button automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { FileUploadRoot } from \"@/components/bevelui/file-upload\";\n\n<FileUploadRoot\n  onUpload={async (file, onProgress) => {\n    const formData = new FormData();\n    formData.append(\"file\", file);\n\n    const res = await fetch(\"/api/upload\", {\n      method: \"POST\",\n      body: formData,\n    });\n    const { url } = await res.json();\n    return { url };\n  }}\n  onComplete={(files) => console.log(\"Uploaded:\", files)}\n/>"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The engine never uploads",
+          "content": "onUpload is always provided by you. The system never knows how to upload — it only manages state, progress, and error recovery. This makes it compatible with any backend: S3, Cloudinary, your own API."
+        }
+      ]
+    },
+    {
+      "id": "config",
+      "title": "With config",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass a config prop to restrict file types, size, and count. The dropzone automatically shows these constraints as hints."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<FileUploadRoot\n  config={{\n    accept: { \"image/*\": [\".jpg\", \".png\", \".webp\"] },\n    maxSize: 5 * 1024 * 1024,   // 5MB in bytes\n    maxFiles: 5,\n    multiple: true,\n    title: \"Upload product images\",\n    description: \"JPG, PNG, or WebP up to 5MB\",\n  }}\n  onUpload={...}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "progress",
+      "title": "Real upload progress",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Call onProgress(pct) with a number 0–100 as the file uploads. XHR gives you this for free via the upload progress event."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "onUpload={async (file, onProgress) => {\n  return new Promise((resolve, reject) => {\n    const xhr = new XMLHttpRequest();\n    const formData = new FormData();\n    formData.append(\"file\", file);\n\n    xhr.upload.addEventListener(\"progress\", (e) => {\n      if (e.lengthComputable) {\n        onProgress(Math.round((e.loaded / e.total) * 100));\n      }\n    });\n\n    xhr.addEventListener(\"load\", () => {\n      const { url } = JSON.parse(xhr.responseText);\n      resolve({ url });\n    });\n\n    xhr.addEventListener(\"error\", () =>\n      reject(new Error(\"Upload failed\"))\n    );\n\n    xhr.open(\"POST\", \"/api/upload\");\n    xhr.send(formData);\n  });\n}}"
+        }
+      ]
+    },
+    {
+      "id": "modal",
+      "title": "Modal mode",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use FileUploadModal for a dialog-based upload experience. Matches the mobile-app style UI with a dashed dropzone, file row, and Cancel/Upload footer."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { FileUploadModal } from \"@/components/bevelui/file-upload\";\n\n<FileUploadModal\n  open={isOpen}\n  onOpenChange={setIsOpen}\n  dialogTitle=\"Upload your video\"\n  config={{\n    accept: { \"video/*\": [\".mp4\", \".mov\"] },\n    title: \"Drop your video here\",\n    description: \"For best results, upload at least 1080p MP4.\",\n  }}\n  onUpload={async (file, onProgress) => {\n    const url = await uploadToS3(file, onProgress);\n    return { url };\n  }}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "Programmatic control",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use useFileUpload anywhere inside FileUploadRoot to build your own UI on top of the engine."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useFileUpload } from \"@/components/bevelui/file-upload\";\n\nfunction MyUploadButton() {\n  const {\n    files, uploadAll, isUploading,\n    addFiles, removeFile,\n    cancelFile, retryFile,\n  } = useFileUpload();\n\n  return (\n    <button onClick={uploadAll} disabled={isUploading}>\n      Upload {files.filter(f => f.status === \"idle\").length} files\n    </button>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "FileUploadRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "onUpload",
+              "type": "(file, onProgress) => Promise<{ url, meta? }>",
+              "required": true,
+              "description": "Your upload function. Call onProgress(0–100) during upload. Return { url } on success. Throw to trigger error state."
+            },
+            {
+              "prop": "config",
+              "type": "FileUploadConfig",
+              "description": "Restrict file types, size, and count. Also sets dropzone title and description."
+            },
+            {
+              "prop": "onComplete",
+              "type": "(files: FileEntry[]) => void",
+              "description": "Called when all files finish uploading."
+            },
+            {
+              "prop": "onError",
+              "type": "(id, error) => void",
+              "description": "Called when an individual file upload fails."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Pass children to replace the default layout."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "FileUploadConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "auto",
+              "default": "false",
+              "type": "boolean",
+              "description": "Automatically upload files after selection."
+            },
+            {
+              "prop": "accept",
+              "type": "Accept",
+              "description": "react-dropzone Accept object. E.g. { 'image/*': ['.jpg', '.png'] }"
+            },
+            {
+              "prop": "initialFiles",
+              "type": "FileEntry[]",
+              "description": "Initial files to display in the upload area."
+            },
+            {
+              "prop": "maxSize",
+              "type": "number",
+              "default": 2097152,
+              "description": "The maximum allowed file size in bytes (default is 2MB)."
+            },
+            {
+              "prop": "maxFiles",
+              "type": "number",
+              "description": "Max number of files allowed."
+            },
+            {
+              "prop": "multiple",
+              "type": "boolean",
+              "default": "true",
+              "description": "Allow selecting multiple files."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "default": "\"Drop your files here\"",
+              "description": "Heading shown in the dropzone."
+            },
+            {
+              "prop": "description",
+              "type": "string",
+              "description": "Supporting text below the title."
+            },
+            {
+              "prop": "icon",
+              "type": "ReactNode",
+              "description": "Custom icon in the dropzone. Defaults to upload arrow."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-entry",
+      "title": "FileEntry",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "id",
+              "type": "string",
+              "description": "Auto-generated unique ID."
+            },
+            {
+              "prop": "file",
+              "type": "File",
+              "description": "The native browser File object."
+            },
+            {
+              "prop": "status",
+              "type": "\"idle\" | \"uploading\" | \"done\" | \"error\"",
+              "description": "Current upload state."
+            },
+            {
+              "prop": "progress",
+              "type": "number",
+              "description": "Upload progress 0–100."
+            },
+            {
+              "prop": "url",
+              "type": "string",
+              "description": "The uploaded file URL — set when status is done."
+            },
+            {
+              "prop": "error",
+              "type": "string",
+              "description": "Error message — set when status is error."
+            },
+            {
+              "prop": "meta",
+              "type": "Record<string, unknown>",
+              "description": "Any extra data returned by your onUpload function."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

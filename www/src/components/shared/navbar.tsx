@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ButtonGroup, ButtonGroupText } from "../ui/button-group";
-import { IconSearch } from "@tabler/icons-react";
+import { IconBoltFilled, IconSearch } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { Wrapper } from "./wrapper";
+import { DocsCommandSearch } from "./docs-command-search";
 
 const navigations = [
   { id: "components", label: "Components", href: "/docs/components" },
-  { id: "templates", label: "Templates", href: "/template" },
-  { id: "docs", label: "Docs", href: "/docs" },
-  { id: "changelogs", label: "Changelog", href: "/changelog" },
+  { id: "templates", label: "Templates", href: "/" },
+  { id: "changelogs", label: "Changelog", href: "/" },
 ];
 
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
@@ -24,15 +24,17 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
       <Wrapper className="flex flex-row items-center justify-between py-3">
         <nav className="flex items-center gap-8">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="size-8 bg-primary bevel rounded-lg shrink-0" />
-            <span className="font-semibold text-xl tracking-tighter font-nohemi">
+          <Link href="/" className="flex items-start gap-2">
+            <div className="size-6 flex justify-center items-center bg-primary bevel rounded-full shrink-0">
+              <IconBoltFilled color="black" size={16} />
+            </div>
+            <span className="font-semibold text-xl tracking-tight font-sans">
               Bevel UI
             </span>
           </Link>
 
           {/* Nav links */}
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden md:flex items-center gap-1 tracking-tight ">
             {navigations.map((item) => (
               <li key={item.id}>
                 <Button variant="ghost" className="cursor-pointer" asChild>
@@ -47,21 +49,13 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <Button
-            size={"lg"}
-            variant={"outline"}
-            className="max-w-72 hidden sm:flex text-muted-foreground "
-          >
-            <IconSearch />
-            Search documentation...
-          </Button>
-
-          <Button
-            size="lg"
-            className="px-4 font-semibold tracking-tight cursor-pointer bevel"
-          >
-            Get Started
-          </Button>
+          <DocsCommandSearch />
+          <Link href={"/docs/introduction"}>
+            <Button className=" font-semibold tracking-tight cursor-pointer bevel rounded-lg">
+              <IconBoltFilled />
+              Get Started
+            </Button>
+          </Link>
         </div>
       </Wrapper>
     </header>

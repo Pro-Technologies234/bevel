@@ -1,0 +1,242 @@
+{
+  "meta": {
+    "title": "Form Engine",
+    "description": "A form orchestration engine that manages multi-step or single-step form flow. Brings your own validation, fields, and state via react-hook-form and zod. The engine owns the steps — you own everything inside them.",
+    "badge": "System",
+    "slug": "form-engine",
+    "prev": { "label": "File Upload", "href": "/docs/components/file-upload" },
+    "next": { "label": "Theming", "href": "/docs/theming" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "philosophy", "label": "Philosophy", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "with-zod", "label": "With zod validation", "depth": 1 },
+    { "id": "plugins", "label": "Plugins", "depth": 1 },
+    { "id": "single-step", "label": "Single step mode", "depth": 1 },
+    { "id": "custom-layout", "label": "Custom layout", "depth": 1 },
+    { "id": "api-config", "label": "FormEngineConfig", "depth": 2 },
+    { "id": "api-step", "label": "FormEngineStepDef", "depth": 2 },
+    { "id": "api-field", "label": "FormEngineFieldDef", "depth": 2 },
+    { "id": "api-plugin", "label": "FormEnginePlugin", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": []
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A three-step account creation form. Step 1 and 2 have zod validation. Step 3 (billing) is optional and can be skipped."
+        },
+        {
+          "type": "demo",
+          "component": "FormEngineDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install peer dependencies",
+              "code": "npm install react-hook-form @hookform/resolvers zod motion",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.com/r/form-engine.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "philosophy",
+      "title": "Philosophy",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The form engine owns exactly one thing: flow. It tracks which step is active, validates before advancing, and calls your onSubmit when done. Everything else — field values, validation schemas, error messages — belongs to react-hook-form and zod."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The engine never touches your fields",
+          "content": "The engine calls validate() on each step before advancing. You wire validate() to form.trigger() from react-hook-form. That's the entire integration surface — one function that returns a boolean."
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use FormEngine for the batteries-included experience. It renders progress dots, step title, fields, and navigation buttons automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/onboarding/page.tsx",
+          "code": "import { FormEngine, type FormEngineConfig } from \"@/components/bevelui/form-engine\";\n\nconst config: FormEngineConfig = {\n  mode: \"multi-step\",\n  validation: \"per-step\",\n  steps: [\n    {\n      id: \"account\",\n      title: \"Create your account\",\n      description: \"Your login details.\",\n      fields: [\n        { key: \"name\", variant: \"text\", label: \"Full name\", required: true },\n        { key: \"email\", variant: \"email\", label: \"Email\", required: true },\n        { key: \"password\", variant: \"password\", label: \"Password\", required: true },\n      ],\n    },\n    {\n      id: \"plan\",\n      title: \"Choose a plan\",\n      fields: [\n        {\n          key: \"plan\",\n          variant: \"card-select\",\n          label: \"Plan\",\n          props: {\n            options: [\n              { value: \"free\", label: \"Free\", description: \"$0/mo\" },\n              { value: \"pro\", label: \"Pro\", description: \"$12/mo\" },\n            ],\n          },\n        },\n      ],\n    },\n  ],\n  onSubmit: async (values) => {\n    await createAccount(values);\n  },\n};\n\nexport default function OnboardingPage() {\n  return <FormEngine config={config} />;\n}"
+        }
+      ]
+    },
+    {
+      "id": "with-zod",
+      "title": "With zod validation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use createZodPlugin to add per-step zod validation. Pass a map of step index to schema. The plugin blocks navigation if the schema fails."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { z } from \"zod\";\nimport {\n  FormEngine,\n  createZodPlugin,\n} from \"@/components/bevelui/form-engine\";\n\nconst schemas = {\n  0: z.object({\n    name: z.string().min(2, \"Name must be at least 2 characters\"),\n    email: z.string().email(\"Enter a valid email address\"),\n    password: z.string().min(8, \"Password must be at least 8 characters\"),\n  }),\n  1: z.object({\n    plan: z.enum([\"free\", \"pro\"], { required_error: \"Please select a plan\" }),\n  }),\n};\n\n<FormEngine\n  config={config}\n  plugins={[createZodPlugin(schemas)]}\n/>"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "Field-level error messages from zod are displayed automatically below each field via react-hook-form. No extra wiring needed."
+        }
+      ]
+    },
+    {
+      "id": "plugins",
+      "title": "Plugins",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Plugins are the primary extension point. They hook into every lifecycle event — mount, step change, field change, validate, submit. Multiple plugins can be combined."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  createZodPlugin,\n  createLogPlugin,\n  createAnalyticsPlugin,\n} from \"@/components/bevelui/form-engine\";\n\n<FormEngine\n  config={config}\n  plugins={[\n    createZodPlugin(schemas),\n    createLogPlugin(),\n    createAnalyticsPlugin((event, data) =>\n      mixpanel.track(event, data)\n    ),\n  ]}\n/>"
+        },
+        {
+          "type": "text",
+          "content": "You can also write your own plugin inline."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const serverValidationPlugin: FormEnginePlugin = {\n  name: \"server-validation\",\n  onValidate: async (step, values) => {\n    if (step !== 0) return true;\n    // Check username availability on step 0\n    const res = await fetch(`/api/check-email?email=${values.email}`);\n    const { available } = await res.json();\n    return available;\n  },\n};"
+        }
+      ]
+    },
+    {
+      "id": "single-step",
+      "title": "Single step mode",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass mode: \"single\" and a single step to use the engine as a regular form. The progress indicator is hidden and the Submit button appears immediately."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const config: FormEngineConfig = {\n  mode: \"single\",\n  steps: [\n    {\n      id: \"contact\",\n      title: \"Contact us\",\n      fields: [\n        { key: \"name\", variant: \"text\", label: \"Name\" },\n        { key: \"message\", variant: \"textarea\", label: \"Message\" },\n      ],\n    },\n  ],\n  onSubmit: async (values) => sendMessage(values),\n};\n\n<FormEngine config={config} />"
+        }
+      ]
+    },
+    {
+      "id": "custom-layout",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use FormEngineRoot for full layout control. Compose the pieces yourself — progress, step meta, canvas, and navigation can be placed anywhere."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  FormEngineRoot,\n  FormEngineProgress,\n  FormEngineStepMeta,\n  FormEngineStepCanvas,\n  FormEngineNavigation,\n} from \"@/components/bevelui/form-engine\";\n\n<FormEngineRoot config={config} plugins={plugins}>\n  {/* Two-column layout */}\n  <div className=\"grid grid-cols-2 gap-12\">\n    <div className=\"flex flex-col gap-6\">\n      <FormEngineProgress />\n      <FormEngineStepMeta />\n    </div>\n    <div className=\"flex flex-col gap-6\">\n      <FormEngineStepCanvas />\n      <FormEngineNavigation submitLabel=\"Create account\" />\n    </div>\n  </div>\n</FormEngineRoot>"
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "FormEngineConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "steps", "type": "FormEngineStepDef[]", "required": true, "description": "All step definitions." },
+            { "prop": "onSubmit", "type": "(values) => Promise<void>", "required": true, "description": "Called when the user completes the final step." },
+            { "prop": "mode", "type": "\"multi-step\" | \"single\"", "default": "\"multi-step\"", "description": "Single hides progress and shows submit immediately." },
+            { "prop": "validation", "type": "\"per-step\" | \"on-submit\"", "default": "\"per-step\"", "description": "When validation runs. per-step validates fields on each step before advancing." },
+            { "prop": "schema", "type": "ZodSchema", "description": "Full-form Zod schema applied to all fields. For per-step use createZodPlugin() instead." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-step",
+      "title": "FormEngineStepDef",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "id", "type": "string", "required": true, "description": "Unique step identifier." },
+            { "prop": "fields", "type": "FormEngineFieldDef[]", "required": true, "description": "Fields rendered on this step." },
+            { "prop": "title", "type": "string", "description": "Step title shown in the meta header." },
+            { "prop": "description", "type": "string", "description": "Step description shown below the title." },
+            { "prop": "guard", "type": "(values) => Promise<boolean>", "description": "Async guard called after validation. Return false to block navigation." },
+            { "prop": "layout", "type": "(fields, actions) => JSX.Element", "description": "Custom layout override. Receives rendered fields and actions as JSX." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-field",
+      "title": "FormEngineFieldDef",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "key", "type": "string", "required": true, "description": "Must match a key in your form values." },
+            { "prop": "variant", "type": "\"text\" | \"email\" | \"password\" | \"number\" | \"textarea\" | \"checkbox\" | \"select\" | \"card-select\" | \"chip-select\" | \"rating\" | \"tag-input\" | \"date\" | \"phone\" | \"file\"", "required": true, "description": "Which control to render." },
+            { "prop": "label", "type": "string", "description": "Field label." },
+            { "prop": "placeholder", "type": "string", "description": "Input placeholder text." },
+            { "prop": "required", "type": "boolean", "description": "Adds a required asterisk to the label." },
+            { "prop": "disabled", "type": "boolean", "description": "Disables the field." },
+            { "prop": "showWhen", "type": "(values) => boolean", "description": "Conditionally show or hide this field based on other values." },
+            { "prop": "props", "type": "object", "description": "Variant-specific props passed to the underlying control." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-plugin",
+      "title": "FormEnginePlugin",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "name", "type": "string", "required": true, "description": "Unique plugin identifier used for debugging." },
+            { "prop": "onMount", "type": "(values) => void", "description": "Called once when the engine mounts." },
+            { "prop": "onStepChange", "type": "(step, values) => void", "description": "Called after every step navigation." },
+            { "prop": "onFieldChange", "type": "(field, value, values) => void", "description": "Called after every field value change." },
+            { "prop": "onValidate", "type": "(step, values) => Promise<boolean>", "description": "Return false to block navigation from the current step." },
+            { "prop": "onSubmit", "type": "(values) => Promise<void>", "description": "Called after the consumer's onSubmit resolves." }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 import { BevelSidebar } from "@/components/shared/sidebar";
 import { IconRocket, IconComponents, IconPalette } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function DocsSidebar() {
   const router = useRouter();
@@ -12,22 +12,39 @@ export function DocsSidebar() {
         {
           label: "Getting Started",
           actions: [
-            { label: "Introduction" },
-            { label: "Installation" },
-            { label: "Quick start" },
-            { label: "Changelog", badge: "New" },
+            {
+              label: "Introduction",
+              onClick() {
+                router.push("/docs/introduction");
+              },
+              href: "/docs/introduction",
+            },
+            {
+              label: "Components",
+              onClick() {
+                router.push("/docs/components");
+              },
+              href: "/docs/components",
+            },
+            {
+              label: "Installation",
+              onClick() {
+                router.push("/docs/installation");
+              },
+              href: "/docs/installation",
+            },
           ],
         },
         {
-          label: "Systems",
+          label: "Component Systems",
           actions: [
             {
               label: "Product Tour",
               badge: "New",
               onClick() {
-                router.push("/docs/components/tour");
+                router.push("/docs/components/product-tour");
               },
-              href: "/docs/components/tour"
+              href: "/docs/components/product-tour",
             },
             {
               label: "Command Palette",
@@ -35,7 +52,7 @@ export function DocsSidebar() {
               onClick() {
                 router.push("/docs/components/command-palette");
               },
-              href: "/docs/components/command-palette"
+              href: "/docs/components/command-palette",
             },
             {
               label: "File Upload",
@@ -43,7 +60,7 @@ export function DocsSidebar() {
               onClick() {
                 router.push("/docs/components/file-upload");
               },
-              href: "/docs/components/file-upload"
+              href: "/docs/components/file-upload",
             },
             {
               label: "Form Engine",
@@ -53,21 +70,9 @@ export function DocsSidebar() {
               },
               href: "/docs/components/form-engine",
             },
-            { label: "Onboarding Checklist", badge: "Soon" },
-            { label: "Notification Center", disabled: true },
-          ],
-        },
-        {
-          label: "Theming",
-          actions: [
-            { label: "Colors" },
-            { label: "Typography" },
-            { label: "Dark mode" },
           ],
         },
       ]}
     />
   );
 }
-
-
