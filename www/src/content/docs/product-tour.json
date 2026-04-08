@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "title": "Product Tour",
+    "description": "A fully-engineered guided tour system. Highlights any element on the page, positions a floating card that never escapes the viewport, supports media, and handles keyboard navigation out of the box.",
+    "badge": "System",
+    "slug": "product-tour",
+    "prev": { "label": "Quick start", "href": "/docs/quick-start" },
+    "next": { "label": "Command Palette", "href": "/docs/components/command-palette" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "with-media", "label": "With media", "depth": 1 },
+    { "id": "programmatic", "label": "Programmatic control", "depth": 1 },
+    { "id": "api-tourstepdef", "label": "TourStepDef", "depth": 2 },
+    { "id": "api-touranchor", "label": "TourAnchor", "depth": 2 },
+    { "id": "api-tourroot", "label": "TourRoot", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": []
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Click \"Start tour\" to walk through the dashboard below. Use ← → to navigate and Esc to close."
+        },
+        {
+          "type": "demo",
+          "component": "ProductTourDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The tour system has two peer dependencies. Install them if you haven't already."
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npm install @floating-ui/react motion"
+        },
+        {
+          "type": "text",
+          "content": "Then copy the tour files into your project."
+        },
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Add the files",
+              "description": "Copy the entire tour folder into components/bevelui/.",
+              "code": "npx shadcn@latest add https://bevelui.com/r/tour.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import and use",
+              "description": "Wrap your page with TourRoot and place TourAnchor around any element you want to highlight.",
+              "code": "import { TourRoot, TourAnchor, TourTrigger } from \"@/components/bevelui/tour\"",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your page with TourRoot, define your steps, then place TourAnchor around any element you want to highlight."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/dashboard/page.tsx",
+          "code": "import { TourRoot, TourAnchor, TourTrigger, type TourStepDef } from \"@/components/bevelui/tour\";\n\nconst steps: TourStepDef[] = [\n  {\n    step: 1,\n    title: \"Your profile\",\n    description: \"Click here to update your avatar and display name.\",\n    side: \"bottom\",\n  },\n  {\n    step: 2,\n    title: \"Settings\",\n    description: \"Manage notifications, billing, and team members here.\",\n    side: \"right\",\n  },\n];\n\nexport default function DashboardPage() {\n  return (\n    <TourRoot steps={steps} defaultOpen>\n      <TourAnchor step={1}>\n        <Avatar />\n      </TourAnchor>\n\n      <TourAnchor step={2} asChild>\n        <button>Settings</button>\n      </TourAnchor>\n\n      <TourTrigger label=\"Take a tour\" />\n    </TourRoot>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "asChild prop",
+          "content": "Use asChild on TourAnchor when wrapping a button or link. This uses Radix Slot to merge props without adding an extra div to the DOM."
+        }
+      ]
+    },
+    {
+      "id": "with-media",
+      "title": "With media",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each step can include a media object. Videos autoplay muted and loop. GIFs and images are shown with a max height of 160px above the step title — just like Photoshop tooltips."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const steps: TourStepDef[] = [\n  {\n    step: 1,\n    title: \"Export your data\",\n    description: \"Click the export button to download a CSV.\",\n    side: \"bottom\",\n    media: {\n      type: \"video\",           // \"video\" | \"gif\" | \"image\"\n      src: \"/demos/export.mp4\",\n      poster: \"/demos/export-thumb.jpg\",\n    },\n  },\n];"
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "Programmatic control",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use the useTour hook anywhere inside TourRoot to control the tour from your own UI."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useTour } from \"@/components/bevelui/tour\";\n\nfunction MyToolbar() {\n  const {\n    start, stop, next, prev,\n    skip, goTo, currentStep,\n    totalSteps, isOpen\n  } = useTour();\n\n  return (\n    <div>\n      <button onClick={start}>Start tour</button>\n      <button onClick={() => goTo(3)}>Jump to step 3</button>\n      <button onClick={skip}>Skip</button>\n      <span>{currentStep} / {totalSteps}</span>\n    </div>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-tourstepdef",
+      "title": "TourStepDef",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "step", "type": "number", "required": true, "description": "1-based step index. Must be unique." },
+            { "prop": "title", "type": "string", "required": true, "description": "Bold heading shown in the card." },
+            { "prop": "description", "type": "string", "required": true, "description": "Body text explaining this step." },
+            { "prop": "side", "type": "\"top\" | \"right\" | \"bottom\" | \"left\"", "default": "\"bottom\"", "description": "Preferred placement. Auto-flips if it would escape the viewport." },
+            { "prop": "sideOffset", "type": "number", "default": "16", "description": "Distance between the card and the anchor in px." },
+            { "prop": "media", "type": "TourMedia", "description": "Optional image, gif, or video shown above the title." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-touranchor",
+      "title": "TourAnchor",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "step", "type": "number", "required": true, "description": "Which step this element is the anchor for." },
+            { "prop": "asChild", "type": "boolean", "default": "false", "description": "Merge props onto the child element without adding a wrapper div. Uses Radix Slot." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-tourroot",
+      "title": "TourRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "steps", "type": "TourStepDef[]", "required": true, "description": "All step definitions for this tour." },
+            { "prop": "defaultOpen", "type": "boolean", "default": "false", "description": "Start the tour automatically on mount." },
+            { "prop": "onComplete", "type": "() => void", "description": "Called when the user finishes the last step." },
+            { "prop": "onSkip", "type": "() => void", "description": "Called when the user closes the tour early." }
+          ]
+        }
+      ]
+    }
+  ]
+}

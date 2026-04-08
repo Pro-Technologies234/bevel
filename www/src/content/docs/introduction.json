@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "title": "Introduction",
+    "description": "Bevel UI ships fully-engineered UI systems — not component libraries. Each system solves a complete, hard UI engineering problem so you can drop in working architecture rather than build it from scratch.",
+    "slug": "introduction",
+    "next": { "label": "Installation", "href": "/docs/installation" }
+  },
+  "tocs": [
+    { "id": "what-is-bevel", "label": "What is Bevel?", "depth": 1 },
+    { "id": "how-it-works", "label": "How it works", "depth": 1 },
+    { "id": "philosophy", "label": "Philosophy", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 }
+  ],
+  "sections": [
+    {
+      "id": "what-is-bevel",
+      "title": "What is Bevel UI?",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A component library gives you a button. Bevel gives you the entire multi-step form — state machine, per-step validation, back/forward navigation, error recovery, progress persistence. Every edge case already handled. Every architectural decision already made."
+        },
+        {
+          "type": "text",
+          "content": "Bevel is built on the same foundation as shadcn/ui — you copy the source code into your project and own it forever. No npm package to upgrade. No breaking changes forced on you. No lock-in."
+        }
+      ]
+    },
+    {
+      "id": "how-it-works",
+      "title": "How it works",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install a system",
+              "description": "Use the shadcn CLI to copy the system files into your project.",
+              "code": "npx shadcn@latest add https://bevelui.com/r/tour.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Drop it in",
+              "description": "Import from your local components folder — the same path the CLI installed to.",
+              "code": "import { TourRoot, TourAnchor } from \"@/components/bevelui/tour\";",
+              "codeLanguage": "tsx"
+            },
+            {
+              "title": "Own it forever",
+              "description": "The code lives in your project. Style it, extend it, fork it. It's yours."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "philosophy",
+      "title": "Philosophy",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Three principles guide every system in Bevel."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "No installs",
+          "content": "Copy the source directly into your project. No npm package to upgrade."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "No lock-in",
+          "content": "You own the code. Change anything. Style it however you want."
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Solve the hard problem",
+          "content": "Every system ships with the architecture already figured out. State machine, edge cases, accessibility, keyboard navigation — all included."
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Is this a component library?",
+          "content": "No. A component library gives you primitives like buttons and inputs. Bevel gives you complete systems — Product Tour, Command Palette, File Upload, Form Engine. These are solutions to hard UI engineering problems, not building blocks."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Can I use it with my existing shadcn/ui setup?",
+          "content": "Yes. Bevel is built on top of shadcn/ui primitives. It uses the same Button, Input, Badge, Dialog components you already have."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Does it work with React 19?",
+          "content": "Yes. Every system is built with React 18+ in mind and is compatible with React 19."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Do I need Tailwind CSS?",
+          "content": "Yes. Bevel uses Tailwind CSS v4 for all styling. If you're using shadcn/ui you already have Tailwind set up."
+        }
+      ]
+    }
+  ]
+}

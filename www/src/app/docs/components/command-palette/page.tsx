@@ -1,52 +1,82 @@
 "use client";
 
-/**
- * Example usage — matches the screenshot exactly.
- * Drop this anywhere in your app.
- */
-
+import pageData from "@/content/docs/command-palette.json";
+import { DocPageRenderer } from "@/components/bevelui/docs/doc-page-renderer";
 import {
   CommandPaletteRoot,
   CommandPaletteTrigger,
   type CommandPaletteSection,
   type CommandPaletteSourceTab,
   type CommandPaletteFilterTab,
-} from "@/registry/command-palette";
-
+} from "@/components/bevelui/command-palette";
 import {
-  IconUser,
+  IconBook,
   IconCheckbox,
   IconFile,
   IconFolder,
-  IconBook,
   IconMail,
   IconPhoto,
+  IconUser,
 } from "@tabler/icons-react";
 
-// ─── Source tabs (integration icons) ─────────────────────────────────────────
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const SOURCE_TABS: CommandPaletteSourceTab[] = [
   { id: "all", label: "All" },
-  { id: "openai", label: "ChatGPT", logoSrc: "https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" },
-  { id: "gmail", label: "Gmail", logoSrc: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" },
-  { id: "figma", label: "Figma", logoSrc: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" },
-  { id: "slack", label: "Slack", logoSrc: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg" },
+  {
+    id: "gmail",
+    label: "Gmail",
+    logoSrc:
+      "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg",
+  },
+  {
+    id: "figma",
+    label: "Figma",
+    logoSrc:
+      "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",
+  },
+  {
+    id: "slack",
+    label: "Slack",
+    logoSrc:
+      "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
+  },
 ];
-
-// ─── Filter tabs (content types) ─────────────────────────────────────────────
 
 const FILTER_TABS: CommandPaletteFilterTab[] = [
   { id: "all", label: "All" },
-  { id: "people", label: "People", icon: <IconUser size={12} strokeWidth={1.8} /> },
-  { id: "task", label: "Task", icon: <IconCheckbox size={12} strokeWidth={1.8} /> },
-  { id: "pages", label: "Pages", icon: <IconFile size={12} strokeWidth={1.8} /> },
-  { id: "files", label: "Files", icon: <IconFolder size={12} strokeWidth={1.8} /> },
+  {
+    id: "people",
+    label: "People",
+    icon: <IconUser size={12} strokeWidth={1.8} />,
+  },
+  {
+    id: "task",
+    label: "Tasks",
+    icon: <IconCheckbox size={12} strokeWidth={1.8} />,
+  },
+  {
+    id: "pages",
+    label: "Pages",
+    icon: <IconFile size={12} strokeWidth={1.8} />,
+  },
+  {
+    id: "files",
+    label: "Files",
+    icon: <IconFolder size={12} strokeWidth={1.8} />,
+  },
   { id: "docs", label: "Docs", icon: <IconBook size={12} strokeWidth={1.8} /> },
-  { id: "messages", label: "Messages", icon: <IconMail size={12} strokeWidth={1.8} /> },
-  { id: "images", label: "Images", icon: <IconPhoto size={12} strokeWidth={1.8} /> },
+  {
+    id: "messages",
+    label: "Messages",
+    icon: <IconMail size={12} strokeWidth={1.8} />,
+  },
+  {
+    id: "images",
+    label: "Images",
+    icon: <IconPhoto size={12} strokeWidth={1.8} />,
+  },
 ];
-
-// ─── Sections + items ─────────────────────────────────────────────────────────
 
 const SECTIONS: CommandPaletteSection[] = [
   {
@@ -59,7 +89,7 @@ const SECTIONS: CommandPaletteSection[] = [
         subtitle: "gmartinez@example.com",
         icon: "https://i.pravatar.cc/150?img=47",
         category: "people",
-        href: "/people/harper",
+        href: "#",
       },
       {
         id: "mason",
@@ -68,7 +98,7 @@ const SECTIONS: CommandPaletteSection[] = [
         meta: "Applied AI Engineer",
         icon: "https://i.pravatar.cc/150?img=12",
         category: "people",
-        href: "/people/mason",
+        href: "#",
       },
     ],
   },
@@ -84,7 +114,7 @@ const SECTIONS: CommandPaletteSection[] = [
         initials: "Q3",
         initialsColor: "#6366f1",
         category: "docs",
-        href: "/docs/q3-report",
+        href: "#",
       },
       {
         id: "design-system",
@@ -95,7 +125,7 @@ const SECTIONS: CommandPaletteSection[] = [
         initialsColor: "#ec4899",
         category: "files",
         source: "figma",
-        href: "/files/design-system",
+        href: "#",
       },
       {
         id: "onboarding-task",
@@ -105,45 +135,56 @@ const SECTIONS: CommandPaletteSection[] = [
         initials: "T",
         initialsColor: "#f59e0b",
         category: "task",
-        href: "/tasks/onboarding",
+        href: "#",
+      },
+      {
+        id: "alex",
+        title: "Alex Chen",
+        subtitle: "achen@example.com",
+        meta: "Engineering Lead",
+        icon: "https://i.pravatar.cc/150?img=33",
+        category: "people",
+        href: "#",
       },
     ],
   },
 ];
 
-// ─── Example page ─────────────────────────────────────────────────────────────
+// ─── Demo ─────────────────────────────────────────────────────────────────────
 
-export default function CommandPaletteExample() {
+function CommandPaletteDemo() {
   return (
     <CommandPaletteRoot
       sections={SECTIONS}
       sourceTabs={SOURCE_TABS}
       filterTabs={FILTER_TABS}
       defaultOpen={false}
-      onSelect={(item) => {
-        console.log("Selected:", item);
-        if (item.href) window.location.href = item.href;
-      }}
+      onSelect={(item) => console.log("Selected:", item.title)}
     >
-      <div className="flex flex-col items-center justify-center min-h-screen gap-6">
-        <div className="text-center flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Command Palette
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Press{" "}
-            <kbd className="text-xs bg-muted border border-border rounded px-1.5 py-0.5">
-              ⌘K
-            </kbd>{" "}
-            to open
-          </p>
-        </div>
-
+      <div className="flex flex-col items-center gap-4 py-4">
+        <p className="text-sm text-muted-foreground">
+          Click the trigger or press{" "}
+          <kbd className="text-[11px] bg-muted border border-border rounded px-1.5 py-0.5">
+            ⌘K
+          </kbd>{" "}
+          to open
+        </p>
         <CommandPaletteTrigger
           label="Search people, tasks, docs..."
           className="w-72"
         />
       </div>
     </CommandPaletteRoot>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
+export default function CommandPalettePage() {
+  return (
+    <DocPageRenderer
+      page={pageData as any}
+      demoRegistry={{ CommandPaletteDemo }}
+    />
   );
 }

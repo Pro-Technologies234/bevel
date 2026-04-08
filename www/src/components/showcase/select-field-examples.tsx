@@ -5,7 +5,7 @@ import {
   SelectField,
   type SelectOption,
   type SelectOptionGroup,
-} from "@/registry/controls/select-field";
+} from "@/components/bevelui/controls/select-field";
 import {
   IconSelector,
   IconFlag,

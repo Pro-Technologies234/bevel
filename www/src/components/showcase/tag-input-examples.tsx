@@ -1,15 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { TagInput } from "@/registry/controls/tag-input"
-import { IconCode } from "@tabler/icons-react"
-import { SectionHeading, ExampleCard, Hint } from "@/components/showcase/ui"
+import { useState } from "react";
+import { TagInput } from "@/components/bevelui/controls/tag-input";
+import { IconCode } from "@tabler/icons-react";
+import { SectionHeading, ExampleCard, Hint } from "@/components/showcase/ui";
 
 export function TagInputExamples() {
-  const [techStack, setTechStack]     = useState<string[]>(["React", "TypeScript", "Tailwind"])
-  const [ingredients, setIngredients] = useState<string[]>(["garlic", "olive oil", "tomatoes"])
-  const [keywords, setKeywords]       = useState<string[]>(["nextjs", "performance"])
-  const [disabledTags]                = useState<string[]>(["accessibility", "react", "tailwind", "animation"])
+  const [techStack, setTechStack] = useState<string[]>([
+    "React",
+    "TypeScript",
+    "Tailwind",
+  ]);
+  const [ingredients, setIngredients] = useState<string[]>([
+    "garlic",
+    "olive oil",
+    "tomatoes",
+  ]);
+  const [keywords, setKeywords] = useState<string[]>(["nextjs", "performance"]);
+  const [disabledTags] = useState<string[]>([
+    "accessibility",
+    "react",
+    "tailwind",
+    "animation",
+  ]);
 
   return (
     <section id="tag-input">
@@ -21,7 +34,6 @@ export function TagInputExamples() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-
         <ExampleCard
           title="Tech Stack Selector"
           description="Declare a project's technologies during setup. Capped at 6 tags, secondary variant."
@@ -53,7 +65,8 @@ export function TagInputExamples() {
             size="md"
           />
           <Hint>
-            {ingredients.length} ingredient{ingredients.length !== 1 ? "s" : ""} listed
+            {ingredients.length} ingredient{ingredients.length !== 1 ? "s" : ""}{" "}
+            listed
           </Hint>
         </ExampleCard>
 
@@ -121,8 +134,7 @@ export function TagInputExamples() {
           />
           <Hint>lg size · touch-optimised</Hint>
         </ExampleCard>
-
       </div>
     </section>
-  )
+  );
 }

@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "Installation",
+    "description": "Bevel systems install via the shadcn CLI. Each system is copied directly into your project — no npm package, no versioning, no lock-in.",
+    "slug": "installation",
+    "prev": { "label": "Introduction", "href": "/docs/introduction" },
+    "next": { "label": "Quick start", "href": "/docs/quick-start" }
+  },
+  "tocs": [
+    { "id": "prerequisites", "label": "Prerequisites", "depth": 1 },
+    { "id": "install-shadcn", "label": "Set up shadcn/ui", "depth": 1 },
+    { "id": "install-system", "label": "Install a system", "depth": 1 },
+    { "id": "folder-structure", "label": "Folder structure", "depth": 1 },
+    { "id": "import-paths", "label": "Import paths", "depth": 1 }
+  ],
+  "sections": [
+    {
+      "id": "prerequisites",
+      "title": "Prerequisites",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Bevel requires an existing Next.js project with shadcn/ui already configured. If you're starting fresh, set that up first."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "Bevel is framework-agnostic at its core but the CLI tooling and import paths assume Next.js with the App Router. Remix and Vite support is on the roadmap."
+        }
+      ]
+    },
+    {
+      "id": "install-shadcn",
+      "title": "Set up shadcn/ui",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "If you haven't set up shadcn/ui yet, run the init command."
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx shadcn@latest init"
+        }
+      ]
+    },
+    {
+      "id": "install-system",
+      "title": "Install a system",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each Bevel system installs independently. You only install what you need."
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "# Product Tour\nnpx shadcn@latest add https://bevelui.com/r/tour.json\n\n# Command Palette\nnpx shadcn@latest add https://bevelui.com/r/command-palette.json\n\n# File Upload\nnpx shadcn@latest add https://bevelui.com/r/file-upload.json\n\n# Form Engine\nnpx shadcn@latest add https://bevelui.com/r/form-engine.json"
+        },
+        {
+          "type": "text",
+          "content": "The CLI will install any required npm dependencies automatically and copy the component files into your project."
+        }
+      ]
+    },
+    {
+      "id": "folder-structure",
+      "title": "Folder structure",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "After installation, your project structure will look like this."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components",
+              "type": "folder",
+              "children": [
+                {
+                  "name": "ui",
+                  "type": "folder",
+                  "comment": "shadcn primitives"
+                },
+                {
+                  "name": "bevelui",
+                  "type": "folder",
+                  "highlight": true,
+                  "comment": "Bevel systems",
+                  "children": [
+                    { "name": "tour", "type": "folder", "highlight": true },
+                    { "name": "command-palette", "type": "folder" },
+                    { "name": "file-upload", "type": "folder" },
+                    { "name": "form-engine", "type": "folder" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "import-paths",
+      "title": "Import paths",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "After installation, import from the same path the CLI created. The code snippets in these docs use the same paths — copy-paste safe."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { TourRoot, TourAnchor } from \"@/components/bevelui/tour\";\nimport { CommandPaletteRoot } from \"@/components/bevelui/command-palette\";\nimport { FileUploadRoot } from \"@/components/bevelui/file-upload\";\nimport { FormEngine } from \"@/components/bevelui/form-engine\";"
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Keep imports relative within each system",
+          "content": "Internal imports between files within the same system use relative paths (./tour-context). Never use absolute paths inside the system files — they will break in the consumer's project."
+        }
+      ]
+    }
+  ]
+}

@@ -1,64 +1,73 @@
 "use client";
 
 import { BevelSidebar } from "@/components/shared/sidebar";
-import { IconRocket, IconComponents, IconPalette } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import {
+  IconRocket,
+  IconComponents,
+  IconRoute,
+  IconSearch,
+  IconUpload,
+  IconForms,
+} from "@tabler/icons-react";
 
 export function DocsSidebar() {
-  const router = useRouter();
   return (
     <BevelSidebar
       sections={[
         {
           label: "Getting Started",
+          icon: IconRocket,
+          collapsible: true,
+          defaultOpen: true,
           actions: [
-            { label: "Introduction" },
-            { label: "Installation" },
-            { label: "Quick start" },
-            { label: "Changelog", badge: "New" },
+            {
+              label: "Introduction",
+              href: "/docs/introduction",
+            },
+            {
+              label: "Installation",
+              href: "/docs/installation",
+            },
           ],
         },
         {
           label: "Systems",
+          icon: IconComponents,
+          collapsible: true,
+          defaultOpen: true,
           actions: [
             {
+              label: "All Systems",
+              href: "/docs/components",
+            },
+            {
               label: "Product Tour",
+              href: "/docs/components/product-tour",
+              icon: IconRoute,
               badge: "New",
-              onClick() {
-                router.push("/docs/components/tour");
-              },
+              badgeVariant: "new",
             },
             {
               label: "Command Palette",
+              href: "/docs/components/command-palette",
+              icon: IconSearch,
               badge: "New",
-              onClick() {
-                router.push("/docs/components/command-palette");
-              },
+              badgeVariant: "new",
             },
             {
               label: "File Upload",
+              href: "/docs/components/file-upload",
+              icon: IconUpload,
               badge: "New",
-              onClick() {
-                router.push("/docs/components/file-upload");
-              },
+              badgeVariant: "new",
             },
             {
               label: "Form Engine",
+              href: "/docs/components/form-engine",
+              icon: IconForms,
               badge: "New",
-              onClick() {
-                router.push("/docs/components/form-engine");
-              },
+              badgeVariant: "new",
             },
-            { label: "Onboarding Checklist", badge: "Soon" },
-            { label: "Notification Center", disabled: true },
-          ],
-        },
-        {
-          label: "Theming",
-          actions: [
-            { label: "Colors" },
-            { label: "Typography" },
-            { label: "Dark mode" },
           ],
         },
       ]}

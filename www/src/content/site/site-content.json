@@ -1,0 +1,124 @@
+{
+  "hero": {
+    "badge": "Now in development",
+    "headline": "UI systems, not components.",
+    "subheadline": "Bevel ships fully-engineered UI systems for your React app. Product Tour, Command Palette, File Upload, Form Engine — copy the code, own it forever.",
+    "primaryCTA": {
+      "label": "Browse systems",
+      "href": "/docs/components"
+    },
+    "secondaryCTA": {
+      "label": "Read the docs",
+      "href": "/docs/introduction"
+    },
+    "techStack": ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "motion"]
+  },
+
+  "differentiator": {
+    "headline": "A component gives you a button.",
+    "subheadline": "A system gives you the entire multi-step form.",
+    "description": "State machine. Per-step validation. Back/forward navigation. Error recovery. Progress persistence. Every edge case already handled. Every architectural decision already made. You just drop it in.",
+    "items": [
+      {
+        "label": "No installs",
+        "description": "Copy the source directly into your project. No npm package to upgrade, ever."
+      },
+      {
+        "label": "No lock-in",
+        "description": "You own the code. Change anything. Style it however your product needs."
+      },
+      {
+        "label": "shadcn compatible",
+        "description": "Built on the same primitives. Drops straight into your existing setup."
+      }
+    ]
+  },
+
+  "systems": [
+    {
+      "name": "Product Tour",
+      "slug": "product-tour",
+      "tagline": "Guide users through your app",
+      "description": "Animated overlay, smart-positioned floating cards, media support, keyboard navigation, skip/resume. The architecture that takes a week to get right — already done.",
+      "status": "Building",
+      "featured": true
+    },
+    {
+      "name": "Command Palette",
+      "slug": "command-palette",
+      "tagline": "⌘K that actually works",
+      "description": "Fuzzy search, two-tier tab filtering, grouped results, avatar support, keyboard shortcuts footer. Zero external search library.",
+      "status": "Building",
+      "featured": true
+    },
+    {
+      "name": "File Upload",
+      "slug": "file-upload",
+      "tagline": "Bring your own upload function",
+      "description": "Drag-and-drop, per-file progress, cancel, retry, grid/list views, modal mode. The engine never touches your backend — you plug in your own upload logic.",
+      "status": "Building",
+      "featured": true
+    },
+    {
+      "name": "Form Engine",
+      "slug": "form-engine",
+      "tagline": "Multi-step forms without the architecture",
+      "description": "Plugin system, react-hook-form integration, zod validation, conditional fields, custom layouts. Works as a multi-step wizard or a single-step form.",
+      "status": "Building",
+      "featured": true
+    }
+  ],
+
+  "howItWorks": {
+    "headline": "Install once. Own it forever.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "Pick a system",
+        "description": "Browse the systems and find the one that solves your problem."
+      },
+      {
+        "step": "02",
+        "title": "Install with shadcn",
+        "description": "One command copies the source files directly into your project."
+      },
+      {
+        "step": "03",
+        "title": "Drop it in",
+        "description": "Import from your local components folder. Read the docs if you need to customise it."
+      },
+      {
+        "step": "04",
+        "title": "Own it forever",
+        "description": "The code is yours. No updates forced on you. No breaking changes. No vendor."
+      }
+    ]
+  },
+
+  "earlyAccess": {
+    "headline": "Get notified when systems ship.",
+    "description": "All four systems are in active development. Drop your email and you'll be the first to know when they're ready.",
+    "placeholder": "your@email.com",
+    "buttonLabel": "Notify me",
+    "disclaimer": "No spam. Unsubscribe anytime."
+  },
+
+  "footer": {
+    "tagline": "Fully-engineered UI systems for React.",
+    "links": [
+      { "label": "Docs", "href": "/docs/introduction" },
+      { "label": "Systems", "href": "/docs/components" },
+      { "label": "GitHub", "href": "https://github.com/bevelui" },
+      { "label": "Twitter / X", "href": "https://x.com/bevelui" }
+    ],
+    "legal": "© 2025 Bevel UI. Built in public."
+  },
+
+  "meta": {
+    "siteName": "Bevel UI",
+    "siteDescription": "Fully-engineered UI systems for React. Product Tour, Command Palette, File Upload, Form Engine — copy the code, own it forever.",
+    "siteUrl": "https://bevelui.com",
+    "ogImage": "/og.png",
+    "twitterHandle": "@bevelui"
+  }
+}

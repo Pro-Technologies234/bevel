@@ -1,29 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { RatingField } from "@/registry/controls/rating-field"
+import { useState } from "react";
+import { RatingField } from "@/components/bevelui/controls/rating-field";
 import {
   IconStar,
-  IconMoodAngry,        IconMoodAngryFilled,
-  IconMoodSad,          IconMoodSadFilled,
-  IconMoodNeutral,      IconMoodNeutralFilled,
-  IconMoodSmile,        IconMoodSmileFilled,
-  IconMoodHappy,        IconMoodHappyFilled,
-  IconCircle,           IconCircleFilled,
-  IconFlame,            IconFlameFilled,
-  IconThumbUp,          IconThumbUpFilled,
-  IconThumbDown,        IconThumbDownFilled,
-} from "@tabler/icons-react"
-import { SectionHeading, ExampleCard, Hint } from "@/components/showcase/ui"
+  IconMoodAngry,
+  IconMoodAngryFilled,
+  IconMoodSad,
+  IconMoodSadFilled,
+  IconMoodNeutral,
+  IconMoodNeutralFilled,
+  IconMoodSmile,
+  IconMoodSmileFilled,
+  IconMoodHappy,
+  IconMoodHappyFilled,
+  IconCircle,
+  IconCircleFilled,
+  IconFlame,
+  IconFlameFilled,
+  IconThumbUp,
+  IconThumbUpFilled,
+  IconThumbDown,
+  IconThumbDownFilled,
+} from "@tabler/icons-react";
+import { SectionHeading, ExampleCard, Hint } from "@/components/showcase/ui";
 
 // Levels arrays defined outside the component — stable references, no recreations on render
 const moodLevels = [
-  { color: "#ef4444", icon: IconMoodAngryFilled,   emptyIcon: IconMoodAngry   },
-  { color: "#f97316", icon: IconMoodSadFilled,     emptyIcon: IconMoodSad     },
+  { color: "#ef4444", icon: IconMoodAngryFilled, emptyIcon: IconMoodAngry },
+  { color: "#f97316", icon: IconMoodSadFilled, emptyIcon: IconMoodSad },
   { color: "#eab308", icon: IconMoodNeutralFilled, emptyIcon: IconMoodNeutral },
-  { color: "#22c55e", icon: IconMoodSmileFilled,   emptyIcon: IconMoodSmile   },
-  { color: "#3b82f6", icon: IconMoodHappyFilled,   emptyIcon: IconMoodHappy   },
-]
+  { color: "#22c55e", icon: IconMoodSmileFilled, emptyIcon: IconMoodSmile },
+  { color: "#3b82f6", icon: IconMoodHappyFilled, emptyIcon: IconMoodHappy },
+];
 
 const difficultyLevels = [
   { color: "#22c55e", icon: IconCircleFilled, emptyIcon: IconCircle },
@@ -31,7 +40,7 @@ const difficultyLevels = [
   { color: "#eab308", icon: IconCircleFilled, emptyIcon: IconCircle },
   { color: "#f97316", icon: IconCircleFilled, emptyIcon: IconCircle },
   { color: "#ef4444", icon: IconCircleFilled, emptyIcon: IconCircle },
-]
+];
 
 const spiceLevels = [
   { color: "#fde68a", icon: IconFlameFilled, emptyIcon: IconFlame },
@@ -41,22 +50,29 @@ const spiceLevels = [
   { color: "#ea580c", icon: IconFlameFilled, emptyIcon: IconFlame },
   { color: "#dc2626", icon: IconFlameFilled, emptyIcon: IconFlame },
   { color: "#b91c1c", icon: IconFlameFilled, emptyIcon: IconFlame },
-]
+];
 
 // single mode — 2 options, thumb down or up
 const npsLevels = [
   { color: "#ef4444", icon: IconThumbDownFilled, emptyIcon: IconThumbDown },
-  { color: "#22c55e", icon: IconThumbUpFilled,   emptyIcon: IconThumbUp   },
-]
+  { color: "#22c55e", icon: IconThumbUpFilled, emptyIcon: IconThumbUp },
+];
 
-const difficultyLabels = ["", "Beginner", "Easy", "Intermediate", "Advanced", "Expert"]
-const moodLabels       = ["Frustrated", "Unhappy", "Neutral", "Happy", "Thrilled"]
+const difficultyLabels = [
+  "",
+  "Beginner",
+  "Easy",
+  "Intermediate",
+  "Advanced",
+  "Expert",
+];
+const moodLabels = ["Frustrated", "Unhappy", "Neutral", "Happy", "Thrilled"];
 
 export function RatingFieldExamples() {
-  const [productRating,    setProductRating]    = useState(4)
-  const [difficultyRating, setDifficultyRating] = useState(3)
-  const [moodRating,       setMoodRating]       = useState(0)
-  const [npsRating,        setNpsRating]        = useState(0)
+  const [productRating, setProductRating] = useState(4);
+  const [difficultyRating, setDifficultyRating] = useState(3);
+  const [moodRating, setMoodRating] = useState(0);
+  const [npsRating, setNpsRating] = useState(0);
 
   return (
     <section id="rating-field">
@@ -68,7 +84,6 @@ export function RatingFieldExamples() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-
         <ExampleCard
           title="Product Review Stars"
           description="Classic 5-star rating for an e-commerce product page. Amber accent, deselect supported."
@@ -103,7 +118,9 @@ export function RatingFieldExamples() {
             levels={difficultyLevels}
             size={24}
           />
-          <Hint>Difficulty: {difficultyLabels[difficultyRating] ?? "Unset"}</Hint>
+          <Hint>
+            Difficulty: {difficultyLabels[difficultyRating] ?? "Unset"}
+          </Hint>
         </ExampleCard>
 
         <ExampleCard
@@ -120,7 +137,9 @@ export function RatingFieldExamples() {
             size={30}
           />
           <Hint>
-            {moodRating > 0 ? `Mood: ${moodLabels[moodRating - 1]}` : "How are you feeling today?"}
+            {moodRating > 0
+              ? `Mood: ${moodLabels[moodRating - 1]}`
+              : "How are you feeling today?"}
           </Hint>
         </ExampleCard>
 
@@ -139,7 +158,11 @@ export function RatingFieldExamples() {
             size={28}
           />
           <Hint>
-            {npsRating === 0 ? "Would you recommend us?" : npsRating === 1 ? "Not recommended" : "Recommended"}
+            {npsRating === 0
+              ? "Would you recommend us?"
+              : npsRating === 1
+                ? "Not recommended"
+                : "Recommended"}
           </Hint>
         </ExampleCard>
 
@@ -175,8 +198,7 @@ export function RatingFieldExamples() {
           />
           <Hint>5/7 — Very hot</Hint>
         </ExampleCard>
-
       </div>
     </section>
-  )
+  );
 }
