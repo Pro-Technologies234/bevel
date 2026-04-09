@@ -57,7 +57,7 @@ const BADGE_CLASSES: Record<
   NonNullable<SidebarAction["badgeVariant"]>,
   string
 > = {
-  new: "bg-linear-to-tr text-white from-indigo-600  to-indigo-300 border-none",
+  new: "bg-linear-to-tr text-white from-violet-600  to-violet-400 border-none",
   primary: "bg-primary/15 text-primary border-primary/20",
   indigo:
     "bg-linear-to-tr from-indigo-600 to-indigo-400 text-white border-transparent",

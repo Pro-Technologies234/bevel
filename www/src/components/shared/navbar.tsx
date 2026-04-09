@@ -3,7 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { IconBoltFilled, IconMenu2, IconX } from "@tabler/icons-react";
+import {
+  IconBoltFilled,
+  IconCircleFilled,
+  IconMenu2,
+  IconX,
+} from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { Wrapper } from "@/components/shared/wrapper";
 import { DocsCommandSearch } from "@/components/bevelui/docs/docs-command-search";
@@ -12,9 +17,10 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const navigations = [
+  { id: "home", label: "Home", href: "/" },
   { id: "components", label: "Components", href: "/docs/components" },
-  { id: "templates", label: "Templates", href: "/" },
-  { id: "changelogs", label: "Changelog", href: "/" },
+  { id: "templates", label: "Templates", href: "/docs/templates" },
+  { id: "changelogs", label: "Changelog", href: "/docs/changelog" },
 ];
 
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
@@ -54,7 +60,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
               <div className="size-6 flex items-center justify-center bg-primary bevel rounded-full shrink-0">
                 <IconBoltFilled color="black" size={14} />
               </div>
-              <span className="font-semibold text-lg tracking-tight">
+              <span className="font-medium text-lg tracking-tight font-sans">
                 Bevel UI
               </span>
             </Link>
@@ -67,10 +73,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
                     variant="ghost"
                     size="sm"
                     className={cn(
-                      "cursor-pointer text-sm font-medium",
-                      pathname === item.href
-                        ? "text-foreground"
-                        : "text-muted-foreground",
+                      "cursor-pointer text-sm font-medium rounded-full tracking-tight",
                     )}
                     asChild
                   >
@@ -92,7 +95,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
             <Link href="/docs/introduction" className="hidden md:block">
               <Button
                 size="sm"
-                className="font-semibold tracking-tight cursor-pointer bevel rounded-lg gap-1.5"
+                className="p-4 rounded-full font-semibold tracking-tight cursor-pointer bevel  gap-1.5"
               >
                 <IconBoltFilled size={13} />
                 Get Started
@@ -100,17 +103,19 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
             </Link>
 
             {/* Mobile hamburger */}
-            <button
+            <Button
               onClick={() => setMobileOpen((p) => !p)}
-              className="md:hidden flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+              variant={mobileOpen ? "default" : "outline"}
               aria-label="Toggle navigation"
-            >
-              {mobileOpen ? (
-                <IconX size={18} strokeWidth={2} />
-              ) : (
-                <IconMenu2 size={18} strokeWidth={1.8} />
+              className={cn(
+                " rounded-full p-4 uppercase font-medium text-xs md:hidden",
+                !mobileOpen &&
+                  "border-dashed border-2 border-foreground/80! font-light",
               )}
-            </button>
+            >
+              <IconCircleFilled className=" size-2" />
+              Menu
+            </Button>
           </div>
         </Wrapper>
       </header>
@@ -121,58 +126,56 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
           <>
             {/* Backdrop */}
             <motion.div
-              className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm md:hidden"
+              className="fixed inset-0  bg-lime-950/30 md:hidden z-10 "
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-            />
+            >
+              <div className=" absolute inset-0 bg-background/20" />
+            </motion.div>
 
             {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 z-50 h-full w-72 bg-background border-l border-border shadow-xl md:hidden flex flex-col"
+              className="fixed top-0 right-0 z-50 h-full w-90 bg-background  shadow-xl md:hidden flex flex-col pl-8 pr-4"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              transition={{ type: "spring", stiffness: 200, damping: 30 }}
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-border/60">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2"
-                  onClick={() => setMobileOpen(false)}
+              <div className="flex items-center justify-end  py-4 ">
+                <Button
+                  onClick={() => setMobileOpen((p) => !p)}
+                  variant={mobileOpen ? "default" : "outline"}
+                  aria-label="Toggle navigation"
+                  className={cn(
+                    " rounded-full p-4 uppercase font-medium text-xs z-500!",
+                    !mobileOpen &&
+                      "border-dashed border-2 border-foreground/80! font-light",
+                  )}
                 >
-                  <div className="size-5 flex items-center justify-center bg-primary bevel rounded-full">
-                    <IconBoltFilled color="black" size={12} />
-                  </div>
-                  <span className="font-semibold text-sm">Bevel UI</span>
-                </Link>
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  className="w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
-                >
-                  <IconX size={16} strokeWidth={2} />
-                </button>
+                  <IconCircleFilled className=" size-2" />
+                  Close
+                </Button>
               </div>
 
               {/* Drawer search */}
-              <div className="px-4 py-3 border-b border-border/60">
+              <div className=" py-3 border-b border-border/60">
                 <DocsCommandSearch />
               </div>
 
               {/* Drawer nav */}
-              <nav className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-1">
+              <nav className="flex-1 overflow-y-auto py-4 flex flex-col justify-center gap-4">
                 {navigations.map((item) => (
                   <Link
                     key={item.id}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                      pathname === item.href
-                        ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                      "w-fit relative rounded-lg text-4xl uppercase font-medium tracking-tighter transition-colors text-lime-50",
+                      pathname == item.href &&
+                        " after:absolute after:inset-x-0 after:border-2 after:-bottom-2 after:border-foreground after:border-dashed",
                     )}
                   >
                     {item.label}
@@ -181,13 +184,16 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
               </nav>
 
               {/* Drawer CTA */}
-              <div className="px-4 py-4 border-t border-border/60">
-                <Link href="/docs/introduction" className="block">
-                  <Button className=" font-semibold tracking-tight cursor-pointer bevel rounded-md!">
-                    <IconBoltFilled size={13} />
-                    Get Started
-                  </Button>
-                </Link>
+              <div className=" py-6 border-t border-border/60 flex flex-col text-lime-50">
+                <span className=" text-sm font-medium text-muted-foreground">
+                  GENERAL ENQUIRIES:
+                </span>
+                <a
+                  href="mailto:poyekitoye@gmail.com"
+                  className=" text-xl font-semibold"
+                >
+                  POYEKITOYE@GMAIL.COM
+                </a>
               </div>
             </motion.div>
           </>

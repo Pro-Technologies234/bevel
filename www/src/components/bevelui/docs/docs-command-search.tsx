@@ -36,7 +36,7 @@ function DocsSearchTrigger() {
   return (
     <CommandPaletteTrigger
       label="Search documentation..."
-      className="w-48 lg:w-64"
+      className="w-full lg:w-64 rounded-full h-9"
       // onOpen={() => open()}
     />
   );
