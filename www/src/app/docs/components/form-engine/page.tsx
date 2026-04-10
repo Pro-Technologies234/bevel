@@ -144,7 +144,7 @@ const config: FormEngineConfig = {
 
 // ─── Demo ─────────────────────────────────────────────────────────────────────
 
-function FormEngineDemo() {
+export function FormEngineDemo() {
   const [submitted, setSubmitted] = useState(false);
 
   const plugins: FormEnginePlugin[] = [

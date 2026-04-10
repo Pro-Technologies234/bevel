@@ -152,7 +152,7 @@ const SECTIONS: CommandPaletteSection[] = [
 
 // ─── Demo ─────────────────────────────────────────────────────────────────────
 
-function CommandPaletteDemo() {
+export function CommandPaletteDemo() {
   return (
     <CommandPaletteRoot
       sections={SECTIONS}

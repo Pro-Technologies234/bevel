@@ -32,7 +32,7 @@ async function simulateUpload(
 
 // ─── Demo ─────────────────────────────────────────────────────────────────────
 
-function FileUploadDemo() {
+export function FileUploadDemo() {
   return (
     <div className="w-full max-w-xl">
       <FileUploadRoot

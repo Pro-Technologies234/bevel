@@ -9,6 +9,7 @@ import {
   type CommandPaletteSection,
 } from "@/components/bevelui/command-palette";
 import searchData from "@/content/docs-search-data.json";
+import { cn } from "@/lib/utils";
 
 // ─── Build sections from JSON ─────────────────────────────────────────────────
 
@@ -28,23 +29,9 @@ function buildSections(): CommandPaletteSection[] {
 
 const DOCS_SECTIONS = buildSections();
 
-// ─── Inner trigger — reads from context for router navigation ─────────────────
-
-function DocsSearchTrigger() {
-  const router = useRouter();
-
-  return (
-    <CommandPaletteTrigger
-      label="Search documentation..."
-      className="w-48 lg:w-64"
-      // onOpen={() => open()}
-    />
-  );
-}
-
 // ─── DocsCommandSearch ────────────────────────────────────────────────────────
 
-export function DocsCommandSearch() {
+export function DocsCommandSearch({ className }: { className?: string }) {
   const router = useRouter();
 
   return (
@@ -55,7 +42,10 @@ export function DocsCommandSearch() {
         if (item.href) router.push(item.href as string);
       }}
     >
-      <DocsSearchTrigger />
+      <CommandPaletteTrigger
+        label="Search documentation..."
+        className={cn("w-full lg:w-64 rounded-full h-9", className)}
+      />
     </CommandPaletteRoot>
   );
 }
