@@ -155,7 +155,7 @@ function ProfessionalEditor() {
                   className={cn(
                     "w-full flex items-center gap-2 px-2 py-1.5 rounded text-left text-xs transition-colors",
                     selectedLayer === layer.name
-                      ? "bg-pink-500/10 text-pink-500"
+                      ? "bg-pink-400/10 text-pink-400"
                       : "hover:bg-muted/40",
                   )}
                 >
@@ -192,7 +192,7 @@ function ProfessionalEditor() {
                 <span className="font-semibold text-sm tracking-tight">
                   Bevel Studio
                 </span>
-                <span className="text-[10px] px-2 py-0.5 bg-pink-500/15 text-pink-500 rounded-full font-medium">
+                <span className="text-[10px] px-2 py-0.5 bg-pink-400/15 text-pink-400 rounded-full font-medium">
                   PRO
                 </span>
               </div>
@@ -240,11 +240,11 @@ function ProfessionalEditor() {
           {/* Canvas Frame */}
           <div className="relative w-full max-w-2xl aspect-[16/9] bg-background rounded-lg shadow-2xl border border-border/40 flex items-center justify-center">
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-pink-500/20 to-pink-500/5 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-pink-400/20 to-pink-400/5 flex items-center justify-center">
                 <IconBrush
                   size={28}
                   strokeWidth={1.5}
-                  className="text-pink-500"
+                  className="text-pink-400"
                 />
               </div>
               <h3 className="font-semibold text-base mb-1">{selectedLayer}</h3>
@@ -254,11 +254,11 @@ function ProfessionalEditor() {
             </div>
 
             {/* Selection Handles */}
-            <div className="absolute inset-0 border-2 border-pink-500/40 rounded-lg pointer-events-none">
-              <div className="absolute -top-1 -left-1 w-2 h-2 bg-pink-500 rounded-full" />
-              <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-500 rounded-full" />
-              <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-pink-500 rounded-full" />
-              <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-pink-500 rounded-full" />
+            <div className="absolute inset-0 border-2 border-pink-400/40 rounded-lg pointer-events-none">
+              <div className="absolute -top-1 -left-1 w-2 h-2 bg-pink-400 rounded-full" />
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-pink-400 rounded-full" />
+              <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-pink-400 rounded-full" />
+              <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-pink-400 rounded-full" />
             </div>
           </div>
         </div>
