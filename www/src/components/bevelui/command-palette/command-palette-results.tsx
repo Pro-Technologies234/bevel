@@ -103,6 +103,7 @@ function ResultRow({
     >
       {/* Avatar */}
       {item.initialsColor && <ItemAvatar item={item} />}
+      {item.icon && <ItemAvatar item={item} />}
 
       {/* Text */}
       <div className="flex-1 min-w-0 flex items-center gap-1.5">

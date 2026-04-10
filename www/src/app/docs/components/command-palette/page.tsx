@@ -9,6 +9,7 @@ import {
   type CommandPaletteSourceTab,
   type CommandPaletteFilterTab,
   CommandPaletteTrigger,
+  CommandPaletteRoot,
 } from "@/components/bevelui/command-palette";
 import {
   IconBook,
@@ -158,10 +159,14 @@ const SECTIONS: CommandPaletteSection[] = [
   },
 ];
 
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
 export function CommandPaletteDemo() {
   return (
-    <CommandPaletteProvider
+    <CommandPaletteRoot
       sections={SECTIONS}
+      sourceTabs={SOURCE_TABS}
+      filterTabs={FILTER_TABS}
       defaultOpen={false}
       onSelect={(item) => console.log("Selected:", item.title)}
     >
@@ -177,9 +182,8 @@ export function CommandPaletteDemo() {
           label="Search people, tasks, docs..."
           className="w-72"
         />
-        <BuiltInPaletteUI sourceTabs={SOURCE_TABS} filterTabs={FILTER_TABS} />
       </div>
-    </CommandPaletteProvider>
+    </CommandPaletteRoot>
   );
 }
 
@@ -319,7 +323,7 @@ function CustomCommandPalette({
   }, [highlightedIndex]);
 
   return (
-    <div className=" w-full max-w-2xl">
+    <div className=" w-full max-w-2xl bg-popover rounded-xl">
       {/* Search input */}
       <div className="flex items-center gap-2 p-3 border-b border-border">
         <InputGroup>

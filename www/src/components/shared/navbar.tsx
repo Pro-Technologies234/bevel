@@ -95,7 +95,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
             {/* Desktop nav links */}
             <ul className="hidden md:flex items-center gap-0.5">
-              {navigations.map((item) => (
+              {navigations.slice(1).map((item) => (
                 <li key={item.id}>
                   <Button
                     variant="ghost"
