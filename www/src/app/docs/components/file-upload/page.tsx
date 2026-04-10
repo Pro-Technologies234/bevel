@@ -40,7 +40,10 @@ import {
   IconPlayerPlay,
   IconSquare,
   IconAlertCircle,
+  IconCircleCheck,
+  IconCircleCheckFilled,
 } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
 
 // ─── Simulated upload (same as original) ─────────────────────────────────────
 
@@ -144,7 +147,7 @@ function StatusBadge({
   switch (status) {
     case "uploading":
       return (
-        <span className="text-[10px] text-blue-500 flex items-center gap-0.5">
+        <span className="text-[10px] text-pink-500 flex items-center gap-0.5">
           <IconArrowUp size={10} strokeWidth={2} className="animate-pulse" />
           {progress}%
         </span>
@@ -152,7 +155,7 @@ function StatusBadge({
     case "done":
       return (
         <span className="text-[10px] text-green-500 flex items-center gap-0.5">
-          <IconCheck size={10} strokeWidth={2} />
+          <IconCircleCheck size={13} />
           Complete
         </span>
       );
@@ -239,7 +242,7 @@ function MediaLibraryContent() {
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* Media Library Interface */}
-      <div className="rounded-xl border border-border bg-background shadow-xl overflow-hidden">
+      <div className="rounded-xl border border-border bg-popover/50 shadow-xl overflow-hidden">
         {/* Header */}
         <div className="border-b border-border bg-muted/5 px-5 py-4">
           <div className="flex items-center justify-between">
@@ -415,14 +418,15 @@ function MediaLibraryContent() {
               </div>
               <div className="flex items-center gap-2">
                 {pendingCount > 0 && (
-                  <button
+                  <Button
                     onClick={uploadAll}
                     disabled={isUploading}
-                    className="flex items-center gap-1 px-3 py-1 text-xs font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
+                    variant={"inverted"}
+                    className=" rounded-md"
                   >
                     <IconPlayerPlay size={12} strokeWidth={2} />
                     Upload All
-                  </button>
+                  </Button>
                 )}
                 {uploadingCount > 0 && (
                   <button
@@ -445,7 +449,7 @@ function MediaLibraryContent() {
                 {filteredFiles.slice(0, 8).map((fileEntry) => (
                   <div
                     key={fileEntry.id}
-                    className="group relative rounded-lg border border-border bg-muted/5 p-3 hover:border-primary/30 hover:bg-muted/10 transition-all"
+                    className="group relative rounded-lg border border-border bg-background/50 p-3 hover:border-primary/30 hover:bg-muted/10 transition-all"
                   >
                     <div className="flex items-start gap-2">
                       <div className="shrink-0 mt-0.5">
@@ -485,7 +489,7 @@ function MediaLibraryContent() {
                         <>
                           <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-blue-500 rounded-full transition-all duration-300"
+                              className="h-full bg-pink-500 rounded-full transition-all duration-300"
                               style={{ width: `${fileEntry.progress}%` }}
                             />
                           </div>
@@ -556,7 +560,7 @@ function MediaLibraryContent() {
                     {fileEntry.status === "uploading" && (
                       <div className="w-20 h-1 bg-muted rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-blue-500 rounded-full"
+                          className="h-full bg-pink-500 rounded-full"
                           style={{ width: `${fileEntry.progress}%` }}
                         />
                       </div>
