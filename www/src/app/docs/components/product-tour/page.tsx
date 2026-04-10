@@ -33,6 +33,7 @@ import {
 } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { GlowEffect } from "@/components/ui/glow-effect";
 
 // ─── Professional Step Definitions ───────────────────────────────────────────
 
@@ -356,10 +357,19 @@ export function ProductTourDemo() {
               Experience the complete Studio workflow
             </p>
           </div>
-          <TourTrigger
-            label="Take the tour"
-            className="shadow-sm hover:shadow-md transition-shadow"
-          />
+          <div className="relative">
+            <GlowEffect
+              colors={["#0894FF", "#C959DD", "#FF2E54", "#FF9004"]}
+              mode="static"
+              blur="medium"
+              className="z-10 bottom-0 inset-x-0 top-8 h-1"
+            />
+            <TourTrigger
+              label="Take a tour"
+              variant={"inverted"}
+              className="shadow-sm hover:shadow-md transition-shadow animate-bounce"
+            />
+          </div>
         </div>
         {isHome ? <ProfessionalEditor /> : <MiniDashboard />}
       </div>
