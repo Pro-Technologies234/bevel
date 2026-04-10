@@ -8,8 +8,14 @@ import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { ProductTourDemo } from "@/app/docs/components/product-tour/page";
-import { CommandPaletteDemo } from "@/app/docs/components/command-palette/page";
-import { FileUploadDemo } from "@/app/docs/components/file-upload/page";
+import {
+  CommandPaletteDemo,
+  CommandPaletteShowcase,
+} from "@/app/docs/components/command-palette/page";
+import {
+  FileUploadDemo,
+  FileUploadShowcase,
+} from "@/app/docs/components/file-upload/page";
 import { FormEngineDemo } from "@/app/docs/components/form-engine/page";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -33,7 +39,7 @@ const SYSTEMS = [
     href: "/docs/components/command-palette",
     accent: "#818cf8",
     cmd: "npx shadcn@latest add https://bevelui.com/r/command-palette.json",
-    demo: <CommandPaletteDemo />,
+    demo: <CommandPaletteShowcase />,
   },
   {
     id: "file-upload",
@@ -43,7 +49,7 @@ const SYSTEMS = [
     href: "/docs/components/file-upload",
     accent: "#f97316",
     cmd: "npx shadcn@latest add https://bevelui.com/r/file-upload.json",
-    demo: <FileUploadDemo />,
+    demo: <FileUploadShowcase />,
   },
   {
     id: "form-engine",
@@ -103,7 +109,7 @@ export default function Systems() {
           </p>
         </div>
         {/* Demo Window */}
-        <div className="h-200 w-full flex flex-col bg-linear-to-b from-muted/30 via-muted/30 to-muted/5 my-14 rounded-2xl overflow-hidden">
+        <div className="min-h-200 w-full flex flex-col bg-linear-to-b from-muted/30 via-muted/30 to-muted/5 my-14 rounded-2xl overflow-hidden">
           <div className="px-6 py-4 w-full flex items-center gap-1.5 bg-muted/40">
             {["#ff5f57", "#febc2e", "#28c840"].map((c, i) => (
               <span
