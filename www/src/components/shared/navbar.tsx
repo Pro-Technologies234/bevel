@@ -15,6 +15,7 @@ import { DocsCommandSearch } from "@/components/bevelui/docs/docs-command-search
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSectionValue } from "@/hooks/use-section-value";
 
 const navigations = [
   { id: "home", label: "Home", href: "/" },
@@ -22,10 +23,34 @@ const navigations = [
   { id: "templates", label: "Templates", href: "/docs/templates" },
   { id: "changelogs", label: "Changelog", href: "/docs/changelog" },
 ];
-
+const NAV_SECTIONS = [
+  {
+    id: "how-it-works",
+    value: {
+      text: "text-black",
+      bg: "bg-primary/10",
+      btnBg: "hover:bg-primary/20!  hover:text-black",
+      trigerbtnBg: "hover:bg-primary/20! bg-primary/20! hover:text-black",
+    },
+  },
+  // {
+  //   id: "cta",
+  //   value: {
+  //     text: "text-black",
+  //     bg: "bg-lime-50",
+  //     btnBg: "hover:bg-transparent! hover:text-black",
+  //   },
+  // },
+];
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const { text, bg, btnBg, trigerbtnBg } = useSectionValue(NAV_SECTIONS, {
+    text: "",
+    bg: "",
+    btnBg: "",
+    trigerbtnBg: "",
+  });
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -51,7 +76,10 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
           "w-full z-50 border-b border-border/60",
           "bg-background/80 backdrop-blur-sm",
           isFixed && "fixed top-0",
+          bg,
+          text,
         )}
+        data-lenis-prevent
       >
         <Wrapper className="flex flex-row items-center justify-between py-3">
           {/* Left — logo + nav */}
@@ -74,6 +102,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
                     size="sm"
                     className={cn(
                       "cursor-pointer text-sm font-medium rounded-full tracking-tight",
+                      btnBg,
                     )}
                     asChild
                   >
@@ -88,7 +117,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
           <div className="flex items-center gap-2 lg:gap-3">
             {/* Search — hidden on mobile, visible md+ */}
             <div className="hidden md:block">
-              <DocsCommandSearch />
+              <DocsCommandSearch className={trigerbtnBg} />
             </div>
 
             {/* CTA — hidden on mobile */}

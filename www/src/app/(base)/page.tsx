@@ -1,14 +1,22 @@
 import { Hero } from "@/components/base/home/hero";
-import { ComingSoon } from "@/components/base/home/coming-soon";
-import { Fragment } from "react/jsx-runtime";
-import { ValueProposition } from "@/components/base/home/value-proposition";
+import Marquee from "@/components/landing/Marquee";
+import Problem from "@/components/landing/Problem";
+import HowItWorks from "@/components/landing/HowItWorks";
+import Systems from "@/components/landing/Systems";
+import CodeDemo from "@/components/landing/CodeDemo";
+import Cta from "@/components/landing/Cta";
+import LenisProvider from "@/components/providers/lenis-provider";
 
 export default function Page() {
   return (
-    <Fragment>
+    <LenisProvider>
       <Hero />
-      {/* <ValueProposition /> */}
-      {/* <ComingSoon /> */}
-    </Fragment>
+      <Marquee />
+      <Systems />
+      <HowItWorks />
+      <Problem />
+      {/* <CodeDemo /> */}
+      <Cta />
+    </LenisProvider>
   );
 }

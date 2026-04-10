@@ -150,6 +150,11 @@
     @apply bg-muted rounded-full;
   }
 }
+@layer components {
+  .gradient-primary {
+    @apply bg-linear-to-t from-lime-600 via-primary  to-lime-200 bg-clip-text text-transparent;
+  }
+}
 
 /* Syntax Highlighting Scoped Rules */
 .sh-container .sh-keyword {

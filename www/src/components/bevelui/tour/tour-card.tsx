@@ -266,14 +266,14 @@ export function TourCard() {
             </AnimatePresence>
 
             {/* Footer — always visible, not animated with content */}
-            <div className="flex items-center justify-between pt-1 border-t border-border/40">
+            <div className="flex flex-wrap gap-2 items-center justify-between pt-1 border-t border-border/40">
               <ProgressDots
                 total={totalSteps}
                 current={currentStep}
                 onGoTo={goTo}
               />
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 ml-auto">
                 {currentStep > 1 && (
                   <Button
                     variant="ghost"

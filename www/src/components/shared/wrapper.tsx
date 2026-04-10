@@ -12,7 +12,7 @@ export function Wrapper({
   return (
     <div
       className={cn(
-        "max-w-[1500px] h-full mx-auto py-1 px-4 lg:px-8 w-full",
+        "max-w-[1400px] h-full mx-auto py-1 px-4 lg:px-8 w-full",
         wrapper,
       )}
     >

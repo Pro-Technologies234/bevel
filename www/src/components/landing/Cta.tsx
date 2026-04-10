@@ -7,6 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GlowEffect } from "@/components/ui/glow-effect";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   IconBoltFilled,
   IconBrandFramerMotion,
   IconBrandReact,
@@ -15,13 +20,93 @@ import {
   IconChevronRight,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
-export function Hero() {
+// GSAP-powered magnetic button
+function MagneticButton({
+  children,
+  className,
+  style,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const bounds = useRef({ width: 0, height: 0, left: 0, top: 0 });
+  const rafRef = useRef<number | null>(null);
+  const currentX = useRef(0);
+  const currentY = useRef(0);
+
+  const updateBounds = () => {
+    if (!buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    bounds.current = {
+      width: rect.width,
+      height: rect.height,
+      left: rect.left,
+      top: rect.top,
+    };
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    updateBounds();
+    const { width, height, left, top } = bounds.current;
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const deltaX = (e.clientX - centerX) * 0.35;
+    const deltaY = (e.clientY - centerY) * 0.35;
+
+    currentX.current = deltaX;
+    currentY.current = deltaY;
+
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(animate);
+    }
+  };
+
+  const animate = () => {
+    if (buttonRef.current) {
+      gsap.to(buttonRef.current, {
+        x: currentX.current,
+        y: currentY.current,
+        duration: 0.5,
+        ease: "elastic.out(1, 0.3)",
+        overwrite: true,
+      });
+    }
+    rafRef.current = null;
+  };
+
+  const handleMouseLeave = () => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    currentX.current = 0;
+    currentY.current = 0;
+    gsap.to(buttonRef.current, {
+      x: 0,
+      y: 0,
+      duration: 0.7,
+      ease: "elastic.out(1, 0.4)",
+      overwrite: true,
+    });
+  };
+
+  return (
+    <button
+      ref={buttonRef}
+      className={className}
+      style={style}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </button>
+  );
+}
+
+export default function Cta() {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgImageRef = useRef<HTMLImageElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -69,8 +154,9 @@ export function Hero() {
     { scope: containerRef, revertOnUpdate: true },
   );
   return (
-    <main
+    <section
       ref={containerRef}
+      id="cta"
       className="h-172 flex items-center flex-col justify-center space-y-4 relative z-1"
     >
       <div className="w-full absolute inset-0 -z-1 select-none">
@@ -97,18 +183,16 @@ export function Hero() {
 
       <h1
         ref={headingRef}
-        className="text-3xl md:text-6xl font-sans font-medium max-w-md md:max-w-xl text-center tracking-tight"
+        className="text-3xl md:text-6xl font-sans font-medium max-w-md md:max-w-3xl text-center tracking-tight"
       >
-        The UI Systems Your App Actually Needs
+        Ship the hard parts faster.
       </h1>
 
       <p
         ref={paragraphRef}
         className="max-w-sm md:max-w-lg not-md:text-xs text-center"
       >
-        Bevel gives you fully-engineered, copy-to-own UI systems — not just
-        components. Every system is built to drop straight into your codebase
-        with no installs, no lock-in, and full shadcn compatibility.
+        Bevel gives you fully-engineered, copy-to-own UI systems
       </p>
 
       <div ref={buttonsRef} className="flex items-center gap-4">
@@ -145,6 +229,6 @@ export function Hero() {
           </Tooltip>
         ))}
       </div>
-    </main>
+    </section>
   );
 }
