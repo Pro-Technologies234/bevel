@@ -20,7 +20,7 @@ import type {
 
 export interface UseFormEngineStateProps extends Pick<
   FormEngineRootProps,
-  "config" | "plugins" | "onSubmit"
+  "config" | "plugins" | "onSubmit" | "defaultValues"
 > {
   config: FormEngineConfig;
   plugins?: FormEnginePlugin[];
@@ -33,15 +33,16 @@ export interface UseFormEngineStateProps extends Pick<
  */
 export function useFormEngineState({
   config,
+  defaultValues,
   plugins = [],
   onSubmit,
 }: UseFormEngineStateProps): FormEngineContextValue {
   // ── Build initial values from step fields ─────────────────────────────────
   const initialValues = useMemo<Record<string, unknown>>(() => {
     const vals: Record<string, unknown> = {};
-    config.steps.forEach((step) => {
+    config.steps.forEach((step,index) => {
       step.fields.forEach((field) => {
-        vals[field.key] = undefined;
+        vals[field.key] = field.defaultValue ?? defaultValues?.[index]?.[field.key];
       });
     });
     return vals;
@@ -50,7 +51,7 @@ export function useFormEngineState({
   // ── react-hook-form ───────────────────────────────────────────────────────
   const form = useForm<Record<string, unknown>>({
     defaultValues: initialValues as DefaultValues<Record<string, unknown>>,
-    resolver: config.schema ? zodResolver(config.schema as any) : undefined,
+    resolver: config.resolver || config.schema ? zodResolver(config.schema as any) : undefined,
     mode: config.validation === "per-step" ? "onTouched" : "onSubmit",
   });
 

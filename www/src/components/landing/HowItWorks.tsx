@@ -121,7 +121,7 @@ export default function HowItWorks() {
     <section
       ref={sectionRef}
       id="how-it-works"
-      className="relative py-32 overflow-hidden bg-indigo-50 text-black"
+      className="relative py-32 overflow-hidden "
     >
       <Wrapper>
         <div className="flex flex-col items-center gap-4 text-center mb-16">
@@ -131,7 +131,7 @@ export default function HowItWorks() {
           >
             Distribution model
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-sans font-semibold max-w-lg ">
+          <h2 className="text-3xl md:text-5xl font-sans font-semibold max-w-lg ">
             The shadcn model. Applied to systems.
           </h2>
           <p className="text-sm md:text-base  max-w-md leading-relaxed font-light">
@@ -149,10 +149,10 @@ export default function HowItWorks() {
                 ref={(el) => {
                   if (el) cardsRef.current[i] = el;
                 }}
-                className="flex gap-5 p-6 rounded-xl transition-all duration-300 bg-indigo-100/30"
+                className="flex gap-5 p-6 rounded-xl transition-all duration-300 bg-muted/20"
                 style={{ willChange: "transform, opacity" }}
               >
-                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 bg-indigo-100 border border-indigo-200">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 bg-muted/40 border border-muted/40">
                   {step.icon}
                 </div>
 
@@ -166,7 +166,7 @@ export default function HowItWorks() {
                   <p className="text-sm leading-relaxed font-light mb-3">
                     {step.desc}
                   </p>
-                  <code className="block px-3 py-1.5 rounded-md text-xs font-mono truncate text-rose-600">
+                  <code className="block px-3 py-1.5 rounded-md text-xs font-mono truncate text-primary">
                     {step.code}
                   </code>
                 </div>

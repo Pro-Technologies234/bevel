@@ -1,5 +1,6 @@
 import type { ZodSchema } from "zod";
-import type { FormEnginePlugin } from "./form-engine-types";
+import type { FormEngineConfig, FormEnginePlugin } from "./form-engine-types";
+import { toast } from "sonner";
 
 /**
  * Creates a per-step Zod validation plugin.

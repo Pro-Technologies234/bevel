@@ -19,11 +19,12 @@ import type { FormEngineRootProps } from "./form-engine-types";
 export function FormEngineRoot({
   config,
   plugins,
+  defaultValues,
   className,
   children,
   onSubmit,
 }: FormEngineRootProps) {
-  const engine = useFormEngineState({ config, plugins, onSubmit });
+  const engine = useFormEngineState({ config, plugins, onSubmit, defaultValues });
 
   return (
     <FormEngineContext.Provider value={engine}>

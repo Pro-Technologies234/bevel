@@ -166,8 +166,8 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
         return (
           <TagInput
             {...(field.props ?? {})}
-            value={(value as string[]) ?? []}
-            defaultValue={undefined}
+            value={undefined}
+            defaultValue={value as string[]}
             onChange={(val) => onChange(val)}
             disabled={disabled}
             placeholder={field.placeholder}

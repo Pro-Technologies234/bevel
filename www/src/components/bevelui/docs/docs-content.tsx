@@ -14,11 +14,12 @@ export const DocsContent = React.forwardRef<HTMLDivElement, DocsContentProps>(
       <Component
         ref={ref}
         className={cn(
-          "flex-1 min-w-0 px-8 lg:px-12 py-12 max-w-4xl w-full flex flex-col gap-10",
+          "flex-1 min-w-0 px-8 lg:px-12 py-12 max-w-5xl w-full flex flex-col gap-10",
           className,
         )}
         {...props}
       >
+        
         {children}
       </Component>
     );

@@ -5,16 +5,27 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconCheck,
+  IconCircleCheck,
   IconLoader2,
+  ReactNode,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useFormEngineContext } from "./form-engine-context";
 
 export interface FormEngineNavigationProps {
-  backLabel?: string;
-  nextLabel?: string;
   submitLabel?: string;
+  nextLabel?: string;
+  backLabel?: string;
+  loadingLabel?: string;
+  
+  hideBackOnFirst?: boolean;
   className?: string;
+  nextBtnClassName?: string;
+  backBtnClassName?: string;
+  nextIcon?: ReactNode;
+  backIcon?: ReactNode;
+  loadingIcon?: ReactNode;
+  submitIcon?: ReactNode;
 }
 
 /**
@@ -26,6 +37,8 @@ export function FormEngineNavigation({
   backLabel = "Back",
   nextLabel = "Continue",
   submitLabel = "Submit",
+  backBtnClassName,
+  nextBtnClassName,
   className,
 }: FormEngineNavigationProps) {
   const {
@@ -47,7 +60,7 @@ export function FormEngineNavigation({
           variant="outline"
           onClick={goBack}
           disabled={busy}
-          className="gap-2 cursor-pointer"
+          className={cn("gap-2 cursor-pointer",backBtnClassName)}
         >
           <IconArrowLeft size={14} strokeWidth={2} />
           {backLabel}
@@ -58,12 +71,12 @@ export function FormEngineNavigation({
         type="button"
         onClick={goNext}
         disabled={busy}
-        className="ms-auto gap-2 cursor-pointer"
+        className={cn("ms-auto gap-2 cursor-pointer",nextBtnClassName)}
       >
         {busy && (
           <IconLoader2 size={14} strokeWidth={2} className="animate-spin" />
         )}
-        {!busy && isLastStep && <IconCheck size={14} strokeWidth={2.5} />}
+        {!busy && isLastStep && <IconCircleCheck size={14} strokeWidth={2.5} />}
         {isLastStep ? submitLabel : nextLabel}
         {!isLastStep && !busy && (
           <IconArrowRight size={14} strokeWidth={2} />

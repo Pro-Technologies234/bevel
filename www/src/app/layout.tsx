@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const nohemiSans = localFont({
   src: [
@@ -85,6 +86,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster richColors position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>

@@ -155,7 +155,7 @@ export default function Problem() {
           ref={headingRef}
           className="py-12 flex flex-col items-center text-center gap-4"
         >
-          <h2 className="text-4xl md:text-5xl font-sans font-semibold max-w-xl leading-tighter">
+          <h2 className="text-3xl md:text-5xl font-sans font-semibold max-w-xl leading-tighter">
             Production apps need{" "}
             <span className="bg-linear-to-t from-lime-600 via-primary to-lime-200 bg-clip-text text-transparent">
               more than primitives.

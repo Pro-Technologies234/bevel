@@ -16,7 +16,7 @@ import {
   FileUploadDemo,
   FileUploadShowcase,
 } from "@/app/docs/components/file-upload/page";
-import { FormEngineDemo } from "@/app/docs/components/form-engine/page";
+import { FormEngineDemo, FormEngineShowcase } from "@/app/docs/components/form-engine/page";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,7 +59,7 @@ const SYSTEMS = [
     href: "/docs/components/form-engine",
     accent: "#e879f9",
     cmd: "npx shadcn@latest add https://bevelui.com/r/form-engine.json",
-    demo: <FormEngineDemo />,
+    demo: <FormEngineShowcase />,
   },
 ];
 
@@ -98,7 +98,7 @@ export default function Systems() {
     <section className="py-16">
       <Wrapper>
         <div className="flex flex-col text-center items-center justify-between">
-          <h2 className="text-5xl font-sans font-semibold max-w-xl leading-tight">
+          <h2 className="text-3xl md:text-5xl font-sans font-semibold max-w-xl leading-tight">
             All systems.
             <br />
             <span className="gradient-primary">Production-ready.</span>

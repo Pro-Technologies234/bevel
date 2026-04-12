@@ -1,5 +1,5 @@
 import type { JSX, ReactNode } from "react";
-import type { FieldErrors, UseFormReturn } from "react-hook-form";
+import type { FieldErrors, UseFormProps, UseFormReturn } from "react-hook-form";
 import type { ZodSchema } from "zod";
 import type { CardSelectProps } from "@/components/bevelui/controls/card-select";
 import type { ChipSelectProps } from "@/components/bevelui/controls/chip-select";
@@ -81,6 +81,7 @@ export type FormEngineFieldDef = {
   required?: boolean;
   disabled?: boolean;
   className?: string;
+  defaultValue?: unknown;
   /**
    * Conditionally show or hide this field.
    * Return true to show, false to hide.
@@ -123,6 +124,7 @@ export type FormEngineConfig = {
   id?: string;
   mode?: FormEngineMode;
   validation?: FormEngineValidation;
+  resolver?: UseFormProps['resolver'];
   /**
    * Full-form Zod schema.
    * For per-step zod validation, use createZodPlugin() instead.
@@ -137,6 +139,8 @@ export type FormEngineFieldState = {
   visible: boolean;
   disabled: boolean;
 };
+
+export type FormDefaultValues = Record<number, Record<string,unknown>>;
 
 // ─── Context value ────────────────────────────────────────────────────────────
 
@@ -162,6 +166,7 @@ export type FormEngineContextValue = {
   errors: FieldErrors<Record<string, unknown>>;
 
   config: FormEngineConfig;
+  defaultValues?: FormDefaultValues;
   plugins: FormEnginePlugin[];
 };
 
@@ -169,6 +174,7 @@ export type FormEngineContextValue = {
 
 export type FormEngineProps = {
   config: FormEngineConfig;
+  defaultValues?: FormDefaultValues;
   plugins?: FormEnginePlugin[];
   onSubmit: (values: Record<string, unknown>) => Promise<void>;
   className?: string;
@@ -176,6 +182,7 @@ export type FormEngineProps = {
 
 export type FormEngineRootProps = {
   config: FormEngineConfig;
+  defaultValues?: FormDefaultValues;
   plugins?: FormEnginePlugin[];
   className?: string;
   children: ReactNode;

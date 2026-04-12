@@ -30,7 +30,7 @@ export function FormEngineStepMeta({
   return (
     <div
       className={cn(
-        "flex flex-col items-center text-center tracking-tighter gap-4",
+        "flex flex-col gap-4",
         className,
       )}
     >
@@ -42,12 +42,12 @@ export function FormEngineStepMeta({
 
       <div className="space-y-2">
         {resolvedTitle && (
-          <h3 className="text-2xl md:text-4xl font-bold leading-tight">
+          <h3 className="text-2xl md:text-4xl font-semibold leading-tight">
             {resolvedTitle}
           </h3>
         )}
         {resolvedDescription && (
-          <p className="text-sm md:text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
+          <p className="text-sm md:text-base text-muted-foreground max-w-md leading-relaxed">
             {resolvedDescription}
           </p>
         )}

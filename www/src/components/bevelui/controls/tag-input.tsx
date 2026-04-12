@@ -1,14 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { IconX } from "@tabler/icons-react";
 import { cva, VariantProps } from "class-variance-authority";
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useCallback, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 const tagVariants = cva(
   // Base classes — always applied
@@ -16,8 +12,8 @@ const tagVariants = cva(
   {
     variants: {
       size: {
-        sm: "h-6 px-2 text-xs",
-        md: "h-7 px-3 text-sm",
+        sm: "h-5 px-2 text-xs",
+        md: "h-7 px-3 text-xs",
         lg: "h-8 px-4 text-base",
       },
       variant: {
@@ -62,6 +58,7 @@ export type TagInputProps = {
   allowDuplicates?: boolean; // default false
   delimiter?: string[]; // default "," and Enter key
   placeholder?: string;
+  validate?: (val: string)=> boolean;
 
   // State
   disabled?: boolean;
@@ -80,40 +77,23 @@ function Tag({
   size = "md",
   onRemove,
   className,
-  ...props
 }: TagProps & VariantProps<typeof tagVariants>) {
-  const [canEdit, setCanEdit] = useState(false);
   return (
-    <Tooltip open={canEdit} onOpenChange={setCanEdit}>
-      <TooltipTrigger asChild>
-        <Badge
-          variant={variant}
-          className={cn(tagVariants({ variant, size }), className)}
-        >
-          {value}
-          <button
-            type="button"
-            className={cn(
-              tagVariants({ variant }),
-              " hover:scale-105 sm:hidden",
-            )}
-          >
-            <IconX className=" size-3" />
-          </button>
-        </Badge>
-      </TooltipTrigger>
+    <Badge
+      variant={variant}
+      className={cn(tagVariants({ variant, size }), className)}
+    >
+      {value}
       {onRemove && (
-        <TooltipContent side="top" className="flex gap-2 rounded-full p-0.5">
-          <button
-            type="button"
-            onClick={() => onRemove?.(id)}
-            className="p-1 px-2 gap-1 rounded-full bg-red-600/20 text-red-600 cursor-pointer z-1 flex items-center"
-          >
-            <IconX className="size-3" /> Remove
-          </button>
-        </TooltipContent>
+        <button
+          type="button"
+          onClick={() => onRemove(id)}
+          className={cn(" hover:scale-105  p-0.5")}
+        >
+          <IconX className=" size-3" />
+        </button>
       )}
-    </Tooltip>
+    </Badge>
   );
 }
 function TagInput({
@@ -134,38 +114,47 @@ function TagInput({
   const [internalValue, setInternalValue] = useState<string[] | undefined>(
     !isControlled ? (props as TagInputUncontrolled).defaultValue : undefined,
   );
-  const currentValue = isControlled
-    ? (props as TagInputControlled).value
-    : internalValue;
+  const currentValue = useMemo(
+    () => (isControlled ? (props as TagInputControlled).value : internalValue),
+    [props, internalValue],
+  );
   const handleChange = (val: string[]) => {
     if (max && val.length >= max + 1) return;
     if (!isControlled) setInternalValue(val);
     props.onChange?.(val);
   };
-  const handleDelete = (val: string) => {
-    const newTags = currentValue?.filter((_, i) => i !== Number(val));
-    handleChange(newTags || []);
-  };
+  const handleDelete = useCallback(
+    (val: string) => {
+      const newTags = currentValue?.filter((_, i) => i !== Number(val));
+      handleChange(newTags || []);
+    },
+    [currentValue, handleChange],
+  );
 
-  const handleDelimiter = (e: KeyboardEvent<HTMLInputElement>) => {
-    const key = e?.key;
-    const inputValue = String(e?.currentTarget.value).trim();
-    let newValue = [...(currentValue ? currentValue : [])];
-    if (!allowDuplicates && currentValue?.includes(inputValue)) return;
-    if (delimiter?.includes(inputValue)) {
-      e.currentTarget.value = "";
-      inputValue.slice(0, inputValue.length);
-    }
+  const handleDelimiter = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      const key = e?.key;
+      const inputValue = String(e?.currentTarget.value).trim();
+      let newValue = [...(currentValue ? currentValue : [])];
+      if (!allowDuplicates && currentValue?.includes(inputValue)) return;
+      if (delimiter?.includes(inputValue)) {
+        e.currentTarget.value = "";
+        inputValue.slice(0, inputValue.length);
+      }
 
-    if (delimiter.includes(key) && inputValue) {
-      newValue.push(inputValue);
-      handleChange(newValue);
-      e.currentTarget.value = "";
-    } else if (key === "Backspace" && inputValue == "") {
-      newValue.pop();
-      handleChange(newValue);
-    }
-  };
+      if (delimiter.includes(key) && inputValue) {
+        const valid = props.validate?.(inputValue)
+      if (!valid) return;
+        newValue.push(inputValue);
+        handleChange(newValue);
+        e.currentTarget.value = "";
+      } else if (key === "Backspace" && inputValue == "") {
+        newValue.pop();
+        handleChange(newValue);
+      }
+    },
+    [currentValue, handleChange],
+  );
 
   return (
     <div
