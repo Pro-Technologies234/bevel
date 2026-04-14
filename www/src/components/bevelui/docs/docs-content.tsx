@@ -19,7 +19,6 @@ export const DocsContent = React.forwardRef<HTMLDivElement, DocsContentProps>(
         )}
         {...props}
       >
-        
         {children}
       </Component>
     );

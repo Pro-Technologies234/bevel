@@ -38,7 +38,7 @@ export default function DocsLayout({
   }, [mobileSidebarOpen]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
       {/* ── Sticky navbar ── */}
       <div
         className="sticky top-0 z-50"
@@ -47,7 +47,7 @@ export default function DocsLayout({
         <Navbar isFixed={false} />
       </div>
 
-      <div className="flex-1 flex min-h-0 px-4">
+      <div className="flex-1 flex min-h-0 bg-card/60 ">
         <div className="flex-1 flex min-w-0">
           {/* ── Desktop sidebar ── */}
           <aside
@@ -55,7 +55,7 @@ export default function DocsLayout({
             style={{
               top: NAVBAR_HEIGHT,
               height: `calc(100vh - ${NAVBAR_HEIGHT})`,
-              width: "14rem", // 224px
+              width: "16rem", // 224px
             }}
           >
             <DocsSidebar />

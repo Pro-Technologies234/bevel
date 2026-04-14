@@ -8,11 +8,14 @@ import {
   IconSearch,
   IconUpload,
   IconForms,
+  IconListSearch,
+  IconFileUploadFilled,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
   return (
     <BevelSidebar
+      className=" w-full"
       sections={[
         {
           label: "Getting Started",
@@ -50,14 +53,14 @@ export function DocsSidebar() {
             {
               label: "Command Palette",
               href: "/docs/components/command-palette",
-              icon: IconSearch,
+              icon: IconListSearch,
               badge: "New",
               badgeVariant: "new",
             },
             {
               label: "File Upload",
               href: "/docs/components/file-upload",
-              icon: IconUpload,
+              icon: IconFileUploadFilled,
               badge: "New",
               badgeVariant: "new",
             },

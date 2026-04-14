@@ -57,7 +57,7 @@ const BADGE_CLASSES: Record<
   NonNullable<SidebarAction["badgeVariant"]>,
   string
 > = {
-  new: "bg-linear-to-tr text-white from-violet-600  to-violet-400 border-none",
+  new: "bg-linear-to-tr from-yellow-400 text-black  to-yellow-200 border-none",
   primary: "bg-primary/15 text-primary border-primary/20",
   indigo:
     "bg-linear-to-tr from-indigo-600 to-indigo-400 text-white border-transparent",
@@ -111,8 +111,7 @@ function SidebarItem({
       <span className="flex items-center gap-2 pl-1.5 min-w-0">
         {Icon && (
           <Icon
-            size={13}
-            strokeWidth={1.8}
+            size={16}
             className={cn(
               "shrink-0 transition-colors",
               isActive && "text-primary",
@@ -125,7 +124,7 @@ function SidebarItem({
       {action.badge && (
         <Badge
           className={cn(
-            "text-[10px] font-semibold px-1.5 py-0.5 rounded-md border shrink-0 ml-2",
+            "text-[10px] font-semibold px-2 py-0.5 rounded-full border shrink-0 ml-2",
             badgeClass,
           )}
         >
@@ -204,7 +203,7 @@ export function BevelSidebar({
     <nav
       aria-label="Documentation navigation"
       className={cn(
-        "relative flex flex-col py-6 px-3 gap-5 overflow-y-auto",
+        "relative flex flex-col py-6 px-3 gap-5 overflow-y-auto bg-card/80",
         // Width is set by the parent — sidebar is width-agnostic
         className,
       )}

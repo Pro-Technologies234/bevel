@@ -36,12 +36,12 @@ export function DocsDemo({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border overflow-hidden",
+        "rounded-lg border border-border overflow-hidden bg-card/80",
         className,
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border/60 bg-muted/30">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border/60 bg-card/80">
         <span className="text-[11px] text-muted-foreground">
           {label ?? "Live preview"}
         </span>
@@ -70,7 +70,7 @@ export function DocsDemo({
       {(!showTabs || tab === "preview") && (
         <div
           className={cn(
-            "w-full flex items-center justify-center min-h-[200px]",
+            "w-full flex items-center justify-center min-h-[200px] ",
             padded && "p-8",
             dark ? "bg-zinc-950" : "bg-muted/10",
           )}
