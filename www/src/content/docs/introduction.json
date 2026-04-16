@@ -36,7 +36,7 @@
             {
               "title": "Install a system",
               "description": "Use the shadcn CLI to copy the system files into your project.",
-              "code": "npx shadcn@latest add https://bevelui.com/r/tour.json",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
               "codeLanguage": "bash"
             },
             {

@@ -173,11 +173,11 @@
         "progress",
         "separator",
         "tooltip",
-        "https://bevelui.com/r/card-select.json",
-        "https://bevelui.com/r/chip-select.json",
-        "https://bevelui.com/r/rating-field.json",
-        "https://bevelui.com/r/select-field.json",
-        "https://bevelui.com/r/tag-input.json"
+        "https://bevelui.vercel.app/r/card-select.json",
+        "https://bevelui.vercel.app/r/chip-select.json",
+        "https://bevelui.vercel.app/r/rating-field.json",
+        "https://bevelui.vercel.app/r/select-field.json",
+        "https://bevelui.vercel.app/r/tag-input.json"
       ],
       "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineActions.",
       "files": [

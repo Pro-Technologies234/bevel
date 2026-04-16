@@ -57,7 +57,7 @@
             },
             {
               "title": "Add the system files",
-              "code": "npx shadcn@latest add https://bevelui.com/r/form-engine.json",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/form-engine.json",
               "codeLanguage": "bash"
             }
           ]
