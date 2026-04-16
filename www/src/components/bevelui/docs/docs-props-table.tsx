@@ -40,7 +40,7 @@ export function DocsPropsTable({ rows, className }: DocsPropsTableProps) {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="bg-card/80">
             {rows.map((row, i) => (
               <tr
                 key={i}

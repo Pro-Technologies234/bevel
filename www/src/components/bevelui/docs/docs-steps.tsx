@@ -21,18 +21,23 @@ export function DocsSteps({ steps, className }: DocsStepsProps) {
           <div key={i} className="flex gap-4">
             {/* Left — number + connector */}
             <div className="flex flex-col items-center shrink-0">
-              <div className="w-7 h-7 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                <span className="text-[11px] font-semibold text-primary">
+              <div className="w-8 h-8 rounded-full bg-muted/80 flex items-center justify-center shrink-0">
+                <span className="text-[11px] font-semibold text-foreground">
                   {i + 1}
                 </span>
               </div>
               {!isLast && (
-                <div className="w-px flex-1 bg-border/60 my-1.5 min-h-[24px]" />
+                <div className="w-px flex-1 bg-border my-1.5 min-h-[24px]" />
               )}
             </div>
 
             {/* Right — content */}
-            <div className={cn("flex flex-col gap-3 min-w-0", !isLast && "pb-8")}>
+            <div
+              className={cn(
+                "flex flex-col gap-3 min-w-0 w-full",
+                !isLast && "pb-8",
+              )}
+            >
               <div className="flex flex-col gap-1 pt-0.5">
                 <span className="text-sm font-semibold text-foreground">
                   {step.title}
@@ -43,9 +48,7 @@ export function DocsSteps({ steps, className }: DocsStepsProps) {
                   </p>
                 )}
               </div>
-              {step.children && (
-                <div className="w-full">{step.children}</div>
-              )}
+              {step.children && <div className="w-full">{step.children}</div>}
             </div>
           </div>
         );

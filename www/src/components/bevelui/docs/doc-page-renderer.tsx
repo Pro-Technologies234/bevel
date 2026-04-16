@@ -11,6 +11,7 @@ import { DocsCallout } from "@/components/bevelui/docs/docs-callout";
 import { DocsSteps } from "@/components/bevelui/docs/docs-steps";
 import { DocsFileTree } from "@/components/bevelui/docs/docs-file-tree";
 import { DocsTypography } from "@/components/bevelui/docs/docs-typography";
+import { IconWindowMaximize } from "@tabler/icons-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -88,7 +89,7 @@ function renderBlock(
         return (
           <div
             key={index}
-            className="rounded-xl border border-dashed border-border bg-muted/20 p-8 text-center text-sm text-muted-foreground"
+            className="rounded-xl border border-dashed border-border bg-muted/70 p-8 text-center text-sm text-muted-foreground"
           >
             Demo: <code className="font-mono">{block.component}</code>
             <br />
@@ -99,21 +100,38 @@ function renderBlock(
         );
       }
       return (
-        <div
-          key={index}
-          className="rounded-xl border border-border overflow-hidden"
-        >
-          {block.label && (
-            <div className="px-4 py-2 border-b border-border/60 bg-muted/20">
-              <span className="text-[11px] text-muted-foreground">
-                {block.label}
-              </span>
+        <>
+          <div
+            key={index}
+            className="rounded-xl border border-border overflow-hidden"
+          >
+            {block.label && (
+              <div className="px-4 py-2 border-b border-border/60 bg-muted/70">
+                <span className="text-[11px] text-muted-foreground">
+                  {block.label}
+                </span>
+              </div>
+            )}
+            <div className="p-2 md:p-8 flex items-center justify-center bg-muted/10 min-h-[200px]">
+              <DemoComponent />
             </div>
-          )}
-          <div className="p-8 flex items-center justify-center bg-muted/10 min-h-[200px]">
-            <DemoComponent />
           </div>
-        </div>
+          {block.preview && (
+            <a
+              href={`/preview/${block.preview}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View fullscreen"
+              className="w-fit flex items-center flex-wrap text-yellow-200 bg-yellow-500/20 rounded-sm px-2 py-1 text-xs mt-6"
+            >
+              The examples are best viewed in full screen.
+              <span className="whitespace-nowrap ml-1">
+                Click here to open in new tab.
+                <IconWindowMaximize className="ml-1 size-4 inline-flex items-center" />
+              </span>
+            </a>
+          )}
+        </>
       );
     }
 

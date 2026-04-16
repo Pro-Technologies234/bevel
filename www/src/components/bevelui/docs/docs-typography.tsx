@@ -11,8 +11,8 @@ const docsTypographyVariants = cva("", {
       h3: "text-base font-semibold text-foreground",
       h4: "text-sm font-semibold text-foreground",
       h5: "text-xs font-semibold text-foreground uppercase tracking-wider",
-      h6: "text-xs font-medium text-muted-foreground uppercase tracking-wider",
-      p: "text-sm text-muted-foreground leading-relaxed",
+      h6: "text-xs font-medium text-foreground/80 uppercase tracking-wider",
+      p: "text-sm text-foreground/80 leading-relaxed",
       span: "text-sm text-foreground",
     },
     fSize: {
@@ -32,7 +32,8 @@ const docsTypographyVariants = cva("", {
 });
 
 export interface DocsTypographyProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends
+    React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof docsTypographyVariants> {
   asChild?: boolean;
   as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";

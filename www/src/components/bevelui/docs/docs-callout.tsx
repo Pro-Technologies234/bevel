@@ -19,28 +19,28 @@ export interface DocsCalloutProps {
 const CALLOUT_CONFIG = {
   info: {
     icon: IconInfoCircle,
-    containerClass: "bg-green-500/8 border-green-500/20",
-    iconClass: "text-green-500",
-    titleClass: "text-green-600 dark:text-green-400",
+    containerClass: "bg-emerald-500/30 border-emerald-500/90 border",
+    iconClass: "text-emerald-500",
+    titleClass: "text-emerald-600 dark:text-emerald-400",
     defaultTitle: "Note",
   },
   warning: {
     icon: IconAlertTriangle,
-    containerClass: "bg-amber-500/8 border-amber-500/20",
+    containerClass: "bg-amber-500/30 border-amber-500/90 border",
     iconClass: "text-amber-500",
     titleClass: "text-amber-600 dark:text-amber-400",
     defaultTitle: "Warning",
   },
   tip: {
     icon: IconBulb,
-    containerClass: "bg-primary/8 border-primary/20",
+    containerClass: "bg-primary/30 border-primary/90 border",
     iconClass: "text-primary",
     titleClass: "text-primary",
     defaultTitle: "Tip",
   },
   danger: {
     icon: IconAlertCircle,
-    containerClass: "bg-destructive/8 border-destructive/20",
+    containerClass: "bg-destructive/30 border-destructive/90 border",
     iconClass: "text-destructive",
     titleClass: "text-destructive",
     defaultTitle: "Important",
@@ -60,7 +60,7 @@ export function DocsCallout({
   return (
     <div
       className={cn(
-        "flex gap-3 p-4 rounded-lg border",
+        "flex gap-3 p-3 rounded-xl border",
         config.containerClass,
         className,
       )}
@@ -77,7 +77,7 @@ export function DocsCallout({
             {resolvedTitle}
           </span>
         )}
-        <div className="text-xs text-muted-foreground leading-relaxed">
+        <div className="text-xs text-foreground/80 leading-relaxed">
           {children}
         </div>
       </div>

@@ -1,0 +1,316 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "bevelui",
+  "homepage": "https://bevelui.vercel.app",
+  "items": [
+    {
+      "name": "tour",
+      "type": "registry:block",
+      "title": "Product Tour",
+      "description": "A fully-engineered guided product tour system with overlay, floating card, keyboard navigation, and media support. Drop-in replacement for building interactive onboarding flows.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["systems", "onboarding"],
+      "dependencies": ["@floating-ui/react", "motion"],
+      "registryDependencies": ["button", "badge"],
+      "docs": "Import from @/components/bevelui/tour. Wrap your app with TourRoot, attach TourAnchor to any element, and use TourTrigger to start the tour.",
+      "files": [
+        {
+          "path": "src/components/bevelui/tour/tour-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/tour/tour-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tour/tour-anchor.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tour/tour-overlay.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tour/tour-card.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tour/tour-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tour/tour-trigger.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tour/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "command-palette",
+      "type": "registry:block",
+      "title": "Command Palette",
+      "description": "A fully-engineered command palette system with fuzzy search, keyboard navigation, grouped results, source tabs, filter tabs, and a Raycast-style footer. Global ⌘K shortcut included.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["systems", "navigation"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["button", "badge", "input", "separator"],
+      "docs": "Import from @/components/bevelui/command-palette. Use CommandPaletteRoot as the provider, CommandPaletteTrigger to open it, and pass your sections as structured data.",
+      "files": [
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-fuzzy.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-searchbar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-tabs.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-results.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-footer.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/command-palette-trigger.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/command-palette/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:block",
+      "title": "File Upload",
+      "description": "A fully-engineered file upload system with drag-and-drop, per-file progress tracking, validation, error states, retry logic, and cancel support. Consumer-provided upload function keeps it backend-agnostic.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["systems", "forms"],
+      "dependencies": ["react-dropzone", "motion"],
+      "registryDependencies": [
+        "button",
+        "badge",
+        "progress",
+        "dialog",
+        "separator"
+      ],
+      "docs": "Import from @/components/bevelui/file-upload. Use FileUploadRoot as the provider and supply your own onUpload function. Supports S3, Cloudinary, or any custom endpoint.",
+      "files": [
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-dropzone.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-list.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/file-upload-modal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/file-upload/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "form-engine",
+      "type": "registry:block",
+      "title": "Form Engine",
+      "description": "A fully-engineered config-driven form system supporting single-step and multi-step flows. Features a six-hook plugin system, react-hook-form + zod integration, composable API, RTL support, and a zero-config shortcut component.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["systems", "forms"],
+      "dependencies": ["react-hook-form", "zod", "motion"],
+      "registryDependencies": [
+        "button",
+        "badge",
+        "input",
+        "label",
+        "select",
+        "progress",
+        "separator",
+        "tooltip",
+        "https://bevelui.com/r/card-select.json",
+        "https://bevelui.com/r/chip-select.json",
+        "https://bevelui.com/r/rating-field.json",
+        "https://bevelui.com/r/select-field.json",
+        "https://bevelui.com/r/tag-input.json"
+      ],
+      "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineActions.",
+      "files": [
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-plugin.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-hook.tsx",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-field.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-progress.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-step-canvas.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-actions.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-navigation.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "card-select",
+      "type": "registry:component",
+      "title": "Card Select",
+      "description": "A card-based selection control supporting single or multi-select, with grid, list, and scroll layout modes. Used by FormEngine's FieldRenderer and usable standalone.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["controls", "forms"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["badge"],
+      "files": [
+        {
+          "path": "src/components/bevelui/controls/card-select.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chip-select",
+      "type": "registry:component",
+      "title": "Chip Select",
+      "description": "A pill chip selector control supporting single or multi-select. Used by FormEngine's FieldRenderer and usable standalone.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["controls", "forms"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["badge"],
+      "files": [
+        {
+          "path": "src/components/bevelui/controls/chip-select.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "rating-field",
+      "type": "registry:component",
+      "title": "Rating Field",
+      "description": "A star or number rating input control. Used by FormEngine's FieldRenderer and usable standalone.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["controls", "forms"],
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "src/components/bevelui/controls/rating-field.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "select-field",
+      "type": "registry:component",
+      "title": "Select Field",
+      "description": "A searchable dropdown with grouped options support. Used by FormEngine's FieldRenderer and usable standalone.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["controls", "forms"],
+      "registryDependencies": ["input", "badge", "separator"],
+      "files": [
+        {
+          "path": "src/components/bevelui/controls/select-field.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "tag-input",
+      "type": "registry:component",
+      "title": "Tag Input",
+      "description": "A tag creation input control with keyboard support for adding and removing tags. Used by FormEngine's FieldRenderer and usable standalone.",
+      "author": "Bevel UI <hello@bevelui.com>",
+      "categories": ["controls", "forms"],
+      "registryDependencies": ["input", "badge"],
+      "files": [
+        {
+          "path": "src/components/bevelui/controls/tag-input.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}

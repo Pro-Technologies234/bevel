@@ -2,10 +2,13 @@
   "meta": {
     "title": "Product Tour",
     "description": "A fully-engineered guided tour system. Highlights any element on the page, positions a floating card that never escapes the viewport, supports media, and handles keyboard navigation out of the box.",
-    "badge": "System",
+    "badge": "Components System",
     "slug": "product-tour",
     "prev": { "label": "Quick start", "href": "/docs/quick-start" },
-    "next": { "label": "Command Palette", "href": "/docs/components/command-palette" }
+    "next": {
+      "label": "Command Palette",
+      "href": "/docs/components/command-palette"
+    }
   },
   "tocs": [
     { "id": "overview", "label": "Overview", "depth": 1 },
@@ -34,7 +37,8 @@
         {
           "type": "demo",
           "component": "ProductTourDemo",
-          "label": "Interactive demo"
+          "label": "Interactive demo",
+          "preview": "product-tour"
         }
       ]
     },
@@ -133,12 +137,41 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "step", "type": "number", "required": true, "description": "1-based step index. Must be unique." },
-            { "prop": "title", "type": "string", "required": true, "description": "Bold heading shown in the card." },
-            { "prop": "description", "type": "string", "required": true, "description": "Body text explaining this step." },
-            { "prop": "side", "type": "\"top\" | \"right\" | \"bottom\" | \"left\"", "default": "\"bottom\"", "description": "Preferred placement. Auto-flips if it would escape the viewport." },
-            { "prop": "sideOffset", "type": "number", "default": "16", "description": "Distance between the card and the anchor in px." },
-            { "prop": "media", "type": "TourMedia", "description": "Optional image, gif, or video shown above the title." }
+            {
+              "prop": "step",
+              "type": "number",
+              "required": true,
+              "description": "1-based step index. Must be unique."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "required": true,
+              "description": "Bold heading shown in the card."
+            },
+            {
+              "prop": "description",
+              "type": "string",
+              "required": true,
+              "description": "Body text explaining this step."
+            },
+            {
+              "prop": "side",
+              "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
+              "default": "\"bottom\"",
+              "description": "Preferred placement. Auto-flips if it would escape the viewport."
+            },
+            {
+              "prop": "sideOffset",
+              "type": "number",
+              "default": "16",
+              "description": "Distance between the card and the anchor in px."
+            },
+            {
+              "prop": "media",
+              "type": "TourMedia",
+              "description": "Optional image, gif, or video shown above the title."
+            }
           ]
         }
       ]
@@ -150,8 +183,18 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "step", "type": "number", "required": true, "description": "Which step this element is the anchor for." },
-            { "prop": "asChild", "type": "boolean", "default": "false", "description": "Merge props onto the child element without adding a wrapper div. Uses Radix Slot." }
+            {
+              "prop": "step",
+              "type": "number",
+              "required": true,
+              "description": "Which step this element is the anchor for."
+            },
+            {
+              "prop": "asChild",
+              "type": "boolean",
+              "default": "false",
+              "description": "Merge props onto the child element without adding a wrapper div. Uses Radix Slot."
+            }
           ]
         }
       ]
@@ -163,10 +206,28 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "steps", "type": "TourStepDef[]", "required": true, "description": "All step definitions for this tour." },
-            { "prop": "defaultOpen", "type": "boolean", "default": "false", "description": "Start the tour automatically on mount." },
-            { "prop": "onComplete", "type": "() => void", "description": "Called when the user finishes the last step." },
-            { "prop": "onSkip", "type": "() => void", "description": "Called when the user closes the tour early." }
+            {
+              "prop": "steps",
+              "type": "TourStepDef[]",
+              "required": true,
+              "description": "All step definitions for this tour."
+            },
+            {
+              "prop": "defaultOpen",
+              "type": "boolean",
+              "default": "false",
+              "description": "Start the tour automatically on mount."
+            },
+            {
+              "prop": "onComplete",
+              "type": "() => void",
+              "description": "Called when the user finishes the last step."
+            },
+            {
+              "prop": "onSkip",
+              "type": "() => void",
+              "description": "Called when the user closes the tour early."
+            }
           ]
         }
       ]

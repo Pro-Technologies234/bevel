@@ -90,9 +90,17 @@
                   "comment": "Bevel systems",
                   "children": [
                     { "name": "tour", "type": "folder", "highlight": true },
-                    { "name": "command-palette", "type": "folder" },
-                    { "name": "file-upload", "type": "folder" },
-                    { "name": "form-engine", "type": "folder" }
+                    {
+                      "name": "command-palette",
+                      "type": "folder",
+                      "isOpen": false
+                    },
+                    {
+                      "name": "file-upload",
+                      "type": "folder",
+                      "isOpen": false
+                    },
+                    { "name": "form-engine", "type": "folder", "isOpen": false }
                   ]
                 }
               ]

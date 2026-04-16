@@ -30,7 +30,7 @@ export function DocsPageHeader({
         {title}
       </h1>
 
-      <p className="text-muted-foreground text-base leading-relaxed max-w-xl">
+      <p className="text-foreground/80 text-base leading-relaxed max-w-xl">
         {description}
       </p>
 

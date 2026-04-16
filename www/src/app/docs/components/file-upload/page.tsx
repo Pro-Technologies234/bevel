@@ -244,13 +244,13 @@ function MediaLibraryContent() {
       {/* Media Library Interface */}
       <div className="rounded-xl border border-border bg-popover/50 shadow-xl overflow-hidden">
         {/* Header */}
-        <div className="border-b border-border bg-muted/5 px-5 py-4">
+        <div className="border-b border-border bg-muted/5 px-2 md:px-5 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold tracking-tight">
                 Media Library
               </h2>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
                 Manage your assets, upload new files, and organize your content
               </p>
             </div>
@@ -303,7 +303,7 @@ function MediaLibraryContent() {
         </div>
 
         {/* Stats Bar */}
-        <div className="px-5 py-2 bg-muted/5 border-b border-border/40 flex items-center gap-6 text-xs text-muted-foreground">
+        <div className="px-2 md:px-5 py-2 bg-muted/5 border-b border-border/40 flex items-center gap-6 text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <IconDatabase size={14} strokeWidth={1.8} />
             <span>Storage: 2.4 GB of 10 GB used</span>
@@ -323,7 +323,7 @@ function MediaLibraryContent() {
         </div>
 
         {/* Custom Dropzone */}
-        <div className="p-5">
+        <div className="p-2 md:p-5">
           <div
             className={cn(
               "relative border-2 border-dashed border-border rounded-xl p-8 transition-all cursor-pointer",
@@ -384,7 +384,7 @@ function MediaLibraryContent() {
 
         {/* Upload Queue Section (if files exist) */}
         {files.length > 0 && (
-          <div className="px-5 pb-2">
+          <div className="px-2 md:px-5 pb-2">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <IconArrowUp
@@ -573,7 +573,7 @@ function MediaLibraryContent() {
         )}
 
         {/* Existing Files Section */}
-        <div className="px-5 pb-5">
+        <div className="px-2 md:px-5 pb-5">
           <div className="flex items-center gap-2 mb-2">
             <IconClock
               size={14}
@@ -647,7 +647,7 @@ function MediaLibraryContent() {
         </div>
 
         {/* Footer Actions */}
-        <div className="border-t border-border bg-muted/5 px-5 py-3 flex items-center justify-between">
+        <div className="border-t border-border bg-muted/5 px-2 md:px-5 py-3 flex items-center justify-between flex-wrap">
           <div className="flex items-center gap-3">
             <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg hover:bg-muted/60 transition-colors">
               <IconFolder size={14} strokeWidth={1.8} />

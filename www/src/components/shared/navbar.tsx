@@ -53,7 +53,6 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
           "w-full z-50 border-b border-border/60",
           "bg-background/80 backdrop-blur-sm",
           isFixed && "fixed top-0",
-          
         )}
         data-lenis-prevent
       >
@@ -79,7 +78,6 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
                     size="sm"
                     className={cn(
                       "cursor-pointer text-sm font-medium rounded-full tracking-tight",
-
                     )}
                     asChild
                   >
@@ -94,7 +92,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
           <div className="flex items-center gap-2 lg:gap-3">
             {/* Search — hidden on mobile, visible md+ */}
             <div className="hidden md:block">
-              <DocsCommandSearch  />
+              <DocsCommandSearch />
             </div>
 
             {/* CTA — hidden on mobile */}

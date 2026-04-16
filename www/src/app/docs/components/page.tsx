@@ -140,7 +140,7 @@ export default function ComponentsPage() {
             </span>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-3">
+          <div className="grid lg:grid-cols-2 gap-3">
             {systems.map((system) => {
               const Icon = system.icon;
               return (

@@ -2,9 +2,12 @@
   "meta": {
     "title": "Command Palette",
     "description": "A fully-engineered ⌘K command menu with fuzzy search, two-tier tab filtering, keyboard navigation, grouped results, avatar support, and a keyboard shortcut footer.",
-    "badge": "System",
+    "badge": "Components System",
     "slug": "command-palette",
-    "prev": { "label": "Product Tour", "href": "/docs/components/product-tour" },
+    "prev": {
+      "label": "Product Tour",
+      "href": "/docs/components/product-tour"
+    },
     "next": { "label": "File Upload", "href": "/docs/components/file-upload" }
   },
   "tocs": [
@@ -125,17 +128,63 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "id", "type": "string", "required": true, "description": "Unique identifier." },
-            { "prop": "title", "type": "string", "required": true, "description": "Primary text shown in the result row." },
-            { "prop": "subtitle", "type": "string", "description": "Secondary text shown after a dot separator." },
-            { "prop": "meta", "type": "string", "description": "Text shown on the far right (e.g. role, file type)." },
-            { "prop": "icon", "type": "string | ReactNode", "description": "Avatar image URL or a React icon node." },
-            { "prop": "initials", "type": "string", "description": "Shown when icon is absent." },
-            { "prop": "initialsColor", "type": "string", "description": "Background colour for the initials avatar." },
-            { "prop": "category", "type": "string", "description": "Filter tab id — used to filter by content type." },
-            { "prop": "source", "type": "string", "description": "Source tab id — used to filter by integration." },
-            { "prop": "href", "type": "string", "description": "Navigation target." },
-            { "prop": "onSelect", "type": "(item) => void", "description": "Called when this item is selected." }
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "required": true,
+              "description": "Primary text shown in the result row."
+            },
+            {
+              "prop": "subtitle",
+              "type": "string",
+              "description": "Secondary text shown after a dot separator."
+            },
+            {
+              "prop": "meta",
+              "type": "string",
+              "description": "Text shown on the far right (e.g. role, file type)."
+            },
+            {
+              "prop": "icon",
+              "type": "string | ReactNode",
+              "description": "Avatar image URL or a React icon node."
+            },
+            {
+              "prop": "initials",
+              "type": "string",
+              "description": "Shown when icon is absent."
+            },
+            {
+              "prop": "initialsColor",
+              "type": "string",
+              "description": "Background colour for the initials avatar."
+            },
+            {
+              "prop": "category",
+              "type": "string",
+              "description": "Filter tab id — used to filter by content type."
+            },
+            {
+              "prop": "source",
+              "type": "string",
+              "description": "Source tab id — used to filter by integration."
+            },
+            {
+              "prop": "href",
+              "type": "string",
+              "description": "Navigation target."
+            },
+            {
+              "prop": "onSelect",
+              "type": "(item) => void",
+              "description": "Called when this item is selected."
+            }
           ]
         }
       ]
@@ -147,9 +196,24 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "id", "type": "string", "required": true, "description": "Unique identifier." },
-            { "prop": "title", "type": "string", "required": true, "description": "Section header label." },
-            { "prop": "items", "type": "CommandPaletteItem[]", "required": true, "description": "Items in this section." }
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "required": true,
+              "description": "Section header label."
+            },
+            {
+              "prop": "items",
+              "type": "CommandPaletteItem[]",
+              "required": true,
+              "description": "Items in this section."
+            }
           ]
         }
       ]
@@ -161,12 +225,38 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "sections", "type": "CommandPaletteSection[]", "required": true, "description": "All item sections." },
-            { "prop": "sourceTabs", "type": "CommandPaletteSourceTab[]", "description": "Integration icon tabs row." },
-            { "prop": "filterTabs", "type": "CommandPaletteFilterTab[]", "description": "Content type filter tabs row." },
-            { "prop": "defaultOpen", "type": "boolean", "default": "false", "description": "Open on mount." },
-            { "prop": "onSelect", "type": "(item) => void", "description": "Called when any item is selected." },
-            { "prop": "onClose", "type": "() => void", "description": "Called when the palette closes." }
+            {
+              "prop": "sections",
+              "type": "CommandPaletteSection[]",
+              "required": true,
+              "description": "All item sections."
+            },
+            {
+              "prop": "sourceTabs",
+              "type": "CommandPaletteSourceTab[]",
+              "description": "Integration icon tabs row."
+            },
+            {
+              "prop": "filterTabs",
+              "type": "CommandPaletteFilterTab[]",
+              "description": "Content type filter tabs row."
+            },
+            {
+              "prop": "defaultOpen",
+              "type": "boolean",
+              "default": "false",
+              "description": "Open on mount."
+            },
+            {
+              "prop": "onSelect",
+              "type": "(item) => void",
+              "description": "Called when any item is selected."
+            },
+            {
+              "prop": "onClose",
+              "type": "() => void",
+              "description": "Called when the palette closes."
+            }
           ]
         }
       ]

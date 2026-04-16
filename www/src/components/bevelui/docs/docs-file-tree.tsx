@@ -1,6 +1,11 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { IconFolder, IconFolderOpen, IconFile } from "@tabler/icons-react";
+import {
+  IconFolder,
+  IconFolderOpen,
+  IconFile,
+  IconFolderFilled,
+} from "@tabler/icons-react";
 
 export type DocsFileTreeNode = {
   name: string;
@@ -8,6 +13,7 @@ export type DocsFileTreeNode = {
   highlight?: boolean;
   comment?: string;
   children?: DocsFileTreeNode[];
+  isOpen?: boolean;
 };
 
 interface NodeProps {
@@ -17,39 +23,53 @@ interface NodeProps {
 }
 
 function TreeNode({ node, depth, isLast }: NodeProps) {
-  const [open, setOpen] = React.useState(true);
+  const { isOpen = true } = node;
+  const [open, setOpen] = React.useState(isOpen);
   const isFolder = node.type === "folder";
-  const FolderIcon = open ? IconFolderOpen : IconFolder;
+  const FolderIcon = open ? IconFolderOpen : IconFolderFilled;
 
   return (
     <div>
       <button
         onClick={isFolder ? () => setOpen((p) => !p) : undefined}
         className={cn(
-          "flex items-center gap-2 w-full text-left py-0.5 px-2 rounded-md text-[12px] font-mono transition-colors",
+          "flex items-center gap-2 w-full text-left py-0.5 px-2 rounded-sm text-[12px] font-mono transition-colors",
           "hover:bg-muted/40",
           node.highlight
-            ? "text-primary bg-primary/5"
+            ? "text-yellow-200 bg-yellow-500/5 mt-2"
             : "text-foreground/80",
           !isFolder && "cursor-default",
         )}
         style={{ paddingLeft: `${8 + depth * 16}px` }}
       >
         {isFolder ? (
-          <FolderIcon size={13} strokeWidth={1.6} className="text-primary/70 shrink-0" />
+          <FolderIcon
+            size={13}
+            strokeWidth={1.6}
+            className="text-yellow-300 shrink-0"
+          />
         ) : (
-          <IconFile size={13} strokeWidth={1.6} className="text-muted-foreground/60 shrink-0" />
+          <IconFile
+            size={13}
+            strokeWidth={1.6}
+            className="text-muted-foreground/60 shrink-0"
+          />
         )}
         <span>{node.name}</span>
         {node.comment && (
-          <span className="text-muted-foreground/40 text-[11px] ms-2 font-normal">
+          <span
+            className={cn(
+              "text-muted-foreground/40 text-[11px] ms-2 font-normal",
+              node.highlight && "text-yellow-200/50",
+            )}
+          >
             {node.comment}
           </span>
         )}
       </button>
 
       {isFolder && open && node.children && (
-        <div>
+        <div className=" space-y-2">
           {node.children.map((child, i) => (
             <TreeNode
               key={child.name}
@@ -73,7 +93,7 @@ export function DocsFileTree({ nodes, className }: DocsFileTreeProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-border bg-muted/20 py-3 overflow-hidden",
+        "rounded-lg border border-border bg-card/80 py-3 overflow-hidden p-2",
         className,
       )}
     >

@@ -44,14 +44,14 @@ export const DocsCanvas = React.forwardRef<HTMLDivElement, DocsCanvasProps>(
     return (
       <Component
         ref={ref}
-        className={cn("flex flex-1 min-w-0", className)}
+        className={cn("flex justify-between flex-1 min-w-0", className)}
         {...props}
       >
-        {children}
+        <div className=" w-full flex justify-center">{children}</div>
 
         {/* Right TOC */}
         {tocs && tocs.length > 0 && (
-          <aside className="hidden xl:flex sticky top-14 h-[calc(100vh-3.5rem)] w-56 shrink-0 flex-col py-12 pl-4 pr-6 overflow-y-auto">
+          <aside className="hidden xl:flex sticky top-14  w-56 shrink-0 flex-col py-12 pl-4 pr-6 overflow-y-auto">
             <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-3">
               On this page
             </span>

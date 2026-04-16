@@ -95,6 +95,7 @@ export type DocBlockDemo = {
   label?: string;
   code?: string;
   codeFilename?: string;
+  preview?: string;
 };
 
 export type DocBlock =

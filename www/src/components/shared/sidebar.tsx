@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { IconChevronDown } from "@tabler/icons-react";
+import { IconBoltFilled, IconChevronDown } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
+import { DocsCommandSearch } from "../bevelui/docs/docs-command-search";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -87,8 +88,8 @@ function SidebarItem({
       disabled={action.disabled}
       onClick={onClick}
       className={cn(
-        "group relative flex items-center  w-full px-2.5 py-1.5 rounded-md font-medium tracking-tight",
-        "text-left text-sm tracking-tight transition-colors duration-100",
+        "group relative flex items-center  w-full px-2.5 py-1.5 rounded-md font-medium ",
+        "text-left text-sm  transition-colors duration-500 ease-in",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "disabled:opacity-40 disabled:cursor-not-allowed",
         isActive ? "bg-primary/8 text-primary " : " hover:bg-muted/50",
@@ -203,18 +204,29 @@ export function BevelSidebar({
     <nav
       aria-label="Documentation navigation"
       className={cn(
-        "relative flex flex-col py-6 px-3 gap-5 overflow-y-auto bg-card/80",
+        "relative h-full flex flex-col py-6 pt-0  gap-5 overflow-y-auto bg-card/80",
         // Width is set by the parent — sidebar is width-agnostic
         className,
       )}
     >
+      <div className=" space-y-2 dark:bg-black bg-white p-2 pt-4 rounded-b-3xl mx-2">
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <div className="size-6 flex items-center justify-center bg-primary bevel rounded-full shrink-0">
+            <IconBoltFilled color="black" size={14} />
+          </div>
+          <span className="font-medium text-lg tracking-tight font-sans">
+            Bevel UI
+          </span>
+        </Link>
+        <DocsCommandSearch className="lg:w-full" />
+      </div>
       {sections.map((section, si) => {
         const SectionIcon = section.icon;
         const isOpen = openSections[section.label] ?? true;
         const collapsible = section.collapsible !== false;
 
         return (
-          <div key={section.label + si} className="flex flex-col gap-0.5">
+          <div key={section.label + si} className="flex flex-col gap-0.5 px-3">
             <div className="flex items-center gap-1.5 text-muted-foreground">
               {SectionIcon && <SectionIcon size={12} strokeWidth={1.8} />}
               <span className="text-[10px] font-semibold uppercase ">

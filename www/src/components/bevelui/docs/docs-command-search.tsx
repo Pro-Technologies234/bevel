@@ -10,6 +10,7 @@ import {
 } from "@/components/bevelui/command-palette";
 import searchData from "@/content/docs-search-data.json";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // ─── Build sections from JSON ─────────────────────────────────────────────────
 
@@ -31,7 +32,13 @@ const DOCS_SECTIONS = buildSections();
 
 // ─── DocsCommandSearch ────────────────────────────────────────────────────────
 
-export function DocsCommandSearch({ className }: { className?: string }) {
+export function DocsCommandSearch({
+  className,
+  hideAddon,
+}: {
+  className?: string;
+  hideAddon?: boolean;
+}) {
   const router = useRouter();
 
   return (
@@ -43,7 +50,8 @@ export function DocsCommandSearch({ className }: { className?: string }) {
       }}
     >
       <CommandPaletteTrigger
-        label="Search documentation..."
+        hideAddon={hideAddon}
+        label={"Search documentation..."}
         className={cn("w-full lg:w-64 rounded-full h-9", className)}
       />
     </CommandPaletteRoot>

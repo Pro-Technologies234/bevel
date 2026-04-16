@@ -2,7 +2,7 @@
   "meta": {
     "title": "File Upload",
     "description": "A complete file upload system with drag-and-drop, per-file progress tracking, cancel support, error recovery, and grid/list views. Bring your own upload function — the system handles everything else.",
-    "badge": "System",
+    "badge": "Components System",
     "slug": "file-upload",
     "prev": {
       "label": "Command Palette",
@@ -39,7 +39,8 @@
         {
           "type": "demo",
           "component": "FileUploadDemo",
-          "label": "Interactive demo"
+          "label": "Interactive demo",
+          "preview": "file-upload"
         }
       ]
     },

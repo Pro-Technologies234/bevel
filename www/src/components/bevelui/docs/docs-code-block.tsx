@@ -29,18 +29,16 @@ import { highlight } from "sugar-high";
 // ─── Token colour map ─────────────────────────────────────────────────────────
 
 const CODE_STYLES = `
-  /* sugar-high token colours */
-  .sh-keyword    { color: oklch(var(--sh-keyword)); }
-  .sh-string     { color: oklch(var(--sh-string)); }
-  .sh-comment    { color: oklch(var(--sh-comment)))); font-style: ital; }
-  .sh-jsxliterals{ color: oklch(var(--sh-jsx)); }
-  .sh-identifier { color: oklch(var(--sh-identifier)); }
-  .sh-sign       { color: oklch(var(--sh-sign)); }
-  .sh-class      { color: oklch(var(--sh-class)); }
-  .sh-property   { color: oklch(var(--sh-property)); }
-  .sh-entity     { color: oklch(var(--sh-entity)); }
+  .sh-keyword    { color: var(--sh-keyword); }
+  .sh-string     { color: var(--sh-string); }
+  .sh-comment    { color: var(--sh-comment); font-style: italic; }
+  .sh-jsxliterals{ color: var(--sh-jsx); }
+  .sh-identifier { color: var(--sh-identifier); }
+  .sh-sign       { color: var(--sh-sign); }
+  .sh-class      { color: var(--sh-class); }
+  .sh-property   { color: var(--sh-property); }
+  .sh-entity     { color: var(--sh-entity); }
 `;
-
 // ─── Inject styles once ───────────────────────────────────────────────────────
 
 function useCodeStyles() {
@@ -113,21 +111,21 @@ export function DocsCodeBlock({
   return (
     <div
       className={cn(
-        "group relative rounded-xl border border-border overflow-hidden",
-        "bg-muted/20 dark:bg-zinc-950/60",
+        "group relative rounded-lg  overflow-hidden border",
+        "bg-card/80",
         className,
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border/60 bg-muted/30 dark:bg-zinc-900/60">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-border/60 bg-muted/30 dark:bg-zinc-900/60">
         <div className="flex items-center gap-2">
           <IconTerminal2
             size={13}
             strokeWidth={1.8}
-            className="text-muted-foreground/50"
+            className="text-foreground/50"
           />
           {filename ? (
-            <span className="text-[11px] font-medium text-muted-foreground font-mono">
+            <span className="text-[11px] font-medium text-muted-foreground/80 font-mono">
               {filename}
             </span>
           ) : (
@@ -139,7 +137,7 @@ export function DocsCodeBlock({
 
         <button
           onClick={copy}
-          className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-md text-muted-foreground/80 hover:text-foreground hover:bg-muted/60 transition-colors"
           aria-label="Copy code"
         >
           {copied ? (

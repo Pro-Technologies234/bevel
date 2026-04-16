@@ -2,7 +2,7 @@
   "meta": {
     "title": "Form Engine",
     "description": "A form orchestration engine that manages multi-step or single-step form flow. Brings your own validation, fields, and state via react-hook-form and zod. The engine owns the steps — you own everything inside them.",
-    "badge": "System",
+    "badge": "Components System",
     "slug": "form-engine",
     "prev": { "label": "File Upload", "href": "/docs/components/file-upload" },
     "next": { "label": "Theming", "href": "/docs/theming" }
@@ -38,7 +38,8 @@
         {
           "type": "demo",
           "component": "FormEngineDemo",
-          "label": "Interactive demo"
+          "label": "Interactive demo",
+          "preview": "form-engine"
         }
       ]
     },
@@ -176,11 +177,35 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "steps", "type": "FormEngineStepDef[]", "required": true, "description": "All step definitions." },
-            { "prop": "onSubmit", "type": "(values) => Promise<void>", "required": true, "description": "Called when the user completes the final step." },
-            { "prop": "mode", "type": "\"multi-step\" | \"single\"", "default": "\"multi-step\"", "description": "Single hides progress and shows submit immediately." },
-            { "prop": "validation", "type": "\"per-step\" | \"on-submit\"", "default": "\"per-step\"", "description": "When validation runs. per-step validates fields on each step before advancing." },
-            { "prop": "schema", "type": "ZodSchema", "description": "Full-form Zod schema applied to all fields. For per-step use createZodPlugin() instead." }
+            {
+              "prop": "steps",
+              "type": "FormEngineStepDef[]",
+              "required": true,
+              "description": "All step definitions."
+            },
+            {
+              "prop": "onSubmit",
+              "type": "(values) => Promise<void>",
+              "required": true,
+              "description": "Called when the user completes the final step."
+            },
+            {
+              "prop": "mode",
+              "type": "\"multi-step\" | \"single\"",
+              "default": "\"multi-step\"",
+              "description": "Single hides progress and shows submit immediately."
+            },
+            {
+              "prop": "validation",
+              "type": "\"per-step\" | \"on-submit\"",
+              "default": "\"per-step\"",
+              "description": "When validation runs. per-step validates fields on each step before advancing."
+            },
+            {
+              "prop": "schema",
+              "type": "ZodSchema",
+              "description": "Full-form Zod schema applied to all fields. For per-step use createZodPlugin() instead."
+            }
           ]
         }
       ]
@@ -192,12 +217,38 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "id", "type": "string", "required": true, "description": "Unique step identifier." },
-            { "prop": "fields", "type": "FormEngineFieldDef[]", "required": true, "description": "Fields rendered on this step." },
-            { "prop": "title", "type": "string", "description": "Step title shown in the meta header." },
-            { "prop": "description", "type": "string", "description": "Step description shown below the title." },
-            { "prop": "guard", "type": "(values) => Promise<boolean>", "description": "Async guard called after validation. Return false to block navigation." },
-            { "prop": "layout", "type": "(fields, actions) => JSX.Element", "description": "Custom layout override. Receives rendered fields and actions as JSX." }
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique step identifier."
+            },
+            {
+              "prop": "fields",
+              "type": "FormEngineFieldDef[]",
+              "required": true,
+              "description": "Fields rendered on this step."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "description": "Step title shown in the meta header."
+            },
+            {
+              "prop": "description",
+              "type": "string",
+              "description": "Step description shown below the title."
+            },
+            {
+              "prop": "guard",
+              "type": "(values) => Promise<boolean>",
+              "description": "Async guard called after validation. Return false to block navigation."
+            },
+            {
+              "prop": "layout",
+              "type": "(fields, actions) => JSX.Element",
+              "description": "Custom layout override. Receives rendered fields and actions as JSX."
+            }
           ]
         }
       ]
@@ -209,14 +260,48 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "key", "type": "string", "required": true, "description": "Must match a key in your form values." },
-            { "prop": "variant", "type": "\"text\" | \"email\" | \"password\" | \"number\" | \"textarea\" | \"checkbox\" | \"select\" | \"card-select\" | \"chip-select\" | \"rating\" | \"tag-input\" | \"date\" | \"phone\" | \"file\"", "required": true, "description": "Which control to render." },
-            { "prop": "label", "type": "string", "description": "Field label." },
-            { "prop": "placeholder", "type": "string", "description": "Input placeholder text." },
-            { "prop": "required", "type": "boolean", "description": "Adds a required asterisk to the label." },
-            { "prop": "disabled", "type": "boolean", "description": "Disables the field." },
-            { "prop": "showWhen", "type": "(values) => boolean", "description": "Conditionally show or hide this field based on other values." },
-            { "prop": "props", "type": "object", "description": "Variant-specific props passed to the underlying control." }
+            {
+              "prop": "key",
+              "type": "string",
+              "required": true,
+              "description": "Must match a key in your form values."
+            },
+            {
+              "prop": "variant",
+              "type": "\"text\" | \"email\" | \"password\" | \"number\" | \"textarea\" | \"checkbox\" | \"select\" | \"card-select\" | \"chip-select\" | \"rating\" | \"tag-input\" | \"date\" | \"phone\" | \"file\"",
+              "required": true,
+              "description": "Which control to render."
+            },
+            {
+              "prop": "label",
+              "type": "string",
+              "description": "Field label."
+            },
+            {
+              "prop": "placeholder",
+              "type": "string",
+              "description": "Input placeholder text."
+            },
+            {
+              "prop": "required",
+              "type": "boolean",
+              "description": "Adds a required asterisk to the label."
+            },
+            {
+              "prop": "disabled",
+              "type": "boolean",
+              "description": "Disables the field."
+            },
+            {
+              "prop": "showWhen",
+              "type": "(values) => boolean",
+              "description": "Conditionally show or hide this field based on other values."
+            },
+            {
+              "prop": "props",
+              "type": "object",
+              "description": "Variant-specific props passed to the underlying control."
+            }
           ]
         }
       ]
@@ -228,12 +313,37 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "name", "type": "string", "required": true, "description": "Unique plugin identifier used for debugging." },
-            { "prop": "onMount", "type": "(values) => void", "description": "Called once when the engine mounts." },
-            { "prop": "onStepChange", "type": "(step, values) => void", "description": "Called after every step navigation." },
-            { "prop": "onFieldChange", "type": "(field, value, values) => void", "description": "Called after every field value change." },
-            { "prop": "onValidate", "type": "(step, values) => Promise<boolean>", "description": "Return false to block navigation from the current step." },
-            { "prop": "onSubmit", "type": "(values) => Promise<void>", "description": "Called after the consumer's onSubmit resolves." }
+            {
+              "prop": "name",
+              "type": "string",
+              "required": true,
+              "description": "Unique plugin identifier used for debugging."
+            },
+            {
+              "prop": "onMount",
+              "type": "(values) => void",
+              "description": "Called once when the engine mounts."
+            },
+            {
+              "prop": "onStepChange",
+              "type": "(step, values) => void",
+              "description": "Called after every step navigation."
+            },
+            {
+              "prop": "onFieldChange",
+              "type": "(field, value, values) => void",
+              "description": "Called after every field value change."
+            },
+            {
+              "prop": "onValidate",
+              "type": "(step, values) => Promise<boolean>",
+              "description": "Return false to block navigation from the current step."
+            },
+            {
+              "prop": "onSubmit",
+              "type": "(values) => Promise<void>",
+              "description": "Called after the consumer's onSubmit resolves."
+            }
           ]
         }
       ]

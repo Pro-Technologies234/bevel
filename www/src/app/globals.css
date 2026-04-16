@@ -86,15 +86,15 @@
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.894 0.202 123.6);
 
-  --sh-keyword: 221 70% 56%;
-  --sh-string: 151 55% 42%;
-  --sh-comment: 220 14% 58%;
-  --sh-jsx: 199 85% 45%;
-  --sh-identifier: 0 0% 16%;
-  --sh-sign: 220 14% 40%;
-  --sh-class: 28 80% 50%;
-  --sh-property: 262 60% 58%;
-  --sh-entity: 328 70% 52%;
+  --sh-keyword: #ff7b72;
+  --sh-string: #a5d6ff;
+  --sh-comment: #8b949e;
+  --sh-jsx: #79c0ff;
+  --sh-identifier: #c9d1d9;
+  --sh-sign: #c9d1d9;
+  --sh-class: #d2a8ff;
+  --sh-property: #79c0ff;
+  --sh-entity: #ffa198;
 }
 
 .dark {
@@ -117,15 +117,15 @@
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.894 0.202 123.6);
 
-  --sh-keyword: 210 80% 68%;
-  --sh-string: 130 60% 68%;
-  --sh-comment: 220 12% 50%;
-  --sh-jsx: 195 85% 65%;
-  --sh-identifier: 0 0% 90%;
-  --sh-sign: 220 12% 65%;
-  --sh-class: 35 90% 68%;
-  --sh-property: 270 65% 78%;
-  --sh-entity: 330 75% 72%;
+  --sh-keyword: #ff7b72;
+  --sh-string: #a5d6ff;
+  --sh-comment: #8b949e;
+  --sh-jsx: #79c0ff;
+  --sh-identifier: #c9d1d9;
+  --sh-sign: #c9d1d9;
+  --sh-class: #d2a8ff;
+  --sh-property: #79c0ff;
+  --sh-entity: #ffa198;
 }
 
 @layer base {
@@ -154,34 +154,4 @@
   .gradient-primary {
     @apply bg-linear-to-t from-lime-600 via-primary  to-lime-200 bg-clip-text text-transparent;
   }
-}
-
-/* Syntax Highlighting Scoped Rules */
-.sh-container .sh-keyword {
-  color: oklch(var(--sh-keyword)) !important;
-}
-.sh-container .sh-string {
-  color: oklch(var(--sh-string)) !important;
-}
-.sh-container .sh-comment {
-  color: oklch(var(--sh-comment)) !important;
-  font-style: italic;
-}
-.sh-container .sh-jsxliterals {
-  color: oklch(var(--sh-jsx)) !important;
-}
-.sh-container .sh-identifier {
-  color: oklch(var(--sh-identifier)) !important;
-}
-.sh-container .sh-sign {
-  color: oklch(var(--sh-sign)) !important;
-}
-.sh-container .sh-class {
-  color: oklch(var(--sh-class)) !important;
-}
-.sh-container .sh-property {
-  color: oklch(var(--sh-property)) !important;
-}
-.sh-container .sh-entity {
-  color: oklch(var(--sh-entity)) !important;
 }

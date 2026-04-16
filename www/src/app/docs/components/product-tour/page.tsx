@@ -345,6 +345,7 @@ function ProfessionalEditor() {
 export function ProductTourDemo() {
   const pathName = usePathname();
   const isHome = pathName === "/";
+  const isPreview = pathName.startsWith("/preview");
   return (
     <TourRoot steps={isHome ? STEPS : DASH_STEPS} defaultOpen={false}>
       <div className="flex flex-col gap-4 w-full h-full">
@@ -371,7 +372,7 @@ export function ProductTourDemo() {
             />
           </div>
         </div>
-        {isHome ? <ProfessionalEditor /> : <MiniDashboard />}
+        {isHome || isPreview ? <ProfessionalEditor /> : <MiniDashboard />}
       </div>
     </TourRoot>
   );
