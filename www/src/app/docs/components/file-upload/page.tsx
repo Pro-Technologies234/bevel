@@ -147,7 +147,7 @@ function StatusBadge({
   switch (status) {
     case "uploading":
       return (
-        <span className="text-[10px] text-pink-500 flex items-center gap-0.5">
+        <span className="text-[10px] text-yellow-200 flex items-center gap-0.5">
           <IconArrowUp size={10} strokeWidth={2} className="animate-pulse" />
           {progress}%
         </span>
@@ -489,7 +489,7 @@ function MediaLibraryContent() {
                         <>
                           <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-pink-500 rounded-full transition-all duration-300"
+                              className="h-full bg-yellow-200 rounded-full transition-all duration-300"
                               style={{ width: `${fileEntry.progress}%` }}
                             />
                           </div>
@@ -560,7 +560,7 @@ function MediaLibraryContent() {
                     {fileEntry.status === "uploading" && (
                       <div className="w-20 h-1 bg-muted rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-pink-500 rounded-full"
+                          className="h-full bg-yellow-200 rounded-full"
                           style={{ width: `${fileEntry.progress}%` }}
                         />
                       </div>
