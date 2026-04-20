@@ -44,7 +44,7 @@ export const DocsCanvas = React.forwardRef<HTMLDivElement, DocsCanvasProps>(
     return (
       <Component
         ref={ref}
-        className={cn("flex justify-between flex-1 min-w-0", className)}
+        className={cn("flex justify-between flex-1 min-w-0 relative", className)}
         {...props}
       >
         <div className=" w-full flex justify-center">{children}</div>
@@ -75,6 +75,7 @@ export const DocsCanvas = React.forwardRef<HTMLDivElement, DocsCanvasProps>(
             </nav>
           </aside>
         )}
+        <div className="-z-1 opacity-50 absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
       </Component>
     );
   },

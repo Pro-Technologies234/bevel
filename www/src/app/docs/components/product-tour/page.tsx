@@ -112,7 +112,7 @@ function ProfessionalEditor() {
     >
       {/* Left Sidebar - Tools & Layers */}
       <TourAnchor step={2} asChild>
-        <aside className="w-60 shrink-0 border-r border-border bg-muted/10 flex flex-col">
+        <aside className="w-60 shrink-0 border-r border-border bg-muted/10 flex flex-col not-md:hidden">
           {/* Tool Switcher */}
           <div className="p-3 border-b border-border/60">
             <div className="flex gap-1 p-0.5 bg-muted/40 overflow-x-auto rounded-md">
@@ -198,7 +198,7 @@ function ProfessionalEditor() {
                 </span>
               </div>
               <div className="h-4 w-px bg-border/60" />
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground not-md:hidden">
                 Project: Marketing Site
               </span>
             </div>
@@ -266,7 +266,7 @@ function ProfessionalEditor() {
       </div>
 
       {/* Right Sidebar - Properties & Components */}
-      <aside className="w-64 shrink-0 border-l border-border bg-muted/10 flex flex-col">
+      <aside className="w-64 shrink-0 border-l border-border bg-muted/10 flex flex-col not-md:hidden">
         {/* Design Tokens Section */}
         <div className="p-3 border-b border-border/60 w-full">
           <TourAnchor step={3} className="p-3 border-b border-border/60 w-full">

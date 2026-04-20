@@ -97,7 +97,7 @@ export function Hero() {
 
       <h1
         ref={headingRef}
-        className="text-3xl md:text-6xl font-sans font-medium max-w-md md:max-w-xl text-center tracking-tight"
+        className="text-3xl md:text-6xl font-sans font-medium max-w-xs md:max-w-xl text-center tracking-tight"
       >
         The UI Systems Your App Actually Needs
       </h1>

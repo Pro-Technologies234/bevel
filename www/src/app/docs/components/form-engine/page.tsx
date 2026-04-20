@@ -282,7 +282,7 @@ const showcaseConfig: FormEngineConfig = {
             },
             variant: 'default',
             size: 'sm',
-            tagClassName: "bg-linear-to-t from-lime-600 to-primary text-white border-none"
+            tagClassName: "bg-cyan-700  text-white border-none"
           },
         },
       ],

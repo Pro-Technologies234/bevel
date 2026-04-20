@@ -60,7 +60,7 @@ export function DocsCallout({
   return (
     <div
       className={cn(
-        "flex gap-3 p-3 rounded-xl border",
+        "flex gap-3 p-3 rounded-lg border",
         config.containerClass,
         className,
       )}

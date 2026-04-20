@@ -171,7 +171,7 @@ export function DocsCodeBlock({
                 className={cn(
                   "flex min-w-0",
                   isHighlighted &&
-                    "bg-primary/8 dark:bg-primary/12 -mx-4 px-4 border-l-2 border-primary",
+                    "bg-primary/8 dark:bg-primary/12 -mx-4 px-4 border-l-2 border-primary font-serif",
                 )}
               >
                 {showLineNumbers && (
