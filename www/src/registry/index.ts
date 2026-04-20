@@ -76,7 +76,7 @@ export const registry: RegistryEntry[] = [
     category: "controls",
     dependencies: {
       bevel: [],
-      shadcn: ["skeleton", "tooltip","badge"],
+      shadcn: ["skeleton", "tooltip", "badge"],
       npm: ["@tabler/icons-react"],
     },
     files: [
