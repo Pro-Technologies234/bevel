@@ -10,9 +10,9 @@ import { join } from "path";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string[] } },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
-  const slug = params.slug.join("/");
+  const slug = (await params).slug.join("/");
 
   // Determine if this is a Pro registry file
   const isPro = slug.startsWith("pro/");
