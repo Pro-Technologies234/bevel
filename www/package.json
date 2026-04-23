@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "bunx --bun prisma generate && bunx --bun prisma migrate deploy && bun run build",
+    "build": "next build",
     "start": "next start",
-    "registry:build": "shadcn build"
+    "registry:build": "shadcn build",
+    "postinstall": "prisma generate",
+    "prisma:setup": "bunx --bun prisma generate && bunx --bun prisma migrate deploy",
+    "vercel-build": "bun run prisma:setup && bun run build"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.6.5",
