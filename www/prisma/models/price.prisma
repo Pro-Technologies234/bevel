@@ -1,0 +1,22 @@
+model Price {
+    id              String         @id @default(cuid())
+    productId       String
+    stripePriceId   String         @unique
+    stripeProductId String?
+    type            PriceType
+    interval        PriceInterval? // null for ONE_TIME
+    amount          Int // in cents
+    currency        String         @default("usd")
+    label           String? // e.g. "Monthly", "Yearly", "Lifetime"
+    description     String? // e.g. "Billed monthly"
+    active          Boolean        @default(true)
+    isDefault       Boolean        @default(false) // highlighted on pricing page
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    product   Product    @relation(fields: [productId], references: [id])
+    purchases Purchase[]
+
+    @@map("price")
+}

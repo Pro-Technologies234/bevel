@@ -1,0 +1,72 @@
+model User {
+    id            String   @id @default(cuid())
+    email         String   @unique
+    emailVerified Boolean  @default(false)
+    name          String?
+    image         String?
+    role          UserRole @default(CUSTOMER)
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    // Better Auth relations
+    sessions Session[]
+    accounts Account[]
+
+    // Stripe
+    stripeCustomerId String? @unique
+
+    // Bevel relations
+    purchases       Purchase[]
+    licenses        License[]
+    teamMemberships TeamMember[]
+    invoices        Invoice[]
+    accessLogs      AccessLog[]
+
+    @@map("user")
+}
+
+model Session {
+    id        String   @id @default(cuid())
+    userId    String
+    token     String   @unique
+    expiresAt DateTime
+    ipAddress String?
+    userAgent String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id @default(cuid())
+    userId                String
+    accountId             String
+    providerId            String
+    accessToken           String?   @db.Text
+    refreshToken          String?   @db.Text
+    idToken               String?   @db.Text
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("account")
+}
+
+model Verification {
+    id         String   @id @default(cuid())
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@map("verification")
+}

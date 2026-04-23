@@ -21,8 +21,8 @@ import Marquee from "../landing/Marquee";
 const navigations = [
   { id: "home", label: "Home", href: "/" },
   { id: "components", label: "Components", href: "/docs/components" },
-  { id: "templates", label: "Templates", href: "/docs/templates" },
-  { id: "changelogs", label: "Changelog", href: "/docs/changelog" },
+  { id: "templates", label: "Blocks", href: "/blocks" },
+  { id: "pricing", label: "Pricing", href: "/pricing" },
 ];
 
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {

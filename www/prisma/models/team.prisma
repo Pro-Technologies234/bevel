@@ -1,0 +1,13 @@
+model TeamMember {
+    id        String         @id @default(cuid())
+    licenseId String
+    userId    String
+    role      TeamMemberRole @default(MEMBER)
+    joinedAt  DateTime       @default(now())
+
+    license License @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([licenseId, userId])
+    @@map("team_member")
+}

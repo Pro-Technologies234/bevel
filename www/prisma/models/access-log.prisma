@@ -1,0 +1,16 @@
+// ─── Access logs ──────────────────────────────────────────────────────────────
+
+model AccessLog {
+    id        String   @id @default(cuid())
+    userId    String
+    action    String // e.g. "DOWNLOAD", "CLI_INSTALL", "DOCS_VIEW"
+    resource  String // e.g. "tour", "drag-to-reorder"
+    ipAddress String?
+    userAgent String?
+    metadata  Json?
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("access_log")
+}

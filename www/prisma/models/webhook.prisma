@@ -1,0 +1,14 @@
+// ─── Stripe webhook events (idempotency) ──────────────────────────────────────
+
+model WebhookEvent {
+    id          String    @id @default(cuid())
+    stripeId    String    @unique // Stripe event id
+    type        String // e.g. "checkout.session.completed"
+    payload     Json
+    processed   Boolean   @default(false)
+    error       String?
+    processedAt DateTime?
+    createdAt   DateTime  @default(now())
+
+    @@map("webhook_event")
+}

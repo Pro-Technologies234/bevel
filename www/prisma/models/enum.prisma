@@ -1,0 +1,59 @@
+// ─── Products & Pricing ───────────────────────────────────────────────────────
+
+enum UserRole {
+    CUSTOMER
+    ADMIN
+}
+
+enum ProductType {
+    SYSTEM // e.g. Drag to Reorder, Rich Text Editor
+    BUNDLE // e.g. Pro Bundle, Team Bundle
+}
+
+enum ProductTier {
+    FREE
+    PRO
+    TEAM
+}
+
+enum PriceType {
+    ONE_TIME
+    RECURRING
+}
+
+enum PriceInterval {
+    MONTH
+    YEAR
+}
+
+// ─── Purchases & Access ───────────────────────────────────────────────────────
+
+enum PurchaseStatus {
+    PENDING // Checkout initiated, not yet paid
+    ACTIVE // Paid and access granted
+    CANCELLED // Subscription cancelled (still active until period end)
+    EXPIRED // Subscription ended or one-time access revoked
+    REFUNDED
+}
+
+enum LicenseType {
+    INDIVIDUAL
+    TEAM
+}
+
+// ─── Team access ──────────────────────────────────────────────────────────────
+
+enum TeamMemberRole {
+    OWNER
+    MEMBER
+}
+
+// ─── Invoices ─────────────────────────────────────────────────────────────────
+
+enum InvoiceStatus {
+    DRAFT
+    OPEN
+    PAID
+    VOID
+    UNCOLLECTIBLE
+}

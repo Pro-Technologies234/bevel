@@ -367,7 +367,6 @@ export function ProductTourDemo() {
             />
             <TourTrigger
               label="Take a tour"
-              variant={"inverted"}
               className="shadow-sm hover:shadow-md transition-shadow animate-bounce"
             />
           </div>

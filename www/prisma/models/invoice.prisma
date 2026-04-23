@@ -1,0 +1,30 @@
+model Invoice {
+    id         String @id @default(cuid())
+    userId     String
+    purchaseId String
+
+    stripeInvoiceId String?       @unique
+    invoiceNumber   String? // human-readable e.g. "BEV-001"
+    status          InvoiceStatus @default(DRAFT)
+
+    amountDue  Int // cents
+    amountPaid Int    @default(0)
+    currency   String @default("usd")
+
+    invoicePdfUrl    String? // Stripe-hosted PDF URL
+    hostedInvoiceUrl String?
+
+    periodStart DateTime?
+    periodEnd   DateTime?
+
+    dueDate DateTime?
+    paidAt  DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user     User     @relation(fields: [userId], references: [id])
+    purchase Purchase @relation(fields: [purchaseId], references: [id])
+
+    @@map("invoice")
+}

@@ -1,0 +1,23 @@
+model Product {
+    id          String      @id @default(cuid())
+    slug        String      @unique // e.g. "drag-to-reorder"
+    name        String // e.g. "Drag to Reorder"
+    description String?     @db.Text
+    type        ProductType @default(SYSTEM)
+    tier        ProductTier @default(FREE)
+    published   Boolean     @default(false)
+    order       Int         @default(0) // display order in docs/dashboard
+
+    // Registry — the URL path for the shadcn CLI install
+    registryPath String? // e.g. "r/drag-to-reorder.json"
+    docsPath     String? // e.g. "docs/components/drag-to-reorder"
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    prices    Price[]
+    purchases Purchase[]
+    licenses  License[]
+
+    @@map("product")
+}

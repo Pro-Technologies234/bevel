@@ -130,7 +130,7 @@ function FeedbackModule({
                     color: levels[currentDisplay - 1].color,
                   }}
                   className={cn(
-                    `text-xs font-semibold uppercase tracking-tight`,
+                    `text-xs font-semibold capitalize tracking-tight`,
                   )}
                 >
                   {levels[currentDisplay - 1].label}

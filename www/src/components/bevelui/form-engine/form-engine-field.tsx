@@ -1,6 +1,10 @@
 "use client";
 
-import { useController, type Path } from "react-hook-form";
+import {
+  useController,
+  type Path,
+  type RegisterOptions,
+} from "react-hook-form";
 import {
   InputGroup,
   InputGroupAddon,
@@ -9,28 +13,32 @@ import {
 } from "@/components/ui/input-group";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CardSelect } from "@/components/bevelui/controls/card-select";
-import { ChipSelect } from "@/components/bevelui/controls/chip-select";
-import { RatingField } from "@/components/bevelui/controls/rating-field";
-import { SelectField } from "@/components/bevelui/controls/select-field";
-import { TagInput } from "@/components/bevelui/controls/tag-input";
+// Relative imports — required for copy-to-own distribution to work correctly
+import { CardSelect } from "../controls/card-select";
+import { ChipSelect } from "../controls/chip-select";
+import { RatingField } from "../controls/rating-field";
+import { SelectField } from "../controls/select-field";
+import { TagInput } from "../controls/tag-input";
+import { DatePicker } from "../controls/date-picker";
 import { cn } from "@/lib/utils";
 import { useFormEngineContext } from "./form-engine-context";
-import type { FormEngineFieldDef } from "./form-engine-types";
-import { DatePicker } from "../controls/date-picker";
+import type { FieldRenderProps, FormEngineFieldDef } from "./form-engine-types";
 
 // ─── useFormEngineField ───────────────────────────────────────────────────────
 
 /**
  * useFormEngineField — read and write a single field from within the engine.
- * Integrates with react-hook-form for error messages.
+ * Integrates with react-hook-form for validation and error messages.
+ *
+ * Pass RHF rules for validation beyond what the field config provides.
  */
-export function useFormEngineField(key: string) {
+export function useFormEngineField(key: string, rules?: RegisterOptions) {
   const ctx = useFormEngineContext();
 
   const { field, fieldState } = useController({
     name: key as Path<Record<string, unknown>>,
     control: ctx.form.control,
+    rules,
   });
 
   return {
@@ -53,11 +61,53 @@ interface FormEngineFieldProps {
 }
 
 export function FormEngineField({ field }: FormEngineFieldProps) {
+  // Build RHF rules from field config — required now registers actual validation
+  const rules: RegisterOptions = {
+    ...(field.required
+      ? {
+          required:
+            typeof field.required === "string"
+              ? field.required
+              : `${field.label ?? field.key} is required`,
+        }
+      : {}),
+    ...(field.rules ?? {}),
+  } as RegisterOptions;
+
   const { value, onChange, onBlur, visible, disabled, error } =
-    useFormEngineField(field.key);
+    useFormEngineField(field.key, rules);
 
   if (!visible) return null;
 
+  // ── Custom render prop — full escape hatch ────────────────────────────────
+  if (field.variant === "custom") {
+    const renderProps: FieldRenderProps = {
+      value,
+      onChange,
+      onBlur,
+      error,
+      disabled,
+    };
+
+    return (
+      <Field orientation="vertical" className={field.className}>
+        {field.label && (
+          <FieldLabel htmlFor={field.key}>
+            {field.label}
+            {field.required && (
+              <span className="text-destructive ms-1" aria-hidden>
+                *
+              </span>
+            )}
+          </FieldLabel>
+        )}
+        {field.render(renderProps)}
+        {error && <FieldError role="alert">{error}</FieldError>}
+      </Field>
+    );
+  }
+
+  // ── Built-in variants ─────────────────────────────────────────────────────
   const renderControl = () => {
     switch (field.variant) {
       case "text":
@@ -66,7 +116,7 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
       case "password": {
         const Icon = field.props?.icon;
         return (
-          <InputGroup>
+          <InputGroup {...field.props}>
             <InputGroupInput
               id={field.key}
               type={field.variant}
@@ -89,7 +139,7 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
       case "textarea": {
         const Icon = field.props?.icon;
         return (
-          <InputGroup>
+          <InputGroup {...field.props}>
             <InputGroupTextarea
               value={(value as string) ?? ""}
               onChange={(e) => onChange(e.target.value)}
@@ -178,18 +228,18 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
         return (
           <DatePicker
             {...((field.props ?? {}) as any)}
-            // options={field.props ?? []}
             value={value as string}
             onChange={(val) => onChange(val)}
             disabled={disabled}
             withTime
           />
         );
+
       case "phone":
         return (
           <InputGroup>
             <InputGroupInput
-              type={"tel"}
+              type="tel"
               value={(value as string) ?? ""}
               onChange={(e) => onChange(e.target.value)}
               onBlur={onBlur}
@@ -219,7 +269,7 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
 
   return (
     <Field
-      orientation={field.variant == "checkbox" ? "horizontal" : "vertical"}
+      orientation={field.variant === "checkbox" ? "horizontal" : "vertical"}
       className={cn(
         field.variant === "checkbox" && "flex-row-reverse",
         field.className,
@@ -236,7 +286,6 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
         </FieldLabel>
       )}
       {renderControl()}
-      {/* Error message from react-hook-form / zod */}
       {error && <FieldError role="alert">{error}</FieldError>}
     </Field>
   );

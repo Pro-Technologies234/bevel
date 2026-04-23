@@ -1,11 +1,16 @@
 import type { JSX, ReactNode } from "react";
-import type { FieldErrors, UseFormProps, UseFormReturn } from "react-hook-form";
+import type {
+  FieldErrors,
+  RegisterOptions,
+  UseFormProps,
+  UseFormReturn,
+} from "react-hook-form";
 import type { ZodSchema } from "zod";
-import type { CardSelectProps } from "@/components/bevelui/controls/card-select";
-import type { ChipSelectProps } from "@/components/bevelui/controls/chip-select";
-import type { RatingFieldProps } from "@/components/bevelui/controls/rating-field";
-import type { SelectFieldProps } from "@/components/bevelui/controls/select-field";
-import type { TagInputProps } from "@/components/bevelui/controls/tag-input";
+import type { CardSelectProps } from "../controls/card-select";
+import type { ChipSelectProps } from "../controls/chip-select";
+import type { RatingFieldProps } from "../controls/rating-field";
+import type { SelectFieldProps } from "../controls/select-field";
+import type { TagInputProps } from "../controls/tag-input";
 import type { Icon } from "@tabler/icons-react";
 
 // ─── Form mode ────────────────────────────────────────────────────────────────
@@ -13,20 +18,31 @@ import type { Icon } from "@tabler/icons-react";
 export type FormEngineMode = "multi-step" | "single";
 export type FormEngineValidation = "per-step" | "on-submit";
 
+// ─── Validation result ────────────────────────────────────────────────────────
+
+/**
+ * Plugins and step guards can return a plain boolean (true = pass) or a
+ * structured result. When errors are returned, they are automatically
+ * set on the form fields — no extra wiring required.
+ *
+ * @example
+ * return { success: false, errors: { email: "This email is already taken." } }
+ */
+export type FormEngineValidateResult =
+  | boolean
+  | { success: false; errors: Record<string, string> };
+
 // ─── Plugin system ────────────────────────────────────────────────────────────
 
 /**
- * Plugins are the primary extension point for the form engine.
+ * Plugins are the primary extension point. They hook into every lifecycle
+ * event and can block navigation, surface errors, run analytics, etc.
  *
- * @example — zod validation plugin (use the built-in helper)
- * plugins={[createZodPlugin(mySchema)]}
- *
- * @example — analytics plugin
- * plugins={[{
- *   name: "analytics",
- *   onStepChange: (step, values) => track("step_viewed", { step }),
- *   onSubmit: (values) => track("form_submitted"),
- * }]}
+ * @example
+ * plugins={[
+ *   createZodPlugin(schemas),
+ *   createAnalyticsPlugin((event, data) => mixpanel.track(event, data)),
+ * ]}
  */
 export type FormEnginePlugin = {
   name: string;
@@ -38,56 +54,97 @@ export type FormEnginePlugin = {
     values: Record<string, unknown>,
   ) => void;
   /**
-   * Return false to block navigation away from this step.
-   * Runs after react-hook-form per-step trigger passes.
-   * Use this for async checks (username availability, server validation).
+   * Return false or { success: false, errors } to block navigation.
+   * Structured errors are automatically applied to the form fields.
+   * Runs after per-step validation passes.
    */
   onValidate?: (
     step: number,
     values: Record<string, unknown>,
-  ) => Promise<boolean> | boolean;
+  ) => Promise<FormEngineValidateResult> | FormEngineValidateResult;
   onSubmit?: (values: Record<string, unknown>) => Promise<void>;
+};
+
+// ─── Custom field render props ────────────────────────────────────────────────
+
+/**
+ * Props passed into a custom render function.
+ * Gives you full control over value, change handler, blur, error, and disabled.
+ *
+ * @example
+ * {
+ *   key: "color",
+ *   variant: "custom",
+ *   label: "Brand color",
+ *   render: ({ value, onChange, error }) => (
+ *     <ColorPicker value={value as string} onChange={onChange} error={error} />
+ *   ),
+ * }
+ */
+export type FieldRenderProps = {
+  value: unknown;
+  onChange: (value: unknown) => void;
+  onBlur: () => void;
+  error?: string;
+  disabled: boolean;
 };
 
 // ─── Field variants ───────────────────────────────────────────────────────────
 
 export type TextInputProps = {
   icon?: Icon;
+  [x: string]: unknown;
 };
 
 export type FormEngineFieldVariant =
-  | { variant: "text"; props?: TextInputProps }
-  | { variant: "number"; props?: TextInputProps }
-  | { variant: "email"; props?: TextInputProps }
-  | { variant: "password"; props?: TextInputProps }
-  | { variant: "textarea"; props?: TextInputProps }
-  | { variant: "checkbox"; props?: never }
-  | { variant: "date"; props?: never }
-  | { variant: "phone"; props?: never }
-  | { variant: "select"; props?: SelectFieldProps }
-  | { variant: "card-select"; props?: CardSelectProps }
-  | { variant: "chip-select"; props?: ChipSelectProps }
-  | { variant: "tag-input"; props?: TagInputProps }
-  | { variant: "rating"; props?: RatingFieldProps }
-  | { variant: "file"; props?: never };
+  | { variant: "text"; props?: TextInputProps; render?: never }
+  | { variant: "number"; props?: TextInputProps; render?: never }
+  | { variant: "email"; props?: TextInputProps; render?: never }
+  | { variant: "password"; props?: TextInputProps; render?: never }
+  | { variant: "textarea"; props?: TextInputProps; render?: never }
+  | { variant: "checkbox"; props?: never; render?: never }
+  | { variant: "date"; props?: never; render?: never }
+  | { variant: "phone"; props?: never; render?: never }
+  | { variant: "file"; props?: never; render?: never }
+  | { variant: "select"; props?: SelectFieldProps; render?: never }
+  | { variant: "card-select"; props?: CardSelectProps; render?: never }
+  | { variant: "chip-select"; props?: ChipSelectProps; render?: never }
+  | { variant: "tag-input"; props?: TagInputProps; render?: never }
+  | { variant: "rating"; props?: RatingFieldProps; render?: never }
+  /**
+   * Fully custom — you own the control.
+   * The engine wires up value, onChange, error, and disabled for you.
+   */
+  | {
+      variant: "custom";
+      props?: never;
+      render: (props: FieldRenderProps) => ReactNode;
+    };
 
 // ─── Field definition ─────────────────────────────────────────────────────────
 
 export type FormEngineFieldDef = {
-  /** Must match a key in your form values */
+  /** Must match a key in your form values. */
   key: string;
   label?: string;
   placeholder?: string;
-  required?: boolean;
+  /**
+   * Marks the field as required.
+   * - true → "{{label}} is required"
+   * - string → your custom message
+   */
+  required?: boolean | string;
   disabled?: boolean;
   className?: string;
   defaultValue?: unknown;
   /**
-   * Conditionally show or hide this field.
-   * Return true to show, false to hide.
-   *
-   * @example
-   * showWhen: (values) => values.plan === "pro"
+   * Additional react-hook-form validation rules (pattern, minLength, etc.).
+   * Merged with the required rule if both are set.
+   */
+  rules?: Omit<RegisterOptions, "required">;
+  /**
+   * Conditionally show or hide this field based on current form values.
+   * @example showWhen: (values) => values.plan === "pro"
    */
   showWhen?: (values: Record<string, unknown>) => boolean;
 } & FormEngineFieldVariant;
@@ -98,9 +155,32 @@ export type FormEngineStepDef = {
   id: string;
   title?: string;
   description?: string;
-  fields: FormEngineFieldDef[];
   /**
-   * Custom layout — receives rendered fields and actions as JSX.
+   * Field definitions for config-driven rendering via FormEngineStepCanvas.
+   * Omit when using FormEngineStep children for headless composition.
+   */
+  fields?: FormEngineFieldDef[];
+  /**
+   * Step-level validate function. Called before plugins.
+   * Use this to wire in any form library — the engine doesn't care what's inside.
+   *
+   * @example — react-hook-form
+   * validate: () => form.trigger(["name", "email"])
+   *
+   * @example — custom async check
+   * validate: async () => {
+   *   const ok = await checkUsername(values.username);
+   *   return ok || false;
+   * }
+   */
+  validate?: () => Promise<boolean> | boolean;
+  /**
+   * Async guard — called after validate() passes.
+   * Return false to block navigation without showing an error (e.g. soft checks).
+   */
+  guard?: (values: Record<string, unknown>) => Promise<boolean> | boolean;
+  /**
+   * Custom layout for field-driven steps. Receives rendered fields and actions.
    *
    * @example
    * layout: (fields, actions) => (
@@ -111,11 +191,6 @@ export type FormEngineStepDef = {
    * )
    */
   layout?: (fields: JSX.Element, actions: JSX.Element) => JSX.Element;
-  /**
-   * Async guard — called after validation passes.
-   * Return false to block navigation (e.g. check username availability).
-   */
-  guard?: (values: Record<string, unknown>) => Promise<boolean> | boolean;
 };
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -124,10 +199,11 @@ export type FormEngineConfig = {
   id?: string;
   mode?: FormEngineMode;
   validation?: FormEngineValidation;
-  resolver?: UseFormProps['resolver'];
+  /** Custom react-hook-form resolver (e.g. zodResolver, yupResolver). */
+  resolver?: UseFormProps["resolver"];
   /**
-   * Full-form Zod schema.
-   * For per-step zod validation, use createZodPlugin() instead.
+   * Full-form Zod schema applied on submit.
+   * For per-step validation with field-level errors, use createZodPlugin().
    */
   schema?: ZodSchema;
   steps: FormEngineStepDef[];
@@ -140,12 +216,12 @@ export type FormEngineFieldState = {
   disabled: boolean;
 };
 
-export type FormDefaultValues = Record<number, Record<string,unknown>>;
+export type FormDefaultValues = Record<number, Record<string, unknown>>;
 
 // ─── Context value ────────────────────────────────────────────────────────────
 
 export type FormEngineContextValue = {
-  /** The react-hook-form instance. Expose for advanced consumers. */
+  /** The react-hook-form instance. Exposed for advanced consumers. */
   form: UseFormReturn<Record<string, unknown>>;
   values: Record<string, unknown>;
   setFieldValue: (field: string, value: unknown) => void;
@@ -158,7 +234,7 @@ export type FormEngineContextValue = {
   goBack: () => void;
   goTo: (step: number) => void;
 
-  /** Computed visibility/disabled per field key */
+  /** Computed visibility/disabled state per field key. */
   fieldState: Record<string, FormEngineFieldState>;
 
   isSubmitting: boolean;
@@ -166,7 +242,6 @@ export type FormEngineContextValue = {
   errors: FieldErrors<Record<string, unknown>>;
 
   config: FormEngineConfig;
-  defaultValues?: FormDefaultValues;
   plugins: FormEnginePlugin[];
 };
 

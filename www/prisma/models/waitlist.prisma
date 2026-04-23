@@ -1,0 +1,12 @@
+// ─── Waitlist (for free users who want to be notified) ────────────────────────
+
+model Waitlist {
+    id        String   @id @default(cuid())
+    email     String   @unique
+    name      String?
+    source    String? // e.g. "landing-page", "docs-cta"
+    notified  Boolean  @default(false)
+    createdAt DateTime @default(now())
+
+    @@map("waitlist")
+}

@@ -45,6 +45,7 @@ export type FileUploadProviderProps = {
   ) => Promise<{ url: string; meta?: Record<string, unknown> }>;
   onComplete?: (files: FileEntry[]) => void;
   onError?: (id: string, error: string) => void;
+  onFilesChange?: (files: FileEntry[]) => void;
 };
 
 export function useFileUpload(): FileUploadContextValue {
@@ -61,6 +62,7 @@ export function FileUploadProvider({
   onUpload,
   onComplete,
   onError,
+  onFilesChange,
 }: FileUploadProviderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -144,9 +146,11 @@ export function FileUploadProvider({
           );
           // Call onComplete with the fully updated list
           allDone = updated.every((f) => f.status === "done");
+          if (allDone) {
+            queueMicrotask(() => onComplete?.(files));
+          }
           return updated;
         });
-        if (allDone) onComplete?.(files);
       } catch (err: unknown) {
         const message =
           err instanceof Error

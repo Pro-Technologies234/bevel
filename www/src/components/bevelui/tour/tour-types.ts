@@ -9,6 +9,7 @@ export interface TourMedia {
 
 export interface TourStepDef {
   /** 1-based step index */
+  id?: string;
   step: number;
   title: string;
   description: string;

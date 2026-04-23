@@ -92,7 +92,7 @@ function SidebarItem({
         "text-left text-sm  transition-colors duration-500 ease-in",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "disabled:opacity-40 disabled:cursor-not-allowed",
-        isActive ? "bg-primary/8 text-primary " : " hover:bg-muted/50",
+        isActive ? "bg-primary/8 text-lime-200 " : " hover:bg-muted/50",
       )}
     >
       {/* Active bar */}

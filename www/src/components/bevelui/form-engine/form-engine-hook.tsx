@@ -14,6 +14,7 @@ import type {
   FormEngineFieldState,
   FormEnginePlugin,
   FormEngineRootProps,
+  FormEngineValidateResult,
 } from "./form-engine-types";
 
 // ─── useFormEngineState ───────────────────────────────────────────────────────
@@ -21,10 +22,7 @@ import type {
 export interface UseFormEngineStateProps extends Pick<
   FormEngineRootProps,
   "config" | "plugins" | "onSubmit" | "defaultValues"
-> {
-  config: FormEngineConfig;
-  plugins?: FormEnginePlugin[];
-}
+> {}
 
 /**
  * useFormEngineState — the core logic hook.
@@ -40,18 +38,21 @@ export function useFormEngineState({
   // ── Build initial values from step fields ─────────────────────────────────
   const initialValues = useMemo<Record<string, unknown>>(() => {
     const vals: Record<string, unknown> = {};
-    config.steps.forEach((step,index) => {
-      step.fields.forEach((field) => {
-        vals[field.key] = field.defaultValue ?? defaultValues?.[index]?.[field.key];
+    config.steps.forEach((step, index) => {
+      step.fields?.forEach((field) => {
+        vals[field.key] =
+          field.defaultValue ?? defaultValues?.[index]?.[field.key];
       });
     });
     return vals;
-  }, [config]);
+  }, [config, defaultValues]);
 
   // ── react-hook-form ───────────────────────────────────────────────────────
   const form = useForm<Record<string, unknown>>({
     defaultValues: initialValues as DefaultValues<Record<string, unknown>>,
-    resolver: config.resolver || config.schema ? zodResolver(config.schema as any) : undefined,
+    resolver:
+      config.resolver ??
+      (config.schema ? zodResolver(config.schema as any) : undefined),
     mode: config.validation === "per-step" ? "onTouched" : "onSubmit",
   });
 
@@ -63,28 +64,25 @@ export function useFormEngineState({
   const [currentStep, setCurrentStep] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
 
-  const allPlugins = useMemo(
-    () => [...(plugins ?? []), ...plugins],
-    [plugins, plugins],
-  );
+  // Fix: was spreading plugins twice → every plugin ran twice
+  const allPlugins = useMemo(() => plugins ?? [], [plugins]);
 
-  // ── Mount hook ────────────────────────────────────────────────────────────
+  // ── Mount ─────────────────────────────────────────────────────────────────
   const mounted = useRef(false);
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
       allPlugins.forEach((p) => p.onMount?.(values));
     }
-  }, []); // eslint-disable-line
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Field state — visibility ──────────────────────────────────────────────
+  // ── Field state — visibility / disabled ───────────────────────────────────
   const fieldState = useMemo<Record<string, FormEngineFieldState>>(() => {
     const state: Record<string, FormEngineFieldState> = {};
     config.steps.forEach((step) => {
-      step.fields.forEach((field) => {
-        const visible = field.showWhen ? field.showWhen(values) : true;
+      step.fields?.forEach((field) => {
         state[field.key] = {
-          visible,
+          visible: field.showWhen ? field.showWhen(values) : true,
           disabled: field.disabled ?? false,
         };
       });
@@ -109,7 +107,30 @@ export function useFormEngineState({
     [form, allPlugins, config.validation],
   );
 
-  // ── Navigation helpers ────────────────────────────────────────────────────
+  // ── Validation result resolver ────────────────────────────────────────────
+  /**
+   * Resolves a FormEngineValidateResult.
+   * When errors are returned, they are set on the RHF form automatically
+   * so they surface in the field UI without any extra wiring.
+   */
+  const resolveValidation = useCallback(
+    (result: FormEngineValidateResult): boolean => {
+      if (typeof result === "boolean") return result;
+      if (!result.success) {
+        Object.entries(result.errors).forEach(([field, message]) => {
+          form.setError(field as Path<Record<string, unknown>>, {
+            type: "manual",
+            message,
+          });
+        });
+        return false;
+      }
+      return true;
+    },
+    [form],
+  );
+
+  // ── Navigation ────────────────────────────────────────────────────────────
   const totalSteps = config.mode === "single" ? 1 : config.steps.length;
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === totalSteps - 1;
@@ -119,8 +140,12 @@ export function useFormEngineState({
     setIsValidating(true);
 
     try {
-      // 1. react-hook-form per-step field validation
-      if (config.validation === "per-step") {
+      // 1. Step-level validate — supports any form library, takes precedence
+      if (step.validate) {
+        const valid = await step.validate();
+        if (!valid) return;
+      } else if (config.validation === "per-step" && step.fields?.length) {
+        // Default: RHF per-step field trigger (only for field-driven steps)
         const stepFields = step.fields.map(
           (f) => f.key as Path<Record<string, unknown>>,
         );
@@ -128,21 +153,22 @@ export function useFormEngineState({
         if (!valid) return;
       }
 
-      // 2. Step guard
+      // 2. Step guard — async check after validation passes
       if (step.guard) {
         const passed = await step.guard(form.getValues());
         if (!passed) return;
       }
 
-      // 3. Plugin validators (run in sequence — all must pass)
+      // 3. Plugin validators — sequential, all must pass
       for (const plugin of allPlugins) {
         if (plugin.onValidate) {
-          const passed = await plugin.onValidate(currentStep, form.getValues());
+          const result = await plugin.onValidate(currentStep, form.getValues());
+          const passed = resolveValidation(result);
           if (!passed) return;
         }
       }
 
-      // 4. Submit on last step, advance on any other step
+      // 4. Advance or submit
       if (isLastStep) {
         await form.handleSubmit(async (data) => {
           await onSubmit(data);
@@ -160,7 +186,15 @@ export function useFormEngineState({
     } finally {
       setIsValidating(false);
     }
-  }, [currentStep, isLastStep, config, allPlugins, form]);
+  }, [
+    currentStep,
+    isLastStep,
+    config,
+    allPlugins,
+    form,
+    resolveValidation,
+    onSubmit,
+  ]);
 
   const goBack = useCallback(() => {
     setCurrentStep((prev) => {
