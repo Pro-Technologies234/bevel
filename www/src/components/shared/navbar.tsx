@@ -23,6 +23,7 @@ const navigations = [
   { id: "components", label: "Components", href: "/docs/components" },
   { id: "templates", label: "Blocks", href: "/blocks" },
   { id: "pricing", label: "Pricing", href: "/pricing" },
+  { id: "labs", label: "Labs", href: "/labs" },
 ];
 
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {

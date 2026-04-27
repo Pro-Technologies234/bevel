@@ -3,23 +3,47 @@ import { startCheckout } from "@/actions/subscription";
 import { Badge } from "@/components/ui/badge";
 import { PricingCard } from "@/components/pricing/pricing-card";
 
-// Realistic, creative features for a functional UI system
+
+// ─── Feature lists — realistic based on what Bevel actually ships ─────────────
+
+const FREE_FEATURES = [
+  "Product Tour system",
+  "Command Palette system",
+  "File Upload system",
+  "Form Engine system",
+  "MIT licensed — own the code",
+  "shadcn CLI install",
+  "Full documentation & examples",
+  "Community support (GitHub)",
+];
+
 const PRO_FEATURES = [
-  "1 developer seat",
-  "Lifetime access & updates",
-  "Full component library (40+ interactive systems)",
-  "Headless logic + pre‑styled variants",
-  "License key for team usage",
-  "Email support (48h)",
+  "Everything in Free",
+  "All current Pro systems",
+  "Every future Pro system we ship",
+  "Bevel Labs — 6 full app source files",
+  "Private CLI registry access",
+  "License key for authenticated install",
+  "Private Discord access",
+  "Email support (48h response)",
 ];
 
 const TEAM_FEATURES = [
   "Everything in Pro",
-  "Up to 10 developer seats",
-  "Shared license key (single key for team)",
-  "Priority email support (24h)",
-  "Team‑wide usage analytics (coming soon)",
+  "Up to 5 developer seats",
+  "Shared team license key",
+  "Team member management dashboard",
+  "Accounting-ready invoice on request",
+  "Priority support (24h response)",
 ];
+
+// ─── Format price ─────────────────────────────────────────────────────────────
+
+function fmt(cents: number) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(cents / 100);
+}
+
+
 export default async function PricingPage() {
   const proBundlePrices = await prisma.price.findMany({
     where: {
@@ -39,14 +63,11 @@ export default async function PricingPage() {
   });
 
   const lifetimePrice = proBundlePrices.find((p) => p.type === "ONE_TIME");
-  const monthlyPrice = proBundlePrices.find(
-    (p) => p.type === "RECURRING" && p.interval === "MONTH",
-  );
+  const monthlyPrice = proBundlePrices.find((p) => p.type === "RECURRING" && p.interval === "MONTH");
 
-  // Ensure we have all prices (fallback to seed values)
   const lifetimeAmount = lifetimePrice?.amount ?? 4900;
   const monthlyAmount = monthlyPrice?.amount ?? 900;
-  const teamAmount = teamPrice?.amount ?? 29900;
+  const teamAmount = teamPrice?.amount ?? 19900;
 
   return (
     <div className="min-h-screen bg-black">
@@ -73,12 +94,12 @@ export default async function PricingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Pro Monthly Card */}
           <PricingCard
-            title="Pro Monthly"
+            title="Free"
             price={monthlyAmount}
-            period="/month"
-            description="Cancel anytime"
-            features={PRO_FEATURES}
-            buttonText="Subscribe monthly"
+            period="/"
+            description="Always free · MIT licensed"
+            features={FREE_FEATURES}
+            buttonText="Start for free"
             accentColor="#c2f13c"
             // action={
             //   monthlyPrice
@@ -105,7 +126,7 @@ export default async function PricingPage() {
           />
 
           {/* Team Yearly Card */}
-          {teamPrice && (
+          {/* {teamPrice && ( */}
             <PricingCard
               title="Team"
               price={teamAmount}
@@ -116,7 +137,7 @@ export default async function PricingPage() {
               accentColor="#c2f13c"
               // action={startCheckout.bind(null, teamPrice.id)}
             />
-          )}
+          {/* )} */}
         </div>
 
         {/* FAQ */}
