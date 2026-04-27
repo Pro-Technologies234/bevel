@@ -21,6 +21,8 @@ import {
   DashboardSection,
 } from "@/components/dashboard/dashboard-shell";
 import { DashboardCopyButton } from "@/components/dashboard/dashboard-copy-button";
+import { dashboardComponentsMetadata } from "@/lib/metadata";
+export const metadata = dashboardComponentsMetadata;
 
 export default async function MySystemsPage() {
   const session = await auth.api.getSession({ headers: await headers() });

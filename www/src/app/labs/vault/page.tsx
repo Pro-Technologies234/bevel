@@ -321,7 +321,7 @@ export default function VaultApp() {
         >
           <VaultAppSidebar
             active={activeNav}
-            onChange={setActiveNav}
+            onChange={(id) => typeof id == "string" && setActiveNav(id)}
             storageUsed={storageUsed}
           />
           <SidebarInset className="overflow-hidden border border-white/10 bg-[radial-gradient(circle_at_top,rgba(194,241,60,0.07),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))]">

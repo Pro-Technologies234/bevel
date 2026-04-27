@@ -17,6 +17,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSectionValue } from "@/hooks/use-section-value";
 import Marquee from "../landing/Marquee";
+import Image from "next/image";
+import { BrandMark } from "./brand-mark";
 
 const navigations = [
   { id: "home", label: "Home", href: "/" },
@@ -61,13 +63,8 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
         <Wrapper className="flex flex-row items-center justify-between py-3">
           {/* Left — logo + nav */}
           <nav className="flex items-center gap-6 lg:gap-8">
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <div className="size-6 flex items-center justify-center bg-primary bevel rounded-full shrink-0">
-                <IconBoltFilled color="black" size={14} />
-              </div>
-              <span className="font-medium text-lg tracking-tight font-sans">
-                Bevel UI
-              </span>
+            <Link href="/" className="flex items-end gap-2 shrink-0">
+              <BrandMark />
             </Link>
 
             {/* Desktop nav links */}

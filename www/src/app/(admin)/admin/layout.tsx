@@ -15,6 +15,8 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import { adminMetadata } from "@/lib/metadata";
+export const metadata = adminMetadata;
 
 const NAV = [
   { label: "Overview", href: "/admin", icon: IconLayoutDashboard },

@@ -34,7 +34,8 @@ import {
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { GlowEffect } from "@/components/ui/glow-effect";
-
+import { docsProductTourMetadata } from "@/lib/metadata";
+export const metadata = docsProductTourMetadata;
 // ─── Professional Step Definitions ───────────────────────────────────────────
 
 const STEPS: TourStepDef[] = [

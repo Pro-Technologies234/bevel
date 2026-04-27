@@ -50,8 +50,8 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Button } from "@/components/ui/button";
-
+import { docsCommandPaletteMetadata } from "@/lib/metadata";
+export const metadata = docsCommandPaletteMetadata;
 // ─── Original Demo (kept for docs) ───────────────────────────────────────────
 
 const SOURCE_TABS: CommandPaletteSourceTab[] = [

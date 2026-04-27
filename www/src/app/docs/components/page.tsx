@@ -13,7 +13,8 @@ import {
   IconRocket,
   IconTerminal2,
 } from "@tabler/icons-react";
-
+import { docsComponentsMetadata } from "@/lib/metadata";
+export const metadata = docsComponentsMetadata;
 const systems = [
   {
     name: "Product Tour",
@@ -62,12 +63,6 @@ const tocs = [
   { id: "all-systems", label: "All systems", depth: 1 as const },
   { id: "early-access", label: "Get notified", depth: 1 as const },
 ];
-
-export const metadata = {
-  title: "Systems — Bevel UI",
-  description:
-    "Fully-engineered UI systems for React. Each one solves a complete, hard UI engineering problem.",
-};
 
 export default function ComponentsPage() {
   return (

@@ -22,7 +22,8 @@ import {
   DashboardPanel,
   DashboardSection,
 } from "@/components/dashboard/dashboard-shell";
-
+import { dashboardMetadata } from "@/lib/metadata";
+export const metadata = dashboardMetadata;
 export default async function DashboardPageRoute() {
   const session = await auth.api.getSession({ headers: await headers() });
   const [accessList, purchases] = await Promise.all([
@@ -61,7 +62,7 @@ export default async function DashboardPageRoute() {
         </Button>
       </DashboardHero>
 
-      <section className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <DashboardMetricCard
           label="Systems you can use"
           value={`${accessible.length}`}

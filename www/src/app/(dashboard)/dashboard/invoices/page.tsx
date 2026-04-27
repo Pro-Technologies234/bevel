@@ -25,7 +25,8 @@ import {
   DashboardPanel,
   DashboardSection,
 } from "@/components/dashboard/dashboard-shell";
-
+import { dashboardInvoicesMetadata } from "@/lib/metadata";
+export const metadata = dashboardInvoicesMetadata;
 const statusClasses: Record<string, string> = {
   PAID: "border-emerald-500/20 bg-emerald-500/10 text-emerald-400",
   OPEN: "border-amber-500/20 bg-amber-500/10 text-amber-300",
@@ -116,7 +117,8 @@ export default async function InvoicesPage() {
                     className="border-white/10 hover:bg-background/40"
                   >
                     <TableCell className="px-5 py-4 font-mono text-xs">
-                      {invoice.invoiceNumber ?? invoice.id.slice(0, 8).toUpperCase()}
+                      {invoice.invoiceNumber ??
+                        invoice.id.slice(0, 8).toUpperCase()}
                     </TableCell>
                     <TableCell className="py-4 text-sm font-medium">
                       {invoice.purchase.product.name}
@@ -130,13 +132,17 @@ export default async function InvoicesPage() {
                     <TableCell className="py-4">
                       <Badge
                         variant="outline"
-                        className={statusClasses[invoice.status] ?? statusClasses.VOID}
+                        className={
+                          statusClasses[invoice.status] ?? statusClasses.VOID
+                        }
                       >
                         {invoice.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="py-4 text-sm text-muted-foreground">
-                      {invoice.paidAt ? format(invoice.paidAt, "MMM d, yyyy") : "-"}
+                      {invoice.paidAt
+                        ? format(invoice.paidAt, "MMM d, yyyy")
+                        : "-"}
                     </TableCell>
                     <TableCell className="py-4 pr-5">
                       <div className="flex items-center gap-2">

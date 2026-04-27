@@ -113,7 +113,7 @@
         {
           "type": "code",
           "language": "tsx",
-          "code": "import { z } from \"zod\";\nimport { FormEngine, createZodPlugin } from \"@/components/bevelui/form-engine\";\n\nconst schemas = {\n  0: z.object({\n    name: z.string().min(2, \"Name must be at least 2 characters\"),\n    email: z.string().email(\"Enter a valid email address\"),\n    password: z.string().min(8, \"Password must be at least 8 characters\"),\n  }),\n  1: z.object({\n    plan: z.enum([\"free\", \"pro\"], { required_error: \"Please select a plan\" }),\n  }),\n};\n\n<FormEngine\n  config={config}\n  plugins={[createZodPlugin(schemas)]}\n  onSubmit={onSubmit}\n/>"
+          "code": "import { z } from \"zod\";\nimport { FormEngine, createZodPlugin } from \"@/components/bevelui/form-engine\";\n\nconst schemas = {\n  0: z.object({\n    name: z.string().min(2, \"Name must be at least 2 characters\"),\n    email: z.string().email(\"Enter a valid email address\"),\n    password: z.string().min(8, \"Password must be at least 8 characters\"),\n  }),\n  1: z.object({\n    plan: z.enum([\"free\", \"pro\"], { error: \"Please select a plan\" }),\n  }),\n};\n\n<FormEngine\n  config={config}\n  plugins={[createZodPlugin(schemas)]}\n  onSubmit={onSubmit}\n/>"
         },
         {
           "type": "callout",

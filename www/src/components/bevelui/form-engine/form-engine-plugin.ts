@@ -18,7 +18,7 @@ import type {
  *     email: z.string().email("Enter a valid email address"),
  *   }),
  *   1: z.object({
- *     plan: z.enum(["free", "pro"], { required_error: "Please select a plan" }),
+ *     plan: z.enum(["free", "pro"], { error: "Please select a plan" }),
  *   }),
  * });
  *

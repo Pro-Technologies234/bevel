@@ -117,7 +117,7 @@ export function DocsCodeBlock({
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-border/60 bg-muted/30 dark:bg-zinc-900/60">
+      <div className="flex items-center justify-between px-3 py-1 border-b border-border/60 bg-muted/30 dark:bg-zinc-900/60">
         <div className="flex items-center gap-2">
           <IconTerminal2
             size={13}

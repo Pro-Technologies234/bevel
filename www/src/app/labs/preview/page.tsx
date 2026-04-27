@@ -5,15 +5,28 @@
 
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
-
+import { labPreviewMetadata } from "@/lib/metadata";
+export const metadata = labPreviewMetadata;
 // Dynamic imports — server-side friendly
 const REGISTRY: Record<string, React.ComponentType> = {
-  vault: dynamic(() => import("@/components/labs/vault/VaultApp"), { ssr: false }) as any,
-  onboard: dynamic(() => import("@/components/labs/onboard/OnboardApp"), { ssr: false }) as any,
-  launchpad: dynamic(() => import("@/components/labs/launchpad/LaunchpadApp"), { ssr: false }) as any,
-  intake: dynamic(() => import("@/components/labs/intake/IntakeApp"), { ssr: false }) as any,
-  ici: dynamic(() => import("@/components/labs/briefcase/BriefcaseApp"), { ssr: false }) as any,
-  compass: dynamic(() => import("@/components/labs/compass/CompassApp"), { ssr: false }) as any,
+  vault: dynamic(() => import("@/components/labs/vault/VaultApp"), {
+    ssr: false,
+  }) as any,
+  onboard: dynamic(() => import("@/components/labs/onboard/OnboardApp"), {
+    ssr: false,
+  }) as any,
+  launchpad: dynamic(() => import("@/components/labs/launchpad/LaunchpadApp"), {
+    ssr: false,
+  }) as any,
+  intake: dynamic(() => import("@/components/labs/intake/IntakeApp"), {
+    ssr: false,
+  }) as any,
+  ici: dynamic(() => import("@/components/labs/briefcase/BriefcaseApp"), {
+    ssr: false,
+  }) as any,
+  compass: dynamic(() => import("@/components/labs/compass/CompassApp"), {
+    ssr: false,
+  }) as any,
 };
 
 export function generateStaticParams() {

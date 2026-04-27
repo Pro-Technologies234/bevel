@@ -19,7 +19,8 @@ import {
   DashboardPanel,
   DashboardSection,
 } from "@/components/dashboard/dashboard-shell";
-
+import { dashboardSettingsMetadata } from "@/lib/metadata";
+export const metadata = dashboardSettingsMetadata;
 export default function SettingsPage() {
   const { data: session, isPending } = useSession();
   const [name, setName] = useState("");

@@ -22,6 +22,7 @@ import {
   IconMail,
 } from "@tabler/icons-react";
 import type { FormEngineConfig } from "@/components/bevelui/form-engine";
+import { Badge } from "@/components/ui/badge";
 
 // ─── Schemas ──────────────────────────────────────────────────────────────────
 
@@ -54,10 +55,34 @@ const config: FormEngineConfig = {
       title: "Personal information",
       description: "Your basic contact details.",
       fields: [
-        { key: "fullName", variant: "text", label: "Full name", placeholder: "Alex Johnson", required: true },
-        { key: "email", variant: "email", label: "Email address", placeholder: "alex@example.com", required: true },
-        { key: "phone", variant: "text", label: "Phone number", placeholder: "+1 (555) 000-0000", required: true },
-        { key: "location", variant: "text", label: "Location", placeholder: "San Francisco, CA", required: true },
+        {
+          key: "fullName",
+          variant: "text",
+          label: "Full name",
+          placeholder: "Alex Johnson",
+          required: true,
+        },
+        {
+          key: "email",
+          variant: "email",
+          label: "Email address",
+          placeholder: "alex@example.com",
+          required: true,
+        },
+        {
+          key: "phone",
+          variant: "text",
+          label: "Phone number",
+          placeholder: "+1 (555) 000-0000",
+          required: true,
+        },
+        {
+          key: "location",
+          variant: "text",
+          label: "Location",
+          placeholder: "San Francisco, CA",
+          required: true,
+        },
       ],
     },
     {
@@ -73,11 +98,27 @@ const config: FormEngineConfig = {
           props: {
             columns: 3,
             options: [
-              { value: "frontend", label: "Frontend", description: "React, Vue, CSS" },
-              { value: "fullstack", label: "Full-stack", description: "Frontend + backend" },
-              { value: "backend", label: "Backend", description: "APIs, databases" },
+              {
+                value: "frontend",
+                label: "Frontend",
+                description: "React, Vue, CSS",
+              },
+              {
+                value: "fullstack",
+                label: "Full-stack",
+                description: "Frontend + backend",
+              },
+              {
+                value: "backend",
+                label: "Backend",
+                description: "APIs, databases",
+              },
               { value: "design", label: "Design", description: "UI/UX design" },
-              { value: "product", label: "Product", description: "PM / strategy" },
+              {
+                value: "product",
+                label: "Product",
+                description: "PM / strategy",
+              },
             ],
           },
         },
@@ -116,16 +157,37 @@ const config: FormEngineConfig = {
       title: "Portfolio & cover letter",
       description: "Share your work and tell us why you're a good fit.",
       fields: [
-        { key: "portfolio", variant: "text", label: "Portfolio URL", placeholder: "https://yourportfolio.com" },
-        { key: "github", variant: "text", label: "GitHub", placeholder: "https://github.com/username" },
-        { key: "linkedin", variant: "text", label: "LinkedIn", placeholder: "https://linkedin.com/in/username" },
-        { key: "coverLetter", variant: "textarea", label: "Cover letter", placeholder: "Tell us about yourself and why you'd be a great fit...", required: true },
+        {
+          key: "portfolio",
+          variant: "text",
+          label: "Portfolio URL",
+          placeholder: "https://yourportfolio.com",
+        },
+        {
+          key: "github",
+          variant: "text",
+          label: "GitHub",
+          placeholder: "https://github.com/username",
+        },
+        {
+          key: "linkedin",
+          variant: "text",
+          label: "LinkedIn",
+          placeholder: "https://linkedin.com/in/username",
+        },
+        {
+          key: "coverLetter",
+          variant: "textarea",
+          label: "Cover letter",
+          placeholder: "Tell us about yourself and why you'd be a great fit...",
+          required: true,
+        },
       ],
     },
   ],
-  onSubmit: async () => {
-    await new Promise((r) => setTimeout(r, 1000));
-  },
+  // onSubmit: async () => {
+  //   await new Promise((r) => setTimeout(r, 1000));
+  // },
 };
 
 // ─── Submitted state ──────────────────────────────────────────────────────────
@@ -141,9 +203,12 @@ function SubmittedState({ onReset }: { onReset: () => void }) {
         <IconCheck size={28} strokeWidth={2} className="text-primary" />
       </div>
       <div>
-        <h2 className="text-xl font-bold tracking-tight mb-2">Application submitted</h2>
+        <h2 className="text-xl font-bold tracking-tight mb-2">
+          Application submitted
+        </h2>
         <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-          We've received your application and will be in touch within 3–5 business days.
+          We've received your application and will be in touch within 3–5
+          business days.
         </p>
       </div>
       <div className="flex items-center gap-3 mt-2">
@@ -166,10 +231,6 @@ export default function IntakeApp() {
 
   const submittingConfig: FormEngineConfig = {
     ...config,
-    onSubmit: async () => {
-      await new Promise((r) => setTimeout(r, 1000));
-      setSubmitted(true);
-    },
   };
 
   return (
@@ -177,7 +238,9 @@ export default function IntakeApp() {
       {/* Left panel — branding */}
       <div
         className="hidden md:flex w-72 shrink-0 flex-col justify-between p-8"
-        style={{ background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)" }}
+        style={{
+          background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)",
+        }}
       >
         <div>
           <div className="flex items-center gap-2 mb-12">
@@ -188,28 +251,47 @@ export default function IntakeApp() {
           </div>
 
           <div className="mb-8">
-            <Badge className="mb-4 text-[10px] px-2 py-1" style={{ background: "rgba(194,241,60,.12)", color: "#c2f13c", border: "1px solid rgba(194,241,60,.2)" }}>
+            <Badge
+              className="mb-4 text-[10px] px-2 py-1"
+              style={{
+                background: "rgba(194,241,60,.12)",
+                color: "#c2f13c",
+                border: "1px solid rgba(194,241,60,.2)",
+              }}
+            >
               <IconBriefcase size={10} className="mr-1" /> Now hiring
             </Badge>
             <h2 className="text-2xl font-black text-white leading-tight mb-3">
               Join the team building the future of React UI.
             </h2>
             <p className="text-sm text-white/40 leading-relaxed font-light">
-              We're a small team shipping high-quality systems for developers. Remote-first, async-friendly, high-ownership.
+              We're a small team shipping high-quality systems for developers.
+              Remote-first, async-friendly, high-ownership.
             </p>
           </div>
 
           {/* Values */}
           {[
-            { icon: IconUser, text: "High ownership — you'll drive whole features" },
-            { icon: IconFile, text: "Open source — your work is seen by thousands" },
-            { icon: IconBoltFilled, text: "Fast-paced — we ship early and often" },
+            {
+              icon: IconUser,
+              text: "High ownership — you'll drive whole features",
+            },
+            {
+              icon: IconFile,
+              text: "Open source — your work is seen by thousands",
+            },
+            {
+              icon: IconBoltFilled,
+              text: "Fast-paced — we ship early and often",
+            },
           ].map((item) => (
             <div key={item.text} className="flex items-start gap-3 mb-4">
               <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
                 <item.icon size={12} style={{ color: "#c2f13c" }} />
               </div>
-              <p className="text-xs text-white/40 leading-relaxed">{item.text}</p>
+              <p className="text-xs text-white/40 leading-relaxed">
+                {item.text}
+              </p>
             </div>
           ))}
         </div>
@@ -237,6 +319,10 @@ export default function IntakeApp() {
                     submitLabel: "Submit application",
                     nextLabel: "Continue →",
                     layout: "split",
+                  }}
+                  onSubmit={async () => {
+                    await new Promise((r) => setTimeout(r, 1000));
+                    setSubmitted(true);
                   }}
                 />
               </motion.div>

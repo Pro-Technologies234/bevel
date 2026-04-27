@@ -28,21 +28,16 @@ export function FormEngineStepMeta({
   if (!resolvedTitle && !resolvedDescription && !visual && !addons) return null;
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-4",
-        className,
-      )}
-    >
+    <div className={cn("flex flex-col gap-4", className)}>
       {visual && (
         <div className="mb-2 animate-in fade-in zoom-in duration-500">
           {visual}
         </div>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-1">
         {resolvedTitle && (
-          <h3 className="text-2xl md:text-4xl font-semibold leading-tight">
+          <h3 className="text-2xl md:text-3xl font-semibold leading-tight">
             {resolvedTitle}
           </h3>
         )}

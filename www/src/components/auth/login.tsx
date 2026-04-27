@@ -14,6 +14,7 @@ import {
   IconLoader2,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import { BevelIcon, BrandMark } from "../shared/brand-mark";
 
 export function LoginForm() {
   const router = useRouter();
@@ -54,15 +55,8 @@ export function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4">
       <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-            <IconBoltFilled size={16} color="#0a0a0a" />
-          </div>
-          <span className="text-lg font-bold">Bevel UI</span>
-        </div>
-
         <div className="rounded-2xl border border-border bg-card p-8">
+          <BevelIcon className=" size-8 mb-6" />
           <div className="mb-6">
             <h1 className="text-xl font-bold tracking-tight">Welcome back</h1>
             <p className="text-sm text-muted-foreground mt-1">

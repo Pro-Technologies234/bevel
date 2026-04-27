@@ -22,6 +22,7 @@ import {
 import { NavMain } from "@/components/shared/app-sidebar/nav-main";
 import { NavSecondary } from "@/components/shared/app-sidebar/nav-secondary";
 import { NavUser } from "@/components/shared/app-sidebar/nav-user";
+import { BrandMark } from "../brand-mark";
 
 const navMainItems = [
   { title: "Overview", url: "/dashboard", icon: IconLayoutDashboard },
@@ -56,12 +57,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
               className="h-auto rounded-xl data-[slot=sidebar-menu-button]:p-3!"
             >
               <a href="/" className="flex items-center gap-3">
-                <div className="flex size-8 items-center justify-center rounded-2xl bg-primary text-black">
-                  <IconBoltFilled className="size-5!" />
-                </div>
-                <span className="text-base font-semibold tracking-tight">
-                  Bevel UI
-                </span>
+                <BrandMark />
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

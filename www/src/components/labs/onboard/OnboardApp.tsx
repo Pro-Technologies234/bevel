@@ -4,7 +4,12 @@ import { useState } from "react";
 import { z } from "zod";
 import { motion, AnimatePresence } from "motion/react";
 import { FormEngine, createZodPlugin } from "@/components/bevelui/form-engine";
-import { TourRoot, TourAnchor, TourTrigger, useTour } from "@/components/bevelui/tour";
+import {
+  TourRoot,
+  TourAnchor,
+  TourTrigger,
+  useTour,
+} from "@/components/bevelui/tour";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -33,15 +38,15 @@ const schemas = {
   1: z.object({
     company: z.string().min(2, "Company name is required"),
     role: z.enum(["engineering", "design", "product", "founder", "other"], {
-      required_error: "Select your role",
+      error: "Select your role",
     }),
     teamSize: z.enum(["solo", "2-5", "6-20", "20+"], {
-      required_error: "Select team size",
+      error: "Select team size",
     }),
   }),
   2: z.object({
     plan: z.enum(["free", "pro", "team"], {
-      required_error: "Select a plan",
+      error: "Select a plan",
     }),
   }),
 };
@@ -165,9 +170,6 @@ const config: FormEngineConfig = {
       ],
     },
   ],
-  onSubmit: async (values) => {
-    await new Promise((r) => setTimeout(r, 800));
-  },
 };
 
 // ─── Result dashboard (what the user sees after signup) ───────────────────────
@@ -176,19 +178,22 @@ const TOUR_STEPS = [
   {
     step: 1,
     title: "Welcome to your workspace",
-    description: "Everything you need is here. Let us show you around — it'll take 30 seconds.",
+    description:
+      "Everything you need is here. Let us show you around — it'll take 30 seconds.",
     side: "bottom" as const,
   },
   {
     step: 2,
     title: "Your navigation",
-    description: "Switch between Dashboard, Users, Analytics, and Settings from here.",
+    description:
+      "Switch between Dashboard, Users, Analytics, and Settings from here.",
     side: "right" as const,
   },
   {
     step: 3,
     title: "Key metrics",
-    description: "Your most important numbers at a glance. Click any card to drill in.",
+    description:
+      "Your most important numbers at a glance. Click any card to drill in.",
     side: "bottom" as const,
   },
   {
@@ -212,9 +217,13 @@ function ResultDashboard({ name, company }: { name: string; company: string }) {
                   <div className="w-5 h-5 rounded bg-primary/20 flex items-center justify-center">
                     <IconBoltFilled size={10} className="text-primary" />
                   </div>
-                  <span className="text-xs font-bold truncate">{company || "My Workspace"}</span>
+                  <span className="text-xs font-bold truncate">
+                    {company || "My Workspace"}
+                  </span>
                 </div>
-                <span className="text-[10px] text-muted-foreground">Free plan</span>
+                <span className="text-[10px] text-muted-foreground">
+                  Free plan
+                </span>
               </div>
             </TourAnchor>
 
@@ -272,7 +281,9 @@ function ResultDashboard({ name, company }: { name: string; company: string }) {
                     key={m.label}
                     className="p-3 rounded-xl border border-border/60 bg-muted/10"
                   >
-                    <p className="text-[10px] text-muted-foreground mb-1">{m.label}</p>
+                    <p className="text-[10px] text-muted-foreground mb-1">
+                      {m.label}
+                    </p>
                     <p className="text-lg font-bold">{m.value}</p>
                     <p className="text-[10px] text-muted-foreground flex items-center gap-0.5 mt-0.5">
                       <IconTrendingUp size={9} /> {m.delta}
@@ -284,7 +295,11 @@ function ResultDashboard({ name, company }: { name: string; company: string }) {
 
             {/* Empty state */}
             <div className="flex-1 rounded-xl border border-dashed border-border/60 bg-muted/5 flex flex-col items-center justify-center gap-3 p-8 text-center">
-              <IconChartBar size={24} strokeWidth={1.2} className="text-muted-foreground/50" />
+              <IconChartBar
+                size={24}
+                strokeWidth={1.2}
+                className="text-muted-foreground/50"
+              />
               <p className="text-sm text-muted-foreground">
                 No data yet. Start inviting users to see activity here.
               </p>
@@ -308,11 +323,6 @@ export default function OnboardApp() {
 
   const submittingConfig: FormEngineConfig = {
     ...config,
-    onSubmit: async (values) => {
-      await new Promise((r) => setTimeout(r, 800));
-      setFormValues(values as Record<string, string>);
-      setSubmitted(true);
-    },
   };
 
   return (
@@ -338,12 +348,22 @@ export default function OnboardApp() {
               <FormEngine
                 config={submittingConfig}
                 plugins={[createZodPlugin(schemas)]}
-                actionsProps={{ submitLabel: "Create account", nextLabel: "Continue →" }}
+                actionsProps={{
+                  submitLabel: "Create account",
+                  nextLabel: "Continue →",
+                }}
+                onSubmit={async (values) => {
+                  await new Promise((r) => setTimeout(r, 800));
+                  setFormValues(values as Record<string, string>);
+                  setSubmitted(true);
+                }}
               />
 
               <p className="text-center text-[11px] text-muted-foreground mt-4">
                 Already have an account?{" "}
-                <button className="underline hover:text-foreground">Sign in</button>
+                <button className="underline hover:text-foreground">
+                  Sign in
+                </button>
               </p>
             </div>
           </motion.div>
@@ -357,10 +377,15 @@ export default function OnboardApp() {
             {/* Success bar */}
             <div className="flex items-center gap-2 px-6 py-3 bg-primary/5 border-b border-primary/20">
               <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
-                <IconCheck size={12} strokeWidth={2.5} className="text-primary" />
+                <IconCheck
+                  size={12}
+                  strokeWidth={2.5}
+                  className="text-primary"
+                />
               </div>
               <span className="text-sm font-medium text-primary">
-                Account created! Here's your workspace — the tour will guide you through it.
+                Account created! Here's your workspace — the tour will guide you
+                through it.
               </span>
               <Button
                 variant="ghost"

@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { IconBoltFilled, IconChevronDown } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
 import { DocsCommandSearch } from "../bevelui/docs/docs-command-search";
+import { BrandMark } from "./brand-mark";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -211,12 +212,7 @@ export function BevelSidebar({
     >
       <div className=" space-y-2 dark:bg-black bg-white p-2 pt-4 rounded-b-3xl mx-2">
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="size-6 flex items-center justify-center bg-primary bevel rounded-full shrink-0">
-            <IconBoltFilled color="black" size={14} />
-          </div>
-          <span className="font-medium text-lg tracking-tight font-sans">
-            Bevel UI
-          </span>
+          <BrandMark />
         </Link>
         <DocsCommandSearch className="lg:w-full" />
       </div>

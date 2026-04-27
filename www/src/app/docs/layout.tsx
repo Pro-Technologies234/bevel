@@ -12,11 +12,11 @@ import {
 } from "@tabler/icons-react";
 import { DocsSidebar } from "@/components/docs/shared/docs-sidebar";
 import { Footer } from "@/components/shared/footer";
-import { Navbar } from "@/components/shared/navbar";
-import { Wrapper } from "@/components/shared/wrapper";
 import { DocsCommandSearch } from "@/components/bevelui/docs/docs-command-search";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { docsMetadata } from "@/lib/metadata";
+export const metadata = docsMetadata;
 
 const NAVBAR_HEIGHT = "0rem"; // 56px — matches py-3 + content height
 

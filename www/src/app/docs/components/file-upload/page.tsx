@@ -44,7 +44,8 @@ import {
   IconCircleCheckFilled,
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-
+import { docsFileUploadMetadata } from "@/lib/metadata";
+export const metadata = docsFileUploadMetadata;
 // ─── Simulated upload (same as original) ─────────────────────────────────────
 
 async function simulateUpload(

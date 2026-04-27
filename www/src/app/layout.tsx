@@ -5,6 +5,12 @@ import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  organizationJsonLd,
+  rootMetadata,
+  viewport,
+  websiteJsonLd,
+} from "@/lib/metadata";
 
 const nohemiSans = localFont({
   src: [
@@ -57,18 +63,8 @@ const geistMono = Geist({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Bevel UI — The UI Systems Your App Actually Needs",
-  description:
-    "Copy-to-own UI systems built on shadcn. Product Tour, Command Palette, File Upload, Form Engine. Zero runtime dependency.",
-  openGraph: {
-    title: "Bevel UI",
-    description: "Precision components for serious builders.",
-    url: "https://bevelui.vercel.app",
-    siteName: "Bevel UI",
-  },
-};
-
+export const metadata: Metadata = rootMetadata;
+export { viewport };
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -76,6 +72,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
       <body
         className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-foreground dark:bg-black bg-white selection:text-background`}
       >

@@ -25,7 +25,8 @@ import {
   IconPlayerPlay,
 } from "@tabler/icons-react";
 import { useState } from "react";
-
+import { docsFormEngineMetadata } from "@/lib/metadata";
+export const metadata = docsFormEngineMetadata;
 // ─── Original Demo (kept for docs) ───────────────────────────────────────────
 
 const stepSchemas = {
@@ -92,12 +93,22 @@ const config: FormEngineConfig = {
           label: "Choose a plan",
           required: true,
           props: {
-            columns: 3,
+            columns: 2,
             size: "sm",
+            layout: "grid",
             options: [
               { value: "free", label: "Free", description: "$0/mo" },
-              { value: "pro", label: "Pro", description: "$12/mo", badge: "Popular" },
-              { value: "enterprise", label: "Enterprise", description: "Custom" },
+              {
+                value: "pro",
+                label: "Pro",
+                description: "$12/mo",
+                badge: "Popular",
+              },
+              {
+                value: "enterprise",
+                label: "Enterprise",
+                description: "Custom",
+              },
             ],
           },
         },
@@ -170,22 +181,30 @@ export function FormEngineDemo() {
   }
 
   return (
-    <div className="w-full max-w-md">
-      <FormEngine
-        onSubmit={async (values: unknown) => {
-          await new Promise((r) => setTimeout(r, 1200));
-          console.log("Form submitted:", values);
-          setSubmitted(true);
-        }}
-        config={config}
-        plugins={plugins}
-        actionsProps={{
-          submitLabel: "Create account",
-          nextLabel: "Continue",
-          layout: "split",
-        }}
-      />
-    </div>
+    <Card className="w-full max-w-md min-h-[70vh] max-h-[70vh] h-full flex flex-col items-center w-full">
+      <CardContent className="flex-1 flex flex-col w-full">
+        <FormEngineRoot
+          onSubmit={async (values: unknown) => {
+            await new Promise((r) => setTimeout(r, 1200));
+            console.log("Form submitted:", values);
+            setSubmitted(true);
+          }}
+          config={config}
+          plugins={plugins}
+          // actionsProps={{
+          //   submitLabel: "Create account",
+          //   nextLabel: "Continue",
+          //   layout: "split",
+          // }}
+
+          className="flex flex-col items-center justify-between h-full flex-1 w-full"
+        >
+          <FormEngineStepMeta />
+          <FormEngineStepCanvas className="w-full" />
+          <FormEngineNavigation nextBtnClassName="rounded-full px-4 py-4!" />
+        </FormEngineRoot>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -256,9 +275,30 @@ const showcaseConfig: FormEngineConfig = {
           props: {
             columns: 3,
             options: [
-              { value: "free", label: "Free", description: "For individuals", preview: "/images/tour-1.png" },
-              { value: "pro", label: "Pro", description: "$12/seat/mo", badge: "Most popular", preview: "/images/car.webp" },
-              { value: "enterprise", label: "Enterprise", description: "Custom pricing", preview: <video className="w-full h-full object-cover" src={"/videos/tour-1.webm"} /> },
+              {
+                value: "free",
+                label: "Free",
+                description: "For individuals",
+                preview: "/images/tour-1.png",
+              },
+              {
+                value: "pro",
+                label: "Pro",
+                description: "$12/seat/mo",
+                badge: "Most popular",
+                preview: "/images/car.webp",
+              },
+              {
+                value: "enterprise",
+                label: "Enterprise",
+                description: "Custom pricing",
+                preview: (
+                  <video
+                    className="w-full h-full object-cover"
+                    src={"/videos/tour-1.webm"}
+                  />
+                ),
+              },
             ],
           },
         },
@@ -276,13 +316,13 @@ const showcaseConfig: FormEngineConfig = {
           placeholder: "colleague@company.com",
           props: {
             validate: (val: string) => {
-             const valid =  (/.+@.+\..+/).test(val)
-             if (!valid) toast.error("Input a valid Email address")
-             return valid
+              const valid = /.+@.+\..+/.test(val);
+              if (!valid) toast.error("Input a valid Email address");
+              return valid;
             },
-            variant: 'default',
-            size: 'sm',
-            tagClassName: "bg-cyan-700  text-white border-none"
+            variant: "default",
+            size: "sm",
+            tagClassName: "bg-cyan-700  text-white border-none",
           },
         },
       ],
@@ -307,7 +347,6 @@ const showcaseSchemas = {
   }),
 };
 
-
 export function createZodValidatePlugin(
   schemas: Record<number, ZodSchema>,
 ): FormEnginePlugin {
@@ -318,14 +357,13 @@ export function createZodValidatePlugin(
       if (!schema) return true;
       const result = schema.safeParse(values);
       if (result.error) {
-        const msg = result.error.issues[0].message || "Error"
-        toast.error(msg)
+        const msg = result.error.issues[0].message || "Error";
+        toast.error(msg);
       }
       return result.success;
     },
   };
 }
-
 
 export function FormEngineShowcase() {
   const [submitted, setSubmitted] = useState(false);
@@ -346,21 +384,28 @@ export function FormEngineShowcase() {
       <div className="w-full max-w-4xl mx-auto">
         <div className="rounded-2xl border border-border bg-popover/60 shadow-xl py-22 px-4 md:p-16 text-center">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-pink-500/20 to-pink-500/5 flex items-center justify-center mb-6">
-            <IconSparkles size={32} strokeWidth={1.8} className="text-pink-500" />
+            <IconSparkles
+              size={32}
+              strokeWidth={1.8}
+              className="text-pink-500"
+            />
           </div>
-          <h2 className="text-2xl font-semibold mb-2 font-sans">You're all set!</h2>
+          <h2 className="text-2xl font-semibold mb-2 font-sans">
+            You're all set!
+          </h2>
           <p className="text-muted-foreground mb-8 max-w-xs mx-auto">
             Your workspace is ready. We've sent a confirmation to your email.
           </p>
           <div className="flex gap-3 justify-center">
-            <Button className=" rounded-full text-xs p-4"  >
+            <Button className=" rounded-full text-xs p-4">
               Go to dashboard
             </Button>
-            <Button className=" rounded-full text-xs p-4" 
+            <Button
+              className=" rounded-full text-xs p-4"
               onClick={() => setSubmitted(false)}
-              variant={'outline'}
+              variant={"outline"}
             >
-              <IconPlayerPlay/>
+              <IconPlayerPlay />
               Start over
             </Button>
           </div>
@@ -376,17 +421,17 @@ export function FormEngineShowcase() {
         plugins={plugins}
         defaultValues={{
           0: {
-            "name": "",
-            "email": "",
-            "password": "",
+            name: "",
+            email: "",
+            password: "",
           },
           1: {
-            "workspace": "",
-            "plan": "pro",
+            workspace: "",
+            plan: "pro",
           },
           2: {
-            "invites": ["bevelui@gmail.com"],
-          }
+            invites: ["bevelui@gmail.com"],
+          },
         }}
         onSubmit={handleSubmit}
       >
@@ -396,8 +441,14 @@ export function FormEngineShowcase() {
             <div className="bg-muted/5 border-r border-border p-6 flex flex-col">
               <div className="mb-8">
                 <div className="flex items-center gap-2 mb-4">
-                  <IconRocket size={22} strokeWidth={1.8} className="text-primary" />
-                  <span className="font-semibold text-lg tracking-tight">Bevel</span>
+                  <IconRocket
+                    size={22}
+                    strokeWidth={1.8}
+                    className="text-primary"
+                  />
+                  <span className="font-semibold text-lg tracking-tight">
+                    Bevel
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Join thousands of teams building better products.
@@ -407,34 +458,35 @@ export function FormEngineShowcase() {
               <div className="flex-1">
                 <FormEngineProgress
                   className="space-y-0 flex-col items-start"
-                  renderStep={(step, state) =>{ 
+                  renderStep={(step, state) => {
                     const isActive = state == "active";
                     const isCompleted = state == "completed";
-                    const meta = showcaseConfig.steps[step]
-                    return(
-                    <div className="flex items-start gap-3 py-2">
-                      <div
-                        className={cn(
-                          "w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium shrink-0 transition-colors",
-                          isCompleted
-                            ? "bg-primary text-primary-foreground"
-                            : isActive
-                            ? "bg-primary/20 text-primary border-2 border-primary"
-                            : "bg-muted text-muted-foreground"
-                        )}
-                      >
-                        {isCompleted ? <IconCheck size={12} /> : step + 1}
+                    const meta = showcaseConfig.steps[step];
+                    return (
+                      <div className="flex items-start gap-3 py-2">
+                        <div
+                          className={cn(
+                            "w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium shrink-0 transition-colors",
+                            isCompleted
+                              ? "bg-primary text-primary-foreground"
+                              : isActive
+                                ? "bg-primary/20 text-primary border-2 border-primary"
+                                : "bg-muted text-muted-foreground",
+                          )}
+                        >
+                          {isCompleted ? <IconCheck size={12} /> : step + 1}
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">{meta.title}</p>
+                          {meta.description && (
+                            <p className="text-xs text-muted-foreground mt-0.5">
+                              {meta.description}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium">{meta.title}</p>
-                        {meta.description && (
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {meta.description}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  )}}
+                    );
+                  }}
                 />
               </div>
 
@@ -462,8 +514,8 @@ export function FormEngineShowcase() {
                   nextLabel="Continue"
                   backLabel="Back"
                   className="flex justify-between items-center"
-                  backBtnClassName={ "p-4 rounded-md"}
-                  nextBtnClassName={ "p-4 rounded-md"}
+                  backBtnClassName={"p-4 rounded-md"}
+                  nextBtnClassName={"p-4 rounded-md"}
                 />
               </div>
             </div>
@@ -478,6 +530,7 @@ export function FormEngineShowcase() {
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 // ─── Page Export ─────────────────────────────────────────────────────────────
 

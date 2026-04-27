@@ -28,7 +28,8 @@ import {
   DashboardPanel,
   DashboardSection,
 } from "@/components/dashboard/dashboard-shell";
-
+import { dashboardInvoicesMetadata } from "@/lib/metadata";
+export const metadata = dashboardInvoicesMetadata;
 export default async function BillingPage({
   searchParams,
 }: {
