@@ -1,7 +1,7 @@
-import { CommandPaletteDemo } from "../docs/components/command-palette/page";
-import { FileUploadShowcase } from "../docs/components/file-upload/page";
-import { FormEngineShowcase } from "../docs/components/form-engine/page";
-import { ProductTourDemo } from "../docs/components/product-tour/page";
+import { CommandPaletteDemo } from "@/components/bevelui/docs/command-palette-content";
+import { FileUploadShowcase } from "@/components/bevelui/docs/file-upload-content";
+import { FormEngineShowcase } from "@/components/bevelui/docs/form-engine-content";
+import { ProductTourDemo } from "@/components/bevelui/docs/product-tour-content";
 
 export const DEMO_REGISTRY: Record<string, React.ComponentType> = {
   "product-tour": ProductTourDemo,

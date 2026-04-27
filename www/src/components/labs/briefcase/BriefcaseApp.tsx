@@ -43,10 +43,33 @@ const config: FormEngineConfig = {
       title: "Project details",
       description: "Basic information about this handoff.",
       fields: [
-        { key: "projectName", variant: "text", label: "Project name", placeholder: "Bevel UI Redesign", required: true },
-        { key: "clientName", variant: "text", label: "Client name", placeholder: "Acme Corp", required: true },
-        { key: "clientEmail", variant: "email", label: "Client email", placeholder: "client@acme.com", required: true },
-        { key: "deadline", variant: "date", label: "Delivery date", required: true },
+        {
+          key: "projectName",
+          variant: "text",
+          label: "Project name",
+          placeholder: "Bevel UI Redesign",
+          required: true,
+        },
+        {
+          key: "clientName",
+          variant: "text",
+          label: "Client name",
+          placeholder: "Acme Corp",
+          required: true,
+        },
+        {
+          key: "clientEmail",
+          variant: "email",
+          label: "Client email",
+          placeholder: "client@acme.com",
+          required: true,
+        },
+        {
+          key: "deadline",
+          variant: "date",
+          label: "Delivery date",
+          required: true,
+        },
       ],
     },
     {
@@ -58,14 +81,16 @@ const config: FormEngineConfig = {
           key: "description",
           variant: "textarea",
           label: "Project description",
-          placeholder: "Describe what was built and any important context the client should know...",
+          placeholder:
+            "Describe what was built and any important context the client should know...",
           required: true,
         },
         {
           key: "deliverables",
           variant: "textarea",
           label: "What's included",
-          placeholder: "e.g. Figma source files, exported assets, component library, deployment guide...",
+          placeholder:
+            "e.g. Figma source files, exported assets, component library, deployment guide...",
           required: true,
         },
         {
@@ -85,9 +110,9 @@ const config: FormEngineConfig = {
       ],
     },
   ],
-  onSubmit: async () => {
-    await new Promise((r) => setTimeout(r, 600));
-  },
+  // onSubmit: async () => {
+  //   await new Promise((r) => setTimeout(r, 600));
+  // },
 };
 
 async function simulateUpload(file: File, onProgress: (pct: number) => void) {
@@ -95,8 +120,11 @@ async function simulateUpload(file: File, onProgress: (pct: number) => void) {
     let p = 0;
     const t = setInterval(() => {
       p += Math.random() * 20 + 5;
-      if (p >= 100) { onProgress(100); clearInterval(t); resolve(); }
-      else onProgress(Math.round(p));
+      if (p >= 100) {
+        onProgress(100);
+        clearInterval(t);
+        resolve();
+      } else onProgress(Math.round(p));
     }, 100);
   });
   return { url: URL.createObjectURL(file) };
@@ -134,10 +162,14 @@ function HandoffReceipt({
       </div>
 
       <div>
-        <h2 className="text-xl font-bold tracking-tight mb-1">Handoff package ready</h2>
+        <h2 className="text-xl font-bold tracking-tight mb-1">
+          Handoff package ready
+        </h2>
         <p className="text-sm text-muted-foreground">
           A delivery link has been sent to{" "}
-          <span className="font-medium text-foreground">{values.clientEmail || "the client"}</span>
+          <span className="font-medium text-foreground">
+            {values.clientEmail || "the client"}
+          </span>
         </p>
       </div>
 
@@ -145,17 +177,37 @@ function HandoffReceipt({
       <div className="w-full max-w-sm p-5 rounded-2xl border border-border bg-muted/10 text-left space-y-3">
         <div className="flex items-center justify-between pb-3 border-b border-border/60">
           <div>
-            <p className="text-sm font-semibold">{values.projectName || "Project"}</p>
-            <p className="text-xs text-muted-foreground">{values.clientName || "Client"}</p>
+            <p className="text-sm font-semibold">
+              {values.projectName || "Project"}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {values.clientName || "Client"}
+            </p>
           </div>
-          <Badge className="text-[10px]" style={{ background: "rgba(34,197,94,.15)", color: "#16a34a", border: "none" }}>
+          <Badge
+            className="text-[10px]"
+            style={{
+              background: "rgba(34,197,94,.15)",
+              color: "#16a34a",
+              border: "none",
+            }}
+          >
             Delivered
           </Badge>
         </div>
 
         {[
-          { label: "Files delivered", value: `${fileCount} asset${fileCount !== 1 ? "s" : ""}` },
-          { label: "Revisions included", value: values.revisions === "unlimited" ? "Unlimited" : `${values.revisions} revision${values.revisions !== "1" ? "s" : ""}` },
+          {
+            label: "Files delivered",
+            value: `${fileCount} asset${fileCount !== 1 ? "s" : ""}`,
+          },
+          {
+            label: "Revisions included",
+            value:
+              values.revisions === "unlimited"
+                ? "Unlimited"
+                : `${values.revisions} revision${values.revisions !== "1" ? "s" : ""}`,
+          },
           { label: "Delivery date", value: values.deadline || "—" },
         ].map((row) => (
           <div key={row.label} className="flex items-center justify-between">
@@ -165,14 +217,23 @@ function HandoffReceipt({
         ))}
 
         <div className="pt-3 border-t border-border/60">
-          <Button size="sm" variant="outline" className="w-full gap-1.5 text-xs">
+          <Button
+            size="sm"
+            variant="outline"
+            className="w-full gap-1.5 text-xs"
+          >
             <IconDownload size={12} />
             Download receipt PDF
           </Button>
         </div>
       </div>
 
-      <Button variant="ghost" size="sm" onClick={onReset} className="text-muted-foreground">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onReset}
+        className="text-muted-foreground"
+      >
         Start new handoff
       </Button>
     </motion.div>
@@ -191,11 +252,6 @@ export default function BriefcaseApp() {
 
   const briefConfig: FormEngineConfig = {
     ...config,
-    onSubmit: async (values) => {
-      await new Promise((r) => setTimeout(r, 600));
-      setFormValues(values as Record<string, string>);
-      setStep("files");
-    },
   };
 
   function reset() {
@@ -219,14 +275,24 @@ export default function BriefcaseApp() {
         <div className="flex items-center gap-1.5 ml-4">
           {steps.map((s, i) => (
             <div key={s} className="flex items-center gap-1.5">
-              <div className={`flex items-center gap-1.5 text-xs ${i <= stepIdx ? "text-foreground" : "text-muted-foreground"}`}>
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${i < stepIdx ? "bg-primary text-primary-foreground" : i === stepIdx ? "border-2 border-primary text-primary" : "border border-border text-muted-foreground"}`}>
-                  {i < stepIdx ? <IconCheck size={10} strokeWidth={3} /> : i + 1}
+              <div
+                className={`flex items-center gap-1.5 text-xs ${i <= stepIdx ? "text-foreground" : "text-muted-foreground"}`}
+              >
+                <div
+                  className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${i < stepIdx ? "bg-primary text-primary-foreground" : i === stepIdx ? "border-2 border-primary text-primary" : "border border-border text-muted-foreground"}`}
+                >
+                  {i < stepIdx ? (
+                    <IconCheck size={10} strokeWidth={3} />
+                  ) : (
+                    i + 1
+                  )}
                 </div>
                 <span className="hidden sm:inline">{STEP_LABELS[s]}</span>
               </div>
               {i < steps.length - 1 && (
-                <div className={`w-8 h-px ${i < stepIdx ? "bg-primary" : "bg-border"}`} />
+                <div
+                  className={`w-8 h-px ${i < stepIdx ? "bg-primary" : "bg-border"}`}
+                />
               )}
             </div>
           ))}
@@ -250,6 +316,11 @@ export default function BriefcaseApp() {
                   submitLabel: "Continue to files →",
                   nextLabel: "Next →",
                 }}
+                onSubmit={async (values) => {
+                  await new Promise((r) => setTimeout(r, 600));
+                  setFormValues(values as Record<string, string>);
+                  setStep("files");
+                }}
               />
             </motion.div>
           )}
@@ -263,11 +334,15 @@ export default function BriefcaseApp() {
               className="flex flex-col gap-5"
             >
               <div>
-                <h2 className="text-lg font-bold tracking-tight mb-1">Upload deliverables</h2>
+                <h2 className="text-lg font-bold tracking-tight mb-1">
+                  Upload deliverables
+                </h2>
                 <p className="text-sm text-muted-foreground">
                   Add the files for{" "}
-                  <span className="font-medium text-foreground">{formValues.clientName || "your client"}</span>.
-                  All files will be packaged into a secure delivery link.
+                  <span className="font-medium text-foreground">
+                    {formValues.clientName || "your client"}
+                  </span>
+                  . All files will be packaged into a secure delivery link.
                 </p>
               </div>
 
@@ -277,14 +352,19 @@ export default function BriefcaseApp() {
                   maxFiles: 50,
                   maxSize: 200 * 1024 * 1024,
                   title: "Drop deliverables here",
-                  description: "Designs, exports, source files — up to 200MB each",
+                  description:
+                    "Designs, exports, source files — up to 200MB each",
                 }}
                 onUpload={simulateUpload}
                 onComplete={(files) => setFileCount(files.length)}
               />
 
               <div className="flex items-center gap-3 pt-2">
-                <Button variant="outline" size="sm" onClick={() => setStep("brief")}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setStep("brief")}
+                >
                   ← Back
                 </Button>
                 <Button
@@ -294,7 +374,11 @@ export default function BriefcaseApp() {
                   disabled={fileCount === 0}
                 >
                   <IconUpload size={13} />
-                  Send handoff ({fileCount > 0 ? `${fileCount} file${fileCount !== 1 ? "s" : ""}` : "no files yet"})
+                  Send handoff (
+                  {fileCount > 0
+                    ? `${fileCount} file${fileCount !== 1 ? "s" : ""}`
+                    : "no files yet"}
+                  )
                 </Button>
               </div>
             </motion.div>

@@ -338,7 +338,7 @@ function ProfessionalEditor() {
 
 // ─── Demo Wrapper ─────────────────────────────────────────────────────────────
 
-function ProductTourDemo() {
+export function ProductTourDemo() {
   const pathName = usePathname();
   const isHome = pathName === "/";
   const isPreview = pathName.startsWith("/preview");

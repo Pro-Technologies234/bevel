@@ -7,16 +7,10 @@ import Link from "next/link";
 import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { ProductTourDemo } from "@/app/docs/components/product-tour/page";
-import {
-  CommandPaletteDemo,
-  CommandPaletteShowcase,
-} from "@/app/docs/components/command-palette/page";
-import {
-  FileUploadDemo,
-  FileUploadShowcase,
-} from "@/app/docs/components/file-upload/page";
-import { FormEngineDemo, FormEngineShowcase } from "@/app/docs/components/form-engine/page";
+import { ProductTourDemo } from "../bevelui/docs/product-tour-content";
+import { CommandPaletteShowcase } from "../bevelui/docs/command-palette-content";
+import { FileUploadShowcase } from "../bevelui/docs/file-upload-content";
+import { FormEngineShowcase } from "../bevelui/docs/form-engine-content";
 
 gsap.registerPlugin(ScrollTrigger);
 
