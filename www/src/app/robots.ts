@@ -6,7 +6,7 @@ import type { MetadataRoute as MR } from "next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.com";
 
-export function robots(): MR.Robots {
+export default function robots(): MR.Robots {
   return {
     rules: [
       {
