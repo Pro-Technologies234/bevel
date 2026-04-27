@@ -1,3 +1,4 @@
+"use client";
 import { Fragment, ReactNode } from "react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
