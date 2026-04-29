@@ -26,7 +26,12 @@
           "description": "The principles behind every Bevel system.",
           "href": "/docs/introduction#philosophy",
           "category": "getting-started",
-          "keywords": ["philosophy", "no lock-in", "no installs", "shadcn compatible"]
+          "keywords": [
+            "philosophy",
+            "no lock-in",
+            "no installs",
+            "shadcn compatible"
+          ]
         },
         {
           "id": "installation-prereqs",
@@ -34,12 +39,18 @@
           "description": "What you need before installing Bevel systems.",
           "href": "/docs/installation#prerequisites",
           "category": "getting-started",
-          "keywords": ["prerequisites", "next.js", "react", "tailwind", "shadcn setup"]
+          "keywords": [
+            "prerequisites",
+            "next.js",
+            "react",
+            "tailwind",
+            "shadcn setup"
+          ]
         },
         {
           "id": "installation-cli",
           "title": "Install a system",
-          "description": "npx shadcn@latest add https://bevelui.com/r/tour.json",
+          "description": "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
           "href": "/docs/installation#install-system",
           "category": "getting-started",
           "keywords": ["install", "npx", "shadcn", "add", "cli command"]
@@ -58,7 +69,13 @@
           "description": "Where files are placed after install: components/bevelui/",
           "href": "/docs/installation#folder-structure",
           "category": "getting-started",
-          "keywords": ["folder", "structure", "bevelui", "components", "directory"]
+          "keywords": [
+            "folder",
+            "structure",
+            "bevelui",
+            "components",
+            "directory"
+          ]
         }
       ]
     },
@@ -72,7 +89,13 @@
           "description": "Guided tour system with overlay, floating card, media, and keyboard navigation.",
           "href": "/docs/components/product-tour",
           "category": "product-tour",
-          "keywords": ["product tour", "guided tour", "walkthrough", "onboarding", "tour"]
+          "keywords": [
+            "product tour",
+            "guided tour",
+            "walkthrough",
+            "onboarding",
+            "tour"
+          ]
         },
         {
           "id": "tour-install",
@@ -80,7 +103,12 @@
           "description": "Install the tour system via shadcn CLI.",
           "href": "/docs/components/product-tour#installation",
           "category": "product-tour",
-          "keywords": ["tour install", "floating-ui", "motion", "peer dependencies"]
+          "keywords": [
+            "tour install",
+            "floating-ui",
+            "motion",
+            "peer dependencies"
+          ]
         },
         {
           "id": "tour-usage",
@@ -88,7 +116,13 @@
           "description": "Wrap your page with TourRoot, define steps, place TourAnchor.",
           "href": "/docs/components/product-tour#usage",
           "category": "product-tour",
-          "keywords": ["TourRoot", "TourAnchor", "TourTrigger", "steps", "defaultOpen"]
+          "keywords": [
+            "TourRoot",
+            "TourAnchor",
+            "TourTrigger",
+            "steps",
+            "defaultOpen"
+          ]
         },
         {
           "id": "tour-media",
@@ -96,7 +130,14 @@
           "description": "Add video, gif, or image to each tour step.",
           "href": "/docs/components/product-tour#with-media",
           "category": "product-tour",
-          "keywords": ["media", "video", "gif", "image", "TourMedia", "photoshop tooltip"]
+          "keywords": [
+            "media",
+            "video",
+            "gif",
+            "image",
+            "TourMedia",
+            "photoshop tooltip"
+          ]
         },
         {
           "id": "tour-programmatic",
@@ -104,7 +145,16 @@
           "description": "Control the tour with start, stop, next, prev, goTo, skip.",
           "href": "/docs/components/product-tour#programmatic",
           "category": "product-tour",
-          "keywords": ["useTour", "start", "stop", "next", "prev", "goTo", "skip", "hook"]
+          "keywords": [
+            "useTour",
+            "start",
+            "stop",
+            "next",
+            "prev",
+            "goTo",
+            "skip",
+            "hook"
+          ]
         },
         {
           "id": "tour-api-stepdef",
@@ -142,7 +192,13 @@
           "description": "⌘K menu with fuzzy search, tab filtering, grouped results, avatar support.",
           "href": "/docs/components/command-palette",
           "category": "command-palette",
-          "keywords": ["command palette", "cmdk", "search", "⌘K", "keyboard shortcut"]
+          "keywords": [
+            "command palette",
+            "cmdk",
+            "search",
+            "⌘K",
+            "keyboard shortcut"
+          ]
         },
         {
           "id": "cp-usage",
@@ -166,7 +222,13 @@
           "description": "Two-tier tab system for integration and content type filtering.",
           "href": "/docs/components/command-palette#tabs",
           "category": "command-palette",
-          "keywords": ["source tabs", "filter tabs", "integration", "content type", "filtering"]
+          "keywords": [
+            "source tabs",
+            "filter tabs",
+            "integration",
+            "content type",
+            "filtering"
+          ]
         },
         {
           "id": "cp-hook",
@@ -182,7 +244,13 @@
           "description": "id, title, subtitle, meta, icon, initials, category, source props.",
           "href": "/docs/components/command-palette#api-item",
           "category": "command-palette",
-          "keywords": ["CommandPaletteItem", "initials", "initialsColor", "meta", "api"]
+          "keywords": [
+            "CommandPaletteItem",
+            "initials",
+            "initialsColor",
+            "meta",
+            "api"
+          ]
         }
       ]
     },
@@ -196,7 +264,13 @@
           "description": "Drag-and-drop upload with progress, cancel, retry, grid/list views.",
           "href": "/docs/components/file-upload",
           "category": "file-upload",
-          "keywords": ["file upload", "drag drop", "progress", "dropzone", "upload"]
+          "keywords": [
+            "file upload",
+            "drag drop",
+            "progress",
+            "dropzone",
+            "upload"
+          ]
         },
         {
           "id": "fu-usage",
@@ -212,7 +286,14 @@
           "description": "Restrict file types and size. Dropzone shows hints automatically.",
           "href": "/docs/components/file-upload#config",
           "category": "file-upload",
-          "keywords": ["config", "accept", "maxSize", "maxFiles", "multiple", "MIME types"]
+          "keywords": [
+            "config",
+            "accept",
+            "maxSize",
+            "maxFiles",
+            "multiple",
+            "MIME types"
+          ]
         },
         {
           "id": "fu-progress",
@@ -220,7 +301,13 @@
           "description": "Use XMLHttpRequest to report upload progress in real time.",
           "href": "/docs/components/file-upload#progress",
           "category": "file-upload",
-          "keywords": ["progress", "XHR", "XMLHttpRequest", "onProgress", "real upload"]
+          "keywords": [
+            "progress",
+            "XHR",
+            "XMLHttpRequest",
+            "onProgress",
+            "real upload"
+          ]
         },
         {
           "id": "fu-modal",
@@ -228,7 +315,13 @@
           "description": "A shadcn Dialog-based upload UI with Cancel and Upload footer.",
           "href": "/docs/components/file-upload#modal",
           "category": "file-upload",
-          "keywords": ["modal", "dialog", "FileUploadModal", "asDialog", "cancel upload"]
+          "keywords": [
+            "modal",
+            "dialog",
+            "FileUploadModal",
+            "asDialog",
+            "cancel upload"
+          ]
         },
         {
           "id": "fu-hook",
@@ -236,7 +329,13 @@
           "description": "Access files, uploadAll, cancelFile, retryFile from any child.",
           "href": "/docs/components/file-upload#programmatic",
           "category": "file-upload",
-          "keywords": ["useFileUpload", "cancelFile", "retryFile", "addFiles", "hook"]
+          "keywords": [
+            "useFileUpload",
+            "cancelFile",
+            "retryFile",
+            "addFiles",
+            "hook"
+          ]
         },
         {
           "id": "fu-api-entry",
@@ -244,7 +343,15 @@
           "description": "id, file, status, progress, url, error, meta fields.",
           "href": "/docs/components/file-upload#api-entry",
           "category": "file-upload",
-          "keywords": ["FileEntry", "status", "progress", "url", "error", "meta", "api"]
+          "keywords": [
+            "FileEntry",
+            "status",
+            "progress",
+            "url",
+            "error",
+            "meta",
+            "api"
+          ]
         }
       ]
     },
@@ -258,7 +365,13 @@
           "description": "Multi-step or single-step form orchestration with plugin support.",
           "href": "/docs/components/form-engine",
           "category": "form-engine",
-          "keywords": ["form engine", "multi-step form", "wizard", "form", "react-hook-form"]
+          "keywords": [
+            "form engine",
+            "multi-step form",
+            "wizard",
+            "form",
+            "react-hook-form"
+          ]
         },
         {
           "id": "fe-philosophy",
@@ -266,7 +379,12 @@
           "description": "The engine owns flow. react-hook-form owns state and validation.",
           "href": "/docs/components/form-engine#philosophy",
           "category": "form-engine",
-          "keywords": ["philosophy", "flow", "react-hook-form", "separation of concerns"]
+          "keywords": [
+            "philosophy",
+            "flow",
+            "react-hook-form",
+            "separation of concerns"
+          ]
         },
         {
           "id": "fe-usage",
@@ -282,7 +400,13 @@
           "description": "Per-step zod schemas block navigation until valid.",
           "href": "/docs/components/form-engine#with-zod",
           "category": "form-engine",
-          "keywords": ["zod", "createZodPlugin", "validation", "per-step", "schema"]
+          "keywords": [
+            "zod",
+            "createZodPlugin",
+            "validation",
+            "per-step",
+            "schema"
+          ]
         },
         {
           "id": "fe-plugins",
@@ -290,7 +414,14 @@
           "description": "onMount, onStepChange, onFieldChange, onValidate, onSubmit hooks.",
           "href": "/docs/components/form-engine#plugins",
           "category": "form-engine",
-          "keywords": ["plugins", "analytics", "logging", "createLogPlugin", "createAnalyticsPlugin", "onValidate"]
+          "keywords": [
+            "plugins",
+            "analytics",
+            "logging",
+            "createLogPlugin",
+            "createAnalyticsPlugin",
+            "onValidate"
+          ]
         },
         {
           "id": "fe-single",
@@ -298,7 +429,12 @@
           "description": "mode: single renders a regular form with submit on the first step.",
           "href": "/docs/components/form-engine#single-step",
           "category": "form-engine",
-          "keywords": ["single step", "mode single", "regular form", "contact form"]
+          "keywords": [
+            "single step",
+            "mode single",
+            "regular form",
+            "contact form"
+          ]
         },
         {
           "id": "fe-layout",
@@ -306,7 +442,12 @@
           "description": "Compose progress, meta, canvas, and navigation yourself.",
           "href": "/docs/components/form-engine#custom-layout",
           "category": "form-engine",
-          "keywords": ["FormEngineRoot", "custom layout", "FormEngineProgress", "FormEngineStepCanvas"]
+          "keywords": [
+            "FormEngineRoot",
+            "custom layout",
+            "FormEngineProgress",
+            "FormEngineStepCanvas"
+          ]
         },
         {
           "id": "fe-showwhen",
@@ -314,7 +455,12 @@
           "description": "Show or hide fields based on other form values.",
           "href": "/docs/components/form-engine#api-field",
           "category": "form-engine",
-          "keywords": ["showWhen", "conditional", "visibility", "dynamic fields"]
+          "keywords": [
+            "showWhen",
+            "conditional",
+            "visibility",
+            "dynamic fields"
+          ]
         },
         {
           "id": "fe-variants",
@@ -322,7 +468,16 @@
           "description": "text, email, password, select, card-select, chip-select, rating, tag-input, date, phone, file, checkbox.",
           "href": "/docs/components/form-engine#api-field",
           "category": "form-engine",
-          "keywords": ["text", "email", "select", "card-select", "chip-select", "rating", "tag-input", "variants"]
+          "keywords": [
+            "text",
+            "email",
+            "select",
+            "card-select",
+            "chip-select",
+            "rating",
+            "tag-input",
+            "variants"
+          ]
         }
       ]
     }

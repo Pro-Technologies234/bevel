@@ -21,23 +21,33 @@ export function VaultUploadQueue() {
       exit={{ y: 80, opacity: 0 }}
       className="fixed bottom-6 right-6 z-50 w-80"
     >
-      <Card className="p-0 overflow-hidden shadow-2xl rounded-3xl border-border/60">
+      <Card className="overflow-hidden shadow-2xl border-border/60">
         <CardHeader className="flex items-center justify-between px-4 py-3 bg-card border-b border-border">
           <span className="text-sm font-medium">
-            {isUploading  
+            {isUploading
               ? `Uploading ${active.length} file${active.length > 1 ? "s" : ""}…`
               : `${active.length} file${active.length > 1 ? "s" : ""} queued`}
           </span>
           {!isUploading && (
-            <Button size="sm" className="h-7 text-xs rounded-full" onClick={uploadAll}>
+            <Button
+              size="sm"
+              className="h-7 text-xs rounded-full"
+              onClick={uploadAll}
+            >
               Upload all
             </Button>
           )}
         </CardHeader>
         <ScrollArea className="max-h-52">
-          <div className="divide-y divide-border/60">
+          {/* removed divide-y; borders handled by UploadCard */}
+          <div>
             {active.map((f) => (
-              <UploadCard removeFile={removeFile} retryFile={retryFile} file={f} />
+              <UploadCard
+                key={f.id}
+                removeFile={removeFile}
+                retryFile={retryFile}
+                file={f}
+              />
             ))}
           </div>
         </ScrollArea>
@@ -55,22 +65,25 @@ function UploadCard({
   retryFile: (id: string) => void;
   removeFile: (id: string) => void;
 }) {
-  const type =file.file.type.startsWith("image/")
-        ? "image"
-        : file.file.type.includes("video")
-          ? "video"
-          : file.file.type.includes("pdf") || file.file.type.includes("doc")
-            ? "document"
-            : "file"
+  const type = file.file.type.startsWith("image/")
+    ? "image"
+    : file.file.type.includes("video")
+      ? "video"
+      : file.file.type.includes("pdf") || file.file.type.includes("doc")
+        ? "document"
+        : "file";
   const Icon = getFileIcon(type);
   const color = getFileColor(type);
   return (
-    <div key={file.id} className="flex items-center gap-3 px-4 py-2.5">
-      <div style={{ background: `${color}18` }} className="size-8 rounded-lg bg-muted flex items-center justify-center shrink-0">
-        {<Icon size={18} color={color} />}
+    <div className="flex items-center gap-3 px-4 py-2.5 not-first:border-t last:border-b border-border/60">
+      <div
+        style={{ background: `${color}18` }}
+        className="size-8 rounded-md bg-muted flex items-center justify-center shrink-0"
+      >
+        <Icon size={18} color={color} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium truncate">{file.file.name}</p>
+        <p className="text-xs font-medium line-clamp-1">{file.file.name}</p>
         {file.status === "uploading" && (
           <Progress value={file.progress} className="h-1 mt-1.5 w-auto" />
         )}

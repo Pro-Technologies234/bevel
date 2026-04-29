@@ -4,7 +4,8 @@
 
 import type { MetadataRoute } from "next";
 
-const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

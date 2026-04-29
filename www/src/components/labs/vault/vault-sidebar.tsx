@@ -18,11 +18,13 @@ import {
 import {
   IconBoltFilled,
   IconClock,
+  IconClockFilled,
   IconCloud,
   IconLayoutRows,
   IconStar,
 } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 // This is sample data.
 const data = {
@@ -35,7 +37,7 @@ const data = {
     },
     {
       id: "recent",
-      icon: IconClock,
+      icon: IconClockFilled,
       title: "Recent",
       url: "#",
     },
@@ -69,19 +71,19 @@ export function VaultAppSidebar({
   }
 
   return (
-    <Sidebar {...props} collapsible="offcanvas" variant="inset"  >
+    <Sidebar {...props} collapsible="offcanvas" variant="inset">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <div className="flex items-center gap-2 px-4 py-4 border-b border-border">
-                <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+              <div className="flex items-center gap-2  py-4 border-b border-border">
+                <div className="w-6 h-6 rounded-sm bg-primary flex items-center justify-center">
                   <IconBoltFilled size={12} color="#0a0a0a" />
                 </div>
                 <span className="font-semibold text-sm">Vault</span>
                 <Badge
                   variant="secondary"
-                  className="text-[9px] ml-auto px-1.5 py-0"
+                  className="text-[9px] ml-auto px-1.5 py-0 bg-linear-to-tr from-yellow-400 to-yellow-200 text-black"
                 >
                   Beta
                 </Badge>
@@ -97,9 +99,14 @@ export function VaultAppSidebar({
               <SidebarMenuItem
                 key={item.title}
                 onClick={() => onChange(item.id)}
+                className={cn(
+                  " rounded-full px-2 bg-card",
+                  active === item.id && "bg-primary/10 text-lime-200",
+                )}
               >
                 <SidebarMenuButton asChild>
                   <a href={item.url} className="font-medium">
+                    <item.icon className=" text-primary fill-primary" />
                     {item.title}
                   </a>
                 </SidebarMenuButton>

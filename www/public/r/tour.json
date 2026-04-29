@@ -2,16 +2,10 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tour",
   "title": "Product Tour",
-  "author": "Bevel UI <hello@bevelui.com>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A fully-engineered guided product tour system with overlay, floating card, keyboard navigation, and media support. Drop-in replacement for building interactive onboarding flows.",
-  "dependencies": [
-    "@floating-ui/react",
-    "motion"
-  ],
-  "registryDependencies": [
-    "button",
-    "badge"
-  ],
+  "dependencies": ["@floating-ui/react", "motion"],
+  "registryDependencies": ["button", "badge"],
   "files": [
     {
       "path": "src/components/bevelui/tour/tour-types.ts",
@@ -63,9 +57,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/tour. Wrap your app with TourRoot, attach TourAnchor to any element, and use TourTrigger to start the tour.",
-  "categories": [
-    "systems",
-    "onboarding"
-  ],
+  "categories": ["systems", "onboarding"],
   "type": "registry:block"
 }

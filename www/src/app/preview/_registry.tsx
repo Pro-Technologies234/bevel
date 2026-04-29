@@ -2,10 +2,22 @@ import { CommandPaletteDemo } from "@/components/bevelui/docs/command-palette-co
 import { FileUploadShowcase } from "@/components/bevelui/docs/file-upload-content";
 import { FormEngineShowcase } from "@/components/bevelui/docs/form-engine-content";
 import { ProductTourDemo } from "@/components/bevelui/docs/product-tour-content";
+import OnboardApp from "@/components/labs/onboard/OnboardApp";
+import LaunchpadApp from "@/components/labs/launchpad/LaunchpadApp";
+import IntakeApp from "@/components/labs/intake/IntakeApp";
+import BriefcaseApp from "@/components/labs/briefcase/BriefcaseApp";
+import CompassApp from "@/components/labs/compass/CompassApp";
+import VaultApp from "@/components/labs/vault/VaultApp";
 
 export const DEMO_REGISTRY: Record<string, React.ComponentType> = {
   "product-tour": ProductTourDemo,
   "command-palette": CommandPaletteDemo,
   "file-upload": FileUploadShowcase,
   "form-engine": FormEngineShowcase,
+  vault: VaultApp,
+  onboard: OnboardApp,
+  launchpad: LaunchpadApp,
+  intake: IntakeApp,
+  ici: BriefcaseApp,
+  compass: CompassApp,
 };

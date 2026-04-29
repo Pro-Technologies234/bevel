@@ -3,5 +3,5 @@ import { LabsContent } from "@/components/labs";
 export const metadata = labsMetadata;
 
 export default function LabsPage() {
-  <LabsContent />;
+  return <LabsContent />;
 }

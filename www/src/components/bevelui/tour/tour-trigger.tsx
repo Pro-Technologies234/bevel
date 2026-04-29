@@ -2,7 +2,10 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { IconRoute } from "@tabler/icons-react";
+import {
+  IconPlayerPlayFilled,
+  IconPlayerStopFilled,
+} from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useTour } from "./tour-context";
 import { Slot } from "@radix-ui/react-slot";
@@ -34,7 +37,11 @@ export function TourTrigger({
 
   return (
     <Button variant="outline" size="sm" {...triggerProps}>
-      <IconRoute size={14} strokeWidth={1.8} />
+      {isOpen ? (
+        <IconPlayerStopFilled className=" animate-pulse text-red-500" />
+      ) : (
+        <IconPlayerPlayFilled strokeWidth={1.8} />
+      )}
       {isOpen ? "Tour running..." : label}
     </Button>
   );

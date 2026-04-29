@@ -2,13 +2,9 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "form-engine",
   "title": "Form Engine",
-  "author": "Bevel UI <hello@bevelui.com>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A fully-engineered config-driven form system supporting single-step and multi-step flows. Features a six-hook plugin system, react-hook-form + zod integration, composable API, RTL support, and a zero-config shortcut component.",
-  "dependencies": [
-    "react-hook-form",
-    "zod",
-    "motion"
-  ],
+  "dependencies": ["react-hook-form", "zod", "motion"],
   "registryDependencies": [
     "button",
     "badge",
@@ -105,9 +101,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineActions.",
-  "categories": [
-    "systems",
-    "forms"
-  ],
+  "categories": ["systems", "forms"],
   "type": "registry:block"
 }

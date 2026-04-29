@@ -117,7 +117,7 @@
   "meta": {
     "siteName": "Bevel UI",
     "siteDescription": "Fully-engineered UI systems for React. Product Tour, Command Palette, File Upload, Form Engine — copy the code, own it forever.",
-    "siteUrl": "https://bevelui.com",
+    "siteUrl": "https://bevelui.vercel.app",
     "ogImage": "/og.png",
     "twitterHandle": "@bevelui"
   }

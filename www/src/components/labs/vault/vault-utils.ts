@@ -1,6 +1,12 @@
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
-import { IconFile, IconFileText, IconFolder, IconPhoto, IconVideo } from "@tabler/icons-react";
+import {
+  IconFile,
+  IconFileText,
+  IconFolder,
+  IconPhoto,
+  IconVideo,
+} from "@tabler/icons-react";
 import { FileItem } from "./vault-types";
 
 export function formatBytes(bytes: number): string {
@@ -39,8 +45,21 @@ export function getFileColor(type: FileItem["type"]): string {
   }
 }
 
+export function getFileType(f: File) {
+  return f.type.startsWith("image/")
+    ? "image"
+    : f.type.includes("video")
+      ? "video"
+      : f.type.includes("pdf") || f.type.includes("doc")
+        ? "document"
+        : "file";
+}
+
 // Simulated upload — in a real app this hits your storage API
-export async function simulateUpload(file: File, onProgress: (pct: number) => void) {
+export async function simulateUpload(
+  file: File,
+  onProgress: (pct: number) => void,
+) {
   await new Promise<void>((resolve) => {
     let p = 0;
     const t = setInterval(() => {
@@ -50,7 +69,7 @@ export async function simulateUpload(file: File, onProgress: (pct: number) => vo
         clearInterval(t);
         resolve();
       } else onProgress(Math.round(p));
-    }, 8000);
+    }, 300);
   });
   return { url: URL.createObjectURL(file) };
 }

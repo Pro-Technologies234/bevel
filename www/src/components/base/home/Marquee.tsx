@@ -6,18 +6,17 @@ import gsap from "gsap";
 import { IconBoltFilled } from "@tabler/icons-react";
 
 const ITEMS = [
-  "Product Tour",
-  "Command Palette",
-  "File Upload",
-  "Form Engine",
-  "Copy-to-own",
-  "Zero runtime dep",
-  "shadcn-compatible",
-  "React + Next.js",
-  "Tailwind v4",
+  "Copy to own",
+  "No npm package",
+  "shadcn compatible",
+  "React 18+",
   "TypeScript",
-  "Open source",
+  "Tailwind v4",
+  "No runtime dependency",
+  "MIT licensed",
+  "Next.js ready",
   "motion/react",
+  "Full source access",
 ];
 
 function MarqueeRow({ reverse = false }: { reverse?: boolean }) {

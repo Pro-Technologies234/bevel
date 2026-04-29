@@ -279,7 +279,7 @@ function SystemOG({
             width: "fit-content",
           }}
         >
-          {`npx shadcn@latest add https://bevelui.com/r/${name.toLowerCase().replace(" ", "-")}.json`}
+          {`npx shadcn@latest add https://bevelui.vercel.app/r/${name.toLowerCase().replace(" ", "-")}.json`}
         </div>
       </div>
     </div>

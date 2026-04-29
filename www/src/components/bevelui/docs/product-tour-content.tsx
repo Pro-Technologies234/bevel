@@ -363,7 +363,7 @@ export function ProductTourDemo() {
             />
             <TourTrigger
               label="Take a tour"
-              className="shadow-sm hover:shadow-md transition-shadow animate-bounce"
+              className="shadow-sm hover:shadow-md transition-shadow animate-bounce bg-white! h-8 px-4 rounded-full text-black!"
             />
           </div>
         </div>

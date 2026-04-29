@@ -24,7 +24,7 @@ const systems = [
     status: "Building",
     tag: "Most requested",
     icon: IconFlame,
-    install: "npx shadcn@latest add https://bevelui.com/r/tour.json",
+    install: "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
   },
   {
     name: "Command Palette",
@@ -34,7 +34,8 @@ const systems = [
     status: "Building",
     tag: null,
     icon: null,
-    install: "npx shadcn@latest add https://bevelui.com/r/command-palette.json",
+    install:
+      "npx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json",
   },
   {
     name: "File Upload",
@@ -44,7 +45,8 @@ const systems = [
     status: "Building",
     tag: null,
     icon: null,
-    install: "npx shadcn@latest add https://bevelui.com/r/file-upload.json",
+    install:
+      "npx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json",
   },
   {
     name: "Form Engine",
@@ -54,7 +56,8 @@ const systems = [
     status: "Building",
     tag: null,
     icon: null,
-    install: "npx shadcn@latest add https://bevelui.com/r/form-engine.json",
+    install:
+      "npx shadcn@latest add https://bevelui.vercel.app/r/form-engine.json",
   },
 ];
 

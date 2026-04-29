@@ -39,7 +39,7 @@ import type { Metadata, Viewport } from "next";
 // ─── Site constants ───────────────────────────────────────────────────────────
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.com";
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.vercel.app";
 export const SITE_NAME = "Bevel UI";
 export const SITE_DESCRIPTION =
   "Fully-engineered UI systems for React. Product Tour, Command Palette, File Upload, and Form Engine — copy the code, own it forever. No lock-in. shadcn compatible.";

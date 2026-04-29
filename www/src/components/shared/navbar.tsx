@@ -16,15 +16,15 @@ import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSectionValue } from "@/hooks/use-section-value";
-import Marquee from "../landing/Marquee";
+import Marquee from "../base/home/Marquee";
 import Image from "next/image";
 import { BrandMark } from "./brand-mark";
 
 const navigations = [
   { id: "home", label: "Home", href: "/" },
+  { id: "docs", label: "Documentation", href: "/docs" },
   { id: "components", label: "Components", href: "/docs/components" },
-  { id: "templates", label: "Blocks", href: "/blocks" },
-  { id: "pricing", label: "Pricing", href: "/pricing" },
+  // { id: "pricing", label: "Pricing", href: "/pricing" },
   { id: "labs", label: "Labs", href: "/labs" },
 ];
 

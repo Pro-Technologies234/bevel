@@ -29,7 +29,7 @@ export const auth = betterAuth({
       const { Resend } = await import("resend");
       const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
-        from: "Bevel UI <noreply@bevelui.com>",
+        from: "Bevel UI <noreply@bevelui.vercel.app>",
         to: user.email,
         subject: "Verify your Bevel UI account",
         html: `

@@ -12,7 +12,7 @@ export default async function PreviewPage({
 
   return (
     // Full viewport, no navbar, no sidebar
-    <div className="min-h-screen w-full flex items-center justify-center bg-background p-8">
+    <div className="min-h-screen w-full flex items-center justify-center bg-background ">
       <Demo />
     </div>
   );
