@@ -347,8 +347,10 @@ export default function JobApplicationBlock() {
                 submitLabel="Submit application"
                 nextLabel="Continue"
                 backLabel="Back"
-                nextBtnClassName="p-5 rounded-full"
-                backBtnClassName="p-5 rounded-full"
+                styles={{
+                  nextBtn: "p-5 rounded-full",
+                  backBtn: "p-5 rounded-full",
+                }}
               />
             </div>
           </div>

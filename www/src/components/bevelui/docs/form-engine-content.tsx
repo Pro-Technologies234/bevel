@@ -204,7 +204,9 @@ export function FormEngineDemo() {
         >
           <FormEngineStepMeta />
           <FormEngineStepCanvas className="w-full" />
-          <FormEngineNavigation nextBtnClassName="rounded-full px-4 py-4!" />
+          <FormEngineNavigation
+            styles={{ nextBtn: "rounded-full px-4 py-4!" }}
+          />
         </FormEngineRoot>
       </CardContent>
     </Card>
@@ -516,9 +518,11 @@ export function FormEngineShowcase() {
                   submitLabel="Complete setup"
                   nextLabel="Continue"
                   backLabel="Back"
-                  className="flex justify-between items-center"
-                  backBtnClassName={"p-4 rounded-md"}
-                  nextBtnClassName={"p-4 rounded-md"}
+                  styles={{
+                    container: "flex justify-between items-center",
+                    backBtn: "p-4 rounded-md",
+                    nextBtn: "p-4 rounded-md",
+                  }}
                 />
               </div>
             </div>

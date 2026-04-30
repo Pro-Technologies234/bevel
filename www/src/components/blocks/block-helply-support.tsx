@@ -594,7 +594,7 @@ const TICKET_FORM_CONFIG: FormEngineConfig = {
       id: "review",
       title: "Rate recent support",
       description: "How was your last interaction with our team?",
-      layout(fields, actions) {
+      layout(fields) {
         return (
           <div className="space-y-5">
             <Card className="p-4 bg-muted/30">
