@@ -1,13 +1,9 @@
-"use client";
-
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { Slot } from "@radix-ui/react-slot";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useTour } from "./tour-context";
-
-// ─── Merge refs utility ───────────────────────────────────────────────────────
 
 function mergeRefs<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
   return (node: T) => {
@@ -19,14 +15,11 @@ function mergeRefs<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
   };
 }
 
-// ─── Portal ring — used when asChild=true ─────────────────────────────────────
-
 const RING_PADDING = 6;
 
 function PortalRing({ anchorEl }: { anchorEl: Element | null }) {
   const [rect, setRect] = React.useState<DOMRect | null>(null);
 
-  // Measure synchronously before paint, then keep in sync
   React.useLayoutEffect(() => {
     if (!anchorEl) return;
 
@@ -75,17 +68,30 @@ function PortalRing({ anchorEl }: { anchorEl: Element | null }) {
   );
 }
 
-// ─── TourAnchor ───────────────────────────────────────────────────────────────
-
 export interface TourAnchorProps extends React.HTMLAttributes<HTMLElement> {
   /** 1-based step index — must match a step in your TourStepDef array */
   step: number;
   /** Merge props onto child element (no wrapper div). Uses Radix Slot. */
   asChild?: boolean;
+  /** Padding around the anchor element for the highlight ring */
+  ringPadding?: number;
+  /** Custom class names for the highlight ring */
+  ringClassName?: string;
 }
 
 export const TourAnchor = React.forwardRef<HTMLElement, TourAnchorProps>(
-  ({ step, asChild = false, children, className, ...props }, ref) => {
+  (
+    {
+      step,
+      asChild = false,
+      children,
+      className,
+      ringPadding,
+      ringClassName,
+      ...props
+    },
+    ref,
+  ) => {
     const { currentStep, isOpen } = useTour();
     const isActive = isOpen && currentStep === step;
     const innerRef = React.useRef<HTMLElement | null>(null);
@@ -93,7 +99,6 @@ export const TourAnchor = React.forwardRef<HTMLElement, TourAnchorProps>(
 
     React.useEffect(() => setMounted(true), []);
 
-    // ── asChild: use Slot (no wrapper), portal the ring separately ──────────
     if (asChild) {
       return (
         <>
@@ -132,8 +137,11 @@ export const TourAnchor = React.forwardRef<HTMLElement, TourAnchorProps>(
           {isActive && (
             <motion.span
               layoutId="tour-highlight-ring"
-              className="pointer-events-none absolute rounded-xl border-2 border-primary animate-pulse"
-              style={{ inset: `-${RING_PADDING}px` }}
+              className={cn(
+                "pointer-events-none absolute rounded-xl border-2 border-primary animate-pulse",
+                ringClassName,
+              )}
+              style={{ inset: `-${ringPadding ?? RING_PADDING}px` }}
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}

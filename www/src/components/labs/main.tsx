@@ -1,37 +1,17 @@
 "use client";
 
-import { useState, Suspense, lazy } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { motion } from "motion/react";
 import {
-  IconBoltFilled,
   IconExternalLink,
-  IconMaximize,
   IconCloud,
   IconUsers,
   IconRocket,
-  IconBriefcase,
   IconPackage,
   IconSettings,
-  IconArrowRight,
-  IconFlask,
-  IconFlaskFilled,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Wrapper } from "../shared/wrapper";
-// Lazy load each lab — heavy components, no need to load all at once
-const VaultApp = lazy(() => import("@/components/labs/vault/VaultApp"));
-const OnboardApp = lazy(() => import("@/components/labs/onboard/OnboardApp"));
-const LaunchpadApp = lazy(
-  () => import("@/components/labs/launchpad/LaunchpadApp"),
-);
-const IntakeApp = lazy(() => import("@/components/labs/intake/IntakeApp"));
-const BriefcaseApp = lazy(
-  () => import("@/components/labs/briefcase/BriefcaseApp"),
-);
-const CompassApp = lazy(() => import("@/components/labs/compass/CompassApp"));
 
 // ─── Lab definitions ──────────────────────────────────────────────────────────
 
@@ -45,7 +25,6 @@ const LABS = [
     systems: ["File Upload", "Command Palette"],
     icon: IconCloud,
     accent: "#c2f13c",
-    component: VaultApp,
     previewRoute: "/preview/vault",
   },
   {
@@ -57,7 +36,6 @@ const LABS = [
     systems: ["Form Engine", "Product Tour"],
     icon: IconRocket,
     accent: "#818cf8",
-    component: OnboardApp,
     previewRoute: "/preview/onboard",
   },
   {
@@ -69,7 +47,6 @@ const LABS = [
     systems: ["Command Palette", "Product Tour"],
     icon: IconRocket,
     accent: "#f97316",
-    component: LaunchpadApp,
     previewRoute: "/preview/launchpad",
   },
   {
@@ -81,7 +58,6 @@ const LABS = [
     systems: ["Form Engine"],
     icon: IconUsers,
     accent: "#e879f9",
-    component: IntakeApp,
     previewRoute: "/preview/intake",
   },
   {
@@ -93,7 +69,6 @@ const LABS = [
     systems: ["Form Engine", "File Upload"],
     icon: IconPackage,
     accent: "#22c55e",
-    component: BriefcaseApp,
     previewRoute: "/preview/briefcase",
   },
   {
@@ -105,7 +80,6 @@ const LABS = [
     systems: ["Form Engine", "Command Palette", "Product Tour"],
     icon: IconSettings,
     accent: "#06b6d4",
-    component: CompassApp,
     previewRoute: "/preview/compass",
   },
 ];
@@ -134,208 +108,77 @@ function SystemBadge({ name }: { name: string }) {
   );
 }
 
-// ─── Preview skeleton ─────────────────────────────────────────────────────────
-
-<PreviewSkeleton />;
-function PreviewSkeleton() {
-  return (
-    <div className="w-full h-full flex items-center justify-center bg-muted/20 animate-pulse rounded-xl">
-      <div className="flex flex-col items-center gap-3 text-primary ">
-        <IconFlaskFilled
-          size={32}
-          strokeWidth={1.2}
-          className="animate-bounce"
-        />
-        <span className="text-xs">Loading lab...</span>
-      </div>
-    </div>
-  );
-}
-
 // ─── Lab card ─────────────────────────────────────────────────────────────────
 
 function LabCard({
   lab,
-  active,
-  onClick,
+  index,
 }: {
   lab: (typeof LABS)[number];
-  active: boolean;
-  onClick: () => void;
+  index: number;
 }) {
   return (
-    <motion.button
-      onClick={onClick}
-      className={cn(
-        "w-full text-left p-4 rounded-lg border transition-all duration-150",
-        active ? "bg-card/90" : "bg-card/70",
-      )}
-      whileHover={{ x: 2 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.06 }}
     >
-      <div className="flex items-start gap-3">
-        <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-          style={{ background: `${lab.accent}18` }}
-        >
-          <lab.icon size={16} strokeWidth={1.8} style={{ color: lab.accent }} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-sm font-semibold">{lab.name}</span>
-            <span className="text-[10px] text-muted-foreground">
-              {lab.tagline}
-            </span>
+      <Link
+        href={lab.previewRoute}
+        target="_blank"
+        className="group block h-full p-5 rounded-xl border border-border bg-card/60 hover:bg-card/90 hover:border-border/80 transition-all duration-200"
+      >
+        {/* Icon + name row */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+              style={{ background: `${lab.accent}18` }}
+            >
+              <lab.icon
+                size={17}
+                strokeWidth={1.7}
+                style={{ color: lab.accent }}
+              />
+            </div>
+            <div>
+              <p className="text-sm font-semibold leading-none mb-1">
+                {lab.name}
+              </p>
+              <p className="text-[11px] text-muted-foreground">{lab.tagline}</p>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-1 mt-1">
-            {lab.systems.map((s) => (
-              <SystemBadge key={s} name={s} />
-            ))}
-          </div>
-        </div>
-        {active && (
-          <div
-            className="w-1.5 h-1.5  shrink-0 mt-1.5"
-            style={{ background: lab.accent }}
+          <IconExternalLink
+            size={14}
+            className="text-muted-foreground/40 group-hover:text-muted-foreground transition-colors mt-0.5 shrink-0"
           />
-        )}
-      </div>
-    </motion.button>
+        </div>
+
+        {/* Description */}
+        <p className="text-[13px] text-muted-foreground leading-relaxed mb-4">
+          {lab.description}
+        </p>
+
+        {/* Systems */}
+        <div className="flex flex-wrap gap-1.5">
+          {lab.systems.map((s) => (
+            <SystemBadge key={s} name={s} />
+          ))}
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 
-export function LabsMain() {
-  const [activeLab, setActiveLab] = useState(LABS[0]);
-  const ActiveComponent = activeLab.component;
+// ─── Main export ──────────────────────────────────────────────────────────────
 
+export function LabsMain() {
   return (
     <Wrapper>
-      <div className="flex gap-6 items-start">
-        {/* Lab list sidebar */}
-        <div className="w-72 shrink-0 flex flex-col gap-2 sticky top-20">
-          {LABS.map((lab) => (
-            <LabCard
-              key={lab.id}
-              lab={lab}
-              active={activeLab.id === lab.id}
-              onClick={() => setActiveLab(lab)}
-            />
-          ))}
-
-          {/* Pro CTA */}
-          {/* <div
-            className="mt-2 p-4 rounded-xl"
-            style={{
-              background: "rgba(194,241,60,0.04)",
-              border: "1px solid rgba(194,241,60,0.15)",
-            }}
-          >
-            <p className="text-xs font-semibold mb-1">Get the source code</p>
-            <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">
-              All six Labs are included with Bevel Pro. Copy the code straight
-              into your project.
-            </p>
-            <Button
-              size="sm"
-              className="w-full text-xs font-bold gap-1.5"
-              style={{ background: "#c2f13c", color: "#0a0a0a" }}
-              asChild
-            >
-              <Link href="/pricing">
-                <IconBoltFilled size={11} />
-                Unlock Labs — $49
-              </Link>
-            </Button>
-          </div> */}
-        </div>
-
-        {/* Preview panel */}
-        <div className="flex-1 min-w-0">
-          {/* Lab header */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeLab.id + "-header"}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="flex items-start justify-between gap-4 mb-4"
-            >
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <h2 className="text-3xl font-medium tracking-tight font-sans">
-                    {activeLab.name}
-                  </h2>
-                  <span className="text-sm text-muted-foreground">
-                    {activeLab.tagline}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-xl">
-                  {activeLab.description}
-                </p>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-[11px] text-muted-foreground">
-                    Built with:
-                  </span>
-                  {activeLab.systems.map((s) => (
-                    <SystemBadge key={s} name={s} />
-                  ))}
-                </div>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-1.5 text-xs"
-                  asChild
-                >
-                  <Link href={activeLab.previewRoute} target="_blank">
-                    <IconMaximize size={12} />
-                    Fullscreen
-                  </Link>
-                </Button>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Live preview */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeLab.id}
-              initial={{ opacity: 0, scale: 0.99 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="rounded-2xl border border-border overflow-hidden bg-background transform scale-100"
-              style={{ height: 580 }}
-            >
-              <Suspense fallback={<PreviewSkeleton />}>
-                <ActiveComponent />
-              </Suspense>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Systems used breakdown */}
-          <motion.div
-            key={activeLab.id + "-systems"}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-4 flex items-center gap-3"
-          >
-            <span className="text-xs text-muted-foreground">
-              Systems used in this lab:
-            </span>
-            {activeLab.systems.map((system) => (
-              <Link
-                key={system}
-                href={`/docs/components/${system.toLowerCase().replace(" ", "-")}`}
-                className="text-xs text-primary hover:underline flex items-center gap-1"
-              >
-                {system} <IconExternalLink size={10} />
-              </Link>
-            ))}
-          </motion.div>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {LABS.map((lab, i) => (
+          <LabCard key={lab.id} lab={lab} index={i} />
+        ))}
       </div>
     </Wrapper>
   );

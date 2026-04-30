@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { FormEngineContext } from "./form-engine-context";
 import { useFormEngineState } from "./form-engine-hook";
@@ -24,7 +22,12 @@ export function FormEngineRoot({
   children,
   onSubmit,
 }: FormEngineRootProps) {
-  const engine = useFormEngineState({ config, plugins, onSubmit, defaultValues });
+  const engine = useFormEngineState({
+    config,
+    plugins,
+    onSubmit,
+    defaultValues,
+  });
 
   return (
     <FormEngineContext.Provider value={engine}>

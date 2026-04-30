@@ -19,7 +19,6 @@ export function fuzzyScore(text: string, query: string): number {
   if (t.startsWith(q)) return 80;
   if (t.includes(q)) return 60;
 
-  // Sequential character match
   let ti = 0;
   let qi = 0;
   let matched = 0;
@@ -30,7 +29,7 @@ export function fuzzyScore(text: string, query: string): number {
     }
     ti++;
   }
-  if (qi < q.length) return -1; // not all query chars found
+  if (qi < q.length) return -1;
   return Math.round((matched / q.length) * 40);
 }
 
@@ -39,11 +38,13 @@ export function fuzzyScore(text: string, query: string): number {
  */
 export function scoreItem(
   item: { title: string; subtitle?: string; meta?: string; category?: string },
-  query: string
+  query: string,
 ): number {
   if (!query.trim()) return 100;
   const titleScore = fuzzyScore(item.title, query);
-  const subtitleScore = item.subtitle ? fuzzyScore(item.subtitle, query) * 0.6 : -1;
+  const subtitleScore = item.subtitle
+    ? fuzzyScore(item.subtitle, query) * 0.6
+    : -1;
   const metaScore = item.meta ? fuzzyScore(item.meta, query) * 0.4 : -1;
   return Math.max(titleScore, subtitleScore, metaScore);
 }
@@ -54,22 +55,21 @@ export function scoreItem(
  */
 export function highlightMatch(
   text: string,
-  query: string
+  query: string,
 ): { char: string; highlight: boolean }[] {
-  if (!query.trim()) return text.split("").map((c) => ({ char: c, highlight: false }));
+  if (!query.trim())
+    return text.split("").map((c) => ({ char: c, highlight: false }));
 
   const t = text.toLowerCase();
   const q = query.toLowerCase();
   const result = text.split("").map((c) => ({ char: c, highlight: false }));
 
-  // If query is a substring, highlight that range
   const idx = t.indexOf(q);
   if (idx !== -1) {
     for (let i = idx; i < idx + q.length; i++) result[i].highlight = true;
     return result;
   }
 
-  // Otherwise highlight sequential matches
   let qi = 0;
   for (let ti = 0; ti < t.length && qi < q.length; ti++) {
     if (t[ti] === q[qi]) {

@@ -1,8 +1,6 @@
-// ─── Main components ──────────────────────────────────────────────────────────
 export { FormEngine } from "./form-engine";
 export { FormEngineRoot } from "./form-engine-root";
 
-// ─── Composable pieces ────────────────────────────────────────────────────────
 export {
   FormEngineProgress,
   FormEngineProgressPill,
@@ -10,14 +8,11 @@ export {
 export { FormEngineStepMeta } from "./form-engine-step-meta";
 export { FormEngineStep } from "./form-engine-step";
 export { FormEngineStepCanvas } from "./form-engine-step-canvas";
-export { FormEngineActions } from "./form-engine-actions";
 export { FormEngineNavigation } from "./form-engine-navigation";
 export { FormEngineField, useFormEngineField } from "./form-engine-field";
 
-// ─── Context ──────────────────────────────────────────────────────────────────
 export { FormEngineContext, useFormEngineContext } from "./form-engine-context";
 
-// ─── Plugin helpers ───────────────────────────────────────────────────────────
 export {
   createZodPlugin,
   createLogPlugin,
@@ -25,7 +20,6 @@ export {
   createServerValidationPlugin,
 } from "./form-engine-plugin";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
 export type {
   FormEngineConfig,
   FormEngineStepDef,
@@ -42,11 +36,6 @@ export type {
   FieldRenderProps,
   FormDefaultValues,
 } from "./form-engine-types";
-
-export type {
-  FormEngineActionsProps,
-  FormEngineActionsLayout,
-} from "./form-engine-actions";
 
 export type {
   FormEngineProgressProps,

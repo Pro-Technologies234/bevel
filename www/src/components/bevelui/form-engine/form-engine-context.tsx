@@ -1,15 +1,9 @@
-"use client";
-
 import { createContext, useContext } from "react";
 import type { FormEngineContextValue } from "./form-engine-types";
-
-// ─── Context ──────────────────────────────────────────────────────────────────
 
 export const FormEngineContext = createContext<FormEngineContextValue | null>(
   null,
 );
-
-// ─── Hook ─────────────────────────────────────────────────────────────────────
 
 /**
  * useFormEngineContext — access the form engine state from any child component.

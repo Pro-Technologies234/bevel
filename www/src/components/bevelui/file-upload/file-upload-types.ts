@@ -1,14 +1,11 @@
 import type React from "react";
-import { Accept } from "react-dropzone";
+import { Accept, FileRejection } from "react-dropzone";
 
-// ─── Entry & Upload State ───────────────────────────────────────────────────────────
-
-type FileEntryMeta =  {
-    ext?: string;
-    size?: string;
-    [key: string]: unknown;
-  };
-
+type FileEntryMeta = {
+  ext?: string;
+  size?: string;
+  [key: string]: unknown;
+};
 
 export type FileEntry = {
   id: string;
@@ -23,10 +20,8 @@ export type FileEntry = {
   /** The File URL if status === "done" */
   url?: string;
   /** The File Meta data */
-  meta?: FileEntryMeta
+  meta?: FileEntryMeta;
 };
-
-// ─── Upload COnfig ───────────────────────────────────────────────────────────
 
 export type FileUploadConfig = {
   /** Accepted MIME types e.g. ["image/*", "application/pdf"] */
@@ -49,18 +44,14 @@ export type FileUploadConfig = {
   initialFiles?: FileEntry[];
 };
 
-// ─── Context ───────────────────────────────────────────────────────────
-
 export type FileUploadContextValue = {
-  // State
   files: FileEntry[];
   isDragging: boolean;
   isUploading: boolean;
+  isFull: boolean;
 
-  // Config (read by dropzone to show hints)
   config: FileUploadConfig;
 
-  // Actions
   setIsDragging: (v: boolean) => void;
   addFiles: (files: File[]) => void;
   removeFile: (id: string) => void;
@@ -69,4 +60,5 @@ export type FileUploadContextValue = {
   removeAll: () => void;
   cancelFile: (id: string) => void;
   retryFile: (id: string) => void;
+  onAddRejected?: (fileRejections: FileRejection[]) => void;
 };

@@ -1,7 +1,10 @@
-"use client";
-
 import * as React from "react";
-import { IconCircleCheck, IconLoader2, IconSparkles, IconX } from "@tabler/icons-react";
+import {
+  IconCircleCheck,
+  IconLoader2,
+  IconSparkles,
+  IconX,
+} from "@tabler/icons-react";
 import { Separator } from "@/components/ui/separator";
 import { useCommandPalette } from "./command-palette-context";
 
@@ -9,7 +12,6 @@ export function CommandPaletteSearchbar() {
   const { query, setQuery, close, isLoading } = useCommandPalette();
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  // Focus input when palette opens
   React.useEffect(() => {
     const t = setTimeout(() => inputRef.current?.focus(), 50);
     return () => clearTimeout(t);
@@ -33,7 +35,6 @@ export function CommandPaletteSearchbar() {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Type a command or search..."
         className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50 text-foreground"
-        // Prevent cmdk from capturing these — we handle keyboard in context
         onKeyDown={(e) => {
           if (["ArrowUp", "ArrowDown", "Enter", "Escape"].includes(e.key)) {
             e.preventDefault();

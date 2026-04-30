@@ -1,11 +1,7 @@
-"use client";
-
 import { type ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useFormEngineContext } from "./form-engine-context";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 export type FormEngineProgressVariant = "dots" | "segments" | "numbers";
 export type FormEngineProgressState = "active" | "inactive" | "completed";
@@ -15,8 +11,6 @@ export interface FormEngineProgressProps {
   variant?: FormEngineProgressVariant;
   renderStep?: (index: number, state: FormEngineProgressState) => ReactNode;
 }
-
-// ─── Pill step ────────────────────────────────────────────────────────────────
 
 interface PillStepProps {
   state: FormEngineProgressState;
@@ -67,8 +61,6 @@ export function FormEngineProgressPill({
     </div>
   );
 }
-
-// ─── FormEngineProgress ───────────────────────────────────────────────────────
 
 export function FormEngineProgress({
   className,

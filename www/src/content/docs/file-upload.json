@@ -117,21 +117,6 @@
       ]
     },
     {
-      "id": "modal",
-      "title": "Modal mode",
-      "blocks": [
-        {
-          "type": "text",
-          "content": "Use FileUploadModal for a dialog-based upload experience. Matches the mobile-app style UI with a dashed dropzone, file row, and Cancel/Upload footer."
-        },
-        {
-          "type": "code",
-          "language": "tsx",
-          "code": "import { FileUploadModal } from \"@/components/bevelui/file-upload\";\n\n<FileUploadModal\n  open={isOpen}\n  onOpenChange={setIsOpen}\n  dialogTitle=\"Upload your video\"\n  config={{\n    accept: { \"video/*\": [\".mp4\", \".mov\"] },\n    title: \"Drop your video here\",\n    description: \"For best results, upload at least 1080p MP4.\",\n  }}\n  onUpload={async (file, onProgress) => {\n    const url = await uploadToS3(file, onProgress);\n    return { url };\n  }}\n/>"
-        }
-      ]
-    },
-    {
       "id": "more-demo",
       "title": "Custom UI",
       "blocks": [

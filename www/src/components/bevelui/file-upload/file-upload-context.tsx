@@ -1,5 +1,3 @@
-"use client";
-
 import {
   createContext,
   useCallback,
@@ -15,8 +13,7 @@ import type {
   FileUploadContextValue,
 } from "./file-upload-types";
 import { formatBytes, getFileExt } from "./file-upload-utils";
-
-// ─── Context ──────────────────────────────────────────────────────────────────
+import { FileRejection } from "react-dropzone";
 
 const FileUploadContext = createContext<FileUploadContextValue | undefined>(
   undefined,
@@ -69,10 +66,7 @@ export function FileUploadProvider({
   const [files, setFiles] = useState<FileEntry[]>(config?.initialFiles ?? []);
   const isFull = config.maxFiles ? files.length >= config.maxFiles : false;
 
-  // Track abort controllers per file for real cancellation support
   const abortControllers = useRef<Map<string, AbortController>>(new Map());
-
-  // ── Actions ───────────────────────────────────────────────────────────────
 
   const addFiles = useCallback(
     (incoming: File[]) => {
@@ -100,7 +94,6 @@ export function FileUploadProvider({
   );
 
   const removeFile = useCallback((id: string) => {
-    // Cancel if uploading before removing
     abortControllers.current.get(id)?.abort();
     abortControllers.current.delete(id);
     setFiles((prev) => prev.filter((f) => f.id !== id));
@@ -108,7 +101,6 @@ export function FileUploadProvider({
 
   const uploadFile = useCallback(
     async (id: string) => {
-      // Read from current state snapshot — find the file
       setFiles((prev) => {
         const exists = prev.find((f) => f.id === id);
         if (!exists) return prev;
@@ -117,7 +109,6 @@ export function FileUploadProvider({
         );
       });
 
-      // Get the file object from current state via a fresh read
       let fileEntry = files.find((f) => f.id === id);
       if (!fileEntry) return;
       const targetFile = fileEntry.file;
@@ -125,11 +116,10 @@ export function FileUploadProvider({
       setIsUploading(true);
 
       const onProgress = (pct: number) => {
-        // Only update if change is meaningful
         setFiles((prev) =>
           prev.map((f) => {
             if (f.id !== id) return f;
-            if (Math.abs(f.progress - pct) < 2) return f; // skip tiny changes
+            if (Math.abs(f.progress - pct) < 2) return f;
             return { ...f, progress: pct };
           }),
         );
@@ -144,7 +134,6 @@ export function FileUploadProvider({
               ? { ...f, status: "done" as const, progress: 100, ...result }
               : f,
           );
-          // Call onComplete with the fully updated list
           allDone = updated.every((f) => f.status === "done");
           if (allDone) {
             queueMicrotask(() => onComplete?.(files));
@@ -167,7 +156,6 @@ export function FileUploadProvider({
         onError?.(id, message);
       } finally {
         abortControllers.current.delete(id);
-        // Only set isUploading false when nothing else is uploading
         setFiles((prev) => {
           const stillUploading = prev.some((f) => f.status === "uploading");
           if (!stillUploading) setIsUploading(false);
@@ -179,7 +167,6 @@ export function FileUploadProvider({
   );
 
   const uploadAll = useCallback(async () => {
-    // Read idle files at call time
     const idleIds = files.filter((f) => f.status === "idle").map((f) => f.id);
     Promise.all(idleIds.map((id) => uploadFile(id)));
   }, [files, uploadFile]);
@@ -206,7 +193,6 @@ export function FileUploadProvider({
     );
   }, []);
 
-  // Effect to handle Auto-Upload
   useEffect(() => {
     if (config.auto) {
       const idleFiles = files.filter((f) => f.status === "idle");
@@ -218,7 +204,6 @@ export function FileUploadProvider({
 
   const retryFile = useCallback(
     async (id: string) => {
-      // Reset error state first, then upload
       setFiles((prev) =>
         prev.map((f) =>
           f.id === id && f.status === "error"
@@ -231,7 +216,26 @@ export function FileUploadProvider({
     [uploadFile],
   );
 
-  // ─────────────────────────────────────────────────────────────────────────
+  const onAddRejected = useCallback(
+    (fileRejections: FileRejection[]) => {
+      fileRejections.forEach(({ file, errors }) => {
+        const message = errors.map((e) => e.message).join(", ");
+        const fakeEntry: FileEntry = {
+          id: crypto.randomUUID(),
+          file,
+          status: "error",
+          progress: 0,
+          error: message,
+          meta: {
+            ext: getFileExt(file),
+            size: formatBytes(file.size),
+          },
+        };
+        onError?.(fakeEntry.id, message);
+      });
+    },
+    [onError],
+  );
 
   return (
     <FileUploadContext.Provider
@@ -240,6 +244,7 @@ export function FileUploadProvider({
         isDragging,
         files,
         isUploading,
+        isFull,
         config,
         setIsDragging,
         addFiles,
@@ -248,6 +253,7 @@ export function FileUploadProvider({
         uploadAll,
         cancelFile,
         retryFile,
+        onAddRejected,
       }}
     >
       {children}

@@ -15,18 +15,10 @@ import { z } from "zod";
 import {
   FormEngineRoot,
   FormEngineStepCanvas,
-  FormEngineActions,
+  FormEngineNavigation,
 } from "@/components/bevelui/form-engine";
-import type { FormEngineStepDef } from "@/components/bevelui/form-engine";
-import { TagInput } from "@/components/bevelui/controls/tag-input";
-import { RatingField } from "@/components/bevelui/controls/rating-field";
-import { SelectField } from "@/components/bevelui/controls/select-field";
-import { ChipSelect } from "@/components/bevelui/controls/chip-select";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
+
 import { useState } from "react";
 import {
   IconCheck,
@@ -178,7 +170,7 @@ export default function SettingsBlock() {
             >
               <FormEngineStepCanvas />
               <div className="mt-8 pt-6 border-t border-border flex justify-end">
-                <FormEngineActions
+                <FormEngineNavigation
                   submitLabel="Save changes"
                   // showPrev={false}
                 />

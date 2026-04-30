@@ -1,7 +1,5 @@
 import type React from "react";
 
-// ─── Item & Section ───────────────────────────────────────────────────────────
-
 export type CommandPaletteItem = {
   id: string;
   title: string;
@@ -28,8 +26,6 @@ export type CommandPaletteSection = {
   items: CommandPaletteItem[];
 };
 
-// ─── Tabs ─────────────────────────────────────────────────────────────────────
-
 export type CommandPaletteSourceTab = {
   id: string;
   label: string;
@@ -45,10 +41,7 @@ export type CommandPaletteFilterTab = {
   icon?: React.ReactNode;
 };
 
-// ─── Context ──────────────────────────────────────────────────────────────────
-
 export type CommandPaletteContextValue = {
-  // State
   isOpen: boolean;
   query: string;
   activeSourceTab: string;
@@ -58,7 +51,6 @@ export type CommandPaletteContextValue = {
   flatResults: CommandPaletteItem[];
   isLoading: boolean;
 
-  // Actions
   open: () => void;
   close: () => void;
   setQuery: (q: string) => void;

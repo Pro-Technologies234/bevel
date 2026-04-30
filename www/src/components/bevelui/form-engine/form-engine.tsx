@@ -1,16 +1,18 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { FormEngineContext } from "./form-engine-context";
 import { useFormEngineState } from "./form-engine-hook";
 import { FormEngineProgress } from "./form-engine-progress";
 import { FormEngineStepMeta } from "./form-engine-step-meta";
 import { FormEngineStepCanvas } from "./form-engine-step-canvas";
-import type { FormEngineActionsProps } from "./form-engine-actions";
 import type { FormEngineProps } from "./form-engine-types";
+import {
+  FormEngineNavigation,
+  FormEngineNavigationProps,
+} from "./form-engine-navigation";
 
 interface FormEngineComponentProps extends FormEngineProps {
-  actionsProps?: FormEngineActionsProps;
+  className?: string;
+  actionsProps?: FormEngineNavigationProps;
 }
 
 /**
@@ -58,7 +60,8 @@ export function FormEngine({
         <FormEngineProgress />
         <FormEngineStepMeta />
         {/* FormEngineStepCanvas renders both fields and actions */}
-        <FormEngineStepCanvas actionsProps={actionsProps} />
+        <FormEngineStepCanvas />
+        <FormEngineNavigation {...actionsProps} />
       </div>
     </FormEngineContext.Provider>
   );

@@ -1,9 +1,4 @@
-"use client";
-
-import * as React from "react";
 import { IconSettings } from "@tabler/icons-react";
-import { Separator } from "@/components/ui/separator";
-import { useCommandPalette } from "./command-palette-context";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
 function Shortcut({ keys, label }: { keys: string[]; label: string }) {

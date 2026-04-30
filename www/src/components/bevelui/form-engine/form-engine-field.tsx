@@ -1,5 +1,3 @@
-"use client";
-
 import {
   useController,
   type Path,
@@ -13,7 +11,6 @@ import {
 } from "@/components/ui/input-group";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Checkbox } from "@/components/ui/checkbox";
-// Relative imports — required for copy-to-own distribution to work correctly
 import { CardSelect } from "../controls/card-select";
 import { ChipSelect } from "../controls/chip-select";
 import { RatingField } from "../controls/rating-field";
@@ -23,8 +20,6 @@ import { DatePicker } from "../controls/date-picker";
 import { cn } from "@/lib/utils";
 import { useFormEngineContext } from "./form-engine-context";
 import type { FieldRenderProps, FormEngineFieldDef } from "./form-engine-types";
-
-// ─── useFormEngineField ───────────────────────────────────────────────────────
 
 /**
  * useFormEngineField — read and write a single field from within the engine.
@@ -54,14 +49,11 @@ export function useFormEngineField(key: string, rules?: RegisterOptions) {
   };
 }
 
-// ─── FormEngineField ──────────────────────────────────────────────────────────
-
 interface FormEngineFieldProps {
   field: FormEngineFieldDef;
 }
 
 export function FormEngineField({ field }: FormEngineFieldProps) {
-  // Build RHF rules from field config — required now registers actual validation
   const rules: RegisterOptions = {
     ...(field.required
       ? {
@@ -79,7 +71,6 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
 
   if (!visible) return null;
 
-  // ── Custom render prop — full escape hatch ────────────────────────────────
   if (field.variant === "custom") {
     const renderProps: FieldRenderProps = {
       value,
@@ -107,7 +98,6 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
     );
   }
 
-  // ── Built-in variants ─────────────────────────────────────────────────────
   const renderControl = () => {
     switch (field.variant) {
       case "text":

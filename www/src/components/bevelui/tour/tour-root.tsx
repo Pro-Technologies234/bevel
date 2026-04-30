@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { TourProvider } from "./tour-context";
 import { TourOverlay } from "./tour-overlay";

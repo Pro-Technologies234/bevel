@@ -13,12 +13,8 @@ import type { SelectFieldProps } from "../controls/select-field";
 import type { TagInputProps } from "../controls/tag-input";
 import type { Icon } from "@tabler/icons-react";
 
-// ─── Form mode ────────────────────────────────────────────────────────────────
-
 export type FormEngineMode = "multi-step" | "single";
 export type FormEngineValidation = "per-step" | "on-submit";
-
-// ─── Validation result ────────────────────────────────────────────────────────
 
 /**
  * Plugins and step guards can return a plain boolean (true = pass) or a
@@ -31,8 +27,6 @@ export type FormEngineValidation = "per-step" | "on-submit";
 export type FormEngineValidateResult =
   | boolean
   | { success: false; errors: Record<string, string> };
-
-// ─── Plugin system ────────────────────────────────────────────────────────────
 
 /**
  * Plugins are the primary extension point. They hook into every lifecycle
@@ -65,8 +59,6 @@ export type FormEnginePlugin = {
   onSubmit?: (values: Record<string, unknown>) => Promise<void>;
 };
 
-// ─── Custom field render props ────────────────────────────────────────────────
-
 /**
  * Props passed into a custom render function.
  * Gives you full control over value, change handler, blur, error, and disabled.
@@ -88,8 +80,6 @@ export type FieldRenderProps = {
   error?: string;
   disabled: boolean;
 };
-
-// ─── Field variants ───────────────────────────────────────────────────────────
 
 export type TextInputProps = {
   icon?: Icon;
@@ -121,8 +111,6 @@ export type FormEngineFieldVariant =
       render: (props: FieldRenderProps) => ReactNode;
     };
 
-// ─── Field definition ─────────────────────────────────────────────────────────
-
 export type FormEngineFieldDef = {
   /** Must match a key in your form values. */
   key: string;
@@ -148,8 +136,6 @@ export type FormEngineFieldDef = {
    */
   showWhen?: (values: Record<string, unknown>) => boolean;
 } & FormEngineFieldVariant;
-
-// ─── Step definition ──────────────────────────────────────────────────────────
 
 export type FormEngineStepDef = {
   id: string;
@@ -190,10 +176,8 @@ export type FormEngineStepDef = {
    *   </div>
    * )
    */
-  layout?: (fields: JSX.Element, actions: JSX.Element) => JSX.Element;
+  layout?: (fields: JSX.Element) => JSX.Element;
 };
-
-// ─── Config ───────────────────────────────────────────────────────────────────
 
 export type FormEngineConfig = {
   id?: string;
@@ -209,16 +193,12 @@ export type FormEngineConfig = {
   steps: FormEngineStepDef[];
 };
 
-// ─── Field state ──────────────────────────────────────────────────────────────
-
 export type FormEngineFieldState = {
   visible: boolean;
   disabled: boolean;
 };
 
 export type FormDefaultValues = Record<number, Record<string, unknown>>;
-
-// ─── Context value ────────────────────────────────────────────────────────────
 
 export type FormEngineContextValue = {
   /** The react-hook-form instance. Exposed for advanced consumers. */
@@ -244,8 +224,6 @@ export type FormEngineContextValue = {
   config: FormEngineConfig;
   plugins: FormEnginePlugin[];
 };
-
-// ─── Component props ──────────────────────────────────────────────────────────
 
 export type FormEngineProps = {
   config: FormEngineConfig;

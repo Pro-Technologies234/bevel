@@ -310,20 +310,6 @@
           ]
         },
         {
-          "id": "fu-modal",
-          "title": "FileUploadModal — dialog mode",
-          "description": "A shadcn Dialog-based upload UI with Cancel and Upload footer.",
-          "href": "/docs/components/file-upload#modal",
-          "category": "file-upload",
-          "keywords": [
-            "modal",
-            "dialog",
-            "FileUploadModal",
-            "asDialog",
-            "cancel upload"
-          ]
-        },
-        {
           "id": "fu-hook",
           "title": "useFileUpload hook",
           "description": "Access files, uploadAll, cancelFile, retryFile from any child.",

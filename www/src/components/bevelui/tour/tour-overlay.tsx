@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
@@ -17,7 +15,6 @@ interface Rect {
 function useAnchorRect(step: number, isOpen: boolean): Rect | null {
   const [rect, setRect] = React.useState<Rect | null>(null);
 
-  // useLayoutEffect so we measure before paint — no flash to 0,0
   React.useLayoutEffect(() => {
     if (!isOpen) {
       setRect(null);
@@ -36,7 +33,6 @@ function useAnchorRect(step: number, isOpen: boolean): Rect | null {
       });
     }
 
-    // Measure immediately, synchronously
     measure();
 
     window.addEventListener("scroll", measure, true);
@@ -55,8 +51,6 @@ function useAnchorRect(step: number, isOpen: boolean): Rect | null {
 
   return rect;
 }
-
-// ─── TourOverlay ──────────────────────────────────────────────────────────────
 
 export function TourOverlay() {
   const { currentStep, isOpen, skip } = useTour();
@@ -79,12 +73,6 @@ export function TourOverlay() {
           onClick={skip}
           aria-hidden
         >
-          {/*
-            SVG mask approach:
-            - Full white rect = the dim layer
-            - Animated black rect = the cutout hole
-            The mask inverts: white=show-dim, black=show-through
-          */}
           <svg
             className="absolute inset-0 w-full h-full"
             xmlns="http://www.w3.org/2000/svg"
@@ -96,16 +84,12 @@ export function TourOverlay() {
                 <motion.rect
                   rx={10}
                   fill="black"
-                  // Use animate (not initial+animate) so the rect immediately
-                  // appears at the correct position when the step changes,
-                  // then springs into place for cross-step transitions
                   animate={{
                     x: rect.left,
                     y: rect.top,
                     width: rect.width,
                     height: rect.height,
                   }}
-                  // No initial here — on mount it starts at the correct position
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               </mask>
@@ -119,11 +103,6 @@ export function TourOverlay() {
             />
           </svg>
 
-          {/* 
-            The overlay catches clicks to skip — but we need the highlighted
-            area to be non-blocking so the user can still interact with it.
-            Re-enable pointer events on the cutout zone so it punches through.
-          */}
           <motion.div
             className="absolute"
             style={{ pointerEvents: "none", borderRadius: 10 }}
@@ -138,6 +117,6 @@ export function TourOverlay() {
         </motion.div>
       )}
     </AnimatePresence>,
-    document.body
+    document.body,
   );
 }

@@ -108,7 +108,7 @@ export default function Honest() {
           <h2 className="text-3xl md:text-5xl font-sans font-semibold leading-tight tracking-tight">
             It always takes
             <br />
-            longer than it should.
+            <span className="gradient-primary">longer than it should.</span>
           </h2>
           <p className="text-muted-foreground mt-4 leading-relaxed max-w-md">
             Not because you're slow. Because the architecture genuinely takes

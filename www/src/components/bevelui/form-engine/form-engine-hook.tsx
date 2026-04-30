@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   useForm,
@@ -17,8 +15,6 @@ import type {
   FormEngineValidateResult,
 } from "./form-engine-types";
 
-// ─── useFormEngineState ───────────────────────────────────────────────────────
-
 export interface UseFormEngineStateProps extends Pick<
   FormEngineRootProps,
   "config" | "plugins" | "onSubmit" | "defaultValues"
@@ -35,7 +31,6 @@ export function useFormEngineState({
   plugins = [],
   onSubmit,
 }: UseFormEngineStateProps): FormEngineContextValue {
-  // ── Build initial values from step fields ─────────────────────────────────
   const initialValues = useMemo<Record<string, unknown>>(() => {
     const vals: Record<string, unknown> = {};
     config.steps.forEach((step, index) => {
@@ -47,7 +42,6 @@ export function useFormEngineState({
     return vals;
   }, [config, defaultValues]);
 
-  // ── react-hook-form ───────────────────────────────────────────────────────
   const form = useForm<Record<string, unknown>>({
     defaultValues: initialValues as DefaultValues<Record<string, unknown>>,
     resolver:
@@ -60,23 +54,19 @@ export function useFormEngineState({
   const errors = form.formState.errors;
   const isSubmitting = form.formState.isSubmitting;
 
-  // ── Step state ────────────────────────────────────────────────────────────
   const [currentStep, setCurrentStep] = useState(0);
   const [isValidating, setIsValidating] = useState(false);
 
-  // Fix: was spreading plugins twice → every plugin ran twice
   const allPlugins = useMemo(() => plugins ?? [], [plugins]);
 
-  // ── Mount ─────────────────────────────────────────────────────────────────
   const mounted = useRef(false);
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
       allPlugins.forEach((p) => p.onMount?.(values));
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
-  // ── Field state — visibility / disabled ───────────────────────────────────
   const fieldState = useMemo<Record<string, FormEngineFieldState>>(() => {
     const state: Record<string, FormEngineFieldState> = {};
     config.steps.forEach((step) => {
@@ -90,7 +80,6 @@ export function useFormEngineState({
     return state;
   }, [values, config]);
 
-  // ── setFieldValue ─────────────────────────────────────────────────────────
   const setFieldValue = useCallback(
     (field: string, value: unknown) => {
       form.setValue(
@@ -107,7 +96,6 @@ export function useFormEngineState({
     [form, allPlugins, config.validation],
   );
 
-  // ── Validation result resolver ────────────────────────────────────────────
   /**
    * Resolves a FormEngineValidateResult.
    * When errors are returned, they are set on the RHF form automatically
@@ -130,7 +118,6 @@ export function useFormEngineState({
     [form],
   );
 
-  // ── Navigation ────────────────────────────────────────────────────────────
   const totalSteps = config.mode === "single" ? 1 : config.steps.length;
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === totalSteps - 1;
@@ -140,12 +127,10 @@ export function useFormEngineState({
     setIsValidating(true);
 
     try {
-      // 1. Step-level validate — supports any form library, takes precedence
       if (step.validate) {
         const valid = await step.validate();
         if (!valid) return;
       } else if (config.validation === "per-step" && step.fields?.length) {
-        // Default: RHF per-step field trigger (only for field-driven steps)
         const stepFields = step.fields.map(
           (f) => f.key as Path<Record<string, unknown>>,
         );
@@ -153,13 +138,11 @@ export function useFormEngineState({
         if (!valid) return;
       }
 
-      // 2. Step guard — async check after validation passes
       if (step.guard) {
         const passed = await step.guard(form.getValues());
         if (!passed) return;
       }
 
-      // 3. Plugin validators — sequential, all must pass
       for (const plugin of allPlugins) {
         if (plugin.onValidate) {
           const result = await plugin.onValidate(currentStep, form.getValues());
@@ -168,7 +151,6 @@ export function useFormEngineState({
         }
       }
 
-      // 4. Advance or submit
       if (isLastStep) {
         await form.handleSubmit(async (data) => {
           await onSubmit(data);

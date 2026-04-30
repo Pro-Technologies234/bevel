@@ -1,5 +1,3 @@
-"use client";
-
 import React, {
   createContext,
   useCallback,
@@ -9,8 +7,6 @@ import React, {
 } from "react";
 import type { TourContextValue, TourStepDef } from "./tour-types";
 
-// ─── Context ──────────────────────────────────────────────────────────────────
-
 const TourContext = createContext<TourContextValue | undefined>(undefined);
 
 export function useTour(): TourContextValue {
@@ -18,8 +14,6 @@ export function useTour(): TourContextValue {
   if (!ctx) throw new Error("useTour must be used within <TourProvider>");
   return ctx;
 }
-
-// ─── Provider ─────────────────────────────────────────────────────────────────
 
 interface TourProviderProps {
   children: React.ReactNode;
@@ -40,7 +34,6 @@ export function TourProvider({
   const [currentStep, setCurrentStep] = useState(1);
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
-  // Keyboard navigation
   useEffect(() => {
     if (!isOpen) return;
     function onKey(e: KeyboardEvent) {
@@ -50,7 +43,7 @@ export function TourProvider({
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen, currentStep]); // eslint-disable-line
+  }, [isOpen, currentStep]);
 
   const start = useCallback(() => {
     setCurrentStep(1);
@@ -75,9 +68,12 @@ export function TourProvider({
     setCurrentStep((prev) => Math.max(1, prev - 1));
   }, []);
 
-  const goTo = useCallback((step: number) => {
-    setCurrentStep(Math.max(1, Math.min(step, steps.length)));
-  }, [steps.length]);
+  const goTo = useCallback(
+    (step: number) => {
+      setCurrentStep(Math.max(1, Math.min(step, steps.length)));
+    },
+    [steps.length],
+  );
 
   const skip = useCallback(() => {
     setIsOpen(false);

@@ -36,9 +36,6 @@ export function createZodPlugin(
       const result = schema.safeParse(values);
       if (result.success) return true;
 
-      // Collect the first error per field path and return as structured errors.
-      // The engine sets these on the form automatically — they appear beneath
-      // each field via FieldError without any consumer code.
       const errors: Record<string, string> = {};
       result.error.issues.forEach((err) => {
         const key = err.path.join(".");

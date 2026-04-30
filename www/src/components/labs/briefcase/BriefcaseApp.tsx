@@ -312,10 +312,10 @@ export default function BriefcaseApp() {
               <FormEngine
                 config={briefConfig}
                 plugins={[createZodPlugin(schemas)]}
-                actionsProps={{
-                  submitLabel: "Continue to files →",
-                  nextLabel: "Next →",
-                }}
+                // actionsProps={{
+                //   submitLabel: "Continue to files →",
+                //   nextLabel: "Next →",
+                // }}
                 onSubmit={async (values) => {
                   await new Promise((r) => setTimeout(r, 600));
                   setFormValues(values as Record<string, string>);

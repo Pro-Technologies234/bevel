@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { CommandPaletteProvider } from "./command-palette-context";
 import { CommandPalette, type CommandPaletteProps } from "./command-palette";
@@ -8,7 +6,10 @@ import type {
   CommandPaletteSection,
 } from "./command-palette-types";
 
-interface CommandPaletteRootProps extends Omit<CommandPaletteProps, "asDialog"> {
+interface CommandPaletteRootProps extends Omit<
+  CommandPaletteProps,
+  "asDialog"
+> {
   sections: CommandPaletteSection[];
   defaultOpen?: boolean;
   asDialog?: boolean;

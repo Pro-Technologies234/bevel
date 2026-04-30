@@ -1,5 +1,3 @@
-"use client";
-
 import Dropzone, { DropzoneState } from "react-dropzone";
 import { useFileUpload } from "./file-upload-context";
 import { IconUpload } from "@tabler/icons-react";
@@ -18,7 +16,7 @@ export function FileUploadDropzone({
   className,
   children,
 }: FileUploadDropzoneProps) {
-  const { isDragging, setIsDragging, addFiles, config, files } =
+  const { isDragging, setIsDragging, addFiles, config, files, onAddRejected } =
     useFileUpload();
   const {
     accept,
@@ -42,7 +40,10 @@ export function FileUploadDropzone({
         setIsDragging(false);
         addFiles(f);
       }}
-      onDropRejected={() => setIsDragging(false)}
+      onDropRejected={(fileRejections) => {
+        onAddRejected?.(fileRejections);
+        setIsDragging(false);
+      }}
     >
       {(dropzoneState) => {
         if (typeof children === "function") {

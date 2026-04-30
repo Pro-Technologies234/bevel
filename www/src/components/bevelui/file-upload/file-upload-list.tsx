@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useFileUpload } from "./file-upload-context";
 import { FileUploadItem } from "./file-upload-item";
@@ -34,7 +32,6 @@ export function FileUploadList() {
 
   return (
     <section className="@container/upload-list not-visited:flex flex-col gap-3">
-      {/* Toolbar */}
       <div className="flex items-center justify-between">
         <span className="text-xs text-muted-foreground">
           {files.length} file{files.length !== 1 ? "s" : ""}
@@ -48,7 +45,6 @@ export function FileUploadList() {
               Clear all
             </Button>
           )}
-          {/* View toggle */}
           <div className="flex items-center rounded-sm border border-border/60 overflow-hidden">
             <button
               onClick={() => setIsList(false)}
@@ -78,7 +74,6 @@ export function FileUploadList() {
         </div>
       </div>
 
-      {/* File list */}
       <div
         className={cn(
           isList
@@ -100,7 +95,6 @@ export function FileUploadList() {
         </AnimatePresence>
       </div>
 
-      {/* Upload all */}
       {pendingCount > 0 && !auto && (
         <div className="flex justify-end">
           <Button

@@ -87,14 +87,14 @@
   --ring: oklch(0.894 0.202 123.6);
 
   --sh-keyword: #f97583;
-  --sh-string: #9ECBFF;
+  --sh-string: #9ecbff;
   --sh-comment: #8b949e;
   --sh-jsx: #79c0ff;
   --sh-identifier: #c9d1d9;
   --sh-sign: #c9d1d9;
   --sh-class: #d2a8ff;
   --sh-property: #79c0ff;
-  --sh-entity: #B392F0;
+  --sh-entity: #b392f0;
 }
 
 .dark {
@@ -118,14 +118,14 @@
   --ring: oklch(0.894 0.202 123.6);
 
   --sh-keyword: #f97583;
-  --sh-string: #9ECBFF;
+  --sh-string: #9ecbff;
   --sh-comment: #8b949e;
   --sh-jsx: #79c0ff;
   --sh-identifier: #c9d1d9;
   --sh-sign: #c9d1d9;
   --sh-class: #d2a8ff;
   --sh-property: #79c0ff;
-  --sh-entity: #B392F0;
+  --sh-entity: #b392f0;
 }
 
 @layer base {

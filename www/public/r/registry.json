@@ -172,11 +172,6 @@
           "type": "registry:component"
         },
         {
-          "path": "src/components/bevelui/file-upload/file-upload-modal.tsx",
-          "target": "src/components/bevelui/file-upload/file-upload-modal.tsx",
-          "type": "registry:component"
-        },
-        {
           "path": "src/components/bevelui/file-upload/index.ts",
           "target": "src/components/bevelui/file-upload/index.ts",
           "type": "registry:lib"
@@ -206,7 +201,7 @@
         "https://bevelui.vercel.app/r/select-field.json",
         "https://bevelui.vercel.app/r/tag-input.json"
       ],
-      "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineActions.",
+      "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineNavigation.",
       "files": [
         {
           "path": "src/components/bevelui/form-engine/form-engine-types.ts",
@@ -246,11 +241,6 @@
         {
           "path": "src/components/bevelui/form-engine/form-engine-step-canvas.tsx",
           "target": "src/components/bevelui/form-engine/form-engine-step-canvas.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "src/components/bevelui/form-engine/form-engine-actions.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine-actions.tsx",
           "type": "registry:component"
         },
         {

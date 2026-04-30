@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
@@ -24,9 +22,7 @@ import {
   IconPlayerPause,
 } from "@tabler/icons-react";
 import { useTour } from "./tour-context";
-import type { TourMedia } from "./tour-types";
-
-// ─── Media block ──────────────────────────────────────────────────────────────
+import type { TourContextValue, TourMedia } from "./tour-types";
 
 function TourMediaBlock({ media }: { media: TourMedia }) {
   const [playing, setPlaying] = React.useState(true);
@@ -83,8 +79,6 @@ function TourMediaBlock({ media }: { media: TourMedia }) {
   return null;
 }
 
-// ─── Progress dots ────────────────────────────────────────────────────────────
-
 function ProgressDots({
   total,
   current,
@@ -113,14 +107,19 @@ function ProgressDots({
   );
 }
 
-// ─── TourCard ─────────────────────────────────────────────────────────────────
+interface TourCardProps {
+  children?: (props: TourContextValue) => React.ReactNode;
+}
 
-export function TourCard() {
+export function TourCard({ children }: TourCardProps) {
   const {
+    steps,
     currentStep,
     totalSteps,
     isOpen,
     currentStepDef,
+    start,
+    stop,
     next,
     prev,
     skip,
@@ -137,16 +136,16 @@ export function TourCard() {
   const { refs, floatingStyles, context } = useFloating({
     placement,
     strategy: "fixed",
-    // autoUpdate keeps position correct on scroll/resize
+
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(currentStepDef?.sideOffset ?? 16),
-      // flip() tries the opposite side if card would overflow
+
       flip({
         fallbackAxisSideDirection: "start",
         padding: 12,
       }),
-      // shift() slides the card along the axis to stay in viewport
+
       shift({
         padding: 12,
         limiter: limitShift(),
@@ -155,9 +154,6 @@ export function TourCard() {
     ],
   });
 
-  // KEY FIX: useLayoutEffect so the reference is set synchronously before
-  // floating-ui calculates position — prevents the top-left flash.
-  // We intentionally omit `refs` from deps (it's stable from useFloating).
   React.useLayoutEffect(() => {
     if (!isOpen) {
       refs.setReference(null);
@@ -167,21 +163,14 @@ export function TourCard() {
       `[data-tour-step="${currentStep}"]`,
     );
     refs.setReference(anchor ?? null);
-  }, [currentStep, isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentStep, isOpen]);
 
   if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>
       {isOpen && currentStepDef && (
-        /*
-          KEY FIX: No `key` prop here — we do NOT remount the card between
-          steps. Remounting resets useFloating and causes the top-left flash.
-          Instead we animate the content change inside with AnimatePresence.
-        */
-
         <div
-          // 1. Floating UI only touches this outer div
           ref={refs.setFloating}
           style={{
             ...floatingStyles,
@@ -189,128 +178,137 @@ export function TourCard() {
             position: "fixed",
             top: 0,
             left: 0,
-            // ADD THIS:
+
             transition:
               "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease-out",
-            // Optional: ignore transitions when first opening so it doesn't "fly in" from 0,0
+
             transitionProperty: isOpen ? "transform, opacity" : "none",
           }}
         >
-          <motion.div
-            ref={refs.setFloating}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className={cn(
-              "w-[300px] rounded-xl border border-border bg-popover p-4",
-              "text-popover-foreground shadow-xl outline-none",
-              "flex flex-col gap-3",
-            )}
-            role="dialog"
-            aria-label={`Tour step ${currentStep} of ${totalSteps}`}
-            // Prevent click from bubbling to overlay (which would skip the tour)
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Arrow always points at the anchor */}
-            <FloatingArrow
-              ref={arrowRef}
-              context={context}
-              className="fill-popover stroke-border"
-              strokeWidth={1}
-              width={14}
-              height={7}
-            />
-
-            {/* Animate card content between steps */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`tour-content-${currentStep}`}
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.12 }}
-                className="flex flex-col gap-3"
-              >
-                {/* Media */}
-                {currentStepDef.media && (
-                  <div className="p-1">
-                    <TourMediaBlock media={currentStepDef.media} />
-                  </div>
-                )}
-
-                {/* Header */}
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
-                      Step {currentStep} of {totalSteps}
-                    </span>
-                    <h3 className="text-sm font-semibold leading-snug">
-                      {currentStepDef.title}
-                    </h3>
-                  </div>
-                  <button
-                    onClick={skip}
-                    className="rounded-md p-1 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors shrink-0 -mt-0.5"
-                    aria-label="Close tour"
-                  >
-                    <IconX size={14} strokeWidth={2} />
-                  </button>
-                </div>
-
-                {/* Description */}
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {currentStepDef.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Footer — always visible, not animated with content */}
-            <div className="flex flex-wrap gap-2 items-center justify-between pt-1 border-t border-border/40">
-              <ProgressDots
-                total={totalSteps}
-                current={currentStep}
-                onGoTo={goTo}
+          {children ? (
+            children({
+              steps,
+              currentStep,
+              totalSteps,
+              isOpen,
+              currentStepDef,
+              start,
+              stop,
+              next,
+              prev,
+              skip,
+              goTo,
+            })
+          ) : (
+            <motion.div
+              ref={refs.setFloating}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className={cn(
+                "w-[300px] rounded-xl border border-border bg-popover p-4",
+                "text-popover-foreground shadow-xl outline-none",
+                "flex flex-col gap-3",
+              )}
+              role="dialog"
+              aria-label={`Tour step ${currentStep} of ${totalSteps}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <FloatingArrow
+                ref={arrowRef}
+                context={context}
+                className="fill-popover stroke-border"
+                strokeWidth={1}
+                width={14}
+                height={7}
               />
 
-              <div className="flex items-center gap-1.5 ml-auto">
-                {currentStep > 1 && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-7 px-2 text-xs cursor-pointer gap-1"
-                    onClick={prev}
-                  >
-                    <IconArrowLeft size={12} strokeWidth={2} />
-                    Back
-                  </Button>
-                )}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`tour-content-${currentStep}`}
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.12 }}
+                  className="flex flex-col gap-3"
+                >
+                  {currentStepDef.media && (
+                    <div className="p-1">
+                      <TourMediaBlock media={currentStepDef.media} />
+                    </div>
+                  )}
 
-                {currentStep < totalSteps ? (
-                  <Button
-                    size="sm"
-                    className="h-7 px-3 text-xs cursor-pointer gap-1"
-                    onClick={next}
-                  >
-                    Next
-                    <IconArrowRight size={12} strokeWidth={2} />
-                  </Button>
-                ) : (
-                  <Button
-                    size="sm"
-                    className="h-7 px-3 text-xs cursor-pointer"
-                    onClick={skip}
-                  >
-                    Finish
-                  </Button>
-                )}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
+                        Step {currentStep} of {totalSteps}
+                      </span>
+                      <h3 className="text-sm font-semibold leading-snug">
+                        {currentStepDef.title}
+                      </h3>
+                    </div>
+                    <button
+                      onClick={skip}
+                      className="rounded-md p-1 text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors shrink-0 -mt-0.5"
+                      aria-label="Close tour"
+                    >
+                      <IconX size={14} strokeWidth={2} />
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {currentStepDef.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="flex flex-wrap gap-2 items-center justify-between pt-1 border-t border-border/40">
+                <ProgressDots
+                  total={totalSteps}
+                  current={currentStep}
+                  onGoTo={goTo}
+                />
+
+                <div className="flex items-center gap-1.5 ml-auto">
+                  {currentStep > 1 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-7 px-2 text-xs cursor-pointer gap-1"
+                      onClick={prev}
+                    >
+                      <IconArrowLeft size={12} strokeWidth={2} />
+                      Back
+                    </Button>
+                  )}
+
+                  {currentStep < totalSteps ? (
+                    <Button
+                      size="sm"
+                      className="h-7 px-3 text-xs cursor-pointer gap-1"
+                      onClick={next}
+                    >
+                      Next
+                      <IconArrowRight size={12} strokeWidth={2} />
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      className="h-7 px-3 text-xs cursor-pointer"
+                      onClick={skip}
+                    >
+                      Finish
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <p className="text-[10px] text-muted-foreground/40 text-center -mt-1">
-              ← → to navigate · Esc to close
-            </p>
-          </motion.div>
+              <p className="text-[10px] text-muted-foreground/40 text-center -mt-1">
+                ← → to navigate · Esc to close
+              </p>
+            </motion.div>
+          )}
         </div>
       )}
     </AnimatePresence>,

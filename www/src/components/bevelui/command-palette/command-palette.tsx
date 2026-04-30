@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
@@ -16,8 +14,6 @@ import type {
   CommandPaletteSourceTab,
   CommandPaletteFilterTab,
 } from "./command-palette-types";
-
-// ─── Palette shell ────────────────────────────────────────────────────────────
 
 interface CommandPaletteShellProps {
   sourceTabs?: CommandPaletteSourceTab[];
@@ -41,7 +37,6 @@ function CommandPaletteShell({
         "sm:min-w-[520px] max-w-[620px] w-full",
         className,
       )}
-      // Prevent clicks inside from propagating to backdrop
       onClick={(e) => e.stopPropagation()}
     >
       <CommandPaletteSearchbar />
@@ -60,8 +55,6 @@ function CommandPaletteShell({
     </div>
   );
 }
-
-// ─── Dialog (portal) mode ─────────────────────────────────────────────────────
 
 interface CommandPaletteDialogProps extends CommandPaletteShellProps {}
 
@@ -105,8 +98,6 @@ function CommandPaletteDialog(props: CommandPaletteDialogProps) {
     document.body,
   );
 }
-
-// ─── Public CommandPalette ────────────────────────────────────────────────────
 
 export interface CommandPaletteProps extends CommandPaletteShellProps {
   /**

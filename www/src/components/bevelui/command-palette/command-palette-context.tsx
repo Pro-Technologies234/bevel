@@ -1,12 +1,9 @@
-"use client";
-
 import React, {
   createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import type {
@@ -16,20 +13,18 @@ import type {
 } from "./command-palette-types";
 import { scoreItem } from "./command-palette-fuzzy";
 
-// ─── Context ──────────────────────────────────────────────────────────────────
-
-const CommandPaletteContext = createContext<CommandPaletteContextValue | undefined>(
-  undefined
-);
+const CommandPaletteContext = createContext<
+  CommandPaletteContextValue | undefined
+>(undefined);
 
 export function useCommandPalette(): CommandPaletteContextValue {
   const ctx = useContext(CommandPaletteContext);
   if (!ctx)
-    throw new Error("useCommandPalette must be used within <CommandPaletteProvider>");
+    throw new Error(
+      "useCommandPalette must be used within <CommandPaletteProvider>",
+    );
   return ctx;
 }
-
-// ─── Provider ─────────────────────────────────────────────────────────────────
 
 interface CommandPaletteProviderProps {
   children: React.ReactNode;
@@ -54,24 +49,19 @@ export function CommandPaletteProvider({
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ── Filtering + fuzzy search ──────────────────────────────────────────────
-
   const filteredSections = useMemo<CommandPaletteSection[]>(() => {
     return sections
       .map((section) => {
         let items = section.items;
 
-        // Source tab filter
         if (activeSourceTab !== "all") {
           items = items.filter((i) => i.source === activeSourceTab);
         }
 
-        // Content type filter tab
         if (activeFilterTab !== "all") {
           items = items.filter((i) => i.category === activeFilterTab);
         }
 
-        // Fuzzy search
         if (query.trim()) {
           items = items
             .map((item) => ({ item, score: scoreItem(item, query) }))
@@ -87,15 +77,12 @@ export function CommandPaletteProvider({
 
   const flatResults = useMemo<CommandPaletteItem[]>(
     () => filteredSections.flatMap((s) => s.items),
-    [filteredSections]
+    [filteredSections],
   );
 
-  // Reset highlight when results change
   useEffect(() => {
     setHighlightedIndex(0);
   }, [filteredSections]);
-
-  // ── Actions ───────────────────────────────────────────────────────────────
 
   const open = useCallback(() => {
     setIsOpen(true);
@@ -111,7 +98,7 @@ export function CommandPaletteProvider({
   const setQuery = useCallback((q: string) => {
     setQueryState(q);
     setIsLoading(true);
-    // Simulate async search debounce feel
+
     const t = setTimeout(() => setIsLoading(false), 150);
     return () => clearTimeout(t);
   }, []);
@@ -140,7 +127,7 @@ export function CommandPaletteProvider({
       onSelect?.(item);
       close();
     },
-    [onSelect, close]
+    [onSelect, close],
   );
 
   const selectHighlighted = useCallback(() => {
@@ -148,21 +135,30 @@ export function CommandPaletteProvider({
     if (item) selectItem(item);
   }, [flatResults, highlightedIndex, selectItem]);
 
-  // ── Global keyboard handler ───────────────────────────────────────────────
-
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      // ⌘K / Ctrl+K to open
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         isOpen ? close() : open();
         return;
       }
       if (!isOpen) return;
-      if (e.key === "Escape") { e.preventDefault(); close(); }
-      if (e.key === "ArrowUp") { e.preventDefault(); moveUp(); }
-      if (e.key === "ArrowDown") { e.preventDefault(); moveDown(); }
-      if (e.key === "Enter") { e.preventDefault(); selectHighlighted(); }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        moveUp();
+      }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        moveDown();
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        selectHighlighted();
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

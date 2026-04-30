@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
@@ -9,8 +7,6 @@ import type {
   CommandPaletteFilterTab,
 } from "./command-palette-types";
 import { useCommandPalette } from "./command-palette-context";
-
-// ─── Source tabs (integration logo row) ──────────────────────────────────────
 
 function SourceTabItem({
   tab,
@@ -91,8 +87,6 @@ export function CommandPaletteSourceTabs({
     </div>
   );
 }
-
-// ─── Filter tabs (content type row) ──────────────────────────────────────────
 
 function FilterTabItem({
   tab,

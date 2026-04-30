@@ -1,13 +1,9 @@
-"use client";
-
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { IconCornerDownLeft } from "@tabler/icons-react";
 import { useCommandPalette } from "./command-palette-context";
 import { highlightMatch } from "./command-palette-fuzzy";
 import type { CommandPaletteItem } from "./command-palette-types";
-
-// ─── Avatar ───────────────────────────────────────────────────────────────────
 
 function ItemAvatar({ item }: { item: CommandPaletteItem }) {
   if (typeof item.icon === "string") {
@@ -39,7 +35,6 @@ function ItemAvatar({ item }: { item: CommandPaletteItem }) {
     );
   }
 
-  // Fallback: first letter of title
   const letter = item.title.charAt(0).toUpperCase();
   return (
     <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-muted text-[11px] font-semibold text-muted-foreground">
@@ -47,8 +42,6 @@ function ItemAvatar({ item }: { item: CommandPaletteItem }) {
     </div>
   );
 }
-
-// ─── Highlighted text ─────────────────────────────────────────────────────────
 
 function HighlightedText({ text, query }: { text: string; query: string }) {
   const chars = highlightMatch(text, query);
@@ -67,8 +60,6 @@ function HighlightedText({ text, query }: { text: string; query: string }) {
   );
 }
 
-// ─── Result row ───────────────────────────────────────────────────────────────
-
 function ResultRow({
   item,
   query,
@@ -83,7 +74,6 @@ function ResultRow({
   const { selectItem, moveDown, moveUp } = useCommandPalette();
   const rowRef = React.useRef<HTMLButtonElement>(null);
 
-  // Scroll into view when keyboard-highlighted
   React.useEffect(() => {
     if (isHighlighted) {
       rowRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -135,8 +125,6 @@ function ResultRow({
   );
 }
 
-// ─── Results ──────────────────────────────────────────────────────────────────
-
 export function CommandPaletteResults() {
   const { filteredSections, flatResults, query, highlightedIndex } =
     useCommandPalette();
@@ -149,7 +137,6 @@ export function CommandPaletteResults() {
     );
   }
 
-  // Build a global index offset per section
   let globalIndex = 0;
 
   return (
