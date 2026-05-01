@@ -53,13 +53,13 @@ function useAnchorRect(step: number, isOpen: boolean): Rect | null {
 }
 
 export function TourOverlay() {
-  const { currentStep, isOpen, skip } = useTour();
+  const { currentStep, isOpen, skip, showOverlay } = useTour();
   const rect = useAnchorRect(currentStep, isOpen);
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => setMounted(true), []);
   if (!mounted) return null;
-
+  if (!showOverlay) return;
   return createPortal(
     <AnimatePresence>
       {isOpen && rect && (

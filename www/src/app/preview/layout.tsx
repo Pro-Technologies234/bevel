@@ -1,3 +1,6 @@
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { FloatingModeToggle } from "@/components/shared/mode-toggle";
+
 // app/preview/layout.tsx
 export default function PreviewLayout({
   children,
@@ -5,8 +8,14 @@ export default function PreviewLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <div className="bg-background text-foreground">{children}</div>
-    </div>
+      <FloatingModeToggle />
+    </ThemeProvider>
   );
 }

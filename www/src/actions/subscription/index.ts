@@ -3,11 +3,11 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import {
-  stripe,
-  createCheckoutSession,
-  createCustomerPortalSession,
-} from "@/lib/stripe";
+// import {
+//   stripe,
+//   createCheckoutSession,
+//   createCustomerPortalSession,
+// } from "@/lib/stripe";
 import { PurchaseStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
@@ -43,27 +43,27 @@ export async function startCheckout(priceId: string) {
     },
   });
 
-  const session = await createCheckoutSession({
-    userId: user.id,
-    email: user.email,
-    name: user.name,
-    stripePriceId: price.stripePriceId,
-    priceType: price.type,
-    successUrl: `${appUrl}/dashboard/billing?success=true&purchase=${purchase.id}`,
-    cancelUrl: `${appUrl}/pricing?cancelled=true`,
-    metadata: {
-      purchaseId: purchase.id,
-      productSlug: price.product.slug,
-    },
-  });
+  // const session = await createCheckoutSession({
+  //   userId: user.id,
+  //   email: user.email,
+  //   name: user.name,
+  //   stripePriceId: price.stripePriceId,
+  //   priceType: price.type,
+  //   successUrl: `${appUrl}/dashboard/billing?success=true&purchase=${purchase.id}`,
+  //   cancelUrl: `${appUrl}/pricing?cancelled=true`,
+  //   metadata: {
+  //     purchaseId: purchase.id,
+  //     productSlug: price.product.slug,
+  //   },
+  // });
 
   // Save checkout session id to purchase
-  await prisma.purchase.update({
-    where: { id: purchase.id },
-    data: { stripeCheckoutSessionId: session.id },
-  });
+  // await prisma.purchase.update({
+  //   where: { id: purchase.id },
+  //   data: { stripeCheckoutSessionId: session.id },
+  // });
 
-  redirect(session.url!);
+  // redirect(session.url!);
 }
 
 // ─── Open customer portal ─────────────────────────────────────────────────────
@@ -77,12 +77,12 @@ export async function openCustomerPortal() {
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  const portalSession = await createCustomerPortalSession({
-    stripeCustomerId: dbUser.stripeCustomerId,
-    returnUrl: `${appUrl}/dashboard/billing`,
-  });
+  // const portalSession = await createCustomerPortalSession({
+  //   stripeCustomerId: dbUser.stripeCustomerId,
+  //   returnUrl: `${appUrl}/dashboard/billing`,
+  // });
 
-  redirect(portalSession.url);
+  // redirect(portalSession.url);
 }
 
 // ─── Get user purchases ───────────────────────────────────────────────────────

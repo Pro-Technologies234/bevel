@@ -184,8 +184,8 @@ export function FormEngineDemo() {
   }
 
   return (
-    <Card className="w-full max-w-md min-h-[70vh] max-h-[70vh] h-full flex flex-col items-center w-full">
-      <CardContent className="flex-1 flex flex-col w-full">
+    <Card className="w-full max-w-md h-full flex flex-col items-center justify-center ">
+      <CardContent className="flex flex-col w-full">
         <FormEngineRoot
           onSubmit={async (values: unknown) => {
             await new Promise((r) => setTimeout(r, 1200));
@@ -194,17 +194,14 @@ export function FormEngineDemo() {
           }}
           config={config}
           plugins={plugins}
-          // actionsProps={{
-          //   submitLabel: "Create account",
-          //   nextLabel: "Continue",
-          //   layout: "split",
-          // }}
-
           className="flex flex-col items-center justify-between h-full flex-1 w-full"
         >
           <FormEngineStepMeta />
           <FormEngineStepCanvas className="w-full" />
           <FormEngineNavigation
+            submitLabel="Create account"
+            nextLabel="Continue"
+            layout="split"
             styles={{ nextBtn: "rounded-full px-4 py-4!" }}
           />
         </FormEngineRoot>

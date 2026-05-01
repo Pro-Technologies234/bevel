@@ -28,6 +28,7 @@ export interface TourContextValue {
   currentStep: number;
   totalSteps: number;
   isOpen: boolean;
+  showOverlay?: boolean;
   currentStepDef: TourStepDef | undefined;
   start: () => void;
   stop: () => void;

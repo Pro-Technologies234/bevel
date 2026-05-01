@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { type ReactNode, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 // (Kept original types for full functionality)
@@ -105,13 +106,13 @@ function ListCard<T>({
   const s = SIZE[size];
 
   return (
-    <div
+    <Card
       className={cn(
-        "group relative flex items-start justify-between w-full p-4 text-left transition-all duration-200 border",
+        "group relative flex flex-row items-start justify-between w-full p-4 text-left transition-all duration-200 border",
         s.card,
         isSelected
-          ? "border-zinc-700 bg-zinc-900/50 shadow-sm"
-          : "border-zinc-800 bg-transparent hover:bg-zinc-900/30",
+          ? "border-card bg-card shadow-sm"
+          : "border-muted bg-transparent hover:bg-muted/50",
         option.disabled && "opacity-50",
       )}
     >
@@ -121,9 +122,6 @@ function ListCard<T>({
             className={cn(
               "font-semibold tracking-tight transition-colors",
               s.label,
-              isSelected
-                ? "text-zinc-100"
-                : "text-zinc-300 group-hover:text-zinc-100",
             )}
           >
             {option.label}
@@ -139,13 +137,7 @@ function ListCard<T>({
         </div>
 
         {option.description && (
-          <p
-            className={cn(
-              "leading-relaxed transition-colors",
-              s.desc,
-              isSelected ? "text-zinc-400" : "text-zinc-500",
-            )}
-          >
+          <p className={cn("leading-relaxed transition-colors", s.desc)}>
             {option.description}
           </p>
         )}
@@ -154,16 +146,16 @@ function ListCard<T>({
       {/* Radio Indicator */}
       <div
         className={cn(
-          "shrink-0 flex items-center justify-center rounded-full border-2 transition-all duration-200 mt-1",
+          "shrink-0 flex items-center justify-center rounded-full border-2 transition-all duration-200 ",
           s.indicator,
-          isSelected
-            ? "border-zinc-100 bg-zinc-100"
-            : "border-zinc-700 group-hover:border-zinc-500",
+          isSelected ? "border-border bg-muted" : "border-border",
         )}
       >
-        {isSelected && <div className="h-1.5 w-1.5 rounded-full bg-zinc-900" />}
+        {isSelected && (
+          <div className="h-1.5 w-1.5 rounded-full bg-foreground" />
+        )}
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -237,7 +229,7 @@ export function CardSelect<T = string>({
           type="button"
           disabled={option.disabled}
           onClick={() => !option.disabled && handleSelect(option.value)}
-          className="relative block w-full outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 rounded-xl"
+          className="relative block w-full outline-none focus-visible:ring-2 focus-visible:ring-card rounded-xl"
         >
           <ListCard
             option={option}

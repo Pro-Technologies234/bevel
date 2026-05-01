@@ -8,6 +8,7 @@ interface TourRootProps {
   children: React.ReactNode;
   steps: TourStepDef[];
   defaultOpen?: boolean;
+  showOverlay?: boolean;
   onComplete?: () => void;
   onSkip?: () => void;
 }
@@ -25,6 +26,7 @@ export function TourRoot({
   children,
   steps,
   defaultOpen = false,
+  showOverlay = true,
   onComplete,
   onSkip,
 }: TourRootProps) {
@@ -34,6 +36,7 @@ export function TourRoot({
       defaultOpen={defaultOpen}
       onComplete={onComplete}
       onSkip={onSkip}
+      showOverlay={showOverlay}
     >
       {children}
       <TourOverlay />

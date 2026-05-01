@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { z } from "zod";
 import { motion, AnimatePresence } from "motion/react";
-import { FormEngine, createZodPlugin } from "@/components/bevelui/form-engine";
+import {
+  FormEngine,
+  FormEngineNavigation,
+  FormEngineRoot,
+  FormEngineStepCanvas,
+  createZodPlugin,
+} from "@/components/bevelui/form-engine";
 import {
   TourRoot,
   TourAnchor,
@@ -25,6 +31,12 @@ import {
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import type { FormEngineConfig } from "@/components/bevelui/form-engine";
+import { BevelIcon, BrandMark } from "@/components/shared/brand-mark";
+import {
+  OnboardingFormHeader,
+  OnboardingFormMeta,
+} from "./onbording-form-blocks";
+import { OnboardingDashboard } from "./onboarding-dashbord";
 
 // ─── Schemas ──────────────────────────────────────────────────────────────────
 
@@ -110,6 +122,7 @@ const config: FormEngineConfig = {
           label: "Your role",
           required: true,
           props: {
+            activeClassName: "bg-rose-400 text-white",
             options: [
               { value: "engineering", label: "Engineering" },
               { value: "design", label: "Design" },
@@ -125,6 +138,7 @@ const config: FormEngineConfig = {
           label: "Team size",
           required: true,
           props: {
+            activeClassName: "bg-pink-600 text-white",
             options: [
               { value: "solo", label: "Just me" },
               { value: "2-5", label: "2–5" },
@@ -146,7 +160,8 @@ const config: FormEngineConfig = {
           label: "Plan",
           required: true,
           props: {
-            columns: 3,
+            layout: "grid",
+            columns: 2,
             options: [
               {
                 value: "free",
@@ -172,149 +187,6 @@ const config: FormEngineConfig = {
   ],
 };
 
-// ─── Result dashboard (what the user sees after signup) ───────────────────────
-
-const TOUR_STEPS = [
-  {
-    step: 1,
-    title: "Welcome to your workspace",
-    description:
-      "Everything you need is here. Let us show you around — it'll take 30 seconds.",
-    side: "bottom" as const,
-  },
-  {
-    step: 2,
-    title: "Your navigation",
-    description:
-      "Switch between Dashboard, Users, Analytics, and Settings from here.",
-    side: "right" as const,
-  },
-  {
-    step: 3,
-    title: "Key metrics",
-    description:
-      "Your most important numbers at a glance. Click any card to drill in.",
-    side: "bottom" as const,
-  },
-  {
-    step: 4,
-    title: "Notifications",
-    description: "New signups, alerts, and activity appear here.",
-    side: "bottom" as const,
-  },
-];
-
-function ResultDashboard({ name, company }: { name: string; company: string }) {
-  return (
-    <TourRoot steps={TOUR_STEPS} defaultOpen>
-      <div className="flex h-full rounded-xl overflow-hidden border border-border bg-background">
-        {/* Sidebar */}
-        <TourAnchor step={2} asChild>
-          <aside className="w-44 shrink-0 border-r border-border bg-muted/10 flex flex-col py-4 px-3 gap-1">
-            <TourAnchor step={1} asChild>
-              <div className="px-2 pb-4 mb-1 border-b border-border/60">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-5 h-5 rounded bg-primary/20 flex items-center justify-center">
-                    <IconBoltFilled size={10} className="text-primary" />
-                  </div>
-                  <span className="text-xs font-bold truncate">
-                    {company || "My Workspace"}
-                  </span>
-                </div>
-                <span className="text-[10px] text-muted-foreground">
-                  Free plan
-                </span>
-              </div>
-            </TourAnchor>
-
-            {[
-              { icon: IconLayoutDashboard, label: "Dashboard", active: true },
-              { icon: IconUsers, label: "Users", active: false },
-              { icon: IconChartBar, label: "Analytics", active: false },
-              { icon: IconSettings, label: "Settings", active: false },
-            ].map((item) => (
-              <button
-                key={item.label}
-                className={cn(
-                  "flex items-center gap-2 px-2 py-1.5 rounded-md text-xs font-medium transition-colors text-left w-full",
-                  item.active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
-                )}
-              >
-                <item.icon size={13} strokeWidth={1.8} />
-                {item.label}
-              </button>
-            ))}
-          </aside>
-        </TourAnchor>
-
-        {/* Main */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Header */}
-          <div className="flex items-center justify-between px-5 py-3 border-b border-border/60">
-            <div>
-              <h2 className="text-sm font-semibold">Dashboard</h2>
-              <p className="text-[11px] text-muted-foreground">
-                Welcome, {name || "there"} 👋
-              </p>
-            </div>
-            <TourAnchor step={4}>
-              <button className="relative w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:bg-muted/50 transition-colors">
-                <IconBell size={14} strokeWidth={1.8} />
-                <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-primary" />
-              </button>
-            </TourAnchor>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 overflow-auto p-4 flex flex-col gap-4">
-            <TourAnchor step={3}>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                {[
-                  { label: "Total users", value: "0", delta: "—" },
-                  { label: "Active today", value: "0", delta: "—" },
-                  { label: "Revenue", value: "$0", delta: "—" },
-                  { label: "Conversion", value: "0%", delta: "—" },
-                ].map((m) => (
-                  <div
-                    key={m.label}
-                    className="p-3 rounded-xl border border-border/60 bg-muted/10"
-                  >
-                    <p className="text-[10px] text-muted-foreground mb-1">
-                      {m.label}
-                    </p>
-                    <p className="text-lg font-bold">{m.value}</p>
-                    <p className="text-[10px] text-muted-foreground flex items-center gap-0.5 mt-0.5">
-                      <IconTrendingUp size={9} /> {m.delta}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </TourAnchor>
-
-            {/* Empty state */}
-            <div className="flex-1 rounded-xl border border-dashed border-border/60 bg-muted/5 flex flex-col items-center justify-center gap-3 p-8 text-center">
-              <IconChartBar
-                size={24}
-                strokeWidth={1.2}
-                className="text-muted-foreground/50"
-              />
-              <p className="text-sm text-muted-foreground">
-                No data yet. Start inviting users to see activity here.
-              </p>
-              <Button size="sm" variant="outline" className="gap-1.5">
-                <IconUsers size={12} />
-                Invite team members
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </TourRoot>
-  );
-}
-
 // ─── Main Onboard app ─────────────────────────────────────────────────────────
 
 export default function OnboardApp() {
@@ -326,7 +198,11 @@ export default function OnboardApp() {
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-screen flex flex-col w-full overflow-hidden bg-zinc-50 dark:bg-zinc-950">
+      <div className=" fixed bottom-0 md:gap-24 translate-y-80 inset-x-0 flex justify-between">
+        <div className=" size-120 flex-1 rounded-full blur-[8rem] bg-rose-500/20 -translate-x-50" />
+        <div className=" size-120 flex-1 rounded-full blur-[8rem] bg-rose-500/20 translate-x-50" />
+      </div>
       <AnimatePresence mode="wait">
         {!submitted ? (
           <motion.div
@@ -334,38 +210,40 @@ export default function OnboardApp() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="flex-1 flex items-center justify-center p-6"
+            className="flex-1 flex flex-col w-full items-center justify-center"
           >
-            <div className="w-full max-w-md">
-              {/* Logo */}
-              <div className="flex items-center gap-2 justify-center mb-8">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-                  <IconBoltFilled size={16} color="#0a0a0a" />
-                </div>
-                <span className="text-lg font-bold">Bevel UI</span>
+            <FormEngineRoot
+              config={submittingConfig}
+              plugins={[createZodPlugin(schemas)]}
+              onSubmit={async (values) => {
+                await new Promise((r) => setTimeout(r, 800));
+                setFormValues(values as Record<string, string>);
+                setSubmitted(true);
+              }}
+              className="flex-1"
+            >
+              <OnboardingFormHeader />
+              <OnboardingFormMeta />
+              <div className="w-full max-w-lg mx-auto bg-background rounded-2xl p-6">
+                <FormEngineStepCanvas />
+                <FormEngineNavigation
+                  submitLabel="Create account"
+                  nextLabel="Continue"
+                  styles={{
+                    container: "mt-6",
+                    nextBtn:
+                      " rounded-md h-10 rounded-full bg-rose-500 hover:bg-rose-500/90 text-white hover:text-white cursor-pointer",
+                  }}
+                />
               </div>
+            </FormEngineRoot>
 
-              <FormEngine
-                config={submittingConfig}
-                plugins={[createZodPlugin(schemas)]}
-                actionsProps={{
-                  submitLabel: "Create account",
-                  nextLabel: "Continue →",
-                }}
-                onSubmit={async (values) => {
-                  await new Promise((r) => setTimeout(r, 800));
-                  setFormValues(values as Record<string, string>);
-                  setSubmitted(true);
-                }}
-              />
-
-              <p className="text-center text-[11px] text-muted-foreground mt-4">
-                Already have an account?{" "}
-                <button className="underline hover:text-foreground">
-                  Sign in
-                </button>
-              </p>
-            </div>
+            <p className="text-center text-[11px] text-muted-foreground mt-4 flex-1">
+              Already have an account?{" "}
+              <button className="underline hover:text-foreground">
+                Sign in
+              </button>
+            </p>
           </motion.div>
         ) : (
           <motion.div
@@ -375,22 +253,22 @@ export default function OnboardApp() {
             className="flex-1 flex flex-col"
           >
             {/* Success bar */}
-            <div className="flex items-center gap-2 px-6 py-3 bg-primary/5 border-b border-primary/20">
-              <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
+            <div className="flex items-center gap-2 px-6 py-3 bg-green-400/5 border-b border-green-400/20">
+              <div className="w-5 h-5 rounded-full bg-green-400/20 flex items-center justify-center">
                 <IconCheck
                   size={12}
                   strokeWidth={2.5}
-                  className="text-primary"
+                  className="text-green-500"
                 />
               </div>
-              <span className="text-sm font-medium text-primary">
+              <span className="text-sm font-medium text-green-400">
                 Account created! Here's your workspace — the tour will guide you
                 through it.
               </span>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                className="ml-auto text-xs gap-1 text-primary hover:text-primary"
+                className="ml-auto  text-green-500 hover:text-green-500 rounded-full cursor-pointer"
                 onClick={() => setSubmitted(false)}
               >
                 <IconArrowRight size={12} className="rotate-180" /> Reset demo
@@ -398,8 +276,8 @@ export default function OnboardApp() {
             </div>
 
             <div className="flex-1 p-4 overflow-hidden">
-              <ResultDashboard
-                name={formValues.firstName ?? ""}
+              <OnboardingDashboard
+                name={`${formValues.firstName ?? ""} ${formValues.lastName ?? ""}`}
                 company={formValues.company ?? ""}
               />
             </div>

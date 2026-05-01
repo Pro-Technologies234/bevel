@@ -18,6 +18,7 @@ export function useTour(): TourContextValue {
 interface TourProviderProps {
   children: React.ReactNode;
   steps: TourStepDef[];
+  showOverlay: boolean;
   /** Start the tour automatically on mount */
   defaultOpen?: boolean;
   onComplete?: () => void;
@@ -27,6 +28,7 @@ interface TourProviderProps {
 export function TourProvider({
   children,
   steps,
+  showOverlay,
   defaultOpen = false,
   onComplete,
   onSkip,
@@ -90,6 +92,7 @@ export function TourProvider({
         totalSteps: steps.length,
         isOpen,
         currentStepDef,
+        showOverlay,
         start,
         stop,
         next,
