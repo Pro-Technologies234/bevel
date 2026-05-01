@@ -22,35 +22,35 @@ export async function POST(req: NextRequest) {
   const userId = payload.meta.custom_data?.user_id;
   const variantId = payload.data.attributes.variant_id;
 
-  switch (eventName) {
-    case "order_created":
-      // One-time purchase completed
-      await prisma.purchase.updateMany({
-        where: { userId, lsVariantId: String(variantId) },
-        data: { status: "ACTIVE" },
-      });
-      break;
+  // switch (eventName) {
+  //   case "order_created":
+  //     // One-time purchase completed
+  //     await prisma.purchase.updateMany({
+  //       where: { userId, lsVariantId: String(variantId) },
+  //       data: { status: "ACTIVE" },
+  //     });
+  //     break;
 
-    case "subscription_created":
-    case "subscription_payment_success":
-      // Subscription active or renewed
-      await prisma.purchase.updateMany({
-        where: { userId, lsVariantId: String(variantId) },
-        data: {
-          status: "ACTIVE",
-          currentPeriodEnd: new Date(payload.data.attributes.renews_at),
-        },
-      });
-      break;
+  //   case "subscription_created":
+  //   case "subscription_payment_success":
+  //     // Subscription active or renewed
+  //     await prisma.purchase.updateMany({
+  //       where: { userId, lsVariantId: String(variantId) },
+  //       data: {
+  //         status: "ACTIVE",
+  //         currentPeriodEnd: new Date(payload.data.attributes.renews_at),
+  //       },
+  //     });
+  //     break;
 
-    case "subscription_cancelled":
-    case "subscription_expired":
-      await prisma.purchase.updateMany({
-        where: { userId, lsVariantId: String(variantId) },
-        data: { status: "CANCELLED" },
-      });
-      break;
-  }
+  //   case "subscription_cancelled":
+  //   case "subscription_expired":
+  //     await prisma.purchase.updateMany({
+  //       where: { userId, lsVariantId: String(variantId) },
+  //       data: { status: "CANCELLED" },
+  //     });
+  //     break;
+  // }
 
   return NextResponse.json({ received: true });
 }
