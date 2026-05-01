@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDistanceToNow } from "date-fns";
-import { IconReceipt, IconRefresh } from "@tabler/icons-react";
+import { IconRefresh } from "@tabler/icons-react";
 
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
   ACTIVE: { bg: "rgba(34,197,94,.15)", color: "#16a34a" },

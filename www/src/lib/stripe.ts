@@ -103,9 +103,9 @@
 //   });
 // }
 
-// export function formatPrice(amountInCents: number, currency = "usd"): string {
-//   return new Intl.NumberFormat("en-US", {
-//     style: "currency",
-//     currency: currency.toUpperCase(),
-//   }).format(amountInCents / 100);
-// }
+export function formatPrice(amountInCents: number, currency = "usd"): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(amountInCents / 100);
+}

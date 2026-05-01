@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+// import { stripe } from "@/lib/stripe";
 import { PurchaseStatus, UserRole } from "@/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
 
@@ -159,16 +159,16 @@ export async function updateUserRole(userId: string, role: UserRole) {
 export async function deleteUser(userId: string) {
   await requireAdmin();
 
-  // Cancel Stripe subscription if exists
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (user?.stripeCustomerId) {
-    const subs = await stripe.subscriptions.list({
-      customer: user.stripeCustomerId,
-    });
-    for (const sub of subs.data) {
-      await stripe.subscriptions.cancel(sub.id);
-    }
-  }
+  // // Cancel Stripe subscription if exists
+  // const user = await prisma.user.findUnique({ where: { id: userId } });
+  // if (user?.stripeCustomerId) {
+  //   const subs = await stripe.subscriptions.list({
+  //     customer: user.stripeCustomerId,
+  //   });
+  //   for (const sub of subs.data) {
+  //     await stripe.subscriptions.cancel(sub.id);
+  //   }
+  // }
 
   await prisma.user.delete({ where: { id: userId } });
   revalidatePath("/admin/users");
@@ -256,9 +256,9 @@ export async function refundOrder(purchaseId: string) {
   if (!purchase.stripePaymentIntentId)
     throw new Error("No payment intent — may be a subscription");
 
-  await stripe.refunds.create({
-    payment_intent: purchase.stripePaymentIntentId,
-  });
+  // await stripe.refunds.create({
+  //   payment_intent: purchase.stripePaymentIntentId,
+  // });
 
   await prisma.purchase.update({
     where: { id: purchaseId },
