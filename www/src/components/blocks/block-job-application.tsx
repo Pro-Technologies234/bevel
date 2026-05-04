@@ -344,13 +344,13 @@ export default function JobApplicationBlock() {
             <FormEngineStepCanvas className="max-w-xl py-6" />
             <div className="bg-card p-6 md:px-16 border-t border-border absolute inset-x-0 bottom-0">
               <FormEngineNavigation
-                submitLabel="Submit application"
-                nextLabel="Continue"
-                backLabel="Back"
-                styles={{
-                  nextBtn: "p-5 rounded-full",
-                  backBtn: "p-5 rounded-full",
-                }}
+              // submitLabel="Submit application"
+              // nextLabel="Continue"
+              // backLabel="Back"
+              // styles={{
+              //   nextBtn: "p-5 rounded-full",
+              //   backBtn: "p-5 rounded-full",
+              // }}
               />
             </div>
           </div>
