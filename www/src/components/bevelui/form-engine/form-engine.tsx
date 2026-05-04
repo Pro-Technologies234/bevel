@@ -2,7 +2,10 @@ import { cn } from "@/lib/utils";
 import { FormEngineContext } from "./form-engine-context";
 import { useFormEngineState } from "./form-engine-hook";
 import { FormEngineProgress } from "./form-engine-progress";
-import { FormEngineStepMeta } from "./form-engine-step-meta";
+import {
+  FormEngineStepMeta,
+  FormEngineStepMetaProps,
+} from "./form-engine-step-meta";
 import { FormEngineStepCanvas } from "./form-engine-step-canvas";
 import type { FormEngineProps } from "./form-engine-types";
 import {
@@ -12,7 +15,8 @@ import {
 
 interface FormEngineComponentProps extends FormEngineProps {
   className?: string;
-  actionsProps?: FormEngineNavigationProps;
+  navigationProps?: FormEngineNavigationProps;
+  stepMetaProps?: FormEngineStepMetaProps;
 }
 
 /**
@@ -36,7 +40,7 @@ interface FormEngineComponentProps extends FormEngineProps {
  * <FormEngine
  *   config={config}
  *   onSubmit={onSubmit}
- *   actionsProps={{ submitLabel: "Create account", layout: "split" }}
+ *   navigationProps={{ submitLabel: "Create account", layout: "split" }}
  * />
  */
 export function FormEngine({
@@ -44,7 +48,8 @@ export function FormEngine({
   plugins,
   defaultValues,
   className,
-  actionsProps,
+  navigationProps,
+  stepMetaProps,
   onSubmit,
 }: FormEngineComponentProps) {
   const engine = useFormEngineState({
@@ -58,10 +63,10 @@ export function FormEngine({
     <FormEngineContext.Provider value={engine}>
       <div className={cn("flex flex-col gap-6 w-full", className)}>
         <FormEngineProgress />
-        <FormEngineStepMeta />
+        <FormEngineStepMeta {...stepMetaProps} />
         {/* FormEngineStepCanvas renders both fields and actions */}
         <FormEngineStepCanvas />
-        <FormEngineNavigation {...actionsProps} />
+        <FormEngineNavigation {...navigationProps} />
       </div>
     </FormEngineContext.Provider>
   );

@@ -4,13 +4,11 @@ import { z, ZodSchema } from "zod";
 import pageData from "@/content/docs/form-engine.json";
 import { DocPageRenderer } from "@/components/bevelui/docs/doc-page-renderer";
 import {
-  FormEngine,
   FormEngineRoot,
   FormEngineProgress,
   FormEngineStepMeta,
   FormEngineStepCanvas,
   FormEngineNavigation,
-  createZodPlugin,
   createLogPlugin,
   type FormEngineConfig,
   type FormEnginePlugin,
@@ -18,8 +16,6 @@ import {
 import {
   IconCheck,
   IconRocket,
-  IconUser,
-  IconBuilding,
   IconCreditCard,
   IconSparkles,
   IconPlayerPlay,
@@ -28,187 +24,11 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-
-// ─── Original Demo (kept for docs) ───────────────────────────────────────────
-
-const stepSchemas = {
-  0: z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Enter a valid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-  }),
-  1: z.object({
-    workspace: z.string().min(2, "Workspace name is required"),
-    plan: z.enum(["free", "pro", "enterprise"], {
-      error: "Please select a plan",
-    }),
-  }),
-};
-
-const config: FormEngineConfig = {
-  mode: "multi-step",
-  validation: "per-step",
-  steps: [
-    {
-      id: "account",
-      title: "Create your account",
-      description: "Your login credentials.",
-      fields: [
-        {
-          key: "name",
-          variant: "text",
-          label: "Full name",
-          placeholder: "Alex Johnson",
-          required: true,
-        },
-        {
-          key: "email",
-          variant: "email",
-          label: "Email address",
-          placeholder: "alex@acme.com",
-          required: true,
-        },
-        {
-          key: "password",
-          variant: "password",
-          label: "Password",
-          placeholder: "8+ characters",
-          required: true,
-        },
-      ],
-    },
-    {
-      id: "workspace",
-      title: "Set up your workspace",
-      description: "Where your team will work.",
-      fields: [
-        {
-          key: "workspace",
-          variant: "text",
-          label: "Workspace name",
-          placeholder: "Acme Inc.",
-          required: true,
-        },
-        {
-          key: "plan",
-          variant: "card-select",
-          label: "Choose a plan",
-          required: true,
-          props: {
-            columns: 2,
-            size: "sm",
-            layout: "grid",
-            options: [
-              { value: "free", label: "Free", description: "$0/mo" },
-              {
-                value: "pro",
-                label: "Pro",
-                description: "$12/mo",
-                badge: "Popular",
-              },
-              {
-                value: "enterprise",
-                label: "Enterprise",
-                description: "Custom",
-              },
-            ],
-          },
-        },
-        {
-          key: "role",
-          variant: "chip-select",
-          label: "Your role",
-          props: {
-            options: [
-              { value: "engineering", label: "Engineering" },
-              { value: "design", label: "Design" },
-              { value: "product", label: "Product" },
-              { value: "marketing", label: "Marketing" },
-              { value: "other", label: "Other" },
-            ],
-          },
-        },
-      ],
-    },
-    {
-      id: "billing",
-      title: "Add billing details",
-      description: "Optional — you can do this later from settings.",
-      fields: [
-        {
-          key: "cardName",
-          variant: "text",
-          label: "Name on card",
-          placeholder: "Alex Johnson",
-        },
-        {
-          key: "cardNumber",
-          variant: "text",
-          label: "Card number",
-          placeholder: "1234 5678 9012 3456",
-        },
-      ],
-    },
-  ],
-};
-
-export function FormEngineDemo() {
-  const [submitted, setSubmitted] = useState(false);
-
-  const plugins: FormEnginePlugin[] = [
-    createZodPlugin(stepSchemas),
-    createLogPlugin("[demo]"),
-  ];
-
-  if (submitted) {
-    return (
-      <div className="flex flex-col items-center gap-4 py-12 text-center">
-        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-          <IconCheck size={24} strokeWidth={2.5} className="text-primary" />
-        </div>
-        <div className="flex flex-col gap-1">
-          <span className="text-base font-semibold">Account created!</span>
-          <span className="text-sm text-muted-foreground">
-            This is what your onSubmit receives.
-          </span>
-        </div>
-        <button
-          onClick={() => setSubmitted(false)}
-          className="text-xs text-muted-foreground underline hover:text-foreground transition-colors"
-        >
-          Reset demo
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <Card className="w-full max-w-md h-full flex flex-col items-center justify-center ">
-      <CardContent className="flex flex-col w-full">
-        <FormEngineRoot
-          onSubmit={async (values: unknown) => {
-            await new Promise((r) => setTimeout(r, 1200));
-            console.log("Form submitted:", values);
-            setSubmitted(true);
-          }}
-          config={config}
-          plugins={plugins}
-          className="flex flex-col items-center justify-between h-full flex-1 w-full"
-        >
-          <FormEngineStepMeta />
-          <FormEngineStepCanvas className="w-full" />
-          <FormEngineNavigation
-            submitLabel="Create account"
-            nextLabel="Continue"
-            layout="split"
-            styles={{ nextBtn: "rounded-full px-4 py-4!" }}
-          />
-        </FormEngineRoot>
-      </CardContent>
-    </Card>
-  );
-}
+import { FormEngineDemo } from "@/components/docs/form-engine/form-engine-demo";
+import {
+  FormEngineBackButton,
+  FormEngineNextButton,
+} from "../form-engine/form-engine-navigation";
 
 // ─── Showcase Demo: Custom Layout with FormEngineRoot ────────────────────────
 
@@ -276,6 +96,7 @@ const showcaseConfig: FormEngineConfig = {
           required: true,
           props: {
             columns: 3,
+            layout: "grid",
             options: [
               {
                 value: "free",
@@ -287,7 +108,7 @@ const showcaseConfig: FormEngineConfig = {
                 value: "pro",
                 label: "Pro",
                 description: "$12/seat/mo",
-                badge: "Most popular",
+
                 preview: "/images/car.webp",
               },
               {
@@ -437,7 +258,7 @@ export function FormEngineShowcase() {
         }}
         onSubmit={handleSubmit}
       >
-        <div className="rounded-2xl border border-border bg-popover/60 shadow-2xl overflow-hidden">
+        <div className="rounded-2xl border border-border bg-popover/60 shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-3">
             {/* Left sidebar – progress and step meta */}
             <div className="bg-muted/5 border-r border-border p-6 flex flex-col">
@@ -457,7 +278,7 @@ export function FormEngineShowcase() {
                 </p>
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 not-md:hidden">
                 <FormEngineProgress
                   className="space-y-0 flex-col items-start"
                   renderStep={(step, state) => {
@@ -491,6 +312,9 @@ export function FormEngineShowcase() {
                   }}
                 />
               </div>
+              <div className="flex-1 md:hidden">
+                <FormEngineProgress variant="circle" />
+              </div>
 
               <div className="pt-6 mt-6 border-t border-border/60">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -511,16 +335,14 @@ export function FormEngineShowcase() {
               </div>
 
               <div className="pt-4 mt-6 border-t border-border/60">
-                <FormEngineNavigation
-                  submitLabel="Complete setup"
-                  nextLabel="Continue"
-                  backLabel="Back"
-                  styles={{
-                    container: "flex justify-between items-center",
-                    backBtn: "p-4 rounded-md",
-                    nextBtn: "p-4 rounded-md",
-                  }}
-                />
+                <FormEngineNavigation layout="split">
+                  <FormEngineBackButton label="Back" className="rounded-full" />
+                  <FormEngineNextButton
+                    nextLabel="Continue"
+                    submitLabel="Complete setup"
+                    className="ml-auto rounded-full"
+                  />
+                </FormEngineNavigation>
               </div>
             </div>
           </div>

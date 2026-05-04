@@ -25,7 +25,7 @@ const navigations = [
   { id: "docs", label: "Documentation", href: "/docs/introduction" },
   { id: "components", label: "Components", href: "/docs/components" },
   // { id: "pricing", label: "Pricing", href: "/pricing" },
-  { id: "labs", label: "Labs", href: "/labs" },
+  // { id: "labs", label: "Labs", href: "/labs" },
 ];
 
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
@@ -139,7 +139,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
             {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 z-50 h-full w-90 bg-background  shadow-xl md:hidden flex flex-col pl-8 pr-4"
+              className="fixed top-0 right-0 z-50 h-full w-[80vw] md:w-90 bg-background  shadow-xl md:hidden flex flex-col pl-8 pr-4"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -175,7 +175,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "w-fit relative rounded-lg text-4xl uppercase font-medium tracking-tighter transition-colors text-lime-50",
+                      "w-fit relative rounded-lg text-3xl md:text-4xl uppercase font-medium tracking-tighter transition-colors text-lime-50",
                       pathname == item.href &&
                         " after:absolute after:inset-x-0 after:border-2 after:-bottom-2 after:border-foreground after:border-dashed",
                     )}

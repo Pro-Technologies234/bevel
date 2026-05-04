@@ -40,7 +40,7 @@ export function ModeToggle() {
 export function FloatingModeToggle() {
   const { setTheme, themes, theme } = useTheme();
   return (
-    <div className="flex gap-1 items-center fixed bottom-8 right-8 bg-popover rounded-full p-1 z-1000 shadow-xl">
+    <div className="flex gap-1 items-center fixed top-8 right-8 bg-popover rounded-full p-1 z-1000 shadow-xl">
       <Button
         variant={theme == "light" ? "inverted" : "outline"}
         size={"icon"}

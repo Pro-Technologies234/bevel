@@ -80,20 +80,22 @@ export default function Close() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-32 overflow-hidden border-t border-border/60"
+      className="relative py-32 overflow-hidden border-t border-border/60 z-1"
     >
-      {/* Subtle grid only — no hero background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 50% 0%, rgba(194,241,60,0.05) 0%, transparent 60%)",
-        }}
-      />
+      <div className="w-full absolute inset-0 -z-1 select-none">
+        <img
+          // ref={bgImageRef}
+          src="/images/home/hero.jpg"
+          alt="Hero Background"
+          className="absolute inset-0 w-full h-full object-cover grayscale opacity-12"
+          style={{ willChange: "transform" }}
+          loading="eager"
+        />
+      </div>
 
       <div
         ref={contentRef}
-        className="relative z-10 max-w-2xl mx-auto px-6 flex flex-col items-center text-center gap-8"
+        className="relative z-10  mx-auto px-6 flex flex-col items-center text-center gap-8"
       >
         {/*
           THE HEADING CHANGE:
@@ -105,9 +107,7 @@ export default function Close() {
         */}
         <div className="flex flex-col gap-3">
           <h2 className="text-3xl md:text-5xl font-sans font-semibold tracking-tight leading-tight">
-            Start with the
-            <br />
-            install command.
+            Start with the <br /> install command.
           </h2>
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed max-w-md mx-auto">
             No account. No signup. No lock-in. The code lands in your project
@@ -118,7 +118,7 @@ export default function Close() {
         {/* Install command — the actual first action */}
         <div className="w-full max-w-md">
           <div
-            className="flex items-center justify-between gap-3 bg-muted/30 rounded-xl px-4 py-3.5 border border-border/60 cursor-pointer group"
+            className="flex items-center justify-between gap-3 bg-muted/30 rounded-lg p-2 px-4 border border-border/60 cursor-pointer group"
             onClick={copy}
           >
             <div className="flex items-center gap-2 min-w-0">
@@ -164,7 +164,7 @@ export default function Close() {
             <Link href="/docs/components">
               <Button
                 variant="inverted"
-                className="text-xs font-semibold tracking-tight cursor-pointer rounded-full px-6 py-2.5"
+                className="text-xs font-semibold tracking-tight cursor-pointer rounded-full md:p-4.5 md:px-6"
               >
                 <span className="z-1">Browse all systems</span>
                 <IconChevronRight />
@@ -172,7 +172,7 @@ export default function Close() {
             </Link>
           </div>
           <Link href="/docs/introduction">
-            <Button className="text-xs font-semibold tracking-tight cursor-pointer rounded-full px-6 py-2.5 relative bevel">
+            <Button className="text-xs font-semibold tracking-tight cursor-pointer rounded-full md:p-4.5 md:px-6 relative bevel">
               <IconBoltFilled />
               Read the docs
               <IconChevronRight />

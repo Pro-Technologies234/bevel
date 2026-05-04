@@ -35,12 +35,12 @@ export function FormEngineStepMeta({
 
       <div className="space-y-1">
         {resolvedTitle && (
-          <h3 className="text-2xl md:text-3xl font-semibold leading-tight">
+          <h3 className="text-xl md:text-2xl font-semibold leading-tight">
             {resolvedTitle}
           </h3>
         )}
         {resolvedDescription && (
-          <p className="text-sm md:text-base text-muted-foreground max-w-md leading-relaxed">
+          <p className="text-sm  md:text-base text-muted-foreground max-w-md leading-relaxed">
             {resolvedDescription}
           </p>
         )}

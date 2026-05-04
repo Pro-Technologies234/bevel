@@ -487,7 +487,9 @@ function CreateIssueDialog({
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <FormEngineNavigation submitLabel="Create issue" />
+            <FormEngineNavigation
+            // submitLabel="Create issue"
+            />
           </div>
         </FormEngineRoot>
       </DialogContent>

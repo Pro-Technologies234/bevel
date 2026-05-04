@@ -315,9 +315,9 @@ export default function IntakeApp() {
                 <FormEngine
                   config={submittingConfig}
                   plugins={[createZodPlugin(schemas)]}
-                  actionsProps={{
-                    submitLabel: "Submit application",
-                    nextLabel: "Continue →",
+                  navigationProps={{
+                    // submitLabel: "Submit application",
+                    // nextLabel: "Continue →",
                     layout: "split",
                   }}
                   onSubmit={async () => {

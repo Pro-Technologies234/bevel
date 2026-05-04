@@ -171,8 +171,8 @@ export default function SettingsBlock() {
               <FormEngineStepCanvas />
               <div className="mt-8 pt-6 border-t border-border flex justify-end">
                 <FormEngineNavigation
-                  submitLabel="Save changes"
-                  // showPrev={false}
+                // submitLabel="Save changes"
+                // showPrev={false}
                 />
               </div>
             </FormEngineRoot>

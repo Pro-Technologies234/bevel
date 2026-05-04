@@ -82,6 +82,7 @@ export function Hero() {
           style={{ willChange: "transform" }}
           loading="eager"
         />
+        {/* <div className=" absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent" /> */}
       </div>
 
       <Badge

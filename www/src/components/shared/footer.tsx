@@ -12,7 +12,7 @@ export function Footer() {
           {/* Left — brand */}
           <div className="flex items-center gap-2">
             <span className="font-medium text-sm tracking-tight">
-              Built By <a href="https://poyekitoye.vercel.app">Poye Kitoye</a>{" "}
+              Built By <a href="https://x.com/EgaamPoyeKitoye">Poye Kitoye</a>{" "}
               with ❤️
             </span>
           </div>

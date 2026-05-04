@@ -702,9 +702,9 @@ function NewTicketDialog({
           </div>
           <div className="mt-6">
             <FormEngineNavigation
-              submitLabel="Submit ticket"
-              nextLabel="Continue →"
-              backLabel="← Back"
+            // submitLabel="Submit ticket"
+            // nextLabel="Continue →"
+            // backLabel="← Back"
             />
           </div>
         </FormEngineRoot>

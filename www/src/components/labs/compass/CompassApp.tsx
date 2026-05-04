@@ -533,10 +533,12 @@ export default function CompassApp() {
                     ) : configWithSave ? (
                       <FormEngine
                         config={configWithSave}
-                        actionsProps={{
-                          submitLabel: "Save changes",
-                          layout: "stack",
-                        }}
+                        navigationProps={
+                          {
+                            // submitLabel: "Save changes",
+                            // layout: "stack",
+                          }
+                        }
                         onSubmit={async () => {}}
                       />
                     ) : null}

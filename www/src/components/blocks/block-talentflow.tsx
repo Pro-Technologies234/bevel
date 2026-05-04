@@ -527,9 +527,9 @@ function ApplicationDialog({
 
           <div className="mt-6">
             <FormEngineNavigation
-              submitLabel="Submit application →"
-              nextLabel="Continue →"
-              backLabel="← Back"
+            // submitLabel="Submit application →"
+            // nextLabel="Continue →"
+            // backLabel="← Back"
             />
           </div>
         </FormEngineRoot>

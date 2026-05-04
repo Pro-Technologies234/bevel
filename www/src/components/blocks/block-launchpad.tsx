@@ -637,9 +637,9 @@ function OnboardingFlow({
             </div>
             <div className="mt-8">
               <FormEngineNavigation
-                submitLabel="Finish setup →"
-                nextLabel="Continue →"
-                backLabel="← Back"
+              // submitLabel="Finish setup →"
+              // nextLabel="Continue →"
+              // backLabel="← Back"
               />
             </div>
           </FormEngineRoot>

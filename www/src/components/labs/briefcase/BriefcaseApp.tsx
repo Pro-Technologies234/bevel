@@ -312,7 +312,7 @@ export default function BriefcaseApp() {
               <FormEngine
                 config={briefConfig}
                 plugins={[createZodPlugin(schemas)]}
-                // actionsProps={{
+                // navigationProps={{
                 //   submitLabel: "Continue to files →",
                 //   nextLabel: "Next →",
                 // }}

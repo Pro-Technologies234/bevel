@@ -344,7 +344,7 @@ export function ProductTourDemo() {
   const isPreview = pathName.startsWith("/preview");
   return (
     <TourRoot steps={isHome ? STEPS : DASH_STEPS} defaultOpen={false}>
-      <div className="flex flex-col gap-4 w-full h-full">
+      <div className="flex flex-col gap-4 w-full h-full max-w-6xl">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-sm font-medium text-muted-foreground">

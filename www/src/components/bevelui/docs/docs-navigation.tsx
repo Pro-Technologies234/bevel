@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
 export interface DocsNavLink {
   label: string;
@@ -27,8 +28,8 @@ export function DocsNavigation({ prev, next, className }: DocsNavigationProps) {
           <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
             Previous
           </span>
-          <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-            ← {prev.label}
+          <span className="text-sm flex items-center gap-2 font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            <IconArrowLeft size={16} /> {prev.label}
           </span>
         </a>
       ) : (
@@ -40,8 +41,8 @@ export function DocsNavigation({ prev, next, className }: DocsNavigationProps) {
           <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
             Next
           </span>
-          <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-            {next.label} →
+          <span className="text-sm flex items-center gap-2 font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            {next.label} <IconArrowRight size={16} />
           </span>
         </a>
       ) : (

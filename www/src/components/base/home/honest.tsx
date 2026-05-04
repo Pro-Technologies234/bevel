@@ -105,7 +105,7 @@ export default function Honest() {
       <Wrapper>
         {/* Heading — no section label, just the thought */}
         <div ref={headingRef} className="mb-16 max-w-x mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-sans font-semibold leading-tight tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-sans font-semibold  leading-tight tracking-tight">
             It always takes
             <br />
             <span className="gradient-primary">longer than it should.</span>
@@ -117,7 +117,7 @@ export default function Honest() {
         </div>
 
         {/* Cards */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col ">
           {MOMENTS.map((moment, i) => (
             <div
               key={i}
@@ -125,14 +125,14 @@ export default function Honest() {
                 if (el) cardsRef.current[i] = el;
               }}
               className={cn(
-                "group grid md:grid-cols-3 gap-0 rounded-xl overflow-hidden border border-border/60",
+                "group grid md:grid-cols-3 gap-0 rounded-md overflow-hidden border border-border/60",
                 "hover:border-border transition-colors duration-200",
               )}
               style={{ willChange: "transform, opacity" }}
             >
               {/* The thought */}
-              <div className="p-6 bg-muted/30 border-r border-border/60">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground/50 block mb-3">
+              <div className="p-8 bg-muted/30 border-r border-border/60">
+                <span className=" font-sans font-semibold uppercase block mb-3">
                   The estimate
                 </span>
                 <p className="text-sm italic text-muted-foreground leading-relaxed">
@@ -141,8 +141,8 @@ export default function Honest() {
               </div>
 
               {/* The reality */}
-              <div className="p-6 bg-muted/40 border-r border-border/60">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground/50 block mb-3">
+              <div className="p-8 bg-muted/30 border-r border-border/60">
+                <span className="font-sans font-semibold uppercase block mb-3">
                   What actually happens
                 </span>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -151,11 +151,8 @@ export default function Honest() {
               </div>
 
               {/* The Bevel answer */}
-              <div className="p-6 bg-primary/4 group-hover:bg-primary/6 transition-colors">
-                <span
-                  className="text-[10px] font-mono tracking-widest uppercase block mb-3"
-                  style={{ color: "#c2f13c", opacity: 0.7 }}
-                >
+              <div className="p-8 bg-muted/30 ">
+                <span className="font-sans font-semibold uppercase block mb-3 gradient-primary">
                   With Bevel
                 </span>
                 <p className="text-sm leading-relaxed font-medium">

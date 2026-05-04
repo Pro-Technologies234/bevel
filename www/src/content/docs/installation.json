@@ -4,7 +4,7 @@
     "description": "Bevel systems install via the shadcn CLI. Each system is copied directly into your project — no npm package, no versioning, no lock-in.",
     "slug": "installation",
     "prev": { "label": "Introduction", "href": "/docs/introduction" },
-    "next": { "label": "Quick start", "href": "/docs/quick-start" }
+    "next": { "label": "Components", "href": "/docs/components" }
   },
   "tocs": [
     { "id": "prerequisites", "label": "Prerequisites", "depth": 1 },

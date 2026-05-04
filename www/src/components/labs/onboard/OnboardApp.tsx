@@ -227,13 +227,13 @@ export default function OnboardApp() {
               <div className="w-full max-w-lg mx-auto bg-background rounded-2xl p-6">
                 <FormEngineStepCanvas />
                 <FormEngineNavigation
-                  submitLabel="Create account"
-                  nextLabel="Continue"
-                  styles={{
-                    container: "mt-6",
-                    nextBtn:
-                      " rounded-md h-10 rounded-full bg-rose-500 hover:bg-rose-500/90 text-white hover:text-white cursor-pointer",
-                  }}
+                // submitLabel="Create account"
+                // nextLabel="Continue"
+                // styles={{
+                //   container: "mt-6",
+                //   nextBtn:
+                //     " rounded-md h-10 rounded-full bg-rose-500 hover:bg-rose-500/90 text-white hover:text-white cursor-pointer",
+                // }}
                 />
               </div>
             </FormEngineRoot>

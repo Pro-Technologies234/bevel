@@ -621,9 +621,9 @@ function PublishDialog({
           </div>
           <div className="mt-6">
             <FormEngineNavigation
-              submitLabel="Publish now →"
-              nextLabel="Continue →"
-              backLabel="← Back"
+            // submitLabel="Publish now →"
+            // nextLabel="Continue →"
+            // backLabel="← Back"
             />
           </div>
         </FormEngineRoot>

@@ -20,7 +20,7 @@ export function DocsPageHeader({
       {badge && (
         <Badge
           variant="secondary"
-          className="w-fit bg-primary/10 text-primary border-primary/20 text-xs px-2.5 py-1"
+          className="bg-muted/60 p-3 gap-2 text-[10px] uppercase select-none text-foreground/80"
         >
           {badge}
         </Badge>
