@@ -47,9 +47,9 @@ export const SITE_TWITTER = "@bevelui";
 export const SITE_AUTHOR = "Bevel UI";
 
 // ─── Shared OG image helper ───────────────────────────────────────────────────
-
-function og(path: string) {
-  return `${SITE_URL}/og/${path}`;
+// // Pass the type instead of the filename
+function og(type: string = "default") {
+  return `${SITE_URL}/og?type=${type}`;
 }
 
 // ─── Shared viewport (use in root layout) ────────────────────────────────────
@@ -110,7 +110,7 @@ export const rootMetadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: og("og-default.png"),
+        url: og("default"),
         width: 1200,
         height: 630,
         alt: "Bevel UI — Fully-engineered UI systems for React",
@@ -127,7 +127,7 @@ export const rootMetadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: og("og-default.png"),
+        url: og("default"),
         alt: "Bevel UI — Fully-engineered UI systems for React",
       },
     ],
@@ -180,15 +180,13 @@ export const homeMetadata: Metadata = {
     title: "Bevel UI — The UI Systems Your App Actually Needs",
     description:
       "Fully-engineered, copy-to-own UI systems for React. Product Tour, Command Palette, File Upload, Form Engine — drop into your codebase with one shadcn CLI command.",
-    images: [
-      { url: og("og-default.png"), width: 1200, height: 630, alt: "Bevel UI" },
-    ],
+    images: [{ url: og("default"), width: 1200, height: 630, alt: "Bevel UI" }],
   },
   twitter: {
     title: "Bevel UI — The UI Systems Your App Actually Needs",
     description:
       "Fully-engineered, copy-to-own UI systems for React. No lock-in. shadcn compatible.",
-    images: [og("og-default.png")],
+    images: [og("default")],
   },
 };
 
@@ -208,7 +206,7 @@ export const pricingMetadata: Metadata = {
       "Free forever or $49 one-time. No subscription required. Own the code forever.",
     images: [
       {
-        url: og("og-pricing.png"),
+        url: og("pricing"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Pricing",
@@ -218,7 +216,7 @@ export const pricingMetadata: Metadata = {
   twitter: {
     title: "Pricing — Bevel UI",
     description: "Free systems forever. Pro is $49 one-time — no subscription.",
-    images: [og("og-pricing.png")],
+    images: [og("pricing")],
   },
 };
 
@@ -236,15 +234,13 @@ export const labsMetadata: Metadata = {
     title: "Bevel Labs — See the systems in production",
     description:
       "Six fully functional apps built with Bevel systems. Use them live. Get the source with Pro.",
-    images: [
-      { url: og("og-labs.png"), width: 1200, height: 630, alt: "Bevel Labs" },
-    ],
+    images: [{ url: og("labs"), width: 1200, height: 630, alt: "Bevel Labs" }],
   },
   twitter: {
     title: "Bevel Labs — See the systems in production",
     description:
       "Six real working apps built with Bevel — file manager, onboarding flow, dev dashboard, and more.",
-    images: [og("og-labs.png")],
+    images: [og("labs")],
   },
 };
 
@@ -264,7 +260,7 @@ export const docsMetadata: Metadata = {
       "Installation, API reference, live demos, and code examples for all Bevel UI systems.",
     images: [
       {
-        url: og("og-docs.png"),
+        url: og("docs"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Documentation",
@@ -275,7 +271,7 @@ export const docsMetadata: Metadata = {
     title: "Documentation — Bevel UI",
     description:
       "Full docs for all Bevel UI systems with live interactive demos.",
-    images: [og("og-docs.png")],
+    images: [og("docs")],
   },
 };
 
@@ -295,7 +291,7 @@ export const docsIntroductionMetadata: Metadata = {
       "What Bevel UI is and why it exists. Not a component library — a system.",
     images: [
       {
-        url: og("og-docs.png"),
+        url: og("docs"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Introduction",
@@ -320,7 +316,7 @@ export const docsInstallationMetadata: Metadata = {
       "One CLI command. Files land in components/bevelui/. You own them forever.",
     images: [
       {
-        url: og("og-docs.png"),
+        url: og("docs"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Installation",
@@ -345,7 +341,7 @@ export const docsProductTourMetadata: Metadata = {
       "Overlay masking, smart-positioned floating cards, media, keyboard nav. One CLI install.",
     images: [
       {
-        url: og("og-tour.png"),
+        url: og("tour"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Product Tour",
@@ -356,7 +352,7 @@ export const docsProductTourMetadata: Metadata = {
     title: "Product Tour — Bevel UI",
     description:
       "A complete product tour system for React. SVG overlay, floating cards, keyboard nav.",
-    images: [og("og-tour.png")],
+    images: [og("tour")],
   },
 };
 
@@ -376,7 +372,7 @@ export const docsCommandPaletteMetadata: Metadata = {
       "⌘K with fuzzy search, tab filtering, grouped results, and avatars. Zero deps.",
     images: [
       {
-        url: og("og-command.png"),
+        url: og("command"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Command Palette",
@@ -387,7 +383,7 @@ export const docsCommandPaletteMetadata: Metadata = {
     title: "Command Palette — Bevel UI",
     description:
       "⌘K command menu for React. Fuzzy search, tab filters, zero dependencies.",
-    images: [og("og-command.png")],
+    images: [og("command")],
   },
 };
 
@@ -407,7 +403,7 @@ export const docsFileUploadMetadata: Metadata = {
       "Drag-and-drop, per-file progress, cancel, retry, grid/list views. Bring your own upload function.",
     images: [
       {
-        url: og("og-upload.png"),
+        url: og("upload"),
         width: 1200,
         height: 630,
         alt: "Bevel UI File Upload",
@@ -418,7 +414,7 @@ export const docsFileUploadMetadata: Metadata = {
     title: "File Upload — Bevel UI",
     description:
       "Complete file upload system for React. Drag-and-drop, progress, cancel, retry.",
-    images: [og("og-upload.png")],
+    images: [og("upload")],
   },
 };
 
@@ -438,7 +434,7 @@ export const docsFormEngineMetadata: Metadata = {
       "Multi-step form orchestration. Plugin system, zod validation, conditional fields.",
     images: [
       {
-        url: og("og-form.png"),
+        url: og("form"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Form Engine",
@@ -449,7 +445,7 @@ export const docsFormEngineMetadata: Metadata = {
     title: "Form Engine — Bevel UI",
     description:
       "Complete multi-step form system for React. react-hook-form + zod, plugin architecture.",
-    images: [og("og-form.png")],
+    images: [og("form")],
   },
 };
 
@@ -468,7 +464,7 @@ export const docsComponentsMetadata: Metadata = {
     description: "All Bevel UI systems. Install any one with the shadcn CLI.",
     images: [
       {
-        url: og("og-docs.png"),
+        url: og("docs"),
         width: 1200,
         height: 630,
         alt: "Bevel UI Systems",
@@ -490,9 +486,9 @@ export const labPreviewMetadata: Record<string, Metadata> = {
       title: "Vault — Bevel Labs",
       description:
         "Full Google Drive-style file manager. Built with Bevel File Upload + Command Palette.",
-      images: [{ url: og("og-vault.png"), width: 1200, height: 630 }],
+      images: [{ url: og("vault"), width: 1200, height: 630 }],
     },
-    twitter: { images: [og("og-vault.png")] },
+    twitter: { images: [og("vault")] },
   },
   onboard: {
     title: "Onboard — Bevel Labs",
@@ -502,9 +498,9 @@ export const labPreviewMetadata: Record<string, Metadata> = {
       title: "Onboard — Bevel Labs",
       description:
         "Multi-step signup + product tour. Built with Bevel Form Engine + Product Tour.",
-      images: [{ url: og("og-onboard.png"), width: 1200, height: 630 }],
+      images: [{ url: og("onboard"), width: 1200, height: 630 }],
     },
-    twitter: { images: [og("og-onboard.png")] },
+    twitter: { images: [og("onboard")] },
   },
   launchpad: {
     title: "Launchpad — Bevel Labs",
@@ -514,9 +510,9 @@ export const labPreviewMetadata: Record<string, Metadata> = {
       title: "Launchpad — Bevel Labs",
       description:
         "Deployment dashboard with ⌘K. Built with Bevel Command Palette + Product Tour.",
-      images: [{ url: og("og-launchpad.png"), width: 1200, height: 630 }],
+      images: [{ url: og("launchpad"), width: 1200, height: 630 }],
     },
-    twitter: { images: [og("og-launchpad.png")] },
+    twitter: { images: [og("launchpad")] },
   },
   intake: {
     title: "Intake — Bevel Labs",
@@ -526,9 +522,9 @@ export const labPreviewMetadata: Record<string, Metadata> = {
       title: "Intake — Bevel Labs",
       description:
         "Multi-step job application form. Built with Bevel Form Engine.",
-      images: [{ url: og("og-intake.png"), width: 1200, height: 630 }],
+      images: [{ url: og("intake"), width: 1200, height: 630 }],
     },
-    twitter: { images: [og("og-intake.png")] },
+    twitter: { images: [og("intake")] },
   },
   briefcase: {
     title: "Briefcase — Bevel Labs",
@@ -538,9 +534,9 @@ export const labPreviewMetadata: Record<string, Metadata> = {
       title: "Briefcase — Bevel Labs",
       description:
         "Client handoff tool. Built with Bevel Form Engine + File Upload.",
-      images: [{ url: og("og-briefcase.png"), width: 1200, height: 630 }],
+      images: [{ url: og("briefcase"), width: 1200, height: 630 }],
     },
-    twitter: { images: [og("og-briefcase.png")] },
+    twitter: { images: [og("briefcase")] },
   },
   compass: {
     title: "Compass — Bevel Labs",
@@ -550,9 +546,9 @@ export const labPreviewMetadata: Record<string, Metadata> = {
       title: "Compass — Bevel Labs",
       description:
         "Settings hub with ⌘K navigation and guided tour. Built with three Bevel systems.",
-      images: [{ url: og("og-compass.png"), width: 1200, height: 630 }],
+      images: [{ url: og("compass"), width: 1200, height: 630 }],
     },
-    twitter: { images: [og("og-compass.png")] },
+    twitter: { images: [og("compass")] },
   },
 };
 
@@ -568,7 +564,7 @@ export const dashboardMetadata: Metadata = {
   openGraph: {
     title: "Dashboard — Bevel UI",
     description: "Your Bevel UI dashboard.",
-    images: [{ url: og("og-dashboard.png"), width: 1200, height: 630 }],
+    images: [{ url: og("dashboard"), width: 1200, height: 630 }],
   },
 };
 
@@ -610,7 +606,7 @@ export const loginMetadata: Metadata = {
   openGraph: {
     title: "Sign in — Bevel UI",
     description: "Sign in to your Bevel UI account.",
-    images: [{ url: og("og-default.png"), width: 1200, height: 630 }],
+    images: [{ url: og("default"), width: 1200, height: 630 }],
   },
 };
 
@@ -622,7 +618,7 @@ export const signupMetadata: Metadata = {
     title: "Create account — Bevel UI",
     description:
       "Free account. Access all free systems instantly via the shadcn CLI.",
-    images: [{ url: og("og-default.png"), width: 1200, height: 630 }],
+    images: [{ url: og("default"), width: 1200, height: 630 }],
   },
 };
 
