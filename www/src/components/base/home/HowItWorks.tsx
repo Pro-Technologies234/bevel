@@ -104,9 +104,9 @@ export default function HowItWorks() {
               <span className="text-[10px] font-mono tracking-widest uppercase text-muted-foreground/50">
                 How it installs
               </span>
-              <div className="flex w-fit items-center gap-2 bg-muted/30 rounded-xl px-4 py-3 border border-border/60 font-mono text-xs overflow-x-auto">
+              <div className="flex w-fit items-center gap-2 bg-muted/30 rounded-lg px-3 py-2 border border-border/60 font-mono text-xs overflow-x-auto">
                 <IconBoltFilled size={12} className="text-primary shrink-0" />
-                <span className="text-primary whitespace-nowrap">
+                <span className="text-primary ">
                   npx shadcn@latest add https://bevelui.vercel.app/r/tour.json
                 </span>
               </div>

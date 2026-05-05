@@ -139,7 +139,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
             {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 z-50 h-full w-[80vw] md:w-90 bg-background  shadow-xl md:hidden flex flex-col pl-8 pr-4"
+              className="fixed top-0 right-0 z-50 h-full w-[90vw] md:w-90 bg-background  shadow-xl md:hidden flex flex-col pl-8 pr-4"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}

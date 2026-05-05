@@ -28,12 +28,19 @@ import Link from "next/link";
 import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ProductTourDemo } from "@/components/bevelui/docs/product-tour-content";
 import { CommandPaletteShowcase } from "@/components/bevelui/docs/command-palette-content";
 import { FileUploadShowcase } from "@/components/bevelui/docs/file-upload-content";
 import { FormEngineShowcase } from "@/components/bevelui/docs/form-engine-content";
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ProductTourDemo } from "@/components/docs/product-tour/product-tour-demo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -135,7 +142,7 @@ export default function Systems() {
         </div>
 
         {/* Demo window */}
-        <div className="min-h-[560px] w-full flex flex-col bg-muted/20 rounded-2xl overflow-hidden border border-border/60">
+        <div className="min-h-[560px] w-full flex flex-col bg-muted/20 rounded-2xl overflow-hidden border border-border/60 not-md:hidden">
           {/* Window bar */}
           <div className="px-5 py-3 w-full flex items-center gap-2 bg-muted/30 border-b border-border/60 flex-wrap">
             {/* Traffic lights */}
@@ -249,7 +256,21 @@ export default function Systems() {
             </div>
           </div>
         </div>
-
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:hidden">
+          {SYSTEMS.map((s, i) => (
+            <Link href={s.href}>
+              <Card className=" rounded-sm bg-muted/20">
+                <CardHeader>
+                  <CardTitle>{s.title}</CardTitle>
+                  <CardDescription className="text-xs">
+                    {s.what}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent></CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
         {/* More coming — different tone than before */}
         <p className="text-center text-xs text-muted-foreground/50 mt-5 font-mono">
           More systems in development — drag to reorder, rich text editor, and
