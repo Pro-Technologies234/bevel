@@ -1,7 +1,10 @@
 import { cn } from "@/lib/utils";
 import { FormEngineContext } from "./form-engine-context";
 import { useFormEngineState } from "./form-engine-hook";
-import { FormEngineProgress } from "./form-engine-progress";
+import {
+  FormEngineProgress,
+  FormEngineProgressProps,
+} from "./form-engine-progress";
 import {
   FormEngineStepMeta,
   FormEngineStepMetaProps,
@@ -15,8 +18,9 @@ import {
 
 interface FormEngineComponentProps extends FormEngineProps {
   className?: string;
-  navigationProps?: FormEngineNavigationProps;
   stepMetaProps?: FormEngineStepMetaProps;
+  navigationProps?: FormEngineNavigationProps;
+  stepProgressProps?: FormEngineProgressProps;
 }
 
 /**
@@ -48,8 +52,9 @@ export function FormEngine({
   plugins,
   defaultValues,
   className,
-  navigationProps,
   stepMetaProps,
+  navigationProps,
+  stepProgressProps,
   onSubmit,
 }: FormEngineComponentProps) {
   const engine = useFormEngineState({
@@ -62,9 +67,8 @@ export function FormEngine({
   return (
     <FormEngineContext.Provider value={engine}>
       <div className={cn("flex flex-col gap-6 w-full", className)}>
-        <FormEngineProgress />
+        <FormEngineProgress {...stepProgressProps} />
         <FormEngineStepMeta {...stepMetaProps} />
-        {/* FormEngineStepCanvas renders both fields and actions */}
         <FormEngineStepCanvas />
         <FormEngineNavigation {...navigationProps} />
       </div>
