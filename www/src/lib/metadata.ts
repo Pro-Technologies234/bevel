@@ -110,7 +110,7 @@ export const rootMetadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/og/default.png",
+        url: "/og/og-default.png",
         width: 1200,
         height: 630,
         alt: "Bevel UI — Fully-engineered UI systems for React",
@@ -127,7 +127,7 @@ export const rootMetadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/og/default.png",
+        url: "/og/og-default.png",
         alt: "Bevel UI — Fully-engineered UI systems for React",
       },
     ],
@@ -181,14 +181,14 @@ export const homeMetadata: Metadata = {
     description:
       "Fully-engineered, copy-to-own UI systems for React. Product Tour, Command Palette, File Upload, Form Engine — drop into your codebase with one shadcn CLI command.",
     images: [
-      { url: "/og/default.png", width: 1200, height: 630, alt: "Bevel UI" },
+      { url: "/og/og-default.png", width: 1200, height: 630, alt: "Bevel UI" },
     ],
   },
   twitter: {
     title: "Bevel UI — The UI Systems Your App Actually Needs",
     description:
       "Fully-engineered, copy-to-own UI systems for React. No lock-in. shadcn compatible.",
-    images: ["/og/default.png"],
+    images: ["/og/og-default.png"],
   },
 };
 
@@ -608,7 +608,7 @@ export const loginMetadata: Metadata = {
   openGraph: {
     title: "Sign in — Bevel UI",
     description: "Sign in to your Bevel UI account.",
-    images: [{ url: "/og/default.png", width: 1200, height: 630 }],
+    images: [{ url: "/og/og-default.png", width: 1200, height: 630 }],
   },
 };
 
@@ -620,7 +620,7 @@ export const signupMetadata: Metadata = {
     title: "Create account — Bevel UI",
     description:
       "Free account. Access all free systems instantly via the shadcn CLI.",
-    images: [{ url: "/og/default.png", width: 1200, height: 630 }],
+    images: [{ url: "/og/og-default.png", width: 1200, height: 630 }],
   },
 };
 
