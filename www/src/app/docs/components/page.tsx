@@ -179,14 +179,14 @@ export default function ComponentsPage() {
                   </div>
 
                   {/* Install command */}
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-background border border-border/60 font-mono text-[11px] text-muted-foreground">
+                  {/* <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-background border border-border/60 font-mono text-[11px] text-muted-foreground">
                     <IconTerminal2
                       size={12}
                       strokeWidth={1.8}
                       className="shrink-0"
                     />
                     <span className="truncate">{system.install}</span>
-                  </div>
+                  </div> */}
                 </a>
               );
             })}
