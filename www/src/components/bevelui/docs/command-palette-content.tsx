@@ -45,6 +45,7 @@ import { cn } from "@/lib/utils";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
@@ -232,6 +233,10 @@ const SHOWCASE_SECTIONS: CommandPaletteSection[] = [
         initialsColor: "#ec4899",
         category: "files",
         source: "figma",
+        medias: [
+          "https://fastly.picsum.photos/id/12/2500/1667.jpg?hmac=Pe3284luVre9ZqNzv1jMFpLihFI6lwq7TPgMSsNXw2w",
+          "https://fastly.picsum.photos/id/4/5000/3333.jpg?hmac=ghf06FdmgiD0-G4c9DdNM8RnBIN7BO0-ZGEw47khHP4",
+        ],
       },
       {
         id: "website-redesign",
@@ -320,7 +325,7 @@ function CustomCommandPalette({
     <div className=" w-full max-w-2xl bg-popover rounded-xl">
       {/* Search input */}
       <div className="flex items-center gap-2 p-3 border-b border-border">
-        <InputGroup>
+        <InputGroup className="flex items-center border-2 border-transparent transition-colors focus-within:border-blue-500 ring-0!">
           <InputGroupAddon>
             <IconSearch size={18} className="text-muted-foreground" />
           </InputGroupAddon>
@@ -330,6 +335,7 @@ function CustomCommandPalette({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type to search..."
+            /* !ring-0 forces the shadow off, !outline-none kills the browser default */
           />
           {isLoading && (
             <IconLoader2
@@ -348,14 +354,14 @@ function CustomCommandPalette({
               key={tab.id}
               onClick={() => setSourceTab(tab.id)}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
                 activeSourceTab === tab.id
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
               )}
             >
               {tab.logoSrc && (
-                <img src={tab.logoSrc} alt="" className="w-4 h-4" />
+                <img src={tab.logoSrc} alt="" className="w-3 h-3" />
               )}
               {tab.label}
             </button>
@@ -371,9 +377,9 @@ function CustomCommandPalette({
               key={tab.id}
               onClick={() => setFilterTab(tab.id)}
               className={cn(
-                "flex items-center gap-1 px-2.5 py-1 rounded-md text-xs transition-colors",
+                "flex items-center gap-1 px-2.5 py-1 rounded-full text-xs transition-colors",
                 activeFilterTab === tab.id
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-foreground text-background"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
               )}
             >
@@ -385,14 +391,17 @@ function CustomCommandPalette({
       )}
 
       {/* Results list */}
-      <div ref={listRef} className="max-h-[400px] overflow-y-auto p-2">
+      <div
+        ref={listRef}
+        className="max-h-[400px] overflow-y-auto p-2  min-h-64"
+      >
         {filteredSections.length === 0 ? (
           <div className="py-8 text-center text-sm text-muted-foreground">
             No results found.
           </div>
         ) : (
           filteredSections.map((section) => (
-            <div key={section.id} className="mb-4 last:mb-0">
+            <div key={section.id} className="mb-4 last:mb-0 space-y-1">
               <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                 {section.title}
               </div>
@@ -407,9 +416,11 @@ function CustomCommandPalette({
                       // Could set highlighted index on hover
                     }}
                     className={cn(
-                      "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors",
+                      "w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors",
+                      // If medias exists and has items, apply the class
+                      item.medias ? "items-start" : "",
                       isHighlighted
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-foreground/5 text-primary"
                         : "hover:bg-muted/40",
                     )}
                   >
@@ -455,13 +466,25 @@ function CustomCommandPalette({
                           {item.subtitle}
                         </p>
                       )}
+                      {item.medias ? (
+                        <div className=" flex gap-2 mt-4">
+                          {(item.medias as string[])?.map((url, index) => (
+                            <div
+                              key={url + index}
+                              className=" aspect-video w-24 overflow-hidden rounded-md"
+                            >
+                              <img src={url} alt="" />
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
 
                     {isHighlighted && (
-                      <IconCornerDownLeft
-                        size={14}
-                        className="text-muted-foreground"
-                      />
+                      <Button className="rounded-full" variant={"inverted"}>
+                        <IconCornerDownLeft size={14} />
+                        Open
+                      </Button>
                     )}
                   </button>
                 );
@@ -507,10 +530,10 @@ export function CommandPaletteShowcase() {
               "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",
           },
           {
-            id: "github",
-            label: "GitHub",
+            id: "slack",
+            label: "Slack",
             logoSrc:
-              "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
+              "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
           },
         ]}
         filterTabs={[

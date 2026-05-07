@@ -17,7 +17,9 @@ export type CommandPaletteItem = {
   /** Source tab id this item belongs to — used for source filtering */
   source?: string;
   href?: string;
+  /** Source tab id this item belongs to — used for source filtering */
   onSelect?: (item: CommandPaletteItem) => void;
+  [x: string]: unknown;
 };
 
 export type CommandPaletteSection = {
