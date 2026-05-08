@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "rating-field",
   "title": "Rating Field",
-  "author": "Bevel UI <hello@bevelui.vercel.app>",
+  "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A star or number rating input control. Used by FormEngine's FieldRenderer and usable standalone.",
   "dependencies": [
     "motion"

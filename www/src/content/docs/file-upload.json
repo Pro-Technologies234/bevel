@@ -58,7 +58,7 @@
             },
             {
               "title": "Add the system files",
-              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/file-upload.json",
               "codeLanguage": "bash"
             }
           ]

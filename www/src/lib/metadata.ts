@@ -31,7 +31,7 @@
 // TOOLS TO GENERATE OG IMAGES:
 //   Option A: @vercel/og — generate them dynamically via /app/og/route.tsx (code below)
 //   Option B: Design in Figma, export as PNG, drop in /public/og/
-//   Option C: Use og-image.vercel.app for quick generation
+//   Option C: Use og-image.pxxl.click for quick generation
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { Metadata, Viewport } from "next";
@@ -39,7 +39,7 @@ import type { Metadata, Viewport } from "next";
 // ─── Site constants ───────────────────────────────────────────────────────────
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.vercel.app";
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.pxxl.click";
 export const SITE_NAME = "Bevel UI";
 export const SITE_DESCRIPTION =
   "Fully-engineered UI systems for React. Product Tour, Command Palette, File Upload, and Form Engine — copy the code, own it forever. No lock-in. shadcn compatible.";

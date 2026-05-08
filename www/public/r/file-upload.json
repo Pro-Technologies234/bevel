@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "file-upload",
   "title": "File Upload",
-  "author": "Bevel UI <hello@bevelui.vercel.app>",
+  "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A fully-engineered file upload system with drag-and-drop, per-file progress tracking, validation, error states, retry logic, and cancel support. Consumer-provided upload function keeps it backend-agnostic.",
   "dependencies": [
     "react-dropzone",

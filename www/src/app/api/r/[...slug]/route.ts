@@ -26,7 +26,7 @@ export async function GET(
       return NextResponse.json(
         {
           error:
-            "License key required. Get yours at bevelui.vercel.app/dashboard",
+            "License key required. Get yours at bevelui.pxxl.click/dashboard",
         },
         { status: 401 },
       );

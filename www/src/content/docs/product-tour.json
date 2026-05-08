@@ -65,7 +65,7 @@
             {
               "title": "Add the files",
               "description": "Copy the entire tour folder into components/bevelui/.",
-              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/tour.json",
               "codeLanguage": "bash"
             },
             {

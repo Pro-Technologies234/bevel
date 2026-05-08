@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "tour",
   "title": "Product Tour",
-  "author": "Bevel UI <hello@bevelui.vercel.app>",
+  "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A fully-engineered guided product tour system with overlay, floating card, keyboard navigation, and media support. Drop-in replacement for building interactive onboarding flows.",
   "dependencies": [
     "@floating-ui/react",

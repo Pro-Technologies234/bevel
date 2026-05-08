@@ -55,7 +55,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "# Product Tour\nnpx shadcn@latest add https://bevelui.vercel.app/r/tour.json\n\n# Command Palette\nnpx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json\n\n# File Upload\nnpx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json\n\n# Form Engine\nnpx shadcn@latest add https://bevelui.vercel.app/r/form-engine.json"
+          "code": "# Product Tour\nnpx shadcn@latest add https://bevelui.pxxl.click/r/tour.json\n\n# Command Palette\nnpx shadcn@latest add https://bevelui.pxxl.click/r/command-palette.json\n\n# File Upload\nnpx shadcn@latest add https://bevelui.pxxl.click/r/file-upload.json\n\n# Form Engine\nnpx shadcn@latest add https://bevelui.pxxl.click/r/form-engine.json"
         },
         {
           "type": "text",

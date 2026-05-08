@@ -237,7 +237,7 @@ async function main() {
 
   // ── Admin user ───────────────────────────────────────────────────────────────
 
-  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@bevelui.vercel.app";
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@bevelui.pxxl.click";
   const existing = await prisma.user.findUnique({
     where: { email: adminEmail },
   });

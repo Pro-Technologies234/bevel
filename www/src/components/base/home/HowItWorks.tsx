@@ -107,7 +107,7 @@ export default function HowItWorks() {
               <div className="flex w-fit items-center gap-2 bg-muted/30 rounded-lg px-3 py-2 border border-border/60 font-mono text-xs overflow-x-auto">
                 <IconBoltFilled size={12} className="text-primary shrink-0" />
                 <span className="text-primary ">
-                  npx shadcn@latest add https://bevelui.vercel.app/r/tour.json
+                  npx shadcn@latest add https://bevelui.pxxl.click/r/tour.json
                 </span>
               </div>
               <span className="text-[11px] text-muted-foreground/50">
