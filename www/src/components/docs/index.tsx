@@ -14,6 +14,7 @@ import { Footer } from "@/components/shared/footer";
 import { DocsCommandSearch } from "@/components/bevelui/docs/docs-command-search";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "../ui/button";
 
 export function DocsLayoutContent({
   children,
@@ -89,19 +90,16 @@ export function DocsLayoutContent({
             </span>
           </Link>
           <div className="flex items-center gap-2">
-            {!mobileSidebarOpen && (
-              <DocsCommandSearch
-                hideAddon={isMobile}
-                className="lg:w-auto w-fit"
-              />
-            )}
-            <button
+            {!mobileSidebarOpen && <DocsCommandSearch hideAddon={isMobile} />}
+            <Button
               onClick={() => setMobileSidebarOpen((p) => !p)}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              variant={"outline"}
+              size={"icon-lg"}
               aria-label="Open navigation"
+              className="rounded-full"
             >
               <IconLayoutSidebarLeftExpand />
-            </button>
+            </Button>
           </div>
         </div>
 

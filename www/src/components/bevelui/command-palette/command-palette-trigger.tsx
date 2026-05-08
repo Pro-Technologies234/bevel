@@ -27,7 +27,7 @@ export function CommandPaletteTrigger({
     onClick: open,
     className: cn(
       "flex items-center gap-2 h-8 px-3 rounded-lg text-xs cursor-pointer",
-      hideAddon && "w-8!",
+      hideAddon && "w-9!",
       className,
     ),
   };
