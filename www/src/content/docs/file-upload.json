@@ -39,8 +39,7 @@
         {
           "type": "demo",
           "component": "FileUploadDemo",
-          "label": "Interactive demo",
-          "preview": "file-upload"
+          "label": "Interactive demo"
         }
       ]
     },
