@@ -1,199 +1,211 @@
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+"use client";
+
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import {
+  type KeyboardEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { IconX } from "@tabler/icons-react";
-import { cva, VariantProps } from "class-variance-authority";
-import { KeyboardEvent, useCallback, useMemo, useState } from "react";
-import { toast } from "sonner";
 
 const tagVariants = cva(
-  // Base classes — always applied
-  "inline-flex items-center rounded-full font-medium relative group overflow-visible ",
+  "inline-flex items-center gap-1 rounded-md font-medium select-none",
   {
     variants: {
       size: {
-        sm: "h-5 px-2 text-xs",
-        md: "h-7 px-3 text-xs",
-        lg: "h-8 px-4 text-base",
+        sm: "h-5 px-1.5 text-[11px]",
+        md: "h-6 px-2 text-xs",
+        lg: "h-7 px-2.5 text-sm",
       },
       variant: {
         default: "bg-primary text-primary-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
+        secondary: "bg-secondary text-secondary-foreground",
         outline: "border border-border text-foreground",
         ghost: "bg-muted text-muted-foreground",
       },
     },
     defaultVariants: {
       size: "md",
-      variant: "default",
+      variant: "secondary",
     },
   },
 );
 
-// Controlled
 interface TagInputControlled {
   value: string[];
   defaultValue?: never;
   onChange?: (tags: string[]) => void;
 }
 
-// Uncontrolled
 interface TagInputUncontrolled {
   value?: never;
   defaultValue?: string[];
   onChange?: (tags: string[]) => void;
 }
 
-export type TagProps = {
-  id: string;
-  value: string;
-  disabled?: boolean;
-  className?: string;
-  onRemove?: (id: string) => void;
-};
 export type TagInputProps = {
-  // Behaviour
-  max?: number; // max number of tags
-  allowDuplicates?: boolean; // default false
-  delimiter?: string[]; // default "," and Enter key
+  max?: number;
+  allowDuplicates?: boolean;
+  delimiter?: string[];
   placeholder?: string;
-  validate?: (val: string)=> boolean;
-
-  // State
+  validate?: (val: string) => boolean;
   disabled?: boolean;
   isLoading?: boolean;
-
-  // Style
   className?: string;
   tagClassName?: string;
 } & (TagInputControlled | TagInputUncontrolled) &
   VariantProps<typeof tagVariants>;
 
-function Tag({
-  variant,
-  id,
-  value,
-  size = "md",
-  onRemove,
-  className,
-}: TagProps & VariantProps<typeof tagVariants>) {
+interface TagProps {
+  id: string;
+  value: string;
+  size?: VariantProps<typeof tagVariants>["size"];
+  variant?: VariantProps<typeof tagVariants>["variant"];
+  className?: string;
+  onRemove?: (id: string) => void;
+}
+
+function Tag({ id, value, size, variant, className, onRemove }: TagProps) {
   return (
-    <Badge
-      variant={variant}
-      className={cn(tagVariants({ variant, size }), className)}
-    >
+    <span className={cn(tagVariants({ size, variant }), className)}>
       {value}
       {onRemove && (
         <button
           type="button"
+          aria-label={`Remove ${value}`}
           onClick={() => onRemove(id)}
-          className={cn(" hover:scale-105  p-0.5")}
+          className="ml-0.5 rounded-sm opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
-          <IconX className=" size-3" />
+          <IconX className="size-3" />
         </button>
       )}
-    </Badge>
+    </span>
   );
 }
-function TagInput({
+
+export function TagInput({
   variant = "secondary",
+  size = "md",
   isLoading,
   disabled,
   max,
-  size,
   value,
-  placeholder,
+  placeholder = "Add tag…",
   delimiter = [",", "Enter"],
-  allowDuplicates,
+  allowDuplicates = false,
+  validate,
   className,
   tagClassName,
   ...props
 }: TagInputProps) {
-  const isControlled = "value" in props && props.value !== undefined;
-  const [internalValue, setInternalValue] = useState<string[] | undefined>(
-    !isControlled ? (props as TagInputUncontrolled).defaultValue : undefined,
-  );
-  const currentValue = useMemo(
-    () => (isControlled ? (props as TagInputControlled).value : internalValue),
-    [props, internalValue],
-  );
-  const handleChange = (val: string[]) => {
-    if (max && val.length >= max + 1) return;
-    if (!isControlled) setInternalValue(val);
-    props.onChange?.(val);
-  };
-  const handleDelete = useCallback(
-    (val: string) => {
-      const newTags = currentValue?.filter((_, i) => i !== Number(val));
-      handleChange(newTags || []);
-    },
-    [currentValue, handleChange],
+  const isControlled = value !== undefined;
+
+  const [internalValue, setInternalValue] = useState<string[]>(
+    !isControlled ? ((props as TagInputUncontrolled).defaultValue ?? []) : [],
   );
 
-  const handleDelimiter = useCallback(
+  const tags = useMemo(
+    () => (isControlled ? value : internalValue),
+    [isControlled, value, internalValue],
+  );
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const setTags = useCallback(
+    (next: string[]) => {
+      if (!isControlled) setInternalValue(next);
+      props.onChange?.(next);
+    },
+    [isControlled, props],
+  );
+
+  const handleRemove = useCallback(
+    (id: string) => {
+      const next = (tags ?? []).filter((_, i) => String(i) !== id);
+      setTags(next);
+    },
+    [tags, setTags],
+  );
+
+  const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
-      const key = e?.key;
-      const inputValue = String(e?.currentTarget.value).trim();
-      let newValue = [...(currentValue ? currentValue : [])];
-      if (!allowDuplicates && currentValue?.includes(inputValue)) return;
-      if (delimiter?.includes(inputValue)) {
-        e.currentTarget.value = "";
-        inputValue.slice(0, inputValue.length);
+      const key = e.key;
+      const raw = e.currentTarget.value;
+      const trimmed = raw.trim();
+      const current = tags ?? [];
+
+      if (key === "Backspace" && raw === "") {
+        setTags(current.slice(0, -1));
+        return;
       }
 
-      if (delimiter.includes(key) && inputValue) {
-        const valid = props.validate?.(inputValue)
-      if (!valid) return;
-        newValue.push(inputValue);
-        handleChange(newValue);
+      if (delimiter.includes(key) && trimmed) {
+        if (key !== "Backspace") e.preventDefault();
+
+        if (validate && !validate(trimmed)) return;
+
+        if (!allowDuplicates && current.includes(trimmed)) return;
+
+        if (max !== undefined && current.length >= max) return;
+
+        setTags([...current, trimmed]);
         e.currentTarget.value = "";
-      } else if (key === "Backspace" && inputValue == "") {
-        newValue.pop();
-        handleChange(newValue);
       }
     },
-    [currentValue, handleChange],
+    [tags, setTags, delimiter, allowDuplicates, validate, max],
   );
+
+  const focusInput = () => {
+    wrapperRef.current?.querySelector("input")?.focus();
+  };
 
   return (
     <div
+      ref={wrapperRef}
+      onClick={focusInput}
+      aria-disabled={disabled}
       className={cn(
-        "flex flex-wrap text-sm  min-w-0 rounded-lg border border-input bg-transparent p-1.5 px-2 transition-colors outline-none  placeholder:text-muted-foreground focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 gap-2 items-center select-none",
+        "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent px-3 py-1.5 text-sm shadow-xs",
+        "transition-[color,box-shadow]",
+        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+        "aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-3 aria-[invalid=true]:ring-destructive/20",
+        "dark:bg-input/30",
+        disabled && "pointer-events-none cursor-not-allowed opacity-50",
         className,
-        disabled && "opacity-80 cursor-not-allowed ",
       )}
     >
       {isLoading
-        ? Array.from({ length: max || 8 }).map((_, i) => (
+        ? Array.from({ length: max ?? 3 }).map((_, i) => (
             <Skeleton
               key={i}
-              style={{
-                width: `${(Math.random() + 1.1) * (i + 2)}rem`,
-              }}
-              className={cn(tagVariants({ size }), " bg-muted")}
+              className={cn(tagVariants({ size }), "w-16 bg-muted")}
+              style={{ width: `${3 + i * 1.2}rem` }}
             />
           ))
-        : currentValue?.map((v, i) => {
-            return (
-              <Tag
-                id={`${i}`}
-                key={`${v}-${i}`}
-                value={v}
-                variant={variant}
-                className={tagClassName}
-                onRemove={!disabled ? handleDelete : undefined}
-              />
-            );
-          })}
+        : tags?.map((v, i) => (
+            <Tag
+              key={`${v}-${i}`}
+              id={String(i)}
+              value={v}
+              size={size}
+              variant={variant}
+              className={tagClassName}
+              onRemove={!disabled ? handleRemove : undefined}
+            />
+          ))}
+
       {!isLoading && (
         <input
           disabled={disabled}
-          onKeyDown={handleDelimiter}
-          placeholder={placeholder}
+          placeholder={tags?.length ? undefined : placeholder}
+          onKeyDown={handleKeyDown}
           className={cn(
-            "flex-1 outline-none focus-visible:ring-none bg-transparent ",
-            disabled && "cursor-not-allowed",
+            "min-w-[6rem] flex-1 bg-transparent outline-none placeholder:text-muted-foreground",
+            "disabled:cursor-not-allowed",
           )}
         />
       )}
@@ -202,5 +214,3 @@ function TagInput({
 }
 
 TagInput.displayName = "TagInput";
-
-export { TagInput };

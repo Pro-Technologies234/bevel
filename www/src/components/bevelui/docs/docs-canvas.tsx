@@ -45,7 +45,7 @@ export const DocsCanvas = React.forwardRef<HTMLDivElement, DocsCanvasProps>(
       <Component
         ref={ref}
         className={cn(
-          "flex justify-between flex-1 min-w-0 relative",
+          "flex justify-between flex-1 min-w-0 relative items-start",
           className,
         )}
         {...props}

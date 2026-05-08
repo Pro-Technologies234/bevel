@@ -104,7 +104,7 @@ export function DocsLayoutContent({
         </div>
 
         {/* Page content */}
-        <main className="flex-1 min-w-0">{children}</main>
+        <main className="flex-1 min-w-0 ">{children}</main>
 
         <Footer />
       </div>

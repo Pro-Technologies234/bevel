@@ -102,25 +102,16 @@ const showcaseConfig: FormEngineConfig = {
                 value: "free",
                 label: "Free",
                 description: "For individuals",
-                preview: "/images/tour-1.png",
               },
               {
                 value: "pro",
                 label: "Pro",
                 description: "$12/seat/mo",
-
-                preview: "/images/car.webp",
               },
               {
                 value: "enterprise",
                 label: "Enterprise",
                 description: "Custom pricing",
-                preview: (
-                  <video
-                    className="w-full h-full object-cover"
-                    src={"/videos/tour-1.webm"}
-                  />
-                ),
               },
             ],
           },

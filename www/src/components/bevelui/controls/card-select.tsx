@@ -1,19 +1,16 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
 import { type ReactNode, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import { IconCheck } from "@tabler/icons-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-// (Kept original types for full functionality)
 export interface CardSelectOption<T = string> {
   value: T;
   label: string;
   description?: string;
   icon?: ReactNode;
-  preview?: string | ReactNode;
   badge?: string;
   disabled?: boolean;
 }
@@ -23,7 +20,6 @@ type CardSelectSharedProps<T = string> = {
   columns?: 1 | 2 | 3 | 4;
   size?: "sm" | "md" | "lg";
   className?: string;
-  renderCard?: (option: CardSelectOption<T>, isSelected: boolean) => ReactNode;
   options: CardSelectOption<T>[];
 };
 
@@ -62,28 +58,58 @@ export type CardSelectProps<T = string> = CardSelectSharedProps<T> &
     | MultiUncontrolled<T>
   );
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+const cardVariants = cva(
+  [
+    "group relative w-full rounded-lg border bg-transparent text-left",
+    "transition-colors duration-150",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    "disabled:pointer-events-none disabled:opacity-50",
+  ],
+  {
+    variants: {
+      selected: {
+        true: "border-primary bg-primary/5",
+        false:
+          "border-input hover:border-accent-foreground/20 hover:bg-accent/40",
+      },
+      size: {
+        sm: "p-3 gap-2",
+        md: "p-4 gap-3",
+        lg: "p-5 gap-4",
+      },
+    },
+    defaultVariants: {
+      selected: false,
+      size: "md",
+    },
+  },
+);
 
-const SIZE = {
-  sm: {
-    card: "rounded-lg",
-    label: "text-sm",
-    desc: "text-xs",
-    indicator: "h-4 w-4",
+const indicatorVariants = cva(
+  "flex shrink-0 items-center justify-center border transition-colors duration-150",
+  {
+    variants: {
+      selected: {
+        true: "border-primary bg-primary text-primary-foreground",
+        false: "border-input bg-transparent",
+      },
+      multiple: {
+        true: "rounded-sm",
+        false: "rounded-full",
+      },
+      size: {
+        sm: "size-3.5",
+        md: "size-4",
+        lg: "size-[18px]",
+      },
+    },
+    defaultVariants: {
+      selected: false,
+      multiple: false,
+      size: "md",
+    },
   },
-  md: {
-    card: "rounded-xl",
-    label: "text-base",
-    desc: "text-sm",
-    indicator: "h-5 w-5",
-  },
-  lg: {
-    card: "rounded-2xl",
-    label: "text-lg",
-    desc: "text-base",
-    indicator: "h-6 w-6",
-  },
-} as const;
+);
 
 const COLS = {
   1: "grid-cols-1",
@@ -92,86 +118,100 @@ const COLS = {
   4: "grid-cols-4",
 } as const;
 
-// ─── Redesigned List Card ─────────────────────────────────────────────────────
-
-function ListCard<T>({
+function CardItem<T>({
   option,
   isSelected,
+  isMultiple,
   size = "md",
 }: {
   option: CardSelectOption<T>;
   isSelected: boolean;
-  size?: keyof typeof SIZE;
+  isMultiple: boolean;
+  size?: "sm" | "md" | "lg";
 }) {
-  const s = SIZE[size];
-
   return (
-    <Card
+    <div
       className={cn(
-        "group relative flex flex-row items-start justify-between w-full p-4 text-left transition-all duration-200 border",
-        s.card,
-        isSelected
-          ? "border-card bg-card shadow-sm"
-          : "border-muted bg-transparent hover:bg-muted/50",
-        option.disabled && "opacity-50",
+        cardVariants({ selected: isSelected, size }),
+        "flex items-start",
       )}
     >
-      <div className="flex flex-col gap-1 pr-8">
+      {/* Indicator */}
+      <div
+        className={cn(
+          indicatorVariants({
+            selected: isSelected,
+            multiple: isMultiple,
+            size,
+          }),
+          "mt-0.5",
+        )}
+        aria-hidden
+      >
+        {isSelected && (
+          <IconCheck
+            className={cn(
+              size === "sm" ? "size-2" : size === "lg" ? "size-3" : "size-2.5",
+              "stroke-[2.5]",
+            )}
+          />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="ml-3 flex min-w-0 flex-1 flex-col gap-0.5">
         <div className="flex items-center gap-2">
+          {option.icon && (
+            <span className="shrink-0 text-muted-foreground">
+              {option.icon}
+            </span>
+          )}
           <span
             className={cn(
-              "font-semibold tracking-tight transition-colors",
-              s.label,
+              "font-medium leading-snug",
+              size === "sm"
+                ? "text-sm"
+                : size === "lg"
+                  ? "text-base"
+                  : "text-sm",
+              isSelected ? "text-foreground" : "text-foreground",
             )}
           >
             {option.label}
           </span>
           {option.badge && (
-            <Badge
-              variant="secondary"
-              className="text-[10px] uppercase tracking-wider py-0 px-1.5"
-            >
+            <Badge variant="secondary" className="ml-auto shrink-0 text-xs">
               {option.badge}
             </Badge>
           )}
         </div>
 
         {option.description && (
-          <p className={cn("leading-relaxed transition-colors", s.desc)}>
+          <p
+            className={cn(
+              "leading-snug text-muted-foreground",
+              size === "sm" ? "text-xs" : "text-sm",
+            )}
+          >
             {option.description}
           </p>
         )}
       </div>
-
-      {/* Radio Indicator */}
-      <div
-        className={cn(
-          "shrink-0 flex items-center justify-center rounded-full border-2 transition-all duration-200 ",
-          s.indicator,
-          isSelected ? "border-border bg-muted" : "border-border",
-        )}
-      >
-        {isSelected && (
-          <div className="h-1.5 w-1.5 rounded-full bg-foreground" />
-        )}
-      </div>
-    </Card>
+    </div>
   );
 }
 
-// ─── CardSelect Main Component ────────────────────────────────────────────────
-
 export function CardSelect<T = string>({
   options,
-  layout = "list", // Defaulted to list for this style
+  layout = "list",
   columns = 1,
   size = "md",
   className,
-  renderCard,
   multiple,
   ...props
 }: CardSelectProps<T>) {
   const isControlled = "value" in props && props.value !== undefined;
+
   const [internalSingle, setInternalSingle] = useState<T | undefined>(
     !multiple && !isControlled
       ? (props as SingleUncontrolled<T>).defaultValue
@@ -188,11 +228,13 @@ export function CardSelect<T = string>({
       ? (props as SingleControlled<T>).value
       : internalSingle
     : undefined;
+
   const currentMulti = multiple
     ? isControlled
       ? (props as MultiControlled<T>).value
       : internalMulti
     : [];
+
   const max = multiple
     ? (props as MultiControlled<T> | MultiUncontrolled<T>).max
     : undefined;
@@ -217,9 +259,12 @@ export function CardSelect<T = string>({
 
   return (
     <div
+      role={multiple ? "group" : "radiogroup"}
       className={cn(
-        "grid gap-3",
-        layout === "grid" && COLS[columns as keyof typeof COLS],
+        "grid",
+        layout === "grid" ? COLS[columns as keyof typeof COLS] : "grid-cols-1",
+        layout === "scroll" && "overflow-x-auto",
+        "gap-2",
         className,
       )}
     >
@@ -227,13 +272,20 @@ export function CardSelect<T = string>({
         <button
           key={String(option.value) + i}
           type="button"
+          role={multiple ? "checkbox" : "radio"}
+          aria-checked={isSelected(option.value)}
           disabled={option.disabled}
           onClick={() => !option.disabled && handleSelect(option.value)}
-          className="relative block w-full outline-none focus-visible:ring-2 focus-visible:ring-card rounded-xl"
+          className={cn(
+            "w-full rounded-lg outline-none",
+            "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            option.disabled && "cursor-not-allowed",
+          )}
         >
-          <ListCard
+          <CardItem
             option={option}
             isSelected={isSelected(option.value)}
+            isMultiple={!!multiple}
             size={size}
           />
         </button>
