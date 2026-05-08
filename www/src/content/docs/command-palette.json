@@ -3,6 +3,13 @@
     "title": "Command Palette",
     "description": "A fully-engineered ⌘K command menu with fuzzy search, two-tier tab filtering, keyboard navigation, grouped results, avatar support, and a keyboard shortcut footer.",
     "badge": "Components System",
+    "features": [
+      "Zero dependencies",
+      "Custom fuzzy search",
+      "Two-tier tab system",
+      "⌘K wired automatically",
+      "Avatar + initials fallback"
+    ],
     "slug": "command-palette",
     "prev": {
       "label": "Product Tour",
@@ -25,7 +32,71 @@
   "sections": [
     {
       "id": "overview",
-      "blocks": []
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The ⌘K pattern is table stakes for serious products. But most implementations stop at a search input over a flat list. This one goes further: two independent tab rows, avatar rendering with graceful fallbacks, grouped results with section headers, and a footer row of keyboard shortcuts that looks designed rather than bolted on."
+        },
+        {
+          "type": "text",
+          "content": "Fuzzy search is implemented from scratch — no Fuse.js, no external dependency. The scoring algorithm weighs contiguous character matches higher than scattered ones, so \"hp\" surfaces \"Harper\" before \"Help pages\". Results update on every keystroke. Sections that score zero are removed entirely, not just greyed out."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/command-palette/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "command-palette-root.tsx",
+                  "type": "file",
+                  "comment": "context + keyboard binding"
+                },
+                {
+                  "name": "command-palette-modal.tsx",
+                  "type": "file",
+                  "comment": "dialog + search input"
+                },
+                {
+                  "name": "command-palette-results.tsx",
+                  "type": "file",
+                  "comment": "sections + scored items"
+                },
+                {
+                  "name": "command-palette-tabs.tsx",
+                  "type": "file",
+                  "comment": "source + filter tab rows"
+                },
+                {
+                  "name": "command-palette-footer.tsx",
+                  "type": "file",
+                  "comment": "shortcut hints"
+                },
+                {
+                  "name": "fuzzy.ts",
+                  "type": "file",
+                  "comment": "scoring algorithm",
+                  "highlight": true
+                },
+                {
+                  "name": "use-command-palette.ts",
+                  "type": "file",
+                  "comment": "programmatic control hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Two tab rows, one model",
+          "content": "Source tabs filter by where data comes from (Gmail, Figma, Linear). Filter tabs filter by what it is (People, Docs, Tasks). Both are optional and independent. An item passes the filter when it matches the active source AND the active filter — or when either tab is set to \"All\"."
+        }
+      ]
     },
     {
       "id": "demo",

@@ -12,6 +12,7 @@ import { DocsSteps } from "@/components/bevelui/docs/docs-steps";
 import { DocsFileTree } from "@/components/bevelui/docs/docs-file-tree";
 import { DocsTypography } from "@/components/bevelui/docs/docs-typography";
 import { IconWindowMaximize } from "@tabler/icons-react";
+import { DocsDemo } from "./docs-demo";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -101,21 +102,14 @@ function renderBlock(
       }
       return (
         <>
-          <div
+          <DocsDemo
             key={index}
-            className="rounded-xl border border-border overflow-hidden"
+            code={block.code}
+            language="tsx"
+            label={block.label}
           >
-            {block.label && (
-              <div className="px-4 py-2 border-b border-border/60 bg-muted/70">
-                <span className="text-[11px] text-muted-foreground">
-                  {block.label}
-                </span>
-              </div>
-            )}
-            <div className="p-2 md:p-8 flex items-center justify-center bg-muted/10 min-h-[200px]">
-              <DemoComponent />
-            </div>
-          </div>
+            <DemoComponent />
+          </DocsDemo>
           {block.preview && (
             <a
               href={`/preview/${block.preview}`}
@@ -195,12 +189,13 @@ export function DocPageRenderer({ page, demoRegistry }: DocPageRendererProps) {
     <DocsCanvas tocs={tocs}>
       <DocsContent>
         {/* Page header */}
+
         <DocsPageHeader
           title={meta.title}
           description={meta.description}
           badge={meta.badge}
+          features={(meta as any).features} // or type DocPageMeta properly
         />
-
         {/* Sections */}
         {sections.map((section) => renderSection(section, demoRegistry))}
 

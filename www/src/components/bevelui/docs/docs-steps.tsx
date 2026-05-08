@@ -21,13 +21,13 @@ export function DocsSteps({ steps, className }: DocsStepsProps) {
           <div key={i} className="flex gap-4">
             {/* Left — number + connector */}
             <div className="flex flex-col items-center shrink-0">
-              <div className="w-8 h-8 rounded-full bg-muted/80 flex items-center justify-center shrink-0">
-                <span className="text-[11px] font-semibold text-foreground">
+              <div className="w-7 h-7 rounded-full bg-primary/10 ring-1 ring-primary/30 flex items-center justify-center shrink-0">
+                <span className="text-[11px] font-bold text-primary tabular-nums">
                   {i + 1}
                 </span>
               </div>
               {!isLast && (
-                <div className="w-px flex-1 bg-border my-1.5 min-h-[24px]" />
+                <div className="w-px flex-1 bg-gradient-to-b from-primary/20 to-border/20 my-1.5 min-h-[24px]" />
               )}
             </div>
 

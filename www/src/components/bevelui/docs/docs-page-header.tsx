@@ -6,6 +6,7 @@ export interface DocsPageHeaderProps {
   title: string;
   description: string;
   badge?: string;
+  features?: string[];
   className?: string;
 }
 
@@ -13,28 +14,40 @@ export function DocsPageHeader({
   title,
   description,
   badge,
+  features,
   className,
 }: DocsPageHeaderProps) {
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       {badge && (
-        <Badge
-          variant="secondary"
-          className="bg-muted/60 p-3 gap-2 text-[10px] uppercase select-none text-foreground/80"
-        >
+        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary/70 select-none">
           {badge}
-        </Badge>
+        </span>
       )}
 
       <h1 className="text-3xl font-semibold tracking-tight text-foreground">
         {title}
       </h1>
 
-      <p className="text-foreground/80 text-base leading-relaxed max-w-xl">
+      <p className="text-foreground/70 text-[15px] leading-relaxed max-w-2xl">
         {description}
       </p>
 
-      <div className="h-px bg-border/60 mt-1" />
+      {features && features.length > 0 && (
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1">
+          {features.map((f, i) => (
+            <Badge
+              key={i}
+              variant={"secondary"}
+              className="flex items-center gap-2 text-[11px] bg-secondary/70 text-foreground/80 font-mono rounded-full"
+            >
+              {f}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      {/* <div className="h-px bg-gradient-to-r from-primary/40 via-border/30 to-transparent mt-2" /> */}
     </div>
   );
 }

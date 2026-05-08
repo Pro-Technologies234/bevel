@@ -48,13 +48,13 @@ export function DocsDemo({
         </span>
 
         {showTabs && (
-          <div className="flex items-center rounded-lg border border-border/60 overflow-hidden">
+          <div className="flex items-center rounded-md border border-border/60 overflow-hidden bg-background p-1">
             {(["preview", "code"] as const).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
                 className={cn(
-                  "px-3 py-1 text-[11px] font-medium transition-colors capitalize",
+                  "px-3 py-1 text-[11px] font-medium transition-colors capitalize rounded-sm",
                   tab === t
                     ? "bg-muted text-foreground"
                     : "text-muted-foreground hover:text-foreground",

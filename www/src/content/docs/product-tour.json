@@ -3,6 +3,13 @@
     "title": "Product Tour",
     "description": "A fully-engineered guided tour system. Highlights any element on the page, positions a floating card that never escapes the viewport, supports media, and handles keyboard navigation out of the box.",
     "badge": "Components System",
+    "features": [
+      "6 composable parts",
+      "@floating-ui/react positioning",
+      "SVG mask overlay",
+      "Keyboard navigable",
+      "Supports video, GIF, image"
+    ],
     "slug": "product-tour",
     "prev": { "label": "Quick start", "href": "/docs/quick-start" },
     "next": {
@@ -24,7 +31,66 @@
   "sections": [
     {
       "id": "overview",
-      "blocks": []
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Guided tours sound simple until you implement one. The viewport clips. Your tooltip stays fixed while its anchor scrolls. On a narrower screen, the card renders off-canvas entirely. What looked fine in development ships broken."
+        },
+        {
+          "type": "text",
+          "content": "TourRoot handles all of it. Every card is positioned by @floating-ui/react at render time — it computes the optimal placement, checks all four edges, and auto-flips to whichever side has room. The SVG mask punches a hole around the active anchor without shifting anything in the layout. Step navigation, keyboard control, and cleanup are all wired."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/tour/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "tour-root.tsx",
+                  "type": "file",
+                  "comment": "context + step state"
+                },
+                {
+                  "name": "tour-anchor.tsx",
+                  "type": "file",
+                  "comment": "registers element ref"
+                },
+                {
+                  "name": "tour-card.tsx",
+                  "type": "file",
+                  "comment": "floating card + media"
+                },
+                {
+                  "name": "tour-overlay.tsx",
+                  "type": "file",
+                  "comment": "SVG mask overlay"
+                },
+                {
+                  "name": "tour-trigger.tsx",
+                  "type": "file",
+                  "comment": "start/stop button"
+                },
+                {
+                  "name": "use-tour.ts",
+                  "type": "file",
+                  "comment": "programmatic control hook",
+                  "highlight": true
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "How the mask works",
+          "content": "A full-screen SVG sits above all content. A <rect> with a cut-out matches the bounding box of the active anchor — computed fresh on each step. The rest of the page is dimmed. No z-index wars, no clipping, no layout side effects."
+        }
+      ]
     },
     {
       "id": "demo",

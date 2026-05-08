@@ -1,8 +1,15 @@
 {
   "meta": {
-    "title": "File Upload",
-    "description": "A complete file upload system with drag-and-drop, per-file progress tracking, cancel support, error recovery, and grid/list views. Bring your own upload function — the system handles everything else.",
-    "badge": "Components System",
+    "title": "Form Engine",
+    "description": "A step orchestration engine for multi-step and single-step forms. Owns the flow — you own the fields. Bring any validation library via plugins, or wire in your own form state with FormEngineStep.",
+    "badge": "System",
+    "features": [
+      "Config-driven or headless",
+      "Plugin architecture",
+      "Per-step validation",
+      "Library-agnostic",
+      "Composable layout"
+    ],
     "slug": "file-upload",
     "prev": {
       "label": "Command Palette",
@@ -26,7 +33,61 @@
   "sections": [
     {
       "id": "overview",
-      "blocks": []
+      "blocks": [
+        {
+          "type": "text",
+          "content": "File upload is the most state-heavy primitive in most apps. Each file is its own state machine: idle → queued → uploading → done or error. The user needs to cancel mid-upload. Retry a failed one. Remove a completed one. The UI has to reflect all of it simultaneously, per file."
+        },
+        {
+          "type": "text",
+          "content": "The engine owns all of that state. You supply one function — onUpload — and the system handles the rest: drag-and-drop via react-dropzone, per-file progress bars, cancellation via AbortController, error recovery with retry, and view mode switching between grid and list. Your function calls onProgress(0–100) as bytes move. Everything else is wired."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/file-upload/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "file-upload-root.tsx",
+                  "type": "file",
+                  "comment": "context + default layout"
+                },
+                {
+                  "name": "file-upload-dropzone.tsx",
+                  "type": "file",
+                  "comment": "drag-and-drop zone"
+                },
+                {
+                  "name": "file-upload-list.tsx",
+                  "type": "file",
+                  "comment": "grid / list view"
+                },
+                {
+                  "name": "file-upload-item.tsx",
+                  "type": "file",
+                  "comment": "per-file row with progress"
+                },
+                {
+                  "name": "use-file-upload.ts",
+                  "type": "file",
+                  "comment": "state machine + actions",
+                  "highlight": true
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The engine never uploads",
+          "content": "onUpload is always provided by you. The system manages state, progress, and error recovery — it has no knowledge of your backend. This makes it compatible with any upload target: S3 presigned URLs, Cloudinary, your own API, or a mock function in development."
+        }
+      ]
     },
     {
       "id": "demo",
@@ -39,7 +100,9 @@
         {
           "type": "demo",
           "component": "FileUploadDemo",
-          "label": "Interactive demo"
+          "code": "export function FileUploadDemo() {\r\n  return (\r\n    <div className=\"w-full max-w-xl\">\r\n      <FileUploadRoot\r\n        onUpload={simulateUpload}\r\n        config={{\r\n          multiple: true,\r\n          maxFiles: 8,\r\n          maxSize: 10 * 1024 * 1024,\r\n          title: \"Drop your files here\",\r\n          description:\r\n            \"Any file type up to 10MB. Max 8 files. Name a file 'fail…' to test error handling.\",\r\n        }}\r\n        onComplete={(files) =>\r\n          console.log(\r\n            \"All uploaded:\",\r\n            files.map((f) => f.url),\r\n          )\r\n        }\r\n        onError={(id, err) => console.error(\"Upload error:\", id, err)}\r\n      />\r\n    </div>\r\n  );\r\n}",
+          "label": "Interactive demo",
+          "language": "tsx"
         }
       ]
     },

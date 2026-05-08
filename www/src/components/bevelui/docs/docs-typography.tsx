@@ -7,7 +7,7 @@ const docsTypographyVariants = cva("", {
   variants: {
     as: {
       h1: "text-3xl font-semibold tracking-tight text-foreground",
-      h2: "text-xl font-semibold tracking-tight text-foreground",
+      h2: "text-xl font-semibold tracking-tight text-foreground border-l-2 border-primary pl-3",
       h3: "text-base font-semibold text-foreground",
       h4: "text-sm font-semibold text-foreground",
       h5: "text-xs font-semibold text-foreground uppercase tracking-wider",
@@ -44,7 +44,6 @@ export const DocsTypography = React.forwardRef<
   DocsTypographyProps
 >(({ asChild, children, className, as = "p", fSize, ...props }, ref) => {
   const Component = asChild ? (Slot as any) : as;
-
   return (
     <Component
       ref={ref}

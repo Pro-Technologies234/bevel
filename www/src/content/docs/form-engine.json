@@ -3,6 +3,13 @@
     "title": "Form Engine",
     "description": "A step orchestration engine for multi-step and single-step forms. Owns the flow — you own the fields. Bring any validation library via plugins, or wire in your own form state with FormEngineStep.",
     "badge": "System",
+    "features": [
+      "Config-driven or headless",
+      "Plugin architecture",
+      "Per-step validation",
+      "Library-agnostic",
+      "Composable layout"
+    ],
     "slug": "form-engine",
     "prev": { "label": "File Upload", "href": "/docs/components/file-upload" },
     "next": { "label": "Theming", "href": "/docs/theming" }
@@ -27,7 +34,71 @@
   "sections": [
     {
       "id": "overview",
-      "blocks": []
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Multi-step forms fail in the same way every time. Validation runs too early or too late. Fields from step 1 disappear when the user reaches step 3. The submit handler doesn't know which values belong to which step. The back button wipes state. Zod errors surface on the wrong fields."
+        },
+        {
+          "type": "text",
+          "content": "The engine solves the orchestration layer. It owns exactly one thing: step flow. Which step is active. Whether navigation is gated by validation. When to call onSubmit. Everything else — field values, error messages, validation logic — lives in your code. Two modes: config-driven (describe fields in a config object and the engine renders them) or headless (put FormEngineStep around your own components and close over your form library's state). Both use the same context and compose with the same plugins."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/form-engine/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "form-engine.tsx",
+                  "type": "file",
+                  "comment": "config-driven entry point"
+                },
+                {
+                  "name": "form-engine-root.tsx",
+                  "type": "file",
+                  "comment": "headless context + flow"
+                },
+                {
+                  "name": "form-engine-step.tsx",
+                  "type": "file",
+                  "comment": "renders active step"
+                },
+                {
+                  "name": "form-engine-progress.tsx",
+                  "type": "file",
+                  "comment": "step indicator dots"
+                },
+                {
+                  "name": "form-engine-navigation.tsx",
+                  "type": "file",
+                  "comment": "prev/next/submit buttons"
+                },
+                {
+                  "name": "fields/",
+                  "type": "folder",
+                  "comment": "all field variants"
+                },
+                {
+                  "name": "plugins/",
+                  "type": "folder",
+                  "comment": "zod, analytics, server validation",
+                  "highlight": true
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Plugins compose without interfering",
+          "content": "Each plugin's onValidate runs in sequence. If any one returns false or a structured error object, navigation is blocked and errors are set on the form. Multiple plugins can independently gate the same step — the Zod plugin handles schema errors, a server validation plugin checks email uniqueness, an analytics plugin just observes. They don't know about each other."
+        }
+      ]
     },
     {
       "id": "demo",
