@@ -21,9 +21,9 @@ import Image from "next/image";
 import { BrandMark } from "./brand-mark";
 
 const navigations = [
-  { id: "home", label: "Home", href: "/" },
+  { id: "intro", label: "Intro", href: "/" },
   { id: "docs", label: "Documentation", href: "/docs/introduction" },
-  { id: "components", label: "Components", href: "/docs/components" },
+  { id: "systems", label: "Systems", href: "/docs/components" },
   // { id: "pricing", label: "Pricing", href: "/pricing" },
   // { id: "labs", label: "Labs", href: "/labs" },
 ];
