@@ -10,6 +10,9 @@ import {
   IconForms,
   IconListSearch,
   IconFileUploadFilled,
+  IconColorSwatch,
+  IconDragDrop,
+  IconLayoutSidebarRight,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -71,9 +74,31 @@ export function DocsSidebar() {
               badge: "New",
               badgeVariant: "new",
             },
+            {
+              label: "Palette Editor",
+              href: "/docs/components/palette-editor",
+              icon: IconColorSwatch,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Sortable",
+              href: "/docs/components/sortable",
+              icon: IconDragDrop,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Properties Panel",
+              href: "/docs/components/properties-panel",
+              icon: IconLayoutSidebarRight,
+              badge: "New",
+              badgeVariant: "new",
+            },
           ],
         },
       ]}
     />
   );
+
 }

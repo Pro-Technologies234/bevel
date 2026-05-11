@@ -1,0 +1,320 @@
+{
+  "meta": {
+    "title": "Properties Panel",
+    "description": "A Figma-style properties panel with collapsible sections, typed control rows, and a data-driven or headless API. Powered by shadcn's Input, Select, Switch, and Slider.",
+    "badge": "Components System",
+    "features": [
+      "Config-driven or headless",
+      "7 built-in control types",
+      "shadcn Input, Select, Switch, Slider",
+      "Collapsible sections",
+      "Custom control escape hatch"
+    ],
+    "slug": "properties-panel",
+    "prev": { "label": "Context Menu", "href": "/docs/components/context-menu" },
+    "next": { "label": "AI Chat Interface", "href": "/docs/components/ai-chat" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "config-driven", "label": "Config-driven", "depth": 1 },
+    { "id": "headless", "label": "Headless", "depth": 1 },
+    { "id": "controls", "label": "Control types", "depth": 1 },
+    { "id": "api-panel", "label": "PropertiesPanel", "depth": 2 },
+    { "id": "api-section", "label": "PropertiesSection", "depth": 2 },
+    { "id": "api-row", "label": "PropertiesRow", "depth": 2 },
+    { "id": "api-controls", "label": "PropertyControl", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Properties panels are the most state-dense UI pattern outside of data tables. Every row is a live two-way binding. The selection changes, the panel updates. The user moves a slider, the canvas updates. Building this by hand means writing a new control component for each property type, managing label alignment across all of them, and wiring collapse state for each group."
+        },
+        {
+          "type": "text",
+          "content": "The system handles the dispatch. PropertyControl is a discriminated union — set type: 'slider' and the row renders a Slider with a value readout. Set type: 'color' and it renders a swatch that opens a native color picker. The underlying controls are shadcn's Input, Select, Switch, and Slider, which means they inherit your theme, your CSS variables, and your focus styles automatically."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/properties-panel/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                { "name": "types.ts", "type": "file", "comment": "PropertyControl, PropertyRowDef, PropertySectionDef" },
+                { "name": "properties-panel.tsx", "type": "file", "comment": "container + config-driven renderer" },
+                { "name": "properties-section.tsx", "type": "file", "comment": "collapsible section with header" },
+                { "name": "properties-row.tsx", "type": "file", "comment": "label + control layout" },
+                { "name": "properties-control.tsx", "type": "file", "comment": "dispatches to correct control type", "highlight": true },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Two modes, same components",
+          "content": "Config-driven: pass a sections array and the panel renders everything. Headless: use PropertiesSection and PropertiesRow directly in JSX for full layout control. Both modes are available simultaneously — mix them in the same panel."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Click any section header to collapse it. Edit values — they update live. The color swatch opens a native color picker on click."
+        },
+        {
+          "type": "demo",
+          "component": "PropertiesPanelDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Add required shadcn components",
+              "description": "The panel uses Input, Select, Switch, and Slider from shadcn. Add any you haven't installed yet.",
+              "code": "npx shadcn@latest add input select switch slider",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/properties-panel.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "config-driven",
+      "title": "Config-driven",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass a sections array to PropertiesPanel. Each section has a title, an optional icon, and an array of rows. Each row has a label and a control definition. The panel renders, collapses, and lays everything out automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "components/editor-panel.tsx",
+          "code": "import { PropertiesPanel } from \"@/components/bevelui/properties-panel\";\nimport type { PropertySectionDef } from \"@/components/bevelui/properties-panel\";\nimport { IconLayout, IconTypography, IconPalette } from \"@tabler/icons-react\";\n\nconst sections: PropertySectionDef[] = [\n  {\n    id: \"layout\",\n    title: \"Layout\",\n    icon: IconLayout,\n    rows: [\n      {\n        id: \"width\",\n        label: \"Width\",\n        control: { type: \"number\", value: width, unit: \"px\", min: 0, onChange: setWidth },\n      },\n      {\n        id: \"height\",\n        label: \"Height\",\n        control: { type: \"number\", value: height, unit: \"px\", min: 0, onChange: setHeight },\n      },\n      {\n        id: \"opacity\",\n        label: \"Opacity\",\n        control: { type: \"slider\", value: opacity, min: 0, max: 100, onChange: setOpacity },\n      },\n      {\n        id: \"visible\",\n        label: \"Visible\",\n        control: { type: \"toggle\", value: visible, onChange: setVisible },\n      },\n    ],\n  },\n  {\n    id: \"typography\",\n    title: \"Typography\",\n    icon: IconTypography,\n    defaultOpen: false,\n    rows: [\n      {\n        id: \"font\",\n        label: \"Font\",\n        control: {\n          type: \"select\",\n          value: fontFamily,\n          options: [\n            { value: \"inter\",    label: \"Inter\"          },\n            { value: \"dm-sans\", label: \"DM Sans\"         },\n            { value: \"mono\",    label: \"JetBrains Mono\" },\n          ],\n          onChange: setFontFamily,\n        },\n      },\n      {\n        id: \"size\",\n        label: \"Size\",\n        control: { type: \"number\", value: fontSize, unit: \"px\", min: 8, max: 96, onChange: setFontSize },\n      },\n      {\n        id: \"color\",\n        label: \"Color\",\n        control: { type: \"color\", value: fontColor, onChange: setFontColor },\n      },\n    ],\n  },\n  {\n    id: \"fill\",\n    title: \"Fill\",\n    icon: IconPalette,\n    rows: [\n      {\n        id: \"bg\",\n        label: \"Color\",\n        control: { type: \"color\", value: bgColor, onChange: setBgColor },\n      },\n    ],\n  },\n];\n\n<PropertiesPanel sections={sections} className=\"w-64\" />"
+        }
+      ]
+    },
+    {
+      "id": "headless",
+      "title": "Headless",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use PropertiesSection and PropertiesRow directly when you need layout control, want to interleave custom components, or are building a section that doesn't map cleanly to a rows array."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  PropertiesPanel,\n  PropertiesSection,\n  PropertiesRow,\n} from \"@/components/bevelui/properties-panel\";\nimport { IconLayout, IconPalette } from \"@tabler/icons-react\";\n\n<PropertiesPanel className=\"w-64\">\n  <PropertiesSection title=\"Layout\" icon={IconLayout}>\n    <PropertiesRow\n      label=\"Width\"\n      control={{ type: \"number\", value: 320, unit: \"px\", onChange: setWidth }}\n    />\n    <PropertiesRow\n      label=\"Height\"\n      control={{ type: \"number\", value: 240, unit: \"px\", onChange: setHeight }}\n    />\n    {/* Custom controls slot in alongside typed rows */}\n    <PropertiesRow\n      label=\"Blend\"\n      control={{\n        type: \"custom\",\n        render: () => <BlendModeSelect value={blend} onChange={setBlend} />,\n      }}\n    />\n  </PropertiesSection>\n\n  <PropertiesSection title=\"Fill\" icon={IconPalette} defaultOpen={false}>\n    <PropertiesRow\n      label=\"Color\"\n      control={{ type: \"color\", value: color, onChange: setColor }}\n    />\n    <PropertiesRow\n      label=\"Opacity\"\n      control={{ type: \"slider\", value: opacity, min: 0, max: 100, onChange: setOpacity }}\n    />\n  </PropertiesSection>\n</PropertiesPanel>"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "hidden prop on rows",
+          "content": "Pass hidden to PropertiesRow (or set hidden: true on a PropertyRowDef in config mode) to conditionally remove a row without unmounting adjacent rows. Useful for showing controls only when a related toggle is enabled."
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "title": "Control types",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "PropertyControl is a discriminated union on the type field. Each variant maps to a different shadcn control or native input."
+        },
+        {
+          "type": "code",
+          "language": "ts",
+          "code": "// text — shadcn Input\n{ type: \"text\", value: \"Untitled\", placeholder: \"Enter name...\", onChange: setText }\n\n// number — shadcn Input with optional unit label\n{ type: \"number\", value: 16, min: 8, max: 96, step: 1, unit: \"px\", onChange: setSize }\n\n// color — color swatch that opens a native color picker on click\n{ type: \"color\", value: \"#c2f13c\", onChange: setColor }\n\n// select — shadcn Select\n{ type: \"select\", value: \"inter\", options: [{ value: \"inter\", label: \"Inter\" }], onChange: setFont }\n\n// toggle — shadcn Switch\n{ type: \"toggle\", value: true, onChange: setVisible }\n\n// slider — shadcn Slider with numeric readout\n{ type: \"slider\", value: 80, min: 0, max: 100, step: 1, onChange: setOpacity }\n\n// custom — renders any ReactNode, no wrapper\n{ type: \"custom\", render: () => <MyControl /> }"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Color uses the native picker",
+          "content": "The color control renders a styled swatch that wraps a hidden <input type='color'>. This keeps the system dependency-free — no full color picker is bundled. For a richer color editing experience, use the Palette system's PaletteColorEditor inside a custom control."
+        }
+      ]
+    },
+    {
+      "id": "api-panel",
+      "title": "PropertiesPanel",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "sections",
+              "type": "PropertySectionDef[]",
+              "description": "Config-driven sections. Each section renders its rows automatically."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Headless content. Use PropertiesSection and PropertiesRow directly. Can be combined with sections."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the panel container. Use to set width (e.g. w-64) and any positioning."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-section",
+      "title": "PropertiesSection",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "title",
+              "type": "string",
+              "required": true,
+              "description": "Section label shown in the header button."
+            },
+            {
+              "prop": "rows",
+              "type": "PropertyRowDef[]",
+              "description": "Config-driven rows rendered inside the section. Use children for headless rows."
+            },
+            {
+              "prop": "defaultOpen",
+              "type": "boolean",
+              "default": "true",
+              "description": "Whether the section is expanded on mount. Collapse state is uncontrolled after mount."
+            },
+            {
+              "prop": "icon",
+              "type": "React.ElementType",
+              "description": "Small icon shown beside the title in the header."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Headless row content. Rendered after any config-driven rows."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the section wrapper."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-row",
+      "title": "PropertiesRow",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "label",
+              "type": "string",
+              "required": true,
+              "description": "Property name shown on the left. Truncated at 80px."
+            },
+            {
+              "prop": "control",
+              "type": "PropertyControl",
+              "required": true,
+              "description": "The control definition. See PropertyControl below."
+            },
+            {
+              "prop": "hidden",
+              "type": "boolean",
+              "description": "Removes the row from the DOM. Use for conditional controls without affecting adjacent row layout."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the row wrapper."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-controls",
+      "title": "PropertyControl",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "type",
+              "type": "\"text\" | \"number\" | \"color\" | \"select\" | \"toggle\" | \"slider\" | \"custom\"",
+              "required": true,
+              "description": "Discriminant field. Determines which control renders and which other props are available."
+            },
+            {
+              "prop": "value",
+              "type": "string | number | boolean",
+              "required": true,
+              "description": "Current value. Type depends on the control: string for text/color/select, number for number/slider, boolean for toggle."
+            },
+            {
+              "prop": "onChange",
+              "type": "(v: string | number | boolean) => void",
+              "required": true,
+              "description": "Called with the new value on every change. Not present on type: 'custom'."
+            },
+            {
+              "prop": "unit",
+              "type": "string",
+              "description": "type: 'number' only. Shown after the input (e.g. 'px', '%', 'ms')."
+            },
+            {
+              "prop": "min / max / step",
+              "type": "number",
+              "description": "type: 'number' and type: 'slider'. Passed to the underlying input or Slider."
+            },
+            {
+              "prop": "placeholder",
+              "type": "string",
+              "description": "type: 'text' only. Input placeholder text."
+            },
+            {
+              "prop": "options",
+              "type": "{ value: string; label: string }[]",
+              "description": "type: 'select' only. The select options."
+            },
+            {
+              "prop": "render",
+              "type": "() => ReactNode",
+              "required": true,
+              "description": "type: 'custom' only. Renders inside the control cell with no wrapper."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

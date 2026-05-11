@@ -1,0 +1,282 @@
+{
+  "meta": {
+    "title": "Sortable",
+    "description": "A headless drag-to-reorder system. Wrap any list in SortableRoot, mark rows with SortableItem, and optionally restrict drag to a SortableHandle grip. useSortableList manages the item array.",
+    "badge": "Components System",
+    "features": [
+      "@dnd-kit/sortable",
+      "Whole-row or handle-only drag",
+      "Keyboard reorderable",
+      "Custom drag overlay",
+      "useSortableList hook"
+    ],
+    "slug": "sortable",
+    "prev": { "label": "Form Engine", "href": "/docs/components/form-engine" },
+    "next": { "label": "Palette", "href": "/docs/components/palette" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "handle-mode", "label": "Handle mode", "depth": 1 },
+    { "id": "overlay", "label": "Custom overlay", "depth": 1 },
+    { "id": "programmatic", "label": "useSortableList", "depth": 1 },
+    { "id": "api-root", "label": "SortableRoot", "depth": 2 },
+    { "id": "api-item", "label": "SortableItem", "depth": 2 },
+    { "id": "api-handle", "label": "SortableHandle", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The engineering problem isn't dragging. The browser's pointer events are well-understood, and dnd-kit handles them correctly — including touch, mobile, and high-DPI screens. The engineering problem is architecture: making drag work on the whole row or only a grip handle, rendering a ghost that follows the cursor while items rearrange, and giving the consumer clean state primitives without coupling them to dnd-kit internals."
+        },
+        {
+          "type": "text",
+          "content": "SortableRoot sets up the DndContext and handles the drag lifecycle — start, move, end, cancel. SortableItem registers each row as a sortable target and applies the displacement transform. SortableHandle carries dnd-kit's event listeners down via React context, so only the grip triggers drag when handle mode is on. useSortableList manages the item array with insert, remove, update, and keyboard move."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/sortable/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                { "name": "types.ts", "type": "file", "comment": "SortableBaseItem, SortableConfig" },
+                { "name": "sortable-context.tsx", "type": "file", "comment": "SortableCtx + SortableHandleCtx" },
+                { "name": "sortable-root.tsx", "type": "file", "comment": "DndContext + drag lifecycle" },
+                { "name": "sortable-item.tsx", "type": "file", "comment": "useSortable + transform" },
+                { "name": "sortable-handle.tsx", "type": "file", "comment": "grip trigger via context" },
+                { "name": "use-sortable-list.ts", "type": "file", "comment": "list state + mutations", "highlight": true },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Overlay is optional",
+          "content": "Without renderOverlay, dnd-kit lifts the item's own DOM node. The dragged element shifts in place and the list reorders around it. Pass renderOverlay to SortableRoot for a ghost card that follows the cursor while the original stays faded at its source position."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drag any row to reorder. The second list uses handle-only mode — only the grip icon triggers drag."
+        },
+        {
+          "type": "demo",
+          "component": "SortableDemo",
+          "label": "Interactive demo",
+          "preview": "sortable"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install peer dependencies",
+              "code": "npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities @dnd-kit/modifiers",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/sortable.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The simplest setup. Every row is draggable — no grip needed. Pass items (any array with id: string), and onReorder receives the full reordered array after each drop. Pass setItems from useSortableList directly."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "components/task-list.tsx",
+          "code": "import {\n  SortableRoot,\n  SortableItem,\n  useSortableList,\n} from \"@/components/bevelui/sortable\";\n\ntype Task = { id: string; title: string; status: string };\n\nexport function TaskList() {\n  const { items, setItems } = useSortableList<Task>([\n    { id: \"1\", title: \"Review PR #42\", status: \"In progress\" },\n    { id: \"2\", title: \"Update changelog\", status: \"Todo\" },\n    { id: \"3\", title: \"Deploy to staging\", status: \"Todo\" },\n  ]);\n\n  return (\n    <SortableRoot items={items} onReorder={setItems}>\n      {items.map((task) => (\n        <SortableItem\n          key={task.id}\n          id={task.id}\n          className=\"flex items-center justify-between px-4 py-3 mb-1 rounded-lg border border-border bg-card cursor-grab\"\n        >\n          <span className=\"text-sm\">{task.title}</span>\n          <span className=\"text-xs text-muted-foreground\">{task.status}</span>\n        </SortableItem>\n      ))}\n    </SortableRoot>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "id is the only requirement",
+          "content": "T extends { id: string }. Everything else is yours. The engine doesn't care about shape — it only tracks ids to compute the new order."
+        }
+      ]
+    },
+    {
+      "id": "handle-mode",
+      "title": "Handle mode",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Add the handle prop to SortableItem and place SortableHandle anywhere inside. Only the grip icon triggers drag — the rest of the row behaves normally. Buttons, inputs, and links inside the row remain fully interactive."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  SortableRoot,\n  SortableItem,\n  SortableHandle,\n  useSortableList,\n} from \"@/components/bevelui/sortable\";\n\n<SortableRoot items={items} onReorder={setItems}>\n  {items.map((task) => (\n    <SortableItem\n      key={task.id}\n      id={task.id}\n      handle\n      className=\"flex items-center gap-3 px-3 py-3 mb-1 rounded-lg border border-border bg-card\"\n    >\n      <SortableHandle />\n      <span className=\"text-sm flex-1\">{task.title}</span>\n      <button onClick={() => remove(task.id)} className=\"text-xs text-muted-foreground\">\n        Remove\n      </button>\n    </SortableItem>\n  ))}\n</SortableRoot>"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Custom handle appearance",
+          "content": "SortableHandle renders a grip icon by default. Pass children to replace it with any element — an icon, a drag affordance, or a fully custom button. The drag listeners are applied to whatever you pass."
+        }
+      ]
+    },
+    {
+      "id": "overlay",
+      "title": "Custom overlay",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "renderOverlay receives the active item and renders inside a DragOverlay portal, positioned above all content. The original SortableItem fades to 40% opacity while the overlay follows the cursor. Use this to give dragging a distinct, elevated feel."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<SortableRoot\n  items={items}\n  onReorder={setItems}\n  renderOverlay={(task) => (\n    <div className=\"flex items-center gap-3 px-3 py-3 rounded-lg border border-primary/40 bg-card shadow-2xl ring-1 ring-primary/20\">\n      <SortableHandle />\n      <span className=\"text-sm\">{task.title}</span>\n    </div>\n  )}\n>\n  {items.map((task) => (\n    <SortableItem key={task.id} id={task.id} handle\n      className=\"flex items-center gap-3 px-3 py-3 mb-1 rounded-lg border border-border bg-card\"\n    >\n      <SortableHandle />\n      <span className=\"text-sm\">{task.title}</span>\n    </SortableItem>\n  ))}\n</SortableRoot>"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "The overlay renders in a portal — it's not inside SortableRoot's DOM subtree. Any SortableHandle inside renderOverlay is visual only; it won't receive drag listeners in the overlay context."
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "useSortableList",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "useSortableList manages the item array with typed mutations. Pass setItems directly as the onReorder prop — it matches the (items: T[]) => void signature exactly. Use insert, remove, update, and move for programmatic changes outside of drag."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useSortableList } from \"@/components/bevelui/sortable\";\n\nconst { items, setItems, insert, remove, update, move } = useSortableList([\n  { id: \"1\", title: \"First task\", priority: \"high\" },\n  { id: \"2\", title: \"Second task\", priority: \"low\" },\n]);\n\n// Append to end\ninsert({ id: crypto.randomUUID(), title: \"New task\", priority: \"low\" });\n\n// Insert at index 0\ninsert({ id: crypto.randomUUID(), title: \"Urgent\", priority: \"high\" }, 0);\n\n// Remove by id\nremove(\"2\");\n\n// Patch a field without touching id\nupdate(\"1\", { priority: \"low\" });\n\n// Keyboard-style navigation\nmove(\"1\", \"up\");   // shift one position up\nmove(\"1\", \"down\"); // shift one position down — no-op at boundary"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "SortableRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "items",
+              "type": "T[]",
+              "required": true,
+              "description": "The list to render. T must extend { id: string }."
+            },
+            {
+              "prop": "onReorder",
+              "type": "(items: T[]) => void",
+              "required": true,
+              "description": "Called after every completed drag with the full reordered array. Pass setItems from useSortableList directly."
+            },
+            {
+              "prop": "config",
+              "type": "SortableConfig",
+              "description": "Optional config object. Supports handle: boolean to enable handle-only mode globally."
+            },
+            {
+              "prop": "renderOverlay",
+              "type": "(item: T) => ReactNode",
+              "description": "Render a drag ghost inside DragOverlay. Receives the active item. Omit for default dnd-kit lift behaviour."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Your list of SortableItem elements."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-item",
+      "title": "SortableItem",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Must match the id of the corresponding item in the items array."
+            },
+            {
+              "prop": "handle",
+              "type": "boolean",
+              "description": "When true, only a SortableHandle inside this item triggers drag. Overrides SortableRoot config.handle for this item."
+            },
+            {
+              "prop": "disabled",
+              "type": "boolean",
+              "description": "Disables sorting for this item. It stays in place and other items reorder around it."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the wrapper div. touch-none and select-none are always set."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Row content."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-handle",
+      "title": "SortableHandle",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the trigger button."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Replaces the default grip icon. The drag listeners are spread onto the button regardless of children."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
