@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { usePalette } from "./palette-context";
 import { PaletteExport } from "./palette-export";
@@ -8,38 +6,48 @@ import {
   IconTrash,
   IconCopy,
   IconEdit,
+  IconDownload,
 } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
 
-function ToolbarButton({
-  onClick, disabled, icon: Icon, label,
-}: {
-  onClick: () => void;
-  disabled?: boolean;
+interface ToolbarButtonProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof Button>,
+  "children"
+> {
   icon: React.ElementType;
   label: string;
-}) {
+}
+
+function ToolbarButton({
+  icon: Icon,
+  label,
+  variant = "ghost",
+  size = "sm",
+  ...props
+}: ToolbarButtonProps) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
+    <Button
       title={label}
       aria-label={label}
-      className={cn(
-        "flex items-center gap-1.5 px-3 py-2 rounded-md text-[11px] font-medium",
-        "text-muted-foreground hover:text-foreground hover:bg-muted/60",
-        "disabled:opacity-30 disabled:pointer-events-none transition-colors",
-      )}
+      variant={variant}
+      size={size}
+      {...props}
     >
-      <Icon size={13} strokeWidth={1.8} />
+      <Icon size={13} strokeWidth={1.8} className="shrink-0" />
       {label}
-    </button>
+    </Button>
   );
 }
 
 export function PaletteToolbar() {
-  const { selectedId, add, remove, duplicate, startEdit, config, colors } = usePalette();
+  const { selectedId, add, remove, duplicate, startEdit, config, colors } =
+    usePalette();
   const atMax = !!(config.maxColors && colors.length >= config.maxColors);
 
   return (
@@ -62,15 +70,22 @@ export function PaletteToolbar() {
         onClick={() => selectedId && duplicate(selectedId)}
         disabled={!selectedId || atMax}
       />
-      <div className="w-px h-4 bg-border mx-1" />
+      <Separator orientation="vertical" />
       <ToolbarButton
         icon={IconTrash}
         label="Delete"
         onClick={() => selectedId && remove(selectedId)}
         disabled={!selectedId}
       />
-      <div className="w-px h-4 bg-border mx-1" />
-      <PaletteExport />
+      <Separator orientation="vertical" />
+      <Popover>
+        <PopoverTrigger>
+          <ToolbarButton label="Export" icon={IconDownload} />
+        </PopoverTrigger>
+        <PopoverContent align="start">
+          <PaletteExport />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }

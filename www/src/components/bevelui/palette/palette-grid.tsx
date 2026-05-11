@@ -1,6 +1,3 @@
-"use client";
-
-import * as React from "react";
 import { SortableRoot, SortableItem, SortableHandle } from "../sortable";
 import { PaletteSwatch } from "./palette-swatch";
 import { usePalette } from "./palette-context";
@@ -17,8 +14,9 @@ export function PaletteGrid({ className }: PaletteGridProps) {
     <SortableRoot
       items={colors}
       onReorder={reorder}
+      config={{ layout: "grid" }}
       renderOverlay={(c) => (
-        <PaletteSwatch id={c.id} className="opacity-90 shadow-xl scale-105" />
+        <PaletteSwatch id={c.id} className="opacity-90 shadow-xl scale-105 " />
       )}
     >
       <div
@@ -33,12 +31,12 @@ export function PaletteGrid({ className }: PaletteGridProps) {
           <SortableItem key={c.id} id={c.id} handle>
             <div className="relative group">
               <PaletteSwatch id={c.id} />
-              <SortableHandle className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 w-4 h-4 p-0 bg-background rounded-full border border-border flex items-center justify-center transition-opacity" />
+              <SortableHandle className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 w-4 h-5 p-0 bg-background text-foreground rounded-sm border border-border flex items-center justify-center transition-opacity" />
             </div>
           </SortableItem>
         ))}
       </div>
-     </SortableRoot> 
+    </SortableRoot>
   );
 }
 

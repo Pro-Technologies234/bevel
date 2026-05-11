@@ -13,6 +13,8 @@ import {
   IconColorSwatch,
   IconDragDrop,
   IconLayoutSidebarRight,
+  IconPaletteFilled,
+  IconLayoutSidebarRightInactive,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -77,7 +79,7 @@ export function DocsSidebar() {
             {
               label: "Palette Editor",
               href: "/docs/components/palette-editor",
-              icon: IconColorSwatch,
+              icon: IconPaletteFilled,
               badge: "New",
               badgeVariant: "new",
             },
@@ -91,7 +93,7 @@ export function DocsSidebar() {
             {
               label: "Properties Panel",
               href: "/docs/components/properties-panel",
-              icon: IconLayoutSidebarRight,
+              icon: IconLayoutSidebarRightInactive,
               badge: "New",
               badgeVariant: "new",
             },
@@ -100,5 +102,4 @@ export function DocsSidebar() {
       ]}
     />
   );
-
 }

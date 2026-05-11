@@ -38,11 +38,14 @@ export function useSortableList<T extends SortableBaseItem>(
     setItems((prev) => prev.filter((i) => i.id !== id));
   }, []);
 
-  const update = React.useCallback((id: string, patch: Partial<Omit<T, "id">>) => {
-    setItems((prev) =>
-      prev.map((i) => (i.id === id ? { ...i, ...patch } : i)),
-    );
-  }, []);
+  const update = React.useCallback(
+    (id: string, patch: Partial<Omit<T, "id">>) => {
+      setItems((prev) =>
+        prev.map((i) => (i.id === id ? { ...i, ...patch } : i)),
+      );
+    },
+    [],
+  );
 
   const move = React.useCallback((id: string, direction: "up" | "down") => {
     setItems((prev) => {

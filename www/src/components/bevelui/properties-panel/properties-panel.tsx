@@ -11,7 +11,11 @@ export interface PropertiesPanelProps {
   className?: string;
 }
 
-export function PropertiesPanel({ sections, children, className }: PropertiesPanelProps) {
+export function PropertiesPanel({
+  sections,
+  children,
+  className,
+}: PropertiesPanelProps) {
   return (
     <div
       className={cn(

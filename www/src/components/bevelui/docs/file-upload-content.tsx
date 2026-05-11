@@ -44,6 +44,8 @@ import {
   IconCircleCheckFilled,
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
+import { FileUploadDemo } from "@/components/docs/file-upload/file-upload-demo";
+import { MediaLibary } from "@/components/docs/file-upload/media-libary";
 
 // ─── Simulated upload (same as original) ─────────────────────────────────────
 
@@ -174,33 +176,6 @@ function StatusBadge({
         </span>
       );
   }
-}
-
-// ─── Original Demo (kept for docs) ───────────────────────────────────────────
-
-export function FileUploadDemo() {
-  return (
-    <div className="w-full max-w-xl">
-      <FileUploadRoot
-        onUpload={simulateUpload}
-        config={{
-          multiple: true,
-          maxFiles: 8,
-          maxSize: 10 * 1024 * 1024,
-          title: "Drop your files here",
-          description:
-            "Any file type up to 10MB. Max 8 files. Name a file 'fail…' to test error handling.",
-        }}
-        onComplete={(files) =>
-          console.log(
-            "All uploaded:",
-            files.map((f) => f.url),
-          )
-        }
-        onError={(id, err) => console.error("Upload error:", id, err)}
-      />
-    </div>
-  );
 }
 
 // ─── Showcase Demo: Professional Media Library ───────────────────────────────
@@ -689,7 +664,7 @@ export function FileUploadContent() {
     <DocPageRenderer
       page={pageData as any}
       demoRegistry={{
-        FileUploadShowcase,
+        MediaLibary,
         FileUploadDemo,
       }}
     />

@@ -1,8 +1,12 @@
 export type SortableBaseItem = { id: string };
 
 export interface SortableConfig {
-  /** When true, only <SortableHandle> triggers drag. Default false (whole item drags). */
   handle?: boolean;
+  /**
+   * "list" (default) — vertical strategy + axis lock.
+   * "grid" — rect strategy, free-form drag in both axes.
+   */
+  layout?: "list" | "grid";
 }
 
 export interface SortableContextValue {

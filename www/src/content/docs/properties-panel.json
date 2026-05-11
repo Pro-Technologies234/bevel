@@ -11,7 +11,10 @@
       "Custom control escape hatch"
     ],
     "slug": "properties-panel",
-    "prev": { "label": "Context Menu", "href": "/docs/components/context-menu" },
+    "prev": {
+      "label": "Context Menu",
+      "href": "/docs/components/context-menu"
+    },
     "next": { "label": "AI Chat Interface", "href": "/docs/components/ai-chat" }
   },
   "tocs": [
@@ -46,11 +49,32 @@
               "type": "folder",
               "isOpen": true,
               "children": [
-                { "name": "types.ts", "type": "file", "comment": "PropertyControl, PropertyRowDef, PropertySectionDef" },
-                { "name": "properties-panel.tsx", "type": "file", "comment": "container + config-driven renderer" },
-                { "name": "properties-section.tsx", "type": "file", "comment": "collapsible section with header" },
-                { "name": "properties-row.tsx", "type": "file", "comment": "label + control layout" },
-                { "name": "properties-control.tsx", "type": "file", "comment": "dispatches to correct control type", "highlight": true },
+                {
+                  "name": "properties-panel-types.ts",
+                  "type": "file",
+                  "comment": "PropertyControl, PropertyRowDef, PropertySectionDef"
+                },
+                {
+                  "name": "properties-panel.tsx",
+                  "type": "file",
+                  "comment": "container + config-driven renderer"
+                },
+                {
+                  "name": "properties-panel-section.tsx",
+                  "type": "file",
+                  "comment": "collapsible section with header"
+                },
+                {
+                  "name": "properties-panel-row.tsx",
+                  "type": "file",
+                  "comment": "label + control layout"
+                },
+                {
+                  "name": "properties-panel-control.tsx",
+                  "type": "file",
+                  "comment": "dispatches to correct control type",
+                  "highlight": true
+                },
                 { "name": "index.ts", "type": "file" }
               ]
             }

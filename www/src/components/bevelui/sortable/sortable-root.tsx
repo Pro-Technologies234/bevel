@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   DndContext,
@@ -16,6 +14,7 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
+  rectSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
@@ -26,10 +25,6 @@ export interface SortableRootProps<T extends SortableBaseItem> {
   items: T[];
   onReorder: (items: T[]) => void;
   config?: SortableConfig;
-  /**
-   * Rendered inside DragOverlay while dragging — the "ghost" following the cursor.
-   * If omitted, no overlay is rendered.
-   */
   renderOverlay?: (item: T) => React.ReactNode;
   children: React.ReactNode;
 }
@@ -43,12 +38,18 @@ export function SortableRoot<T extends SortableBaseItem>({
 }: SortableRootProps<T>) {
   const [activeId, setActiveId] = React.useState<string | null>(null);
 
+  const isGrid = config.layout === "grid";
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
-  const activeItem = activeId ? items.find((i) => i.id === activeId) ?? null : null;
+  const activeItem = activeId
+    ? (items.find((i) => i.id === activeId) ?? null)
+    : null;
 
   function onDragStart({ active }: DragStartEvent) {
     setActiveId(active.id as string);
@@ -67,14 +68,14 @@ export function SortableRoot<T extends SortableBaseItem>({
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        modifiers={[restrictToVerticalAxis]}
+        modifiers={isGrid ? [] : [restrictToVerticalAxis]}
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         onDragCancel={() => setActiveId(null)}
       >
         <SortableContext
           items={items.map((i) => i.id)}
-          strategy={verticalListSortingStrategy}
+          strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}
         >
           {children}
         </SortableContext>

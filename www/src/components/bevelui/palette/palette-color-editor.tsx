@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { usePalette } from "./palette-context";
 import {
@@ -16,9 +14,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-
-// ─── 2D Saturation/Brightness Canvas ─────────────────────────────────────────
 
 interface SatValPickerProps {
   hue: number;
@@ -55,7 +50,6 @@ function SatValPicker({ hue, sat, val, onChange }: SatValPickerProps) {
         if (e.buttons === 1) read(e);
       }}
     >
-      {/* Cursor */}
       <div
         className="absolute w-3.5 h-3.5 rounded-full border-2 border-white pointer-events-none -translate-x-1/2 -translate-y-1/2"
         style={{
@@ -67,8 +61,6 @@ function SatValPicker({ hue, sat, val, onChange }: SatValPickerProps) {
     </div>
   );
 }
-
-// ─── Hue Slider ───────────────────────────────────────────────────────────────
 
 function HueSlider({
   hue,
@@ -113,26 +105,22 @@ function HueSlider({
   );
 }
 
-// ─── PaletteColorEditor ───────────────────────────────────────────────────────
-
 export function PaletteColorEditor() {
   const { colors, editingId, update, stopEdit } = usePalette();
   const color = colors.find((c) => c.id === editingId);
 
-  // Local HSV state so the picker feels instant
   const [hsv, setHsv] = React.useState<[number, number, number]>(() =>
     color ? hexToHsv(color.hex) : [0, 0, 100],
   );
   const [hexInput, setHexInput] = React.useState(color?.hex ?? "#ffffff");
   const [nameInput, setNameInput] = React.useState(color?.name ?? "");
 
-  // Sync when editingId changes
   React.useEffect(() => {
     if (!color) return;
     setHsv(hexToHsv(color.hex));
     setHexInput(color.hex);
     setNameInput(color.name ?? "");
-  }, [editingId]); // eslint-disable-line
+  }, [editingId]);
 
   const [h, s, v] = hsv;
   const previewHex = hsvToHex(h, s, v);
@@ -159,18 +147,14 @@ export function PaletteColorEditor() {
   }
 
   return (
-    <Popover open={!!color || !!editingId} onOpenChange={stopEdit} >
-      <PopoverTrigger>
-        {/* <Button>Open</Button> */}
-      </PopoverTrigger>
-      <PopoverContent align="start" >
+    <Popover open={!!color || !!editingId} onOpenChange={stopEdit}>
+      <PopoverTrigger />
+      <PopoverContent align="start">
         <div className="flex flex-col gap-4 ">
-          {/* Header */}
           <div className="flex items-center justify-between">
             <span>Edit color</span>
           </div>
 
-          {/* 2D Picker */}
           <SatValPicker
             hue={h}
             sat={s}
@@ -178,10 +162,8 @@ export function PaletteColorEditor() {
             onChange={(ns, nv) => applyHsv([h, ns, nv])}
           />
 
-          {/* Hue Slider */}
           <HueSlider hue={h} onChange={(nh) => applyHsv([nh, s, v])} />
 
-          {/* Preview + Hex Input */}
           <div className="flex items-center gap-2">
             <div
               className="w-9 h-9 rounded-md border border-border shrink-0"
@@ -200,7 +182,6 @@ export function PaletteColorEditor() {
             />
           </div>
 
-          {/* Name Input */}
           <Input
             value={nameInput}
             onChange={(e) => handleName(e.target.value)}
@@ -212,7 +193,6 @@ export function PaletteColorEditor() {
             )}
           />
 
-          {/* Read-only values */}
           <div className="flex flex-col gap-1.5 pt-1 border-t border-border/60">
             {[
               { label: "HEX", value: previewHex },

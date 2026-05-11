@@ -1,6 +1,6 @@
 export interface PaletteColor {
   id: string;
-  hex: string;       // canonical: "#rrggbb" always lowercase
+  hex: string;
   name?: string;
 }
 
@@ -16,7 +16,7 @@ export interface PaletteContextValue {
   selectedId: string | null;
   editingId: string | null;
   config: PaletteConfig;
-  // Actions
+
   select: (id: string | null) => void;
   startEdit: (id: string) => void;
   stopEdit: () => void;
@@ -26,3 +26,5 @@ export interface PaletteContextValue {
   reorder: (colors: PaletteColor[]) => void;
   duplicate: (id: string) => void;
 }
+
+export type ExportFormat = "hex-array" | "css-vars" | "tailwind" | "hsl-array";

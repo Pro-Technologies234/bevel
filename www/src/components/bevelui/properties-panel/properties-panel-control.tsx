@@ -1,9 +1,6 @@
-"use client";
-
-import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-// import { Slider } from "@/components/ui/slider";
+import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -79,7 +76,11 @@ export function PropertiesControl({ control }: PropertiesControlProps) {
           </SelectTrigger>
           <SelectContent>
             {control.options.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value} className="text-[11px]">
+              <SelectItem
+                key={opt.value}
+                value={opt.value}
+                className="text-[11px]"
+              >
                 {opt.label}
               </SelectItem>
             ))}
@@ -99,14 +100,14 @@ export function PropertiesControl({ control }: PropertiesControlProps) {
     case "slider":
       return (
         <div className="flex items-center gap-2">
-          {/* <Slider
+          <Slider
             value={[control.value]}
             min={control.min}
             max={control.max}
             step={control.step ?? 1}
             onValueChange={([v]) => control.onChange(v)}
             className="flex-1"
-          /> */}
+          />
           <span className="text-[10px] font-mono text-muted-foreground/50 w-6 text-right shrink-0 tabular-nums">
             {control.value}
           </span>

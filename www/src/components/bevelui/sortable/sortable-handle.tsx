@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { IconGripVertical } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";

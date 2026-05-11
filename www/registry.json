@@ -266,6 +266,165 @@
       ]
     },
     {
+      "name": "sortable",
+      "type": "registry:block",
+      "title": "Sortable",
+      "description": "A headless drag-to-reorder system built on @dnd-kit. Supports whole-row drag or handle-only mode, custom drag overlays, vertical list and grid layouts, and a useSortableList hook for typed list mutations.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems", "drag-and-drop"],
+      "dependencies": [
+        "@dnd-kit/core",
+        "@dnd-kit/sortable",
+        "@dnd-kit/utilities",
+        "@dnd-kit/modifiers"
+      ],
+      "registryDependencies": [],
+      "docs": "Import from @/components/bevelui/sortable. Wrap your list with SortableRoot, mark each row with SortableItem, and optionally add SortableHandle for grip-only drag. Pass config={{ layout: 'grid' }} for grid layouts. Use useSortableList for typed list state.",
+      "files": [
+        {
+          "path": "src/components/bevelui/sortable/sortable-types.ts",
+          "target": "src/components/bevelui/sortable/sortable-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/sortable/sortable-context.tsx",
+          "target": "src/components/bevelui/sortable/sortable-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/sortable/sortable-root.tsx",
+          "target": "src/components/bevelui/sortable/sortable-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/sortable/sortable-item.tsx",
+          "target": "src/components/bevelui/sortable/sortable-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/sortable/sortable-handle.tsx",
+          "target": "src/components/bevelui/sortable/sortable-handle.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/sortable/sortable-hook.ts",
+          "target": "src/components/bevelui/sortable/sortable-hook.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/bevelui/sortable/index.ts",
+          "target": "src/components/bevelui/sortable/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "palette",
+      "type": "registry:block",
+      "title": "Palette",
+      "description": "A visual color palette editor with a 2D HSV picker, sortable swatch grid, color naming, and one-click export to hex arrays, CSS custom properties, Tailwind config, or HSL strings.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems", "color"],
+      "dependencies": [],
+      "registryDependencies": ["https://bevelui.pxxl.click/r/sortable.json"],
+      "docs": "Import from @/components/bevelui/palette. Drop PaletteRoot anywhere for the full editor, or compose with PaletteGrid, PaletteToolbar, and PaletteColorEditor manually. Use usePalette for programmatic control inside any child component.",
+      "files": [
+        {
+          "path": "src/components/bevelui/palette/palette-types.ts",
+          "target": "src/components/bevelui/palette/palette-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-utils.ts",
+          "target": "src/components/bevelui/palette/palette-utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-context.tsx",
+          "target": "src/components/bevelui/palette/palette-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-root.tsx",
+          "target": "src/components/bevelui/palette/palette-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-grid.tsx",
+          "target": "src/components/bevelui/palette/palette-grid.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-swatch.tsx",
+          "target": "src/components/bevelui/palette/palette-swatch.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-color-editor.tsx",
+          "target": "src/components/bevelui/palette/palette-color-editor.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-toolbar.tsx",
+          "target": "src/components/bevelui/palette/palette-toolbar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/palette-export.tsx",
+          "target": "src/components/bevelui/palette/palette-export.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/palette/index.ts",
+          "target": "src/components/bevelui/palette/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "properties-panel",
+      "type": "registry:block",
+      "title": "Properties Panel",
+      "description": "A Figma-style properties panel with collapsible sections and seven typed control rows — text, number with unit, color, select, toggle, slider, and custom. Config-driven or fully headless.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems", "layout"],
+      "dependencies": [],
+      "registryDependencies": ["input", "select", "switch", "slider"],
+      "docs": "Import from @/components/bevelui/properties-panel. Pass a sections array to PropertiesPanel for config-driven rendering, or compose PropertiesSection and PropertiesRow directly for headless control. Both modes work simultaneously.",
+      "files": [
+        {
+          "path": "src/components/bevelui/properties-panel/properties-panel-types.ts",
+          "target": "src/components/bevelui/properties-panel/properties-panel-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/properties-panel/properties-panel-control.tsx",
+          "target": "src/components/bevelui/properties-panel/properties-panel-control.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/properties-panel/properties-panel-row.tsx",
+          "target": "src/components/bevelui/properties-panel/properties-panel-row.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/properties-panel/properties-panel-section.tsx",
+          "target": "src/components/bevelui/properties-panel/properties-panel-section.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/properties-panel/properties-panel.tsx",
+          "target": "src/components/bevelui/properties-panel/properties-panel.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/properties-panel/index.ts",
+          "target": "src/components/bevelui/properties-panel/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "card-select",
       "type": "registry:component",
       "title": "Card Select",

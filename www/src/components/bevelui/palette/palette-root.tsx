@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { PaletteCtx } from "./palette-context";
 import { PaletteGrid } from "./palette-grid";

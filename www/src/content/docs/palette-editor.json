@@ -47,15 +47,52 @@
               "type": "folder",
               "isOpen": true,
               "children": [
-                { "name": "types.ts", "type": "file", "comment": "PaletteColor, PaletteConfig" },
-                { "name": "color-utils.ts", "type": "file", "comment": "hex ↔ hsv ↔ hsl conversions", "highlight": true },
-                { "name": "palette-context.tsx", "type": "file", "comment": "PaletteCtx + usePalette" },
-                { "name": "palette-root.tsx", "type": "file", "comment": "state owner + default layout" },
-                { "name": "palette-grid.tsx", "type": "file", "comment": "sortable swatch grid" },
-                { "name": "palette-swatch.tsx", "type": "file", "comment": "individual color swatch" },
-                { "name": "palette-color-editor.tsx", "type": "file", "comment": "2D picker + hue slider" },
-                { "name": "palette-toolbar.tsx", "type": "file", "comment": "add / edit / delete / export" },
-                { "name": "palette-export.tsx", "type": "file", "comment": "format selector + copy" },
+                {
+                  "name": "palette-types.ts",
+                  "type": "file",
+                  "comment": "PaletteColor, PaletteConfig"
+                },
+                {
+                  "name": "palette-utils.ts",
+                  "type": "file",
+                  "comment": "hex ↔ hsv ↔ hsl conversions",
+                  "highlight": true
+                },
+                {
+                  "name": "palette-context.tsx",
+                  "type": "file",
+                  "comment": "PaletteCtx + usePalette"
+                },
+                {
+                  "name": "palette-root.tsx",
+                  "type": "file",
+                  "comment": "state owner + default layout"
+                },
+                {
+                  "name": "palette-grid.tsx",
+                  "type": "file",
+                  "comment": "sortable swatch grid"
+                },
+                {
+                  "name": "palette-swatch.tsx",
+                  "type": "file",
+                  "comment": "individual color swatch"
+                },
+                {
+                  "name": "palette-color-editor.tsx",
+                  "type": "file",
+                  "comment": "2D picker + hue slider"
+                },
+                {
+                  "name": "palette-toolbar.tsx",
+                  "type": "file",
+                  "comment": "add / edit / delete / export"
+                },
+                {
+                  "name": "palette-export.tsx",
+                  "type": "file",
+                  "comment": "format selector + copy"
+                },
                 { "name": "index.ts", "type": "file" }
               ]
             }
@@ -80,8 +117,7 @@
         {
           "type": "demo",
           "component": "PaletteEditorDemo",
-          "label": "Interactive demo",
-          "preview": "palette"
+          "label": "Interactive demo"
         }
       ]
     },

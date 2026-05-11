@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -17,6 +15,8 @@ export interface SortableItemProps {
    */
   handle?: boolean;
 }
+
+type DraggableListeners = Record<string, (event: React.SyntheticEvent) => void>;
 
 export function SortableItem({
   id,
@@ -43,7 +43,11 @@ export function SortableItem({
   };
 
   return (
-    <SortableHandleCtx.Provider value={useHandle ? listeners : undefined}>
+    <SortableHandleCtx.Provider
+      value={
+        useHandle ? (listeners as unknown as DraggableListeners) : undefined
+      }
+    >
       <div
         ref={setNodeRef}
         style={style}
@@ -55,7 +59,6 @@ export function SortableItem({
           className,
         )}
         {...attributes}
-        // Only spread listeners on the item itself when not in handle mode
         {...(!useHandle ? listeners : {})}
       >
         {children}

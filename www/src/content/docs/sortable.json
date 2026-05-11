@@ -46,12 +46,37 @@
               "type": "folder",
               "isOpen": true,
               "children": [
-                { "name": "types.ts", "type": "file", "comment": "SortableBaseItem, SortableConfig" },
-                { "name": "sortable-context.tsx", "type": "file", "comment": "SortableCtx + SortableHandleCtx" },
-                { "name": "sortable-root.tsx", "type": "file", "comment": "DndContext + drag lifecycle" },
-                { "name": "sortable-item.tsx", "type": "file", "comment": "useSortable + transform" },
-                { "name": "sortable-handle.tsx", "type": "file", "comment": "grip trigger via context" },
-                { "name": "use-sortable-list.ts", "type": "file", "comment": "list state + mutations", "highlight": true },
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "SortableBaseItem, SortableConfig"
+                },
+                {
+                  "name": "sortable-context.tsx",
+                  "type": "file",
+                  "comment": "SortableCtx + SortableHandleCtx"
+                },
+                {
+                  "name": "sortable-root.tsx",
+                  "type": "file",
+                  "comment": "DndContext + drag lifecycle"
+                },
+                {
+                  "name": "sortable-item.tsx",
+                  "type": "file",
+                  "comment": "useSortable + transform"
+                },
+                {
+                  "name": "sortable-handle.tsx",
+                  "type": "file",
+                  "comment": "grip trigger via context"
+                },
+                {
+                  "name": "sortable-hook.ts",
+                  "type": "file",
+                  "comment": "list state + mutations",
+                  "highlight": true
+                },
                 { "name": "index.ts", "type": "file" }
               ]
             }
@@ -76,8 +101,8 @@
         {
           "type": "demo",
           "component": "SortableDemo",
-          "label": "Interactive demo",
-          "preview": "sortable"
+          "code": "import {\r\n  SortableRoot,\r\n  SortableItem,\r\n  SortableHandle,\r\n  useSortableList,\r\n} from \"@/components/bevelui/sortable\";\r\nimport { cn } from \"@/lib/utils\";\r\nimport {\r\n  IconEye,\r\n  IconEyeOff,\r\n} from \"@tabler/icons-react\";\r\n\r\ntype Priority = \"urgent\" | \"medium\" | \"low\";\r\ntype Task = { id: string; title: string; priority: Priority };\r\n\r\ntype LayerKind = \"frame\" | \"text\" | \"asset\";\r\ntype Layer = { id: string; name: string; kind: LayerKind; visible: boolean };\r\n\r\nconst PRIORITY: Record<Priority, string> = {\r\n  urgent: \"bg-rose-500/10 text-rose-400 border border-rose-500/20\",\r\n  medium: \"bg-amber-500/10 text-amber-400 border border-amber-500/20\",\r\n  low: \"bg-muted/60 text-muted-foreground border border-border\",\r\n};\r\n\r\nconst LAYER_KIND: Record<LayerKind, string> = {\r\n  frame: \"bg-blue-500/10 text-blue-400\",\r\n  text: \"bg-violet-500/10 text-violet-400\",\r\n  asset: \"bg-emerald-500/10 text-emerald-400\",\r\n};\r\n\r\nconst INITIAL_TASKS: Task[] = [\r\n  { id: \"t1\", title: \"Auth token refresh logic\", priority: \"urgent\" },\r\n  { id: \"t2\", title: \"Docs API reference\", priority: \"medium\" },\r\n  { id: \"t3\", title: \"Mobile nav overflow fix\", priority: \"urgent\" },\r\n  { id: \"t4\", title: \"Onboarding email copy\", priority: \"low\" },\r\n  { id: \"t5\", title: \"Lazy-load hero images\", priority: \"medium\" },\r\n];\r\n\r\nconst INITIAL_LAYERS: Layer[] = [\r\n  { id: \"l1\", name: \"Hero Background\", kind: \"asset\", visible: true },\r\n  { id: \"l2\", name: \"Page Headline\", kind: \"text\", visible: true },\r\n  { id: \"l3\", name: \"CTA Button\", kind: \"frame\", visible: true },\r\n  { id: \"l4\", name: \"Decorative Ring\", kind: \"frame\", visible: false },\r\n  { id: \"l5\", name: \"Tagline\", kind: \"text\", visible: true },\r\n];\r\n\r\nfunction PanelHeader({\r\n  label,\r\n  hint,\r\n  count,\r\n}: {\r\n  label: string;\r\n  hint: string;\r\n  count: number;\r\n}) {\r\n  return (\r\n    <div className=\"flex items-center justify-between mb-2\">\r\n      <div className=\"flex items-center gap-2\">\r\n        <span className=\"text-[10px] font-mono uppercase tracking-widest text-muted-foreground\">\r\n          {label}\r\n        </span>\r\n        <span className=\"text-[10px] font-mono text-muted-foreground/40 tabular-nums\">\r\n          {count}\r\n        </span>\r\n      </div>\r\n      <span className=\"text-[10px] text-muted-foreground/30 font-mono\">\r\n        {hint}\r\n      </span>\r\n    </div>\r\n  );\r\n}\r\n\r\nexport function SortableDemo() {\r\n  const tasks = useSortableList<Task>(INITIAL_TASKS);\r\n  const layers = useSortableList<Layer>(INITIAL_LAYERS);\r\n\r\n  return (\r\n    <div className=\"flex flex-col sm:flex-row gap-8 w-full max-w-[620px]\">\r\n      <div className=\"flex-1 flex flex-col min-w-0\">\r\n        <PanelHeader\r\n          label=\"Sprint\"\r\n          hint=\"drag row\"\r\n          count={tasks.items.length}\r\n        />\r\n\r\n        <SortableRoot\r\n          items={tasks.items}\r\n          onReorder={tasks.setItems}\r\n          renderOverlay={(task) => (\r\n            <div className=\"flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-primary/40 bg-card shadow-2xl shadow-black/30 ring-1 ring-primary/10 rotate-1\">\r\n              <span className=\"text-[12px] flex-1 truncate text-foreground\">\r\n                {task.title}\r\n              </span>\r\n              <span\r\n                className={cn(\r\n                  \"text-[9px] px-1.5 py-0.5 rounded font-medium uppercase tracking-wide shrink-0\",\r\n                  PRIORITY[task.priority],\r\n                )}\r\n              >\r\n                {task.priority}\r\n              </span>\r\n            </div>\r\n          )}\r\n        >\r\n          <div className=\"flex flex-col gap-1\">\r\n            {tasks.items.map((task) => (\r\n              <SortableItem\r\n                key={task.id}\r\n                id={task.id}\r\n                className=\"flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-border bg-card/80 hover:bg-card cursor-grab active:cursor-grabbing transition-colors\"\r\n              >\r\n                <span className=\"text-[12px] flex-1 truncate\">\r\n                  {task.title}\r\n                </span>\r\n                <span\r\n                  className={cn(\r\n                    \"text-[9px] px-1.5 py-0.5 rounded font-medium uppercase tracking-wide shrink-0\",\r\n                    PRIORITY[task.priority],\r\n                  )}\r\n                >\r\n                  {task.priority}\r\n                </span>\r\n              </SortableItem>\r\n            ))}\r\n          </div>\r\n        </SortableRoot>\r\n      </div>\r\n\r\n      <div className=\"flex-1 flex flex-col min-w-0\">\r\n        <PanelHeader\r\n          label=\"Layers\"\r\n          hint=\"grip handle\"\r\n          count={layers.items.length}\r\n        />\r\n\r\n        <SortableRoot items={layers.items} onReorder={layers.setItems}>\r\n          <div className=\"flex flex-col gap-1\">\r\n            {layers.items.map((layer) => (\r\n              <SortableItem\r\n                key={layer.id}\r\n                id={layer.id}\r\n                handle\r\n                className=\"flex items-center gap-2 px-2 py-2 rounded-lg border border-border bg-card/80 hover:bg-card transition-colors\"\r\n              >\r\n                <SortableHandle className=\"shrink-0\" />\r\n\r\n                <span\r\n                  className={cn(\r\n                    \"text-[9px] px-1.5 py-0.5 rounded font-medium shrink-0\",\r\n                    LAYER_KIND[layer.kind],\r\n                  )}\r\n                >\r\n                  {layer.kind}\r\n                </span>\r\n\r\n                <span\r\n                  className={cn(\r\n                    \"text-[12px] flex-1 truncate min-w-0 transition-opacity\",\r\n                    !layer.visible &&\r\n                      \"opacity-30 line-through decoration-muted-foreground\",\r\n                  )}\r\n                >\r\n                  {layer.name}\r\n                </span>\r\n\r\n                <button\r\n                  type=\"button\"\r\n                  onClick={() =>\r\n                    layers.update(layer.id, { visible: !layer.visible })\r\n                  }\r\n                  title={layer.visible ? \"Hide layer\" : \"Show layer\"}\r\n                  className=\"text-[11px] leading-none transition-colors shrink-0 w-5 text-center cursor-pointer\"\r\n                >\r\n                  {layer.visible ? (\r\n                    <IconEye size={16} />\r\n                  ) : (\r\n                    <IconEyeOff size={16} className=\" text-destructive\" />\r\n                  )}\r\n                </button>\r\n              </SortableItem>\r\n            ))}\r\n          </div>\r\n        </SortableRoot>\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n",
+          "label": "Interactive demo"
         }
       ]
     },

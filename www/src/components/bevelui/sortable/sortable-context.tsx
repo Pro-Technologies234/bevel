@@ -1,9 +1,9 @@
-"use client";
-
 import * as React from "react";
 import type { SortableContextValue } from "./sortable-types";
 
-export const SortableCtx = React.createContext<SortableContextValue | null>(null);
+export const SortableCtx = React.createContext<SortableContextValue | null>(
+  null,
+);
 
 export function useSortableCtx(): SortableContextValue {
   const ctx = React.useContext(SortableCtx);
@@ -11,7 +11,6 @@ export function useSortableCtx(): SortableContextValue {
   return ctx;
 }
 
-// Carries dnd-kit listeners from SortableItem → SortableHandle
 export const SortableHandleCtx = React.createContext<
   Record<string, React.EventHandler<React.SyntheticEvent>> | undefined
 >(undefined);

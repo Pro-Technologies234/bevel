@@ -42,7 +42,11 @@ export function PropertiesSection({
           )}
         />
         {Icon && (
-          <Icon size={12} strokeWidth={1.8} className="text-muted-foreground/50 shrink-0" />
+          <Icon
+            size={12}
+            strokeWidth={1.8}
+            className="text-muted-foreground/50 shrink-0"
+          />
         )}
         <span className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground/70 select-none">
           {title}
@@ -53,13 +57,15 @@ export function PropertiesSection({
       {open && (
         <div className="pb-1">
           {/* Config-driven rows */}
-          {rows?.filter((r) => !r.hidden).map((row) => (
-            <PropertiesRow
-              key={row.id}
-              label={row.label}
-              control={row.control}
-            />
-          ))}
+          {rows
+            ?.filter((r) => !r.hidden)
+            .map((row) => (
+              <PropertiesRow
+                key={row.id}
+                label={row.label}
+                control={row.control}
+              />
+            ))}
           {/* Headless children */}
           {children}
         </div>
