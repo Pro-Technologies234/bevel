@@ -15,6 +15,7 @@ import {
   IconLayoutSidebarRight,
   IconPaletteFilled,
   IconLayoutSidebarRightInactive,
+  IconAiAgent,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -94,6 +95,13 @@ export function DocsSidebar() {
               label: "Properties Panel",
               href: "/docs/components/properties-panel",
               icon: IconLayoutSidebarRightInactive,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "AI Chat Interface System",
+              href: "/docs/components/ai-chat",
+              icon: IconAiAgent,
               badge: "New",
               badgeVariant: "new",
             },

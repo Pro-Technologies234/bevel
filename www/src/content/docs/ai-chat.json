@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "title": "AI Chat Interface",
+    "description": "A complete streaming chat UI. Thinking blocks, tool call display, markdown rendering, code highlighting, file attachments, message actions, model selector, and scroll anchoring — all wired.",
+    "badge": "Pro System",
+    "features": [
+      "Streaming via ReadableStream",
+      "Thinking blocks",
+      "Tool call state machine",
+      "Markdown + GFM rendering",
+      "Uncontrolled or controlled"
+    ],
+    "slug": "ai-chat",
+    "prev": { "label": "Properties Panel", "href": "/docs/components/properties-panel" },
+    "next": { "label": "Quick start", "href": "/docs/quick-start" }
+  },
+  "tocs": [
+    { "id": "overview",        "label": "Overview",          "depth": 1 },
+    { "id": "demo",            "label": "Live demo",          "depth": 1 },
+    { "id": "installation",    "label": "Installation",       "depth": 1 },
+    { "id": "usage",           "label": "Basic usage",        "depth": 1 },
+    { "id": "controlled",      "label": "Controlled mode",    "depth": 1 },
+    { "id": "content-blocks",  "label": "Content blocks",     "depth": 1 },
+    { "id": "thinking",        "label": "Thinking blocks",    "depth": 1 },
+    { "id": "tool-calls",      "label": "Tool calls",         "depth": 1 },
+    { "id": "cancellation",    "label": "Stop & cancellation","depth": 1 },
+    { "id": "api-root",        "label": "AIChatRoot",         "depth": 2 },
+    { "id": "api-config",      "label": "AIChatConfig",       "depth": 2 },
+    { "id": "api-callbacks",   "label": "AIStreamCallbacks",  "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Chat UIs fail at the edges. The first streaming token needs to update the UI immediately — a re-render per character, potentially hundreds of times per second. The scroll container needs to follow the bottom while the user watches, but stop when they scroll up and resume when they come back. An AbortController needs to be wired from the Stop button through to the fetch call. Tool calls need to transition pending → running → done without remounting. Thinking blocks need to stream in, then collapse."
+        },
+        {
+          "type": "text",
+          "content": "AIChatRoot solves all of it. Pass onSend and receive a set of stream callbacks — appendToken, appendThinkingToken, addBlock, updateBlock, setStatus. Call them as your stream arrives and the UI updates live. Scroll anchoring, stop/cancel, and message state are handled automatically."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/ai-chat/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                { "name": "types.ts",                  "type": "file", "comment": "AIMessage, AIContentBlock, AIChatConfig" },
+                { "name": "ai-chat-context.tsx",        "type": "file", "comment": "AIChatCtx + useAIChatCtx" },
+                { "name": "ai-chat-root.tsx",            "type": "file", "comment": "state + stream callbacks + layout",         "highlight": true },
+                { "name": "ai-chat-message-list.tsx",    "type": "file", "comment": "scroll anchoring + message renderer" },
+                { "name": "ai-chat-message.tsx",         "type": "file", "comment": "role, avatar, content blocks" },
+                { "name": "ai-chat-markdown.tsx",        "type": "file", "comment": "react-markdown + remark-gfm" },
+                { "name": "ai-chat-code-block.tsx",      "type": "file", "comment": "sugar-high highlighting + copy" },
+                { "name": "ai-chat-thinking.tsx",        "type": "file", "comment": "collapsible reasoning block" },
+                { "name": "ai-chat-tool-call.tsx",       "type": "file", "comment": "tool use state machine display" },
+                { "name": "ai-chat-message-actions.tsx", "type": "file", "comment": "copy, thumbs, regenerate" },
+                { "name": "ai-chat-welcome.tsx",         "type": "file", "comment": "empty state + conversation starters" },
+                { "name": "ai-chat-typing.tsx",          "type": "file", "comment": "animated typing indicator" },
+                { "name": "ai-chat-input.tsx",           "type": "file", "comment": "composer + attachments + model selector" },
+                { "name": "use-ai-chat.ts",              "type": "file", "comment": "programmatic control hook" },
+                { "name": "index.ts",                    "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Model-agnostic by design",
+          "content": "The system never calls any AI API. You bring onSend and call whatever provider you want — OpenAI, Anthropic, Gemini, a local Ollama instance, or your own backend. The model selector is UI state that gets passed to your callback."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Click any conversation starter to trigger a simulated response. Watch the thinking block stream in, tool calls transition state, then the full markdown response arrive."
+        },
+        {
+          "type": "demo",
+          "component": "AIChatDemo",
+          "label": "Interactive demo — all responses are simulated"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install dependencies",
+              "code": "npm install react-markdown remark-gfm sugar-high motion",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/ai-chat.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your chat UI in AIChatRoot and pass onSend. The system renders the message list, typing indicator, and composer automatically. Your onSend receives the text and a set of stream callbacks — call them as tokens arrive."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/chat/page.tsx",
+          "code": "import { AIChatRoot } from \"@/components/bevelui/ai-chat\";\n\nexport default function ChatPage() {\n  return (\n    <div className=\"h-screen flex flex-col\">\n      <AIChatRoot\n        config={{\n          assistantName:  \"Aria\",\n          welcomeTitle:   \"What can I help with?\",\n          starters: [\n            \"Explain React Server Components\",\n            \"Write a debounce hook\",\n          ],\n          models: [\n            { value: \"claude-sonnet\", label: \"Claude Sonnet\" },\n            { value: \"gpt-4o\",        label: \"GPT-4o\"        },\n          ],\n        }}\n        onSend={async (text, { appendToken, setStatus, signal }) => {\n          const res = await fetch(\"/api/chat\", {\n            method: \"POST\",\n            body:   JSON.stringify({ message: text }),\n            signal,\n          });\n\n          const reader  = res.body!.getReader();\n          const decoder = new TextDecoder();\n\n          while (true) {\n            const { done, value } = await reader.read();\n            if (done) break;\n            appendToken(decoder.decode(value));\n          }\n\n          setStatus(\"done\");\n        }}\n      />\n    </div>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Works with Vercel AI SDK",
+          "content": "If you use useChat from the Vercel AI SDK, use controlled mode instead — pass messages and isLoading from useChat, and wire onSendControlled to append."
+        }
+      ]
+    },
+    {
+      "id": "controlled",
+      "title": "Controlled mode",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass messages, isLoading, and onSendControlled to take over message state yourself. Use this when you're integrating with an existing AI SDK that manages its own state."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useChat } from \"ai/react\";\nimport { AIChatRoot } from \"@/components/bevelui/ai-chat\";\n\nexport function VercelChat() {\n  const { messages, append, isLoading, stop } = useChat();\n\n  // Map Vercel AI SDK messages to AIMessage format\n  const mapped = messages.map(m => ({\n    id:      m.id,\n    role:    m.role as \"user\" | \"assistant\",\n    status:  (isLoading && m === messages[messages.length - 1] ? \"streaming\" : \"done\") as any,\n    content: [{ type: \"text\" as const, text: m.content }],\n  }));\n\n  return (\n    <AIChatRoot\n      messages={mapped}\n      isLoading={isLoading}\n      onSendControlled={(text) => append({ role: \"user\", content: text })}\n      onStop={stop}\n    />\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "content-blocks",
+      "title": "Content blocks",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Every message has content: AIContentBlock[] — an ordered array of blocks, not a single string. One response can contain a thinking block, a tool call, a paragraph of text, and a code snippet, all in sequence. Add blocks at any point during streaming with addBlock, and update them with updateBlock."
+        },
+        {
+          "type": "code",
+          "language": "ts",
+          "code": "// All block types\ntype AIContentBlock =\n  | { type: \"text\";      text: string }                                    // GFM markdown\n  | { type: \"thinking\";  text: string; collapsed?: boolean }              // collapsible reasoning\n  | { type: \"tool-call\"; name: string; status: \"pending\"|\"running\"|\"done\"|\"error\"; result?: string }\n  | { type: \"code\";      code: string; language: string; filename?: string }\n  | { type: \"image\";     url: string;  alt?: string }\n  | { type: \"file\";      name: string; mimeType: string; size?: number };"
+        }
+      ]
+    },
+    {
+      "id": "thinking",
+      "title": "Thinking blocks",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Thinking blocks stream character by character via appendThinkingToken — separate from the main text stream. They render as a collapsible panel with a pulsing brain icon while streaming, then collapse to a readable summary when done."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "onSend={async (text, { appendThinkingToken, appendToken, setStatus, signal }) => {\n  const res = await fetch(\"/api/chat\", { method: \"POST\", body: JSON.stringify({ text }), signal });\n\n  for await (const chunk of res.body!) {\n    const { type, delta } = JSON.parse(chunk);\n\n    if (type === \"thinking_delta\") appendThinkingToken(delta); // → thinking block\n    if (type === \"text_delta\")     appendToken(delta);          // → text block\n  }\n\n  setStatus(\"done\");\n}}"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "Thinking blocks default to expanded. The user can collapse them by clicking the header. Pass collapsed: true on the initial addBlock call to start collapsed."
+        }
+      ]
+    },
+    {
+      "id": "tool-calls",
+      "title": "Tool calls",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Add a tool-call block when your model starts a function call, then update it as the call progresses. The component shows a spinner for pending and running, a check for done, and an X for error."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "onSend={async (text, { addBlock, updateBlock, appendToken, setStatus }) => {\n  // Model decides to search the web\n  addBlock({\n    type:   \"tool-call\",\n    id:     \"search-1\",\n    name:   \"web_search\",\n    label:  \"Searching the web...\",\n    status: \"running\",\n  });\n\n  const results = await webSearch(text);\n\n  // block index 0 = tool-call (first block added)\n  updateBlock(0, { status: \"done\", result: results.summary });\n\n  // Now stream the response\n  for (const token of results.answer) appendToken(token);\n  setStatus(\"done\");\n}}"
+        }
+      ]
+    },
+    {
+      "id": "cancellation",
+      "title": "Stop & cancellation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The Stop button calls stopGeneration which aborts the AbortController and marks the current streaming message as done. Pass the signal from AIStreamCallbacks to your fetch call — when aborted, fetch throws an AbortError which the root catches and handles cleanly."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "onSend={async (text, { appendToken, setStatus, signal }) => {\n  // Pass signal to fetch — aborts cleanly when Stop is clicked\n  const res = await fetch(\"/api/stream\", { signal });\n\n  try {\n    for await (const chunk of streamResponse(res)) {\n      appendToken(chunk);\n    }\n    setStatus(\"done\");\n  } catch (e) {\n    // AbortError is caught by AIChatRoot automatically\n    // — no need to handle it here\n    throw e;\n  }\n}}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "AIChatRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "onSend", "type": "(text, callbacks, attachments?) => Promise<void>", "description": "Uncontrolled mode. Called on every message send. Use the callbacks to stream tokens into the assistant message." },
+            { "prop": "messages", "type": "AIMessage[]", "description": "Controlled mode. Your own message array. Bypasses internal state." },
+            { "prop": "isLoading", "type": "boolean", "description": "Controlled mode. Shows typing indicator when true and isStreaming is false." },
+            { "prop": "isStreaming", "type": "boolean", "description": "Controlled mode. Suppresses typing indicator — tokens are arriving." },
+            { "prop": "onSendControlled", "type": "(text, attachments?) => void", "description": "Controlled mode. Called instead of onSend." },
+            { "prop": "onStop", "type": "() => void", "description": "Called when the Stop button is pressed. Use in controlled mode to cancel your own stream." },
+            { "prop": "config", "type": "AIChatConfig", "description": "Assistant name, avatars, welcome state, starters, models, placeholder." },
+            { "prop": "defaultModel", "type": "string", "description": "Initially selected model value. Overrides config.defaultModel." },
+            { "prop": "children", "type": "ReactNode", "description": "Replace the default layout (MessageList + Input). Compose your own from the exported parts." },
+            { "prop": "className", "type": "string", "description": "Applied to the default layout wrapper." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "AIChatConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "assistantName",   "type": "string",                              "description": "Used as the fallback avatar initial and screen reader label."  },
+            { "prop": "assistantAvatar", "type": "string | ReactNode",                  "description": "Image URL or React element for the assistant avatar."           },
+            { "prop": "userAvatar",      "type": "string | ReactNode",                  "description": "Image URL or React element for the user avatar."               },
+            { "prop": "welcomeTitle",    "type": "string",                              "description": "Heading shown in the empty state."                             },
+            { "prop": "welcomeMessage",  "type": "string",                              "description": "Subtext shown below the welcome title."                        },
+            { "prop": "starters",        "type": "string[]",                            "description": "Clickable prompt chips. Clicking sends the text as a message." },
+            { "prop": "models",          "type": "{ value: string; label: string }[]",  "description": "Populates the model selector in the input. Omit to hide it."   },
+            { "prop": "defaultModel",    "type": "string",                              "description": "Initially selected model."                                     },
+            { "prop": "placeholder",     "type": "string",   "default": "\"Message…\"", "description": "Textarea placeholder text."                                   },
+            { "prop": "maxAttachments",  "type": "number",   "default": "5",            "description": "Max number of files that can be attached at once."            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-callbacks",
+      "title": "AIStreamCallbacks",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "messageId",           "type": "string",                                      "description": "The id of the current assistant message being streamed."           },
+            { "prop": "appendToken",         "type": "(token: string) => void",                     "description": "Append a text token to the current text block. Creates one if none exists." },
+            { "prop": "appendThinkingToken", "type": "(token: string) => void",                     "description": "Append a token to the current thinking block."                     },
+            { "prop": "addBlock",            "type": "(block: AIContentBlock) => void",             "description": "Push a new content block — tool-call, code, image, etc."           },
+            { "prop": "updateBlock",         "type": "(index: number, patch: Partial<AIContentBlock>) => void", "description": "Patch a block by index — e.g. update a tool-call from running to done." },
+            { "prop": "setStatus",           "type": "(status: AIMessageStatus) => void",           "description": "Set the final message status. Call with 'done' when the stream ends." },
+            { "prop": "setError",            "type": "(error: string) => void",                     "description": "Mark the message as errored and show the error text."              },
+            { "prop": "signal",              "type": "AbortSignal",                                 "description": "Pass to fetch() so the request aborts when the user clicks Stop."  }
+          ]
+        }
+      ]
+    }
+  ]
+}
