@@ -5,6 +5,7 @@ import {
   IconFolderOpen,
   IconFile,
   IconFolderFilled,
+  IconFileTypeTsx,
 } from "@tabler/icons-react";
 
 export type DocsFileTreeNode = {
@@ -49,7 +50,7 @@ function TreeNode({ node, depth, isLast }: NodeProps) {
             className="text-yellow-300 shrink-0"
           />
         ) : (
-          <IconFile
+          <IconFileTypeTsx
             size={13}
             strokeWidth={1.6}
             className="text-muted-foreground/60 shrink-0"

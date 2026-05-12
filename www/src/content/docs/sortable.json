@@ -47,7 +47,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "types.ts",
+                  "name": "sortable-types.ts",
                   "type": "file",
                   "comment": "SortableBaseItem, SortableConfig"
                 },

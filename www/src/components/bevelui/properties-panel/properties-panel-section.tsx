@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { IconChevronRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
@@ -27,7 +25,6 @@ export function PropertiesSection({
 
   return (
     <div className={cn("border-b border-border/60 last:border-0", className)}>
-      {/* Section header */}
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
@@ -53,10 +50,8 @@ export function PropertiesSection({
         </span>
       </button>
 
-      {/* Section content */}
       {open && (
         <div className="pb-1">
-          {/* Config-driven rows */}
           {rows
             ?.filter((r) => !r.hidden)
             .map((row) => (
@@ -66,7 +61,7 @@ export function PropertiesSection({
                 control={row.control}
               />
             ))}
-          {/* Headless children */}
+
           {children}
         </div>
       )}

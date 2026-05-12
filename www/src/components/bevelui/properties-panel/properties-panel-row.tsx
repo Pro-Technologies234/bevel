@@ -13,7 +13,7 @@ export interface PropertiesRowProps {
 export function PropertiesRow({ label, control, className, hidden }: PropertiesRowProps) {
   if (hidden) return null;
 
-  // Toggle rows get a different layout — label left, switch right
+  
   const isToggle = control.type === "toggle";
 
   return (

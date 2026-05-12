@@ -6,7 +6,4 @@ export type {
   PropertyControl,
   PropertyRowDef,
   PropertySectionDef,
-//   PropertiesPanelProps,
-//   PropertiesSectionProps,
-//   PropertiesRowProps,
 } from "./properties-panel-types";

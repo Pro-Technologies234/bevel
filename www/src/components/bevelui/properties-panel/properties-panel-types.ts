@@ -18,7 +18,7 @@ export type PropertyControl =
     }
   | {
       type: "color";
-      value: string; // hex
+      value: string;
       onChange: (v: string) => void;
     }
   | {

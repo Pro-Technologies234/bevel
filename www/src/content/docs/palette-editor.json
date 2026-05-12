@@ -202,7 +202,7 @@
           "type": "code",
           "language": "ts",
           "filename": "Sample output for Lime / Slate 950 / Slate 50",
-          "code": "// Hex array\n[\"#c2f13c\", \"#0f172a\", \"#f8fafc\"]\n\n// CSS variables\n:root {\n  --lime: #c2f13c;\n  --slate-950: #0f172a;\n  --slate-50: #f8fafc;\n}\n\n// Tailwind config\n// tailwind.config.js\ncolors: {\n  \"lime\": \"#c2f13c\",\n  \"slate-950\": \"#0f172a\",\n  \"slate-50\": \"#f8fafc\",\n}\n\n// HSL array\n[\"hsl(74, 87%, 59%)\", \"hsl(222, 47%, 11%)\", \"hsl(210, 40%, 98%)\"]"
+          "code": "// Hex array\n[\"#c2f13c\", \"#0f172a\", \"#f8fafc\"]\n\n// CSS variables\n:root {\n  --color-lime: #c2f13c;\n  --color-slate-950: #0f172a;\n  --color-slate-50: #f8fafc;\n}\n\n// Tailwind config\n// tailwind.config.js\ncolors: {\n  \"lime\": \"#c2f13c\",\n  \"slate-950\": \"#0f172a\",\n  \"slate-50\": \"#f8fafc\",\n}\n\n// HSL array\n[\"hsl(74, 87%, 59%)\", \"hsl(222, 47%, 11%)\", \"hsl(210, 40%, 98%)\"]"
         }
       ]
     },
