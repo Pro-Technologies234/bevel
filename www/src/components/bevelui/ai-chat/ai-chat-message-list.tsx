@@ -25,7 +25,9 @@ export function AIChatMessageList({ className }: { className?: string }) {
   React.useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const fn = () => { atBottomRef.current = checkBottom(); };
+    const fn = () => {
+      atBottomRef.current = checkBottom();
+    };
     el.addEventListener("scroll", fn, { passive: true });
     return () => el.removeEventListener("scroll", fn);
   }, []);
@@ -35,12 +37,21 @@ export function AIChatMessageList({ className }: { className?: string }) {
   }, [messages, isLoading]);
 
   return (
-    <div ref={ref} className={cn("flex-1 overflow-y-auto", className)}>
+    <div
+      ref={ref}
+      className={cn(
+        "overflow-y-auto",
+        messages.length > 0 && "flex-1",
+        className,
+      )}
+    >
       {messages.length === 0 ? (
         <AIChatWelcome />
       ) : (
         <div className="flex flex-col gap-2 py-6 px-4 max-w-3xl mx-auto w-full">
-          {messages.map(m => <AIChatMessage key={m.id} message={m} />)}
+          {messages.map((m) => (
+            <AIChatMessage key={m.id} message={m} />
+          ))}
           {isLoading && !isStreaming && <AIChatTyping />}
         </div>
       )}

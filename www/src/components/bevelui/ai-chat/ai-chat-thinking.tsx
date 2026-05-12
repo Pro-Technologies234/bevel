@@ -7,39 +7,48 @@ import { cn } from "@/lib/utils";
 
 export function AIChatThinking({
   text,
-  title     = "Thinking",
+  title = "Thinking",
   collapsed,
   isStreaming,
   onToggle,
 }: {
-  text:        string;
-  title?:      string;
-  collapsed?:  boolean;
+  text: string;
+  title?: string;
+  collapsed?: boolean;
   isStreaming?: boolean;
-  onToggle?:   () => void;
+  onToggle?: () => void;
 }) {
   return (
-    <div className="rounded-lg border border-border/50 bg-muted/10 overflow-hidden text-sm">
+    <div className=" border-l border-border text-sm">
       {/* Header */}
       <button
         type="button"
         onClick={onToggle}
-        className="flex items-center gap-2 w-full px-3 py-2 text-left hover:bg-muted/30 transition-colors"
+        className="flex  bg-muted/60 rounded-full items-center gap-2 w-full px-3 py-2 text-left hover:bg-muted/30 transition-colors"
       >
         <IconBrain
-          size={13} strokeWidth={1.8}
+          size={13}
+          strokeWidth={1.8}
           className={cn(
             "shrink-0 text-muted-foreground/50",
             isStreaming && "text-primary/60 animate-pulse",
           )}
         />
-        <span className="text-[11px] font-medium text-muted-foreground/60 flex-1">{title}</span>
+        <span className="text-[11px] font-medium text-muted-foreground/60 flex-1">
+          {title}
+        </span>
         {isStreaming ? (
-          <span className="text-[10px] font-mono text-primary/50">generating…</span>
+          <span className="text-[10px] font-mono text-primary/50">
+            generating…
+          </span>
         ) : (
           <IconChevronDown
-            size={12} strokeWidth={2}
-            className={cn("text-muted-foreground/30 transition-transform", collapsed && "-rotate-90")}
+            size={12}
+            strokeWidth={2}
+            className={cn(
+              "text-muted-foreground/30 transition-transform",
+              collapsed && "-rotate-90",
+            )}
           />
         )}
       </button>
