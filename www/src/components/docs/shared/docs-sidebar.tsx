@@ -10,6 +10,11 @@ import {
   IconForms,
   IconListSearch,
   IconFileUploadFilled,
+  IconColorSwatch,
+  IconDragDrop,
+  IconLayoutSidebarRight,
+  IconPaletteFilled,
+  IconLayoutSidebarRightInactive,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -68,6 +73,27 @@ export function DocsSidebar() {
               label: "Form Engine",
               href: "/docs/components/form-engine",
               icon: IconForms,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Palette Editor",
+              href: "/docs/components/palette-editor",
+              icon: IconPaletteFilled,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Sortable",
+              href: "/docs/components/sortable",
+              icon: IconDragDrop,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Properties Panel",
+              href: "/docs/components/properties-panel",
+              icon: IconLayoutSidebarRightInactive,
               badge: "New",
               badgeVariant: "new",
             },

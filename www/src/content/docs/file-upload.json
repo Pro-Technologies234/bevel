@@ -51,6 +51,11 @@
               "isOpen": true,
               "children": [
                 {
+                  "name": "file-upload-types.tsx",
+                  "type": "file",
+                  "comment": "FileUploadConfig + FileEntry"
+                },
+                {
                   "name": "file-upload-root.tsx",
                   "type": "file",
                   "comment": "context + default layout"
@@ -71,7 +76,7 @@
                   "comment": "per-file row with progress"
                 },
                 {
-                  "name": "use-file-upload.ts",
+                  "name": "file-upload-context.ts",
                   "type": "file",
                   "comment": "state machine + actions",
                   "highlight": true
@@ -100,7 +105,7 @@
         {
           "type": "demo",
           "component": "FileUploadDemo",
-          "code": "export function FileUploadDemo() {\r\n  return (\r\n    <div className=\"w-full max-w-xl\">\r\n      <FileUploadRoot\r\n        onUpload={simulateUpload}\r\n        config={{\r\n          multiple: true,\r\n          maxFiles: 8,\r\n          maxSize: 10 * 1024 * 1024,\r\n          title: \"Drop your files here\",\r\n          description:\r\n            \"Any file type up to 10MB. Max 8 files. Name a file 'fail…' to test error handling.\",\r\n        }}\r\n        onComplete={(files) =>\r\n          console.log(\r\n            \"All uploaded:\",\r\n            files.map((f) => f.url),\r\n          )\r\n        }\r\n        onError={(id, err) => console.error(\"Upload error:\", id, err)}\r\n      />\r\n    </div>\r\n  );\r\n}",
+          "code": "import { FileUploadRoot } from \"@/components/bevelui/file-upload\";\r\n\r\nasync function simulateUpload(\r\n  file: File,\r\n  onProgress: (pct: number) => void,\r\n): Promise<{ url: string }> {\r\n  return new Promise((resolve, reject) => {\r\n    let progress = 0;\r\n    const interval = setInterval(() => {\r\n      progress += Math.random() * 15 + 5;\r\n      if (progress >= 100) {\r\n        clearInterval(interval);\r\n        onProgress(100);\r\n        if (file.name.toLowerCase().startsWith(\"fail\")) {\r\n          reject(new Error(`Simulated failure — file name starts with \"fail\"`));\r\n        } else {\r\n          resolve({ url: URL.createObjectURL(file) });\r\n        }\r\n      } else {\r\n        onProgress(Math.min(Math.round(progress), 99));\r\n      }\r\n    }, 100);\r\n  });\r\n}\r\n\r\nexport function FileUploadDemo() {\r\n  return (\r\n    <div className=\"w-full max-w-xl\">\r\n      <FileUploadRoot\r\n        onUpload={simulateUpload}\r\n        config={{\r\n          multiple: true,\r\n          maxFiles: 8,\r\n          maxSize: 10 * 1024 * 1024,\r\n          title: \"Drop your files here\",\r\n          description:\r\n            \"Any file type up to 10MB. Max 8 files. Name a file 'fail…' to test error handling.\",\r\n        }}\r\n        onComplete={(files) =>\r\n          console.log(\r\n            \"All uploaded:\",\r\n            files.map((f) => f.url),\r\n          )\r\n        }\r\n        onError={(id, err) => console.error(\"Upload error:\", id, err)}\r\n      />\r\n    </div>\r\n  );\r\n}",
           "label": "Interactive demo",
           "language": "tsx"
         }
@@ -188,7 +193,7 @@
         },
         {
           "type": "demo",
-          "component": "FileUploadShowcase",
+          "component": "MediaLibary",
           "label": "Interactive customized demo"
         }
       ]

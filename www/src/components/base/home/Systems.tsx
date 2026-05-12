@@ -29,7 +29,7 @@ import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CommandPaletteShowcase } from "@/components/bevelui/docs/command-palette-content";
-import { FileUploadShowcase } from "@/components/bevelui/docs/file-upload-content";
+import { MediaLibary } from "@/components/docs/file-upload/media-libary";
 import { FormEngineShowcase } from "@/components/bevelui/docs/form-engine-content";
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
@@ -48,8 +48,7 @@ const SYSTEMS = [
   {
     id: "product-tour",
     title: "Product Tour",
-    // OLD: "Walk users through any part of your product. Overlay masking, smart-positioned floating cards..."
-    // NEW: Lead with what the developer was going to have to build
+
     painRemoved:
       "No more positioning logic, overlay masking, scroll handling, or skip state.",
     what: "A guided tour that works. Floating cards anchored to any element, keyboard navigation, media per step, SVG overlay masking — all pre-wired.",
@@ -78,7 +77,7 @@ const SYSTEMS = [
     href: "/docs/components/file-upload",
     accent: "#f97316",
     cmd: "npx shadcn@latest add https://bevelui.pxxl.click/r/file-upload.json",
-    demo: <FileUploadShowcase />,
+    demo: <MediaLibary />,
   },
   {
     id: "form-engine",

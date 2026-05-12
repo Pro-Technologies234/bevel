@@ -1,0 +1,64 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sortable",
+  "title": "Sortable",
+  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "description": "A headless drag-to-reorder system built on @dnd-kit. Supports whole-row drag or handle-only mode, custom drag overlays, vertical list and grid layouts, and a useSortableList hook for typed list mutations.",
+  "dependencies": [
+    "@dnd-kit/core",
+    "@dnd-kit/sortable",
+    "@dnd-kit/utilities",
+    "@dnd-kit/modifiers"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/components/bevelui/sortable/sortable-types.ts",
+      "content": "export type SortableBaseItem = { id: string };\r\n\r\nexport interface SortableConfig {\r\n  handle?: boolean;\r\n  /**\r\n   * \"list\" (default) — vertical strategy + axis lock.\r\n   * \"grid\" — rect strategy, free-form drag in both axes.\r\n   */\r\n  layout?: \"list\" | \"grid\";\r\n}\r\n\r\nexport interface SortableContextValue {\r\n  activeId: string | null;\r\n  config: SortableConfig;\r\n}\r\n",
+      "type": "registry:lib",
+      "target": "src/components/bevelui/sortable/sortable-types.ts"
+    },
+    {
+      "path": "src/components/bevelui/sortable/sortable-context.tsx",
+      "content": "import * as React from \"react\";\r\nimport type { SortableContextValue } from \"./sortable-types\";\r\n\r\nexport const SortableCtx = React.createContext<SortableContextValue | null>(\r\n  null,\r\n);\r\n\r\nexport function useSortableCtx(): SortableContextValue {\r\n  const ctx = React.useContext(SortableCtx);\r\n  if (!ctx) throw new Error(\"useSortableCtx must be used inside SortableRoot\");\r\n  return ctx;\r\n}\r\n\r\nexport const SortableHandleCtx = React.createContext<\r\n  Record<string, React.EventHandler<React.SyntheticEvent>> | undefined\r\n>(undefined);\r\n",
+      "type": "registry:component",
+      "target": "src/components/bevelui/sortable/sortable-context.tsx"
+    },
+    {
+      "path": "src/components/bevelui/sortable/sortable-root.tsx",
+      "content": "import * as React from \"react\";\r\nimport {\r\n  DndContext,\r\n  closestCenter,\r\n  PointerSensor,\r\n  KeyboardSensor,\r\n  useSensor,\r\n  useSensors,\r\n  DragOverlay,\r\n  type DragStartEvent,\r\n  type DragEndEvent,\r\n} from \"@dnd-kit/core\";\r\nimport {\r\n  SortableContext,\r\n  sortableKeyboardCoordinates,\r\n  verticalListSortingStrategy,\r\n  rectSortingStrategy,\r\n  arrayMove,\r\n} from \"@dnd-kit/sortable\";\r\nimport { restrictToVerticalAxis } from \"@dnd-kit/modifiers\";\r\nimport { SortableCtx } from \"./sortable-context\";\r\nimport type { SortableBaseItem, SortableConfig } from \"./sortable-types\";\r\n\r\nexport interface SortableRootProps<T extends SortableBaseItem> {\r\n  items: T[];\r\n  onReorder: (items: T[]) => void;\r\n  config?: SortableConfig;\r\n  renderOverlay?: (item: T) => React.ReactNode;\r\n  children: React.ReactNode;\r\n}\r\n\r\nexport function SortableRoot<T extends SortableBaseItem>({\r\n  items,\r\n  onReorder,\r\n  config = {},\r\n  renderOverlay,\r\n  children,\r\n}: SortableRootProps<T>) {\r\n  const [activeId, setActiveId] = React.useState<string | null>(null);\r\n\r\n  const isGrid = config.layout === \"grid\";\r\n\r\n  const sensors = useSensors(\r\n    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),\r\n    useSensor(KeyboardSensor, {\r\n      coordinateGetter: sortableKeyboardCoordinates,\r\n    }),\r\n  );\r\n\r\n  const activeItem = activeId\r\n    ? (items.find((i) => i.id === activeId) ?? null)\r\n    : null;\r\n\r\n  function onDragStart({ active }: DragStartEvent) {\r\n    setActiveId(active.id as string);\r\n  }\r\n\r\n  function onDragEnd({ active, over }: DragEndEvent) {\r\n    setActiveId(null);\r\n    if (!over || active.id === over.id) return;\r\n    const from = items.findIndex((i) => i.id === active.id);\r\n    const to = items.findIndex((i) => i.id === over.id);\r\n    onReorder(arrayMove(items, from, to));\r\n  }\r\n\r\n  return (\r\n    <SortableCtx.Provider value={{ activeId, config }}>\r\n      <DndContext\r\n        sensors={sensors}\r\n        collisionDetection={closestCenter}\r\n        modifiers={isGrid ? [] : [restrictToVerticalAxis]}\r\n        onDragStart={onDragStart}\r\n        onDragEnd={onDragEnd}\r\n        onDragCancel={() => setActiveId(null)}\r\n      >\r\n        <SortableContext\r\n          items={items.map((i) => i.id)}\r\n          strategy={isGrid ? rectSortingStrategy : verticalListSortingStrategy}\r\n        >\r\n          {children}\r\n        </SortableContext>\r\n\r\n        {renderOverlay && (\r\n          <DragOverlay dropAnimation={{ duration: 160, easing: \"ease\" }}>\r\n            {activeItem ? renderOverlay(activeItem) : null}\r\n          </DragOverlay>\r\n        )}\r\n      </DndContext>\r\n    </SortableCtx.Provider>\r\n  );\r\n}\r\n\r\nSortableRoot.displayName = \"SortableRoot\";\r\n",
+      "type": "registry:component",
+      "target": "src/components/bevelui/sortable/sortable-root.tsx"
+    },
+    {
+      "path": "src/components/bevelui/sortable/sortable-item.tsx",
+      "content": "import * as React from \"react\";\r\nimport { useSortable } from \"@dnd-kit/sortable\";\r\nimport { CSS } from \"@dnd-kit/utilities\";\r\nimport { cn } from \"@/lib/utils\";\r\nimport { SortableCtx, SortableHandleCtx } from \"./sortable-context\";\r\n\r\nexport interface SortableItemProps {\r\n  id: string;\r\n  children: React.ReactNode;\r\n  className?: string;\r\n  disabled?: boolean;\r\n  /**\r\n   * When true, only <SortableHandle> inside this item triggers drag.\r\n   * Overrides the SortableRoot config.handle setting for this item.\r\n   */\r\n  handle?: boolean;\r\n}\r\n\r\ntype DraggableListeners = Record<string, (event: React.SyntheticEvent) => void>;\r\n\r\nexport function SortableItem({\r\n  id,\r\n  children,\r\n  className,\r\n  disabled,\r\n  handle: handleProp,\r\n}: SortableItemProps) {\r\n  const { config, activeId } = React.useContext(SortableCtx)!;\r\n  const useHandle = handleProp ?? config.handle ?? false;\r\n\r\n  const {\r\n    attributes,\r\n    listeners,\r\n    setNodeRef,\r\n    transform,\r\n    transition,\r\n    isDragging,\r\n  } = useSortable({ id, disabled });\r\n\r\n  const style: React.CSSProperties = {\r\n    transform: CSS.Transform.toString(transform),\r\n    transition,\r\n  };\r\n\r\n  return (\r\n    <SortableHandleCtx.Provider\r\n      value={\r\n        useHandle ? (listeners as unknown as DraggableListeners) : undefined\r\n      }\r\n    >\r\n      <div\r\n        ref={setNodeRef}\r\n        style={style}\r\n        data-dragging={isDragging || undefined}\r\n        data-active={activeId === id || undefined}\r\n        className={cn(\r\n          \"touch-none select-none\",\r\n          isDragging && \"opacity-40\",\r\n          className,\r\n        )}\r\n        {...attributes}\r\n        {...(!useHandle ? listeners : {})}\r\n      >\r\n        {children}\r\n      </div>\r\n    </SortableHandleCtx.Provider>\r\n  );\r\n}\r\n\r\nSortableItem.displayName = \"SortableItem\";\r\n",
+      "type": "registry:component",
+      "target": "src/components/bevelui/sortable/sortable-item.tsx"
+    },
+    {
+      "path": "src/components/bevelui/sortable/sortable-handle.tsx",
+      "content": "import * as React from \"react\";\r\nimport { IconGripVertical } from \"@tabler/icons-react\";\r\nimport { cn } from \"@/lib/utils\";\r\nimport { SortableHandleCtx } from \"./sortable-context\";\r\n\r\nexport interface SortableHandleProps {\r\n  className?: string;\r\n  children?: React.ReactNode;\r\n}\r\n\r\n/**\r\n * Place inside <SortableItem handle> to restrict dragging to this element.\r\n * Renders a grip icon by default; pass children to customise.\r\n */\r\nexport function SortableHandle({ className, children }: SortableHandleProps) {\r\n  const listeners = React.useContext(SortableHandleCtx);\r\n\r\n  return (\r\n    <button\r\n      type=\"button\"\r\n      aria-label=\"Drag to reorder\"\r\n      className={cn(\r\n        \"cursor-grab active:cursor-grabbing p-1 rounded\",\r\n        \"text-muted-foreground/40 hover:text-muted-foreground\",\r\n        \"transition-colors touch-none focus-visible:outline-none\",\r\n        \"focus-visible:ring-1 focus-visible:ring-primary\",\r\n        className,\r\n      )}\r\n      {...(listeners ?? {})}\r\n    >\r\n      {children ?? <IconGripVertical size={14} strokeWidth={1.8} />}\r\n    </button>\r\n  );\r\n}\r\n\r\nSortableHandle.displayName = \"SortableHandle\";\r\n",
+      "type": "registry:component",
+      "target": "src/components/bevelui/sortable/sortable-handle.tsx"
+    },
+    {
+      "path": "src/components/bevelui/sortable/sortable-hook.ts",
+      "content": "import * as React from \"react\";\r\nimport { arrayMove } from \"@dnd-kit/sortable\";\r\nimport type { SortableBaseItem } from \"./sortable-types\";\r\n\r\nexport interface UseSortableListReturn<T extends SortableBaseItem> {\r\n  items: T[];\r\n  setItems: React.Dispatch<React.SetStateAction<T[]>>;\r\n  reorder: (from: string, to: string) => void;\r\n  insert: (item: T, atIndex?: number) => void;\r\n  remove: (id: string) => void;\r\n  update: (id: string, patch: Partial<Omit<T, \"id\">>) => void;\r\n  move: (id: string, direction: \"up\" | \"down\") => void;\r\n}\r\n\r\nexport function useSortableList<T extends SortableBaseItem>(\r\n  initial: T[],\r\n): UseSortableListReturn<T> {\r\n  const [items, setItems] = React.useState<T[]>(initial);\r\n\r\n  const reorder = React.useCallback((from: string, to: string) => {\r\n    setItems((prev) => {\r\n      const fi = prev.findIndex((i) => i.id === from);\r\n      const ti = prev.findIndex((i) => i.id === to);\r\n      if (fi === -1 || ti === -1) return prev;\r\n      return arrayMove(prev, fi, ti);\r\n    });\r\n  }, []);\r\n\r\n  const insert = React.useCallback((item: T, atIndex?: number) => {\r\n    setItems((prev) => {\r\n      const next = [...prev];\r\n      next.splice(atIndex ?? next.length, 0, item);\r\n      return next;\r\n    });\r\n  }, []);\r\n\r\n  const remove = React.useCallback((id: string) => {\r\n    setItems((prev) => prev.filter((i) => i.id !== id));\r\n  }, []);\r\n\r\n  const update = React.useCallback(\r\n    (id: string, patch: Partial<Omit<T, \"id\">>) => {\r\n      setItems((prev) =>\r\n        prev.map((i) => (i.id === id ? { ...i, ...patch } : i)),\r\n      );\r\n    },\r\n    [],\r\n  );\r\n\r\n  const move = React.useCallback((id: string, direction: \"up\" | \"down\") => {\r\n    setItems((prev) => {\r\n      const idx = prev.findIndex((i) => i.id === id);\r\n      if (idx === -1) return prev;\r\n      const next = direction === \"up\" ? idx - 1 : idx + 1;\r\n      if (next < 0 || next >= prev.length) return prev;\r\n      return arrayMove(prev, idx, next);\r\n    });\r\n  }, []);\r\n\r\n  return { items, setItems, reorder, insert, remove, update, move };\r\n}\r\n",
+      "type": "registry:hook",
+      "target": "src/components/bevelui/sortable/sortable-hook.ts"
+    },
+    {
+      "path": "src/components/bevelui/sortable/index.ts",
+      "content": "export { SortableRoot } from \"./sortable-root\";\r\nexport { SortableItem } from \"./sortable-item\";\r\nexport { SortableHandle } from \"./sortable-handle\";\r\nexport { useSortableList } from \"./sortable-hook\";\r\nexport type {\r\n  SortableBaseItem,\r\n  SortableConfig,\r\n//   SortableRootProps,\r\n} from \"./sortable-types\";",
+      "type": "registry:lib",
+      "target": "src/components/bevelui/sortable/index.ts"
+    }
+  ],
+  "docs": "Import from @/components/bevelui/sortable. Wrap your list with SortableRoot, mark each row with SortableItem, and optionally add SortableHandle for grip-only drag. Pass config={{ layout: 'grid' }} for grid layouts. Use useSortableList for typed list state.",
+  "categories": [
+    "systems",
+    "drag-and-drop"
+  ],
+  "type": "registry:block"
+}

@@ -1,0 +1,342 @@
+{
+  "meta": {
+    "title": "Palette",
+    "description": "A visual color palette editor with a 2D HSV picker, sortable swatches, and one-click export to hex arrays, CSS custom properties, Tailwind config, or HSL strings.",
+    "badge": "Components System",
+    "features": [
+      "2D HSV color picker",
+      "Hex / HSL / RGB export",
+      "Sortable swatch grid",
+      "CSS vars + Tailwind output",
+      "Controlled or uncontrolled"
+    ],
+    "slug": "palette",
+    "prev": { "label": "Sortable", "href": "/docs/components/sortable" },
+    "next": { "label": "Theming", "href": "/docs/theming" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "controlled", "label": "Controlled mode", "depth": 1 },
+    { "id": "export", "label": "Export formats", "depth": 1 },
+    { "id": "custom-layout", "label": "Custom layout", "depth": 1 },
+    { "id": "programmatic", "label": "usePalette", "depth": 1 },
+    { "id": "api-root", "label": "PaletteRoot", "depth": 2 },
+    { "id": "api-config", "label": "PaletteConfig", "depth": 2 },
+    { "id": "api-color", "label": "PaletteColor", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Color palettes live at the boundary between design and code. The designer picks colors. The developer needs them as CSS custom properties, a Tailwind config object, or a JSON array. Most handoff flows produce one format and leave the conversion to the developer. The Palette system covers both ends: a visual swatch editor with a 2D picker, and an export panel that outputs the exact format your codebase expects."
+        },
+        {
+          "type": "text",
+          "content": "Colors are stored as lowercase hex strings internally. The 2D picker operates in HSV space — saturation on the x-axis, brightness on the y-axis — because HSV maps cleanly to the canvas gradient axes. All format conversions (to HSL, RGB, or tailwind tokens) happen at the export boundary. The swatch grid uses the Sortable system internally, so drag-to-reorder works out of the box."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/palette/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "palette-types.ts",
+                  "type": "file",
+                  "comment": "PaletteColor, PaletteConfig"
+                },
+                {
+                  "name": "palette-utils.ts",
+                  "type": "file",
+                  "comment": "hex ↔ hsv ↔ hsl conversions",
+                  "highlight": true
+                },
+                {
+                  "name": "palette-context.tsx",
+                  "type": "file",
+                  "comment": "PaletteCtx + usePalette"
+                },
+                {
+                  "name": "palette-root.tsx",
+                  "type": "file",
+                  "comment": "state owner + default layout"
+                },
+                {
+                  "name": "palette-grid.tsx",
+                  "type": "file",
+                  "comment": "sortable swatch grid"
+                },
+                {
+                  "name": "palette-swatch.tsx",
+                  "type": "file",
+                  "comment": "individual color swatch"
+                },
+                {
+                  "name": "palette-color-editor.tsx",
+                  "type": "file",
+                  "comment": "2D picker + hue slider"
+                },
+                {
+                  "name": "palette-toolbar.tsx",
+                  "type": "file",
+                  "comment": "add / edit / delete / export"
+                },
+                {
+                  "name": "palette-export.tsx",
+                  "type": "file",
+                  "comment": "format selector + copy"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Default new color",
+          "content": "The Add button seeds new swatches with #c2f13c. Override by calling add(hex) from usePalette with your own starting hex — useful for pre-loading a brand color when the palette first opens."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Click a swatch to select it. Double-click or click Edit to open the color editor. Drag the grip icon to reorder. Use Export to copy the palette in any format."
+        },
+        {
+          "type": "demo",
+          "component": "PaletteEditorDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "Palette depends on the Sortable system for swatch reordering. Install Sortable first if you haven't already."
+        },
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install Sortable peer dependencies",
+              "description": "Palette's swatch grid uses Sortable internally.",
+              "code": "npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities @dnd-kit/modifiers",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the Sortable system",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/sortable.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the Palette system",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/palette.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drop PaletteRoot anywhere. The default layout renders the toolbar, swatch grid, and color editor automatically. Pass defaultColors to seed it with existing swatches."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/brand/page.tsx",
+          "code": "import { PaletteRoot } from \"@/components/bevelui/palette\";\n\nexport function BrandPalette() {\n  return (\n    <PaletteRoot\n      defaultColors={[\n        { id: \"1\", hex: \"#c2f13c\", name: \"Lime\" },\n        { id: \"2\", hex: \"#0f172a\", name: \"Slate 950\" },\n        { id: \"3\", hex: \"#f8fafc\", name: \"Slate 50\" },\n      ]}\n      onChange={(colors) => console.log(colors)}\n    />\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "controlled",
+      "title": "Controlled mode",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass colors + onChange to take full control of the color array. Every mutation — add, edit, remove, reorder — calls onChange with the complete updated array. Use this when the palette feeds a form, a theme config, or any external state."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import * as React from \"react\";\nimport { PaletteRoot, type PaletteColor } from \"@/components/bevelui/palette\";\n\nexport function ThemeEditor() {\n  const [colors, setColors] = React.useState<PaletteColor[]>([\n    { id: \"brand\", hex: \"#c2f13c\", name: \"Brand\" },\n  ]);\n\n  return (\n    <PaletteRoot\n      colors={colors}\n      onChange={setColors}\n      config={{ maxColors: 12 }}\n    />\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Internal state is bypassed in controlled mode",
+          "content": "When colors is provided, the component does not maintain its own array. Your onChange handler must update state and pass the new array back as colors. If you return the same reference, mutations will appear to have no effect."
+        }
+      ]
+    },
+    {
+      "id": "export",
+      "title": "Export formats",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The Export button in the toolbar generates the palette in four formats. Named colors use kebab-case derived from the name field. Unnamed colors fall back to color-1, color-2, etc."
+        },
+        {
+          "type": "code",
+          "language": "ts",
+          "filename": "Sample output for Lime / Slate 950 / Slate 50",
+          "code": "// Hex array\n[\"#c2f13c\", \"#0f172a\", \"#f8fafc\"]\n\n// CSS variables\n:root {\n  --color-lime: #c2f13c;\n  --color-slate-950: #0f172a;\n  --color-slate-50: #f8fafc;\n}\n\n// Tailwind config\n// tailwind.config.js\ncolors: {\n  \"lime\": \"#c2f13c\",\n  \"slate-950\": \"#0f172a\",\n  \"slate-50\": \"#f8fafc\",\n}\n\n// HSL array\n[\"hsl(74, 87%, 59%)\", \"hsl(222, 47%, 11%)\", \"hsl(210, 40%, 98%)\"]"
+        }
+      ]
+    },
+    {
+      "id": "custom-layout",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass children to PaletteRoot to replace the default layout entirely. All composable parts — PaletteGrid, PaletteColorEditor, PaletteToolbar — are available individually and use the same context."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  PaletteRoot,\n  PaletteGrid,\n  PaletteColorEditor,\n  PaletteToolbar,\n} from \"@/components/bevelui/palette\";\n\nexport function SideBySidePalette() {\n  return (\n    <PaletteRoot defaultColors={[]}>\n      <div className=\"flex flex-col gap-3\">\n        <PaletteToolbar />\n        <div className=\"flex gap-4 items-start\">\n          <PaletteGrid className=\"flex-1\" />\n          <PaletteColorEditor />\n        </div>\n      </div>\n    </PaletteRoot>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "PaletteColorEditor mounts conditionally",
+          "content": "PaletteColorEditor renders nothing when editingId is null. You can always include it in your layout — it appears only when the user opens a swatch for editing, and disappears when they close it."
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "usePalette",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "usePalette exposes the full context anywhere inside PaletteRoot. Use it to build custom toolbar buttons, wire palette state into a form, sync to an external store, or trigger actions from outside the default UI."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { PaletteRoot, PaletteGrid, usePalette } from \"@/components/bevelui/palette\";\n\nfunction PaletteActions() {\n  const { colors, selectedId, add, remove, duplicate } = usePalette();\n\n  return (\n    <div className=\"flex items-center gap-2\">\n      <span className=\"text-xs text-muted-foreground\">{colors.length} colors</span>\n      <button onClick={() => add(\"#6366f1\")}>Add indigo</button>\n      {selectedId && (\n        <>\n          <button onClick={() => duplicate(selectedId)}>Duplicate</button>\n          <button onClick={() => remove(selectedId)}>Delete</button>\n        </>\n      )}\n    </div>\n  );\n}\n\n// usePalette must be called inside PaletteRoot\nexport function App() {\n  return (\n    <PaletteRoot defaultColors={[]}>\n      <PaletteGrid />\n      <PaletteActions />\n    </PaletteRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "PaletteRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "defaultColors",
+              "type": "PaletteColor[]",
+              "default": "[]",
+              "description": "Initial colors for uncontrolled mode."
+            },
+            {
+              "prop": "colors",
+              "type": "PaletteColor[]",
+              "description": "Controlled colors. Pair with onChange. When provided, internal state is bypassed."
+            },
+            {
+              "prop": "onChange",
+              "type": "(colors: PaletteColor[]) => void",
+              "description": "Called after every mutation with the full updated array."
+            },
+            {
+              "prop": "config",
+              "type": "PaletteConfig",
+              "description": "Optional config for maxColors, showNames, and available export formats."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Replace the default layout. All palette parts are available as children via usePalette context."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the default layout wrapper. No effect when children is provided."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "PaletteConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "maxColors",
+              "type": "number",
+              "description": "Maximum number of swatches. Add and Duplicate are disabled when the limit is reached."
+            },
+            {
+              "prop": "showNames",
+              "type": "boolean",
+              "description": "Show the color name below each swatch in the grid."
+            },
+            {
+              "prop": "formats",
+              "type": "(\"hex\" | \"hsl\" | \"rgb\" | \"tailwind\" | \"css-vars\")[]",
+              "description": "Restrict which export formats appear in the Export panel. All formats are available by default."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-color",
+      "title": "PaletteColor",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier. Required for Sortable to track swatch order."
+            },
+            {
+              "prop": "hex",
+              "type": "string",
+              "required": true,
+              "description": "Lowercase six-digit hex: #rrggbb. Three-digit shorthand is normalized automatically on input."
+            },
+            {
+              "prop": "name",
+              "type": "string",
+              "description": "Display name. Used as the CSS variable name and Tailwind token key in exports. Falls back to color-N if absent."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

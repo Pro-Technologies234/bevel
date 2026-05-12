@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { DocsCodeBlock } from "./docs-code-block";
 import { IconWindowMaximize } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
 
 export interface DocsDemoProps {
   /** The live preview */
@@ -32,7 +33,13 @@ export function DocsDemo({
   className,
 }: DocsDemoProps) {
   const [tab, setTab] = React.useState<"preview" | "code">("preview");
+  const [expanded, setExpanded] = React.useState(false);
   const showTabs = !!code;
+
+  function handleTab(t: "preview" | "code") {
+    setTab(t);
+    setExpanded(false);
+  }
 
   return (
     <div
@@ -52,7 +59,7 @@ export function DocsDemo({
             {(["preview", "code"] as const).map((t) => (
               <button
                 key={t}
-                onClick={() => setTab(t)}
+                onClick={() => handleTab(t)}
                 className={cn(
                   "px-3 py-1 text-[11px] font-medium transition-colors capitalize rounded-sm",
                   tab === t
@@ -82,12 +89,34 @@ export function DocsDemo({
 
       {/* Code */}
       {showTabs && tab === "code" && code && (
-        <DocsCodeBlock
-          code={code}
-          language={language}
-          filename={filename}
-          className="rounded-none border-0"
-        />
+        <div className="relative">
+          <div
+            className={cn(
+              "overflow-hidden transition-all",
+              !expanded && "max-h-64",
+            )}
+          >
+            <DocsCodeBlock
+              code={code}
+              language={language}
+              filename={filename}
+              className="rounded-none border-0"
+            />
+          </div>
+
+          {!expanded && (
+            <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-card to-transparent flex items-end justify-center pb-3">
+              <Button
+                variant={"inverted"}
+                onClick={() => setExpanded(true)}
+                className=" rounded-md"
+              >
+                <IconWindowMaximize size={12} />
+                Show more
+              </Button>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
