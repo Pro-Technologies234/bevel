@@ -5,6 +5,7 @@
   "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A card-based selection control supporting single or multi-select, with grid, list, and scroll layout modes. Used by FormEngine's FieldRenderer and usable standalone.",
   "dependencies": [
+    "@tabler/icons-react",
     "motion"
   ],
   "registryDependencies": [

@@ -239,5 +239,5 @@ export type FormEngineRootProps = {
   plugins?: FormEnginePlugin[];
   className?: string;
   children: ReactNode;
-  onSubmit: (values: Record<string, unknown>) => Promise<void>;
+  onSubmit?: (values: Record<string, unknown>) => Promise<void>;
 };

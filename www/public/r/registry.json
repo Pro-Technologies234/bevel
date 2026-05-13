@@ -10,7 +10,7 @@
       "description": "A fully-engineered guided product tour system with overlay, floating card, keyboard navigation, and media support. Drop-in replacement for building interactive onboarding flows.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["systems", "onboarding"],
-      "dependencies": ["@floating-ui/react", "motion"],
+      "dependencies": ["@tabler/icons-react", "@floating-ui/react", "motion"],
       "registryDependencies": ["button", "badge"],
       "docs": "Import from @/components/bevelui/tour. Wrap your app with TourRoot, attach TourAnchor to any element, and use TourTrigger to start the tour.",
       "files": [
@@ -63,7 +63,7 @@
       "description": "A fully-engineered command palette system with fuzzy search, keyboard navigation, grouped results, source tabs, filter tabs, and a Raycast-style footer. Global ⌘K shortcut included.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["systems", "navigation"],
-      "dependencies": ["motion"],
+      "dependencies": ["@tabler/icons-react", "motion"],
       "registryDependencies": ["button", "badge", "input", "separator"],
       "docs": "Import from @/components/bevelui/command-palette. Use CommandPaletteRoot as the provider, CommandPaletteTrigger to open it, and pass your sections as structured data.",
       "files": [
@@ -131,7 +131,7 @@
       "description": "A fully-engineered file upload system with drag-and-drop, per-file progress tracking, validation, error states, retry logic, and cancel support. Consumer-provided upload function keeps it backend-agnostic.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["systems", "forms"],
-      "dependencies": ["react-dropzone", "motion"],
+      "dependencies": ["@tabler/icons-react", "react-dropzone", "motion"],
       "registryDependencies": [
         "button",
         "badge",
@@ -185,7 +185,12 @@
       "description": "A fully-engineered config-driven form system supporting single-step and multi-step flows. Features a six-hook plugin system, react-hook-form + zod integration, composable API, RTL support, and a zero-config shortcut component.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["systems", "forms"],
-      "dependencies": ["react-hook-form", "zod", "motion"],
+      "dependencies": [
+        "@tabler/icons-react",
+        "react-hook-form",
+        "zod",
+        "motion"
+      ],
       "registryDependencies": [
         "button",
         "badge",
@@ -199,7 +204,8 @@
         "https://bevelui.pxxl.click/r/chip-select.json",
         "https://bevelui.pxxl.click/r/rating-field.json",
         "https://bevelui.pxxl.click/r/select-field.json",
-        "https://bevelui.pxxl.click/r/tag-input.json"
+        "https://bevelui.pxxl.click/r/tag-input.json",
+        "https://bevelui.pxxl.click/r/date-picker.json"
       ],
       "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineNavigation.",
       "files": [
@@ -236,6 +242,11 @@
         {
           "path": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
           "target": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-step.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-step.tsx",
           "type": "registry:component"
         },
         {
@@ -431,7 +442,7 @@
       "description": "A card-based selection control supporting single or multi-select, with grid, list, and scroll layout modes. Used by FormEngine's FieldRenderer and usable standalone.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["controls", "forms"],
-      "dependencies": ["motion"],
+      "dependencies": ["@tabler/icons-react", "motion"],
       "registryDependencies": ["badge"],
       "files": [
         {
@@ -448,7 +459,7 @@
       "description": "A pill chip selector control supporting single or multi-select. Used by FormEngine's FieldRenderer and usable standalone.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["controls", "forms"],
-      "dependencies": ["motion"],
+      "dependencies": ["@tabler/icons-react", "motion"],
       "registryDependencies": ["badge"],
       "files": [
         {
@@ -465,7 +476,7 @@
       "description": "A star or number rating input control. Used by FormEngine's FieldRenderer and usable standalone.",
       "author": "Bevel UI <hello@bevelui.pxxl.click>",
       "categories": ["controls", "forms"],
-      "dependencies": ["motion"],
+      "dependencies": ["@tabler/icons-react", "motion"],
       "files": [
         {
           "path": "src/components/bevelui/controls/rating-field.tsx",
@@ -502,6 +513,29 @@
         {
           "path": "src/components/bevelui/controls/tag-input.tsx",
           "target": "src/components/bevelui/controls/tag-input.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:component",
+      "title": "Date Picker",
+      "description": "A date selection control with calendar support. Used by FormEngine's FieldRenderer and usable standalone.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["controls", "forms"],
+      "registryDependencies": [
+        "calendar",
+        "badge",
+        "separator",
+        "scroll-area",
+        "button"
+      ],
+      "dependencies": ["@tabler/icons-react", "motion"],
+      "files": [
+        {
+          "path": "src/components/bevelui/controls/date-picker.tsx",
+          "target": "src/components/bevelui/controls/date-picker.tsx",
           "type": "registry:component"
         }
       ]

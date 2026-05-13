@@ -5,6 +5,7 @@
   "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A fully-engineered file upload system with drag-and-drop, per-file progress tracking, validation, error states, retry logic, and cancel support. Consumer-provided upload function keeps it backend-agnostic.",
   "dependencies": [
+    "@tabler/icons-react",
     "react-dropzone",
     "motion"
   ],

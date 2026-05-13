@@ -5,6 +5,7 @@
   "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A fully-engineered guided product tour system with overlay, floating card, keyboard navigation, and media support. Drop-in replacement for building interactive onboarding flows.",
   "dependencies": [
+    "@tabler/icons-react",
     "@floating-ui/react",
     "motion"
   ],

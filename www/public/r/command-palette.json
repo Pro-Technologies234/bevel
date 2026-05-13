@@ -5,6 +5,7 @@
   "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "A fully-engineered command palette system with fuzzy search, keyboard navigation, grouped results, source tabs, filter tabs, and a Raycast-style footer. Global ⌘K shortcut included.",
   "dependencies": [
+    "@tabler/icons-react",
     "motion"
   ],
   "registryDependencies": [

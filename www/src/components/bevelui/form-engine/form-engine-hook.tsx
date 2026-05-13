@@ -153,7 +153,7 @@ export function useFormEngineState({
 
       if (isLastStep) {
         await form.handleSubmit(async (data) => {
-          await onSubmit(data);
+          await onSubmit?.(data);
           for (const plugin of allPlugins) {
             await plugin.onSubmit?.(data);
           }
