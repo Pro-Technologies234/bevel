@@ -2,12 +2,10 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "palette",
   "title": "Palette",
-  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A visual color palette editor with a 2D HSV picker, sortable swatch grid, color naming, and one-click export to hex arrays, CSS custom properties, Tailwind config, or HSL strings.",
   "dependencies": [],
-  "registryDependencies": [
-    "https://bevelui.pxxl.click/r/sortable.json"
-  ],
+  "registryDependencies": ["https://bevelui.vercel.app/r/sortable.json"],
   "files": [
     {
       "path": "src/components/bevelui/palette/palette-types.ts",
@@ -71,9 +69,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/palette. Drop PaletteRoot anywhere for the full editor, or compose with PaletteGrid, PaletteToolbar, and PaletteColorEditor manually. Use usePalette for programmatic control inside any child component.",
-  "categories": [
-    "systems",
-    "color"
-  ],
+  "categories": ["systems", "color"],
   "type": "registry:block"
 }

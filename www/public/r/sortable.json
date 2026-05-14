@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "sortable",
   "title": "Sortable",
-  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A headless drag-to-reorder system built on @dnd-kit. Supports whole-row drag or handle-only mode, custom drag overlays, vertical list and grid layouts, and a useSortableList hook for typed list mutations.",
   "dependencies": [
     "@dnd-kit/core",
@@ -56,9 +56,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/sortable. Wrap your list with SortableRoot, mark each row with SortableItem, and optionally add SortableHandle for grip-only drag. Pass config={{ layout: 'grid' }} for grid layouts. Use useSortableList for typed list state.",
-  "categories": [
-    "systems",
-    "drag-and-drop"
-  ],
+  "categories": ["systems", "drag-and-drop"],
   "type": "registry:block"
 }

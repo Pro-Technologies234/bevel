@@ -256,7 +256,7 @@ function ShowcaseCard({ item, index }: { item: ShowcaseItem; index: number }) {
               <div className="size-2.5 rounded-full bg-green-500/60" />
               <div className="flex items-center gap-1.5 ml-3 px-2.5 py-0.5 rounded bg-muted/60 text-[9px] text-muted-foreground flex-1 max-w-48">
                 <div className="size-1.5 rounded-full bg-muted-foreground/40" />
-                bevelui.pxxl.click/blocks/{item.id}
+                bevelui.vercel.app/blocks/{item.id}
               </div>
             </div>
 

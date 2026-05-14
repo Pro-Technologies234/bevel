@@ -1,14 +1,14 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "bevelui",
-  "homepage": "https://bevelui.pxxl.click",
+  "homepage": "https://bevelui.vercel.app",
   "items": [
     {
       "name": "tour",
       "type": "registry:block",
       "title": "Product Tour",
       "description": "A fully-engineered guided product tour system with overlay, floating card, keyboard navigation, and media support. Drop-in replacement for building interactive onboarding flows.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "onboarding"],
       "dependencies": ["@floating-ui/react", "motion"],
       "registryDependencies": ["button", "badge"],
@@ -61,7 +61,7 @@
       "type": "registry:block",
       "title": "Command Palette",
       "description": "A fully-engineered command palette system with fuzzy search, keyboard navigation, grouped results, source tabs, filter tabs, and a Raycast-style footer. Global ⌘K shortcut included.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "navigation"],
       "dependencies": ["motion"],
       "registryDependencies": ["button", "badge", "input", "separator"],
@@ -129,7 +129,7 @@
       "type": "registry:block",
       "title": "File Upload",
       "description": "A fully-engineered file upload system with drag-and-drop, per-file progress tracking, validation, error states, retry logic, and cancel support. Consumer-provided upload function keeps it backend-agnostic.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "forms"],
       "dependencies": ["react-dropzone", "motion"],
       "registryDependencies": [
@@ -183,7 +183,7 @@
       "type": "registry:block",
       "title": "Form Engine",
       "description": "A fully-engineered config-driven form system supporting single-step and multi-step flows. Features a six-hook plugin system, react-hook-form + zod integration, composable API, RTL support, and a zero-config shortcut component.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "forms"],
       "dependencies": ["react-hook-form", "zod", "motion"],
       "registryDependencies": [
@@ -195,11 +195,11 @@
         "progress",
         "separator",
         "tooltip",
-        "https://bevelui.pxxl.click/r/card-select.json",
-        "https://bevelui.pxxl.click/r/chip-select.json",
-        "https://bevelui.pxxl.click/r/rating-field.json",
-        "https://bevelui.pxxl.click/r/select-field.json",
-        "https://bevelui.pxxl.click/r/tag-input.json"
+        "https://bevelui.vercel.app/r/card-select.json",
+        "https://bevelui.vercel.app/r/chip-select.json",
+        "https://bevelui.vercel.app/r/rating-field.json",
+        "https://bevelui.vercel.app/r/select-field.json",
+        "https://bevelui.vercel.app/r/tag-input.json"
       ],
       "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineNavigation.",
       "files": [
@@ -270,7 +270,7 @@
       "type": "registry:block",
       "title": "Sortable",
       "description": "A headless drag-to-reorder system built on @dnd-kit. Supports whole-row drag or handle-only mode, custom drag overlays, vertical list and grid layouts, and a useSortableList hook for typed list mutations.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "drag-and-drop"],
       "dependencies": [
         "@dnd-kit/core",
@@ -323,10 +323,10 @@
       "type": "registry:block",
       "title": "Palette",
       "description": "A visual color palette editor with a 2D HSV picker, sortable swatch grid, color naming, and one-click export to hex arrays, CSS custom properties, Tailwind config, or HSL strings.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "color"],
       "dependencies": [],
-      "registryDependencies": ["https://bevelui.pxxl.click/r/sortable.json"],
+      "registryDependencies": ["https://bevelui.vercel.app/r/sortable.json"],
       "docs": "Import from @/components/bevelui/palette. Drop PaletteRoot anywhere for the full editor, or compose with PaletteGrid, PaletteToolbar, and PaletteColorEditor manually. Use usePalette for programmatic control inside any child component.",
       "files": [
         {
@@ -386,7 +386,7 @@
       "type": "registry:block",
       "title": "Properties Panel",
       "description": "A Figma-style properties panel with collapsible sections and seven typed control rows — text, number with unit, color, select, toggle, slider, and custom. Config-driven or fully headless.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "layout"],
       "dependencies": [],
       "registryDependencies": ["input", "select", "switch", "slider"],
@@ -429,7 +429,7 @@
       "type": "registry:component",
       "title": "Card Select",
       "description": "A card-based selection control supporting single or multi-select, with grid, list, and scroll layout modes. Used by FormEngine's FieldRenderer and usable standalone.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["controls", "forms"],
       "dependencies": ["motion"],
       "registryDependencies": ["badge"],
@@ -446,7 +446,7 @@
       "type": "registry:component",
       "title": "Chip Select",
       "description": "A pill chip selector control supporting single or multi-select. Used by FormEngine's FieldRenderer and usable standalone.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["controls", "forms"],
       "dependencies": ["motion"],
       "registryDependencies": ["badge"],
@@ -463,7 +463,7 @@
       "type": "registry:component",
       "title": "Rating Field",
       "description": "A star or number rating input control. Used by FormEngine's FieldRenderer and usable standalone.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["controls", "forms"],
       "dependencies": ["motion"],
       "files": [
@@ -479,7 +479,7 @@
       "type": "registry:component",
       "title": "Select Field",
       "description": "A searchable dropdown with grouped options support. Used by FormEngine's FieldRenderer and usable standalone.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["controls", "forms"],
       "registryDependencies": ["input", "badge", "separator"],
       "files": [
@@ -495,7 +495,7 @@
       "type": "registry:component",
       "title": "Tag Input",
       "description": "A tag creation input control with keyboard support for adding and removing tags. Used by FormEngine's FieldRenderer and usable standalone.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["controls", "forms"],
       "registryDependencies": ["input", "badge"],
       "files": [

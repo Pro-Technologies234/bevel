@@ -50,7 +50,7 @@
         {
           "id": "installation-cli",
           "title": "Install a system",
-          "description": "npx shadcn@latest add https://bevelui.pxxl.click/r/tour.json",
+          "description": "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
           "href": "/docs/installation#install-system",
           "category": "getting-started",
           "keywords": ["install", "npx", "shadcn", "add", "cli command"]

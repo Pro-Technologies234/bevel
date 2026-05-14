@@ -54,7 +54,7 @@ const SYSTEMS = [
     what: "A guided tour that works. Floating cards anchored to any element, keyboard navigation, media per step, SVG overlay masking — all pre-wired.",
     href: "/docs/components/product-tour",
     accent: "#c2f13c",
-    cmd: "npx shadcn@latest add https://bevelui.pxxl.click/r/tour.json",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
     demo: <ProductTourDemo />,
   },
   {
@@ -65,7 +65,7 @@ const SYSTEMS = [
     what: "⌘K that actually works. Fuzzy search with zero dependencies, source and filter tabs, grouped results with avatars, accessible keyboard flow.",
     href: "/docs/components/command-palette",
     accent: "#818cf8",
-    cmd: "npx shadcn@latest add https://bevelui.pxxl.click/r/command-palette.json",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json",
     demo: <CommandPaletteShowcase />,
   },
   {
@@ -76,7 +76,7 @@ const SYSTEMS = [
     what: "Drag-and-drop with per-file progress, cancel, retry, grid and list views. You bring one function — the upload handler. The system handles everything else.",
     href: "/docs/components/file-upload",
     accent: "#f97316",
-    cmd: "npx shadcn@latest add https://bevelui.pxxl.click/r/file-upload.json",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json",
     demo: <MediaLibary />,
   },
   {
@@ -87,7 +87,7 @@ const SYSTEMS = [
     what: "Form orchestration with a plugin architecture. react-hook-form + zod, conditional fields, custom layouts. The engine owns the steps. Your fields and logic stay yours.",
     href: "/docs/components/form-engine",
     accent: "#e879f9",
-    cmd: "npx shadcn@latest add https://bevelui.pxxl.click/r/form-engine.json",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/form-engine.json",
     demo: <FormEngineShowcase />,
   },
 ];

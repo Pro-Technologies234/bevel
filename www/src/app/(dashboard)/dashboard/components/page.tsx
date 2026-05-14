@@ -96,7 +96,7 @@ export default async function MySystemsPage() {
                 CLI example
               </div>
               <code className="block overflow-x-auto text-xs leading-6 text-muted-foreground">
-                {`npx shadcn@latest add https://bevelui.pxxl.click/api/r/pro/[system].json --auth ${primaryLicense.key}`}
+                {`npx shadcn@latest add https://bevelui.vercel.app/api/r/pro/[system].json --auth ${primaryLicense.key}`}
               </code>
             </div>
           </DashboardPanel>
@@ -112,8 +112,8 @@ export default async function MySystemsPage() {
             const installCommand =
               hasAccess && product.registryPath
                 ? product.tier === "FREE"
-                  ? `bunx --bun shadcn@latest add https://bevelui.pxxl.click/${product.registryPath}`
-                  : `bunx --bun shadcn@latest add https://bevelui.pxxl.click/api/${product.registryPath}`
+                  ? `bunx --bun shadcn@latest add https://bevelui.vercel.app/${product.registryPath}`
+                  : `bunx --bun shadcn@latest add https://bevelui.vercel.app/api/${product.registryPath}`
                 : null;
 
             return (

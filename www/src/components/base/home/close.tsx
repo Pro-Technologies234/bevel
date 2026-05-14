@@ -43,7 +43,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const INSTALL_CMD =
-  "npx shadcn@latest add https://bevelui.pxxl.click/r/tour.json";
+  "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json";
 
 export default function Close() {
   const sectionRef = useRef<HTMLDivElement>(null);

@@ -118,7 +118,7 @@
             },
             {
               "title": "Add the system files",
-              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/properties-panel.json",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/properties-panel.json",
               "codeLanguage": "bash"
             }
           ]

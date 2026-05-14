@@ -141,12 +141,12 @@
             },
             {
               "title": "Add the Sortable system",
-              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/sortable.json",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/sortable.json",
               "codeLanguage": "bash"
             },
             {
               "title": "Add the Palette system",
-              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/palette.json",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/palette.json",
               "codeLanguage": "bash"
             }
           ]

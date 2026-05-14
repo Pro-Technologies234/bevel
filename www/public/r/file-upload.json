@@ -2,12 +2,9 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "file-upload",
   "title": "File Upload",
-  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A fully-engineered file upload system with drag-and-drop, per-file progress tracking, validation, error states, retry logic, and cancel support. Consumer-provided upload function keeps it backend-agnostic.",
-  "dependencies": [
-    "react-dropzone",
-    "motion"
-  ],
+  "dependencies": ["react-dropzone", "motion"],
   "registryDependencies": [
     "button",
     "badge",
@@ -60,9 +57,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/file-upload. Use FileUploadRoot as the provider and supply your own onUpload function. Supports S3, Cloudinary, or any custom endpoint.",
-  "categories": [
-    "systems",
-    "forms"
-  ],
+  "categories": ["systems", "forms"],
   "type": "registry:block"
 }

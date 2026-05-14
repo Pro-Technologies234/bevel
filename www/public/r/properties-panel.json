@@ -2,15 +2,10 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "properties-panel",
   "title": "Properties Panel",
-  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A Figma-style properties panel with collapsible sections and seven typed control rows — text, number with unit, color, select, toggle, slider, and custom. Config-driven or fully headless.",
   "dependencies": [],
-  "registryDependencies": [
-    "input",
-    "select",
-    "switch",
-    "slider"
-  ],
+  "registryDependencies": ["input", "select", "switch", "slider"],
   "files": [
     {
       "path": "src/components/bevelui/properties-panel/properties-panel-types.ts",
@@ -50,9 +45,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/properties-panel. Pass a sections array to PropertiesPanel for config-driven rendering, or compose PropertiesSection and PropertiesRow directly for headless control. Both modes work simultaneously.",
-  "categories": [
-    "systems",
-    "layout"
-  ],
+  "categories": ["systems", "layout"],
   "type": "registry:block"
 }

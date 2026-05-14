@@ -120,7 +120,7 @@
         {
           "type": "code",
           "language": "bash",
-          "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/command-palette.json"
+          "code": "npx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json"
         },
         {
           "type": "callout",
