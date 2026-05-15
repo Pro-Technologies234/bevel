@@ -1,14 +1,14 @@
 {
   "meta": {
-    "title": "Form Engine",
-    "description": "A step orchestration engine for multi-step and single-step forms. Owns the flow — you own the fields. Bring any validation library via plugins, or wire in your own form state with FormEngineStep.",
-    "badge": "System",
+    "title": "File Upload",
+    "description": "A complete file upload system with drag-and-drop, per-file progress tracking, cancel support, error recovery, and grid/list views. Bring your own upload function — the system handles everything else.",
+    "badge": "Components System",
     "features": [
-      "Config-driven or headless",
-      "Plugin architecture",
-      "Per-step validation",
-      "Library-agnostic",
-      "Composable layout"
+      "State machine per file",
+      "Bring your own upload fn",
+      "AbortController cancel",
+      "Error + retry flow",
+      "Grid and list views"
     ],
     "slug": "file-upload",
     "prev": {
