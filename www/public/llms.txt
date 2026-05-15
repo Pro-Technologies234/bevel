@@ -1,0 +1,46 @@
+# Bevel UI
+
+> Fully-engineered UI systems for React. Copy the code, own it forever. No lock-in.
+
+Bevel UI is a collection of production-ready UI systems for React developers.
+Unlike component libraries, each system solves a complete engineering problem —
+state architecture, edge cases, and composable API included.
+
+Built on: React, TypeScript, Tailwind CSS v4, shadcn/ui
+Install: npx shadcn@latest add https://bevelui.vercel.app/r/[system-name].json
+
+## Free Systems
+
+- **Product Tour** — Viewport-aware guided tours. SVG mask overlay, floating card positioning via @floating-ui/react, keyboard navigation, media support. https://bevelui.vercel.app/docs/components/product-tour
+- **Command Palette** — ⌘K command menu with custom fuzzy search (no Fuse.js), two-tier tab filtering, grouped results, avatar support. https://bevelui.vercel.app/docs/components/command-palette
+- **File Upload** — Drag-and-drop with per-file state machine (idle→uploading→done/error), cancel via AbortController, retry, grid/list views. https://bevelui.vercel.app/docs/components/file-upload
+- **Form Engine** — Multi-step form orchestration. Config-driven or headless. Plugin architecture. Per-step Zod validation. Conditional fields. https://bevelui.vercel.app/docs/components/form-engine
+- **Sortable** — Drag-to-reorder for lists and CSS grids. Built on @dnd-kit. Handle mode, drag overlay, useSortableList hook. https://bevelui.vercel.app/docs/components/sortable
+- **Color Palette** — Visual palette editor with 2D HSV picker. Export to hex array, CSS variables, Tailwind config, HSL strings. https://bevelui.vercel.app/docs/components/palette
+
+## Pro Systems ($49 one-time)
+
+- **Properties Panel** — Figma-style panel with seven typed control rows. Config-driven or headless. Uses shadcn Input, Select, Switch, Slider. https://bevelui.vercel.app/docs/components/properties-panel
+- **AI Chat Interface** — Streaming chat UI with thinking blocks, tool call display, markdown rendering, file attachments. Model-agnostic. https://bevelui.vercel.app/docs/components/ai-chat
+
+## Bevel Labs
+
+Six fully functional demo applications built entirely with Bevel systems.
+Vault (file manager), Onboard (SaaS onboarding), Launchpad (deployment dashboard),
+Intake (job application form), Briefcase (client handoff), Compass (settings hub).
+
+Source code available with Pro license.
+
+## Docs
+
+Full documentation: https://bevelui.vercel.app/docs
+Quick start: https://bevelui.vercel.app/docs/quick-start
+
+## Pricing
+
+- Free: All free systems, MIT licensed
+- Pro: $49 one-time — all Pro systems + Bevel Labs source code
+
+## Optional
+
+- llms-full.txt: https://bevelui.vercel.app/llms-full.txt

@@ -77,7 +77,9 @@ export const rootMetadata: Metadata = {
   },
 
   description: SITE_DESCRIPTION,
-
+  verification: {
+    google: "google628f1670d43fce42",
+  },
   keywords: [
     "react ui components",
     "shadcn ui",

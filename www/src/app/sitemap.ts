@@ -6,6 +6,16 @@ import type { MetadataRoute } from "next";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.vercel.app";
+const SYSTEMS = [
+  "product-tour",
+  "command-palette",
+  "file-upload",
+  "form-engine",
+  "sortable",
+  "palette",
+  "properties-panel",
+  "ai-chat",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -51,32 +61,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
-    // ── Systems ───────────────────────────────────────────────────────────────
-    {
-      url: `${SITE_URL}/docs/components/product-tour`,
+    ...SYSTEMS.map((slug) => ({
+      url: `${SITE_URL}/docs/components/${slug}`,
       lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/docs/components/command-palette`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/docs/components/file-upload`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/docs/components/form-engine`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+    })),
     // ── Labs previews (public, indexable) ─────────────────────────────────────
     {
       url: `${SITE_URL}/preview/vault`,
