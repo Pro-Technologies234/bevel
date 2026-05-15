@@ -13,7 +13,7 @@
 // Install: bun add @vercel/og
 //
 // Then update your metadata to use dynamic URLs instead of static PNGs:
-//   og("og-default.png")  →  `${SITE_URL}/og?type=default`
+//   og("og-default.webp")  →  `${SITE_URL}/og?type=default`
 
 import { BevelIcon } from "@/components/shared/brand-mark";
 import { ImageResponse } from "@vercel/og";
