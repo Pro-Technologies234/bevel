@@ -414,24 +414,24 @@ const PUBLISH_CONFIG: FormEngineConfig = {
           placeholder: "my-article-slug",
           // Custom prefix rendering can be done with layout override if needed
         },
-        {
-          key: "category",
-          variant: "select",
-          label: "Category",
-          required: true,
-          props: {
-            options: categoryOptions,
-            placeholder: "Select category",
-          },
-        },
-        {
-          key: "tags",
-          variant: "tag-input",
-          label: "Tags",
-          props: {
-            placeholder: "Add a tag…",
-          },
-        },
+        // {
+        //   key: "category",
+        //   variant: "select",
+        //   label: "Category",
+        //   required: true,
+        //   props: {
+        //     options: categoryOptions,
+        //     placeholder: "Select category",
+        //   },
+        // },
+        // {
+        //   key: "tags",
+        //   variant: "tag-input",
+        //   label: "Tags",
+        //   props: {
+        //     placeholder: "Add a tag…",
+        //   },
+        // },
       ],
     },
     {
@@ -445,15 +445,15 @@ const PUBLISH_CONFIG: FormEngineConfig = {
       title: "Distribution",
       description: "Where do you want to publish this?",
       fields: [
-        {
-          key: "channels",
-          variant: "chip-select",
-          label: "Share to channels",
-          props: {
-            options: channelOptions,
-            multiple: true,
-          },
-        },
+        // {
+        //   key: "channels",
+        //   variant: "chip-select",
+        //   label: "Share to channels",
+        //   props: {
+        //     options: channelOptions,
+        //     multiple: true,
+        //   },
+        // },
         {
           key: "seoTitle",
           variant: "text",

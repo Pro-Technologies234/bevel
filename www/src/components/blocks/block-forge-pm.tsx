@@ -402,42 +402,42 @@ const CREATE_ISSUE_CONFIG: FormEngineConfig = {
           placeholder: "What needs to be done?",
           required: true,
         },
-        {
-          key: "priority",
-          variant: "card-select",
-          label: "Priority",
-          required: true,
-          props: {
-            options: [
-              {
-                value: "urgent",
-                label: "Urgent",
-                description: "Must ship now",
-              },
-              { value: "high", label: "High", description: "Next sprint" },
-              {
-                value: "medium",
-                label: "Medium",
-                description: "When possible",
-              },
-              { value: "low", label: "Low", description: "Nice to have" },
-            ],
-            layout: "grid",
-            columns: 4,
-          },
-        },
-        {
-          key: "labels",
-          variant: "chip-select",
-          label: "Labels",
-          props: {
-            options: Object.keys(LABEL_COLORS).map((l) => ({
-              value: l,
-              label: l,
-            })),
-            multiple: true,
-          },
-        },
+        // {
+        //   key: "priority",
+        //   variant: "card-select",
+        //   label: "Priority",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       {
+        //         value: "urgent",
+        //         label: "Urgent",
+        //         description: "Must ship now",
+        //       },
+        //       { value: "high", label: "High", description: "Next sprint" },
+        //       {
+        //         value: "medium",
+        //         label: "Medium",
+        //         description: "When possible",
+        //       },
+        //       { value: "low", label: "Low", description: "Nice to have" },
+        //     ],
+        //     layout: "grid",
+        //     columns: 4,
+        //   },
+        // },
+        // {
+        //   key: "labels",
+        //   variant: "chip-select",
+        //   label: "Labels",
+        //   props: {
+        //     options: Object.keys(LABEL_COLORS).map((l) => ({
+        //       value: l,
+        //       label: l,
+        //     })),
+        //     multiple: true,
+        //   },
+        // },
         {
           key: "description",
           variant: "textarea",

@@ -146,17 +146,17 @@ const APPLICATION_CONFIG: FormEngineConfig = {
           },
           required: true,
         },
-        {
-          key: "location",
-          variant: "select",
-          label: "Location",
-          required: true,
-          props: {
-            options: locationOptions,
-            placeholder: "Where are you based?",
-            className: "rounded-full h-10! px-4!",
-          },
-        },
+        // {
+        //   key: "location",
+        //   variant: "select",
+        //   label: "Location",
+        //   required: true,
+        //   props: {
+        //     options: locationOptions,
+        //     placeholder: "Where are you based?",
+        //     className: "rounded-full h-10! px-4!",
+        //   },
+        // },
       ],
     },
     {
@@ -164,25 +164,25 @@ const APPLICATION_CONFIG: FormEngineConfig = {
       title: "Your experience",
       description: "Tell us about your background and what you're looking for.",
       fields: [
-        {
-          key: "workTypes",
-          variant: "chip-select",
-          label: "Work arrangement",
-          required: true,
-          props: {
-            options: workTypeOptions,
-            multiple: true,
-          },
-        },
-        {
-          key: "yearsExp",
-          variant: "rating",
-          label: "Years of experience",
-          required: true,
-          props: {
-            max: 5,
-          },
-        },
+        // {
+        //   key: "workTypes",
+        //   variant: "chip-select",
+        //   label: "Work arrangement",
+        //   required: true,
+        //   props: {
+        //     options: workTypeOptions,
+        //     multiple: true,
+        //   },
+        // },
+        // {
+        //   key: "yearsExp",
+        //   variant: "rating",
+        //   label: "Years of experience",
+        //   required: true,
+        //   props: {
+        //     max: 5,
+        //   },
+        // },
         {
           key: "coverLetter",
           variant: "textarea",

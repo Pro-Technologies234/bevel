@@ -116,37 +116,37 @@ const config: FormEngineConfig = {
           placeholder: "Acme Inc.",
           required: true,
         },
-        {
-          key: "role",
-          variant: "chip-select",
-          label: "Your role",
-          required: true,
-          props: {
-            activeClassName: "bg-rose-400 text-white",
-            options: [
-              { value: "engineering", label: "Engineering" },
-              { value: "design", label: "Design" },
-              { value: "product", label: "Product" },
-              { value: "founder", label: "Founder" },
-              { value: "other", label: "Other" },
-            ],
-          },
-        },
-        {
-          key: "teamSize",
-          variant: "chip-select",
-          label: "Team size",
-          required: true,
-          props: {
-            activeClassName: "bg-pink-600 text-white",
-            options: [
-              { value: "solo", label: "Just me" },
-              { value: "2-5", label: "2–5" },
-              { value: "6-20", label: "6–20" },
-              { value: "20+", label: "20+" },
-            ],
-          },
-        },
+        // {
+        //   key: "role",
+        //   variant: "chip-select",
+        //   label: "Your role",
+        //   required: true,
+        //   props: {
+        //     activeClassName: "bg-rose-400 text-white",
+        //     options: [
+        //       { value: "engineering", label: "Engineering" },
+        //       { value: "design", label: "Design" },
+        //       { value: "product", label: "Product" },
+        //       { value: "founder", label: "Founder" },
+        //       { value: "other", label: "Other" },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: "teamSize",
+        //   variant: "chip-select",
+        //   label: "Team size",
+        //   required: true,
+        //   props: {
+        //     activeClassName: "bg-pink-600 text-white",
+        //     options: [
+        //       { value: "solo", label: "Just me" },
+        //       { value: "2-5", label: "2–5" },
+        //       { value: "6-20", label: "6–20" },
+        //       { value: "20+", label: "20+" },
+        //     ],
+        //   },
+        // },
       ],
     },
     {
@@ -154,34 +154,34 @@ const config: FormEngineConfig = {
       title: "Choose your plan",
       description: "Start free. Upgrade when you're ready.",
       fields: [
-        {
-          key: "plan",
-          variant: "card-select",
-          label: "Plan",
-          required: true,
-          props: {
-            layout: "grid",
-            columns: 2,
-            options: [
-              {
-                value: "free",
-                label: "Free",
-                description: "4 systems, forever",
-              },
-              {
-                value: "pro",
-                label: "Pro",
-                description: "$49 one-time",
-                badge: "Popular",
-              },
-              {
-                value: "team",
-                label: "Team",
-                description: "$199/year",
-              },
-            ],
-          },
-        },
+        // {
+        //   key: "plan",
+        //   variant: "card-select",
+        //   label: "Plan",
+        //   required: true,
+        //   props: {
+        //     layout: "grid",
+        //     columns: 2,
+        //     options: [
+        //       {
+        //         value: "free",
+        //         label: "Free",
+        //         description: "4 systems, forever",
+        //       },
+        //       {
+        //         value: "pro",
+        //         label: "Pro",
+        //         description: "$49 one-time",
+        //         badge: "Popular",
+        //       },
+        //       {
+        //         value: "team",
+        //         label: "Team",
+        //         description: "$199/year",
+        //       },
+        //     ],
+        //   },
+        // },
       ],
     },
   ],

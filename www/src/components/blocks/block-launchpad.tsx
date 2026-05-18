@@ -180,37 +180,37 @@ const ONBOARDING_CONFIG: FormEngineConfig = {
           placeholder: "Acme, Design Team, My Startup…",
           required: true,
         },
-        {
-          key: "role",
-          variant: "card-select",
-          label: "Your role",
-          props: {
-            options: [
-              {
-                value: "engineer",
-                label: "Engineer",
-                description: "I build products",
-              },
-              {
-                value: "designer",
-                label: "Designer",
-                description: "I craft UI/UX",
-              },
-              {
-                value: "pm",
-                label: "PM",
-                description: "I define what we build",
-              },
-              {
-                value: "founder",
-                label: "Founder",
-                description: "I do everything",
-              },
-            ],
-            layout: "grid",
-            columns: 4,
-          },
-        },
+        // {
+        //   key: "role",
+        //   variant: "card-select",
+        //   label: "Your role",
+        //   props: {
+        //     options: [
+        //       {
+        //         value: "engineer",
+        //         label: "Engineer",
+        //         description: "I build products",
+        //       },
+        //       {
+        //         value: "designer",
+        //         label: "Designer",
+        //         description: "I craft UI/UX",
+        //       },
+        //       {
+        //         value: "pm",
+        //         label: "PM",
+        //         description: "I define what we build",
+        //       },
+        //       {
+        //         value: "founder",
+        //         label: "Founder",
+        //         description: "I do everything",
+        //       },
+        //     ],
+        //     layout: "grid",
+        //     columns: 4,
+        //   },
+        // },
       ],
     },
     {
@@ -218,25 +218,25 @@ const ONBOARDING_CONFIG: FormEngineConfig = {
       title: "What brings you here?",
       description: "We'll personalise your setup based on your goals.",
       fields: [
-        {
-          key: "goals",
-          variant: "chip-select",
-          label: "Select your goals",
-          required: true,
-          props: {
-            options: [
-              { value: "ship-faster", label: "Ship faster" },
-              { value: "reduce-bugs", label: "Reduce bugs" },
-              { value: "improve-ux", label: "Better UX" },
-              { value: "collaboration", label: "Team collaboration" },
-              { value: "analytics", label: "Analytics & data" },
-              { value: "automation", label: "Automation" },
-              { value: "scale", label: "Scale the team" },
-              { value: "revenue", label: "Grow revenue" },
-            ],
-            multiple: true,
-          },
-        },
+        // {
+        //   key: "goals",
+        //   variant: "chip-select",
+        //   label: "Select your goals",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       { value: "ship-faster", label: "Ship faster" },
+        //       { value: "reduce-bugs", label: "Reduce bugs" },
+        //       { value: "improve-ux", label: "Better UX" },
+        //       { value: "collaboration", label: "Team collaboration" },
+        //       { value: "analytics", label: "Analytics & data" },
+        //       { value: "automation", label: "Automation" },
+        //       { value: "scale", label: "Scale the team" },
+        //       { value: "revenue", label: "Grow revenue" },
+        //     ],
+        //     multiple: true,
+        //   },
+        // },
       ],
     },
     {
@@ -244,50 +244,50 @@ const ONBOARDING_CONFIG: FormEngineConfig = {
       title: "Set up your team",
       description: "Your timezone and any teammates you want to invite.",
       fields: [
-        {
-          key: "timezone",
-          variant: "select",
-          label: "Timezone",
-          required: true,
-          props: {
-            options: [
-              {
-                group: "Americas",
-                options: [
-                  { value: "et", label: "Eastern (ET)" },
-                  { value: "ct", label: "Central (CT)" },
-                  { value: "pt", label: "Pacific (PT)" },
-                ],
-              },
-              {
-                group: "Europe & Africa",
-                options: [
-                  { value: "gmt", label: "London (GMT)" },
-                  { value: "cet", label: "Paris (CET)" },
-                  { value: "wat", label: "Lagos (WAT)" },
-                ],
-              },
-              {
-                group: "Asia & Pacific",
-                options: [
-                  { value: "ist", label: "Mumbai (IST)" },
-                  { value: "sgt", label: "Singapore (SGT)" },
-                ],
-              },
-            ],
-            placeholder: "Select your timezone",
-          },
-        },
-        {
-          key: "teammates",
-          variant: "tag-input",
-          label: "Invite teammates",
-          props: {
-            placeholder: "name@company.com — press Enter",
-            validate: (t: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t),
-            // invalidMessage: "Enter a valid email",
-          },
-        },
+        // {
+        //   key: "timezone",
+        //   variant: "select",
+        //   label: "Timezone",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       {
+        //         group: "Americas",
+        //         options: [
+        //           { value: "et", label: "Eastern (ET)" },
+        //           { value: "ct", label: "Central (CT)" },
+        //           { value: "pt", label: "Pacific (PT)" },
+        //         ],
+        //       },
+        //       {
+        //         group: "Europe & Africa",
+        //         options: [
+        //           { value: "gmt", label: "London (GMT)" },
+        //           { value: "cet", label: "Paris (CET)" },
+        //           { value: "wat", label: "Lagos (WAT)" },
+        //         ],
+        //       },
+        //       {
+        //         group: "Asia & Pacific",
+        //         options: [
+        //           { value: "ist", label: "Mumbai (IST)" },
+        //           { value: "sgt", label: "Singapore (SGT)" },
+        //         ],
+        //       },
+        //     ],
+        //     placeholder: "Select your timezone",
+        //   },
+        // },
+        // {
+        //   key: "teammates",
+        //   variant: "tag-input",
+        //   label: "Invite teammates",
+        //   props: {
+        //     placeholder: "name@company.com — press Enter",
+        //     validate: (t: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t),
+        //     // invalidMessage: "Enter a valid email",
+        //   },
+        // },
       ],
     },
   ],

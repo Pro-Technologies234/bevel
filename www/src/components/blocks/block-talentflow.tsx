@@ -349,40 +349,40 @@ const APPLICATION_CONFIG: FormEngineConfig = {
           placeholder: "jamie@example.com",
           required: true,
         },
-        {
-          key: "location",
-          variant: "select",
-          label: "Location",
-          required: true,
-          props: {
-            options: locationOptions,
-            placeholder: "Where are you based?",
-          },
-        },
-        {
-          key: "experience",
-          variant: "card-select",
-          label: "Experience level",
-          required: true,
-          props: {
-            options: [
-              { value: "entry", label: "Junior", description: "0–2 years" },
-              { value: "mid", label: "Mid-level", description: "2–5 years" },
-              { value: "senior", label: "Senior", description: "5–8 years" },
-              { value: "staff", label: "Staff+", description: "8+ years" },
-            ],
-            layout: "grid",
-            columns: 4,
-          },
-        },
-        {
-          key: "skills",
-          variant: "tag-input",
-          label: "Key skills",
-          props: {
-            placeholder: "React, TypeScript, Node.js…",
-          },
-        },
+        // {
+        //   key: "location",
+        //   variant: "select",
+        //   label: "Location",
+        //   required: true,
+        //   props: {
+        //     options: locationOptions,
+        //     placeholder: "Where are you based?",
+        //   },
+        // },
+        // {
+        //   key: "experience",
+        //   variant: "card-select",
+        //   label: "Experience level",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       { value: "entry", label: "Junior", description: "0–2 years" },
+        //       { value: "mid", label: "Mid-level", description: "2–5 years" },
+        //       { value: "senior", label: "Senior", description: "5–8 years" },
+        //       { value: "staff", label: "Staff+", description: "8+ years" },
+        //     ],
+        //     layout: "grid",
+        //     columns: 4,
+        //   },
+        // },
+        // {
+        //   key: "skills",
+        //   variant: "tag-input",
+        //   label: "Key skills",
+        //   props: {
+        //     placeholder: "React, TypeScript, Node.js…",
+        //   },
+        // },
       ],
     },
     {
@@ -398,21 +398,21 @@ const APPLICATION_CONFIG: FormEngineConfig = {
           placeholder:
             "Why do you want to work here? What makes you the right fit?",
         },
-        {
-          key: "availability",
-          variant: "chip-select",
-          label: "Availability",
-          props: {
-            options: [
-              "Immediately",
-              "2 weeks",
-              "1 month",
-              "3 months",
-              "Open to discuss",
-            ].map((v) => ({ value: v, label: v })),
-            multiple: true,
-          },
-        },
+        // {
+        //   key: "availability",
+        //   variant: "chip-select",
+        //   label: "Availability",
+        //   props: {
+        //     options: [
+        //       "Immediately",
+        //       "2 weeks",
+        //       "1 month",
+        //       "3 months",
+        //       "Open to discuss",
+        //     ].map((v) => ({ value: v, label: v })),
+        //     multiple: true,
+        //   },
+        // },
       ],
     },
     {

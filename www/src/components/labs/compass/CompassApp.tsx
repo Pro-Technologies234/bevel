@@ -162,23 +162,23 @@ const profileConfig: FormEngineConfig = {
           label: "Website",
           placeholder: "https://alexjohnson.dev",
         },
-        {
-          key: "timezone",
-          variant: "select",
-          label: "Timezone",
-          required: true,
-          props: {
-            options: [
-              { value: "UTC-8", label: "Pacific Time (UTC-8)" },
-              { value: "UTC-5", label: "Eastern Time (UTC-5)" },
-              { value: "UTC+0", label: "London (UTC+0)" },
-              { value: "UTC+1", label: "Paris (UTC+1)" },
-              { value: "UTC+3", label: "Lagos (UTC+3)" },
-              { value: "UTC+5:30", label: "Mumbai (UTC+5:30)" },
-              { value: "UTC+8", label: "Singapore (UTC+8)" },
-            ],
-          },
-        },
+        // {
+        //   key: "timezone",
+        //   variant: "select",
+        //   label: "Timezone",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       { value: "UTC-8", label: "Pacific Time (UTC-8)" },
+        //       { value: "UTC-5", label: "Eastern Time (UTC-5)" },
+        //       { value: "UTC+0", label: "London (UTC+0)" },
+        //       { value: "UTC+1", label: "Paris (UTC+1)" },
+        //       { value: "UTC+3", label: "Lagos (UTC+3)" },
+        //       { value: "UTC+5:30", label: "Mumbai (UTC+5:30)" },
+        //       { value: "UTC+8", label: "Singapore (UTC+8)" },
+        //     ],
+        //   },
+        // },
       ],
     },
   ],
@@ -195,33 +195,33 @@ const notifConfig: FormEngineConfig = {
       title: "Notification preferences",
       description: "Control what you hear about and when.",
       fields: [
-        {
-          key: "emailFrequency",
-          variant: "chip-select",
-          label: "Email digest frequency",
-          props: {
-            options: [
-              { value: "realtime", label: "Real-time" },
-              { value: "daily", label: "Daily" },
-              { value: "weekly", label: "Weekly" },
-              { value: "never", label: "Never" },
-            ],
-          },
-        },
-        {
-          key: "notifyOn",
-          variant: "chip-select",
-          label: "Notify me about",
-          props: {
-            options: [
-              { value: "deploys", label: "Deploys" },
-              { value: "comments", label: "Comments" },
-              { value: "mentions", label: "Mentions" },
-              { value: "billing", label: "Billing" },
-              { value: "updates", label: "Product updates" },
-            ],
-          },
-        },
+        // {
+        //   key: "emailFrequency",
+        //   variant: "chip-select",
+        //   label: "Email digest frequency",
+        //   props: {
+        //     options: [
+        //       { value: "realtime", label: "Real-time" },
+        //       { value: "daily", label: "Daily" },
+        //       { value: "weekly", label: "Weekly" },
+        //       { value: "never", label: "Never" },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: "notifyOn",
+        //   variant: "chip-select",
+        //   label: "Notify me about",
+        //   props: {
+        //     options: [
+        //       { value: "deploys", label: "Deploys" },
+        //       { value: "comments", label: "Comments" },
+        //       { value: "mentions", label: "Mentions" },
+        //       { value: "billing", label: "Billing" },
+        //       { value: "updates", label: "Product updates" },
+        //     ],
+        //   },
+        // },
       ],
     },
   ],
@@ -238,44 +238,44 @@ const appearanceConfig: FormEngineConfig = {
       title: "Appearance",
       description: "Make it look the way you like.",
       fields: [
-        {
-          key: "theme",
-          variant: "card-select",
-          label: "Theme",
-          props: {
-            columns: 3,
-            options: [
-              { value: "dark", label: "Dark", description: "Default" },
-              { value: "light", label: "Light", description: "Bright mode" },
-              { value: "system", label: "System", description: "Match OS" },
-            ],
-          },
-        },
-        {
-          key: "density",
-          variant: "chip-select",
-          label: "UI density",
-          props: {
-            options: [
-              { value: "compact", label: "Compact" },
-              { value: "default", label: "Default" },
-              { value: "comfortable", label: "Comfortable" },
-            ],
-          },
-        },
-        {
-          key: "accentColor",
-          variant: "chip-select",
-          label: "Accent colour",
-          props: {
-            options: [
-              { value: "lime", label: "Lime (default)" },
-              { value: "indigo", label: "Indigo" },
-              { value: "rose", label: "Rose" },
-              { value: "amber", label: "Amber" },
-            ],
-          },
-        },
+        // {
+        //   key: "theme",
+        //   variant: "card-select",
+        //   label: "Theme",
+        //   props: {
+        //     columns: 3,
+        //     options: [
+        //       { value: "dark", label: "Dark", description: "Default" },
+        //       { value: "light", label: "Light", description: "Bright mode" },
+        //       { value: "system", label: "System", description: "Match OS" },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: "density",
+        //   variant: "chip-select",
+        //   label: "UI density",
+        //   props: {
+        //     options: [
+        //       { value: "compact", label: "Compact" },
+        //       { value: "default", label: "Default" },
+        //       { value: "comfortable", label: "Comfortable" },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: "accentColor",
+        //   variant: "chip-select",
+        //   label: "Accent colour",
+        //   props: {
+        //     options: [
+        //       { value: "lime", label: "Lime (default)" },
+        //       { value: "indigo", label: "Indigo" },
+        //       { value: "rose", label: "Rose" },
+        //       { value: "amber", label: "Amber" },
+        //     ],
+        //   },
+        // },
       ],
     },
   ],
@@ -310,18 +310,18 @@ const securityConfig: FormEngineConfig = {
           label: "Confirm new password",
           placeholder: "••••••••",
         },
-        {
-          key: "twoFactor",
-          variant: "chip-select",
-          label: "Two-factor authentication",
-          props: {
-            options: [
-              { value: "disabled", label: "Disabled" },
-              { value: "app", label: "Authenticator app" },
-              { value: "sms", label: "SMS" },
-            ],
-          },
-        },
+        // {
+        //   key: "twoFactor",
+        //   variant: "chip-select",
+        //   label: "Two-factor authentication",
+        //   props: {
+        //     options: [
+        //       { value: "disabled", label: "Disabled" },
+        //       { value: "app", label: "Authenticator app" },
+        //       { value: "sms", label: "SMS" },
+        //     ],
+        //   },
+        // },
       ],
     },
   ],
