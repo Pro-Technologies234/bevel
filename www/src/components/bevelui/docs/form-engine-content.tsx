@@ -29,6 +29,9 @@ import {
   FormEngineBackButton,
   FormEngineNextButton,
 } from "../form-engine/form-engine-navigation";
+import { TagInput } from "../controls/tag-input";
+import { SelectField } from "../controls/select-field";
+import { CardSelect } from "../controls/card-select";
 
 // ─── Showcase Demo: Custom Layout with FormEngineRoot ────────────────────────
 
@@ -78,43 +81,49 @@ const showcaseConfig: FormEngineConfig = {
         },
         {
           key: "teamSize",
-          variant: "select",
+          variant: "custom",
           label: "Team size",
-          props: {
-            options: [
-              { value: "1", label: "Just me" },
-              { value: "2-10", label: "2–10 employees" },
-              { value: "11-50", label: "11–50 employees" },
-              { value: "51+", label: "51+ employees" },
-            ],
-          },
+          render: ({ value, onChange }) => (
+            <SelectField
+              value={(value as any) || ""}
+              onChange={onChange}
+              options={[
+                { value: "1", label: "Just me" },
+                { value: "2-10", label: "2–10 employees" },
+                { value: "11-50", label: "11–50 employees" },
+                { value: "51+", label: "51+ employees" },
+              ]}
+            />
+          ),
         },
         {
           key: "plan",
-          variant: "card-select",
+          variant: "custom",
           label: "Choose your plan",
           required: true,
-          props: {
-            columns: 3,
-            layout: "grid",
-            options: [
-              {
-                value: "free",
-                label: "Free",
-                description: "For individuals",
-              },
-              {
-                value: "pro",
-                label: "Pro",
-                description: "$12/seat/mo",
-              },
-              {
-                value: "enterprise",
-                label: "Enterprise",
-                description: "Custom pricing",
-              },
-            ],
-          },
+          render: ({ value, onChange }) => (
+            <CardSelect
+              columns={3}
+              layout={"grid"}
+              options={[
+                {
+                  value: "free",
+                  label: "Free",
+                  description: "For individuals",
+                },
+                {
+                  value: "pro",
+                  label: "Pro",
+                  description: "$12/seat/mo",
+                },
+                {
+                  value: "enterprise",
+                  label: "Enterprise",
+                  description: "Custom pricing",
+                },
+              ]}
+            />
+          ),
         },
       ],
     },
@@ -125,19 +134,24 @@ const showcaseConfig: FormEngineConfig = {
       fields: [
         {
           key: "invites",
-          variant: "tag-input",
           label: "Email addresses",
           placeholder: "colleague@company.com",
-          props: {
-            validate: (val: string) => {
-              const valid = /.+@.+\..+/.test(val);
-              if (!valid) toast.error("Input a valid Email address");
-              return valid;
-            },
-            variant: "default",
-            size: "sm",
-            tagClassName: "bg-cyan-700  text-white border-none",
-          },
+          variant: "custom",
+          render: ({ value, onChange }) => (
+            <TagInput
+              value={(value as string[]) || []}
+              onChange={onChange}
+              placeholder="Enter email addresses..."
+              validate={(val: string) => {
+                const valid = /.+@.+\..+/.test(val);
+                if (!valid) toast.error("Input a valid Email address");
+                return valid;
+              }}
+              variant={"default"}
+              size={"sm"}
+              tagClassName={"bg-cyan-700  text-white border-none"}
+            />
+          ),
         },
       ],
     },

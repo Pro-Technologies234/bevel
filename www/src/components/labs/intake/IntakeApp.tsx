@@ -90,66 +90,66 @@ const config: FormEngineConfig = {
       title: "Your experience",
       description: "Tell us about your background.",
       fields: [
-        {
-          key: "role",
-          variant: "card-select",
-          label: "Primary role",
-          required: true,
-          props: {
-            columns: 3,
-            options: [
-              {
-                value: "frontend",
-                label: "Frontend",
-                description: "React, Vue, CSS",
-              },
-              {
-                value: "fullstack",
-                label: "Full-stack",
-                description: "Frontend + backend",
-              },
-              {
-                value: "backend",
-                label: "Backend",
-                description: "APIs, databases",
-              },
-              { value: "design", label: "Design", description: "UI/UX design" },
-              {
-                value: "product",
-                label: "Product",
-                description: "PM / strategy",
-              },
-            ],
-          },
-        },
-        {
-          key: "experience",
-          variant: "chip-select",
-          label: "Years of experience",
-          required: true,
-          props: {
-            options: [
-              { value: "0-1", label: "0–1 years" },
-              { value: "2-4", label: "2–4 years" },
-              { value: "5-8", label: "5–8 years" },
-              { value: "9+", label: "9+ years" },
-            ],
-          },
-        },
-        {
-          key: "availability",
-          variant: "chip-select",
-          label: "Availability",
-          required: true,
-          props: {
-            options: [
-              { value: "immediate", label: "Immediate" },
-              { value: "2weeks", label: "2 weeks" },
-              { value: "1month", label: "1 month" },
-              { value: "negotiable", label: "Negotiable" },
-            ],
-          },
-        },
+        // {
+        //   key: "role",
+        //   variant: "card-select",
+        //   label: "Primary role",
+        //   required: true,
+        //   props: {
+        //     columns: 3,
+        //     options: [
+        //       {
+        //         value: "frontend",
+        //         label: "Frontend",
+        //         description: "React, Vue, CSS",
+        //       },
+        //       {
+        //         value: "fullstack",
+        //         label: "Full-stack",
+        //         description: "Frontend + backend",
+        //       },
+        //       {
+        //         value: "backend",
+        //         label: "Backend",
+        //         description: "APIs, databases",
+        //       },
+        //       { value: "design", label: "Design", description: "UI/UX design" },
+        //       {
+        //         value: "product",
+        //         label: "Product",
+        //         description: "PM / strategy",
+        //       },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: "experience",
+        //   variant: "chip-select",
+        //   label: "Years of experience",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       { value: "0-1", label: "0–1 years" },
+        //       { value: "2-4", label: "2–4 years" },
+        //       { value: "5-8", label: "5–8 years" },
+        //       { value: "9+", label: "9+ years" },
+        //     ],
+        //   },
+        // },
+        // {
+        //   key: "availability",
+        //   variant: "chip-select",
+        //   label: "Availability",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       { value: "immediate", label: "Immediate" },
+        //       { value: "2weeks", label: "2 weeks" },
+        //       { value: "1month", label: "1 month" },
+        //       { value: "negotiable", label: "Negotiable" },
+        //     ],
+        //   },
+        // },
       ],
     },
     {

@@ -107,17 +107,17 @@ const ONBOARDING_CONFIG: FormEngineConfig = {
       title: "What's your role?",
       description: "Help us personalise your experience.",
       fields: [
-        {
-          key: "role",
-          variant: "card-select",
-          label: "Your role",
-          required: true,
-          props: {
-            options: ROLES,
-            layout: "grid",
-            columns: 3,
-          },
-        },
+        // {
+        //   key: "role",
+        //   variant: "card-select",
+        //   label: "Your role",
+        //   required: true,
+        //   props: {
+        //     options: ROLES,
+        //     layout: "grid",
+        //     columns: 3,
+        //   },
+        // },
       ],
     },
     {
@@ -125,16 +125,16 @@ const ONBOARDING_CONFIG: FormEngineConfig = {
       title: "What are your main goals?",
       description: "Pick everything that applies — we'll tailor your setup.",
       fields: [
-        {
-          key: "goals",
-          variant: "chip-select",
-          label: "Your goals",
-          required: true,
-          props: {
-            options: GOALS,
-            multiple: true,
-          },
-        },
+        // {
+        //   key: "goals",
+        //   variant: "chip-select",
+        //   label: "Your goals",
+        //   required: true,
+        //   props: {
+        //     options: GOALS,
+        //     multiple: true,
+        //   },
+        // },
       ],
     },
     {
@@ -149,16 +149,16 @@ const ONBOARDING_CONFIG: FormEngineConfig = {
           placeholder: "e.g. Acme, Design Team, Startup Inc.",
           required: true,
         },
-        {
-          key: "teammates",
-          variant: "tag-input",
-          label: "Invite teammates",
-          props: {
-            placeholder: "name@company.com — press Enter to add",
-            validate: (tag: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tag),
-            // invalidMessage: "Enter a valid email address",
-          },
-        },
+        // {
+        //   key: "teammates",
+        //   variant: "tag-input",
+        //   label: "Invite teammates",
+        //   props: {
+        //     placeholder: "name@company.com — press Enter to add",
+        //     validate: (tag: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tag),
+        //     // invalidMessage: "Enter a valid email address",
+        //   },
+        // },
       ],
     },
   ],

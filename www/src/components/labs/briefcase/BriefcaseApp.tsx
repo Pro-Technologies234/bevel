@@ -64,12 +64,12 @@ const config: FormEngineConfig = {
           placeholder: "client@acme.com",
           required: true,
         },
-        {
-          key: "deadline",
-          variant: "date",
-          label: "Delivery date",
-          required: true,
-        },
+        // {
+        //   key: "deadline",
+        //   variant: "date",
+        //   label: "Delivery date",
+        //   required: true,
+        // },
       ],
     },
     {
@@ -93,20 +93,20 @@ const config: FormEngineConfig = {
             "e.g. Figma source files, exported assets, component library, deployment guide...",
           required: true,
         },
-        {
-          key: "revisions",
-          variant: "chip-select",
-          label: "Included revisions",
-          required: true,
-          props: {
-            options: [
-              { value: "1", label: "1 revision" },
-              { value: "2", label: "2 revisions" },
-              { value: "3", label: "3 revisions" },
-              { value: "unlimited", label: "Unlimited" },
-            ],
-          },
-        },
+        // {
+        //   key: "revisions",
+        //   variant: "chip-select",
+        //   label: "Included revisions",
+        //   required: true,
+        //   props: {
+        //     options: [
+        //       { value: "1", label: "1 revision" },
+        //       { value: "2", label: "2 revisions" },
+        //       { value: "3", label: "3 revisions" },
+        //       { value: "unlimited", label: "Unlimited" },
+        //     ],
+        //   },
+        // },
       ],
     },
   ],

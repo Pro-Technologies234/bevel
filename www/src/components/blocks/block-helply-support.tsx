@@ -527,16 +527,16 @@ const TICKET_FORM_CONFIG: FormEngineConfig = {
           placeholder: "Short summary of the issue",
           required: true,
         },
-        {
-          key: "category",
-          variant: "select",
-          label: "Category",
-          required: true,
-          props: {
-            options: categoryOptions,
-            placeholder: "What is this about?",
-          },
-        },
+        // {
+        //   key: "category",
+        //   variant: "select",
+        //   label: "Category",
+        //   required: true,
+        //   props: {
+        //     options: categoryOptions,
+        //     placeholder: "What is this about?",
+        //   },
+        // },
         {
           key: "description",
           variant: "textarea",
@@ -544,15 +544,15 @@ const TICKET_FORM_CONFIG: FormEngineConfig = {
           required: true,
           placeholder: "What happened? What did you expect?",
         },
-        {
-          key: "tags",
-          variant: "chip-select",
-          label: "Tags",
-          props: {
-            options: tagOptions,
-            multiple: true,
-          },
-        },
+        // {
+        //   key: "tags",
+        //   variant: "chip-select",
+        //   label: "Tags",
+        //   props: {
+        //     options: tagOptions,
+        //     multiple: true,
+        //   },
+        // },
       ],
     },
     {
@@ -608,14 +608,14 @@ const TICKET_FORM_CONFIG: FormEngineConfig = {
         );
       },
       fields: [
-        {
-          key: "satisfaction",
-          variant: "rating",
-          label: "How was your last support experience?",
-          props: {
-            max: 5,
-          },
-        },
+        // {
+        //   key: "satisfaction",
+        //   variant: "rating",
+        //   label: "How was your last support experience?",
+        //   props: {
+        //     max: 5,
+        //   },
+        // },
       ],
     },
   ],
