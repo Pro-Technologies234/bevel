@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "title": "Onboarding Checklist",
+    "description": "A floating checklist widget with step dependencies, localStorage persistence, and animated expand/collapse. The get-started widget every SaaS ships — done right.",
+    "badge": "Components System",
+    "features": [
+      "Step dependency graph",
+      "localStorage persistence",
+      "Floating or inline",
+      "Animated progress ring",
+      "Optional steps + skip"
+    ],
+    "slug": "checklist",
+    "prev": { "label": "AI Chat", "href": "/docs/components/ai-chat" },
+    "next": { "label": "Spotlight", "href": "/docs/components/spotlight" }
+  },
+  "tocs": [
+    { "id": "overview",      "label": "Overview",           "depth": 1 },
+    { "id": "demo",          "label": "Live demo",           "depth": 1 },
+    { "id": "installation",  "label": "Installation",        "depth": 1 },
+    { "id": "usage",         "label": "Basic usage",         "depth": 1 },
+    { "id": "dependencies",  "label": "Step dependencies",   "depth": 1 },
+    { "id": "persistence",   "label": "Persistence",         "depth": 1 },
+    { "id": "inline",        "label": "Inline mode",         "depth": 1 },
+    { "id": "api-root",      "label": "ChecklistRoot",       "depth": 2 },
+    { "id": "api-step",      "label": "ChecklistStep",       "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Every SaaS ships an onboarding checklist. Most are hardcoded arrays rendered in a sidebar, with no step dependencies, no persistence, and no way to skip optional steps. The user completes step 1, refreshes, and it resets. The system handles all of it: step ordering, dependency gates, localStorage persistence, and the animated floating widget."
+        },
+        {
+          "type": "text",
+          "content": "Steps have a requires field — an array of step ids that must be complete before this step becomes active. The progress ring on the floating trigger reflects only required steps. Optional steps are skippable and don't affect completion."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/checklist/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                { "name": "types.ts",                   "type": "file", "comment": "ChecklistStep, ChecklistConfig"   },
+                { "name": "checklist-context.tsx",       "type": "file", "comment": "ChecklistCtx + useChecklist"     },
+                { "name": "checklist-root.tsx",          "type": "file", "comment": "state + persistence + layout"   },
+                { "name": "checklist-progress-ring.tsx", "type": "file", "comment": "SVG circular progress"          },
+                { "name": "checklist-item.tsx",          "type": "file", "comment": "step row with dependency check", "highlight": true },
+                { "name": "checklist-widget.tsx",        "type": "file", "comment": "floating trigger + panel"        },
+                { "name": "index.ts",                    "type": "file"                                               }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Persistence is automatic",
+          "content": "Step statuses are saved to localStorage under storageKey on every change and restored on mount. Refreshing the page, closing the tab, and coming back all preserve progress. Pass storageKey to namespace it per user if needed."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Complete steps in order. Notice that Invite a teammate is locked until Create your first project is done. Deploy to production is optional — it can be skipped. Progress persists across page reloads."
+        },
+        { "type": "demo", "component": "ChecklistDemo", "label": "Interactive demo" }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            { "title": "Install peer dependencies", "code": "npm install motion", "codeLanguage": "bash" },
+            { "title": "Add the system files", "code": "npx shadcn@latest add https://bevelui.com/r/checklist.json", "codeLanguage": "bash" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your app in ChecklistRoot with your steps. The floating widget renders automatically at the bottom-right. It persists to localStorage under storageKey and restores on mount."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/layout.tsx",
+          "code": "import { ChecklistRoot } from \"@/components/bevelui/checklist\";\nimport type { ChecklistStep } from \"@/components/bevelui/checklist\";\n\nconst steps: ChecklistStep[] = [\n  {\n    id:          \"profile\",\n    title:       \"Complete your profile\",\n    description: \"Add your name and avatar.\",\n    cta:         \"Edit profile\",\n    onAction:    () => router.push(\"/settings/profile\"),\n  },\n  {\n    id:          \"project\",\n    title:       \"Create your first project\",\n    cta:         \"New project\",\n    onAction:    () => openNewProjectModal(),\n  },\n  {\n    id:          \"invite\",\n    title:       \"Invite a teammate\",\n    cta:         \"Invite\",\n    requires:    [\"project\"],    // locked until project is done\n    onAction:    () => openInviteModal(),\n  },\n  {\n    id:          \"deploy\",\n    title:       \"Deploy to production\",\n    cta:         \"Deploy\",\n    requires:    [\"project\"],\n    optional:    true,           // skippable, doesn't block completion\n    onAction:    () => router.push(\"/deploy\"),\n  },\n];\n\nexport default function Layout({ children }) {\n  return (\n    <ChecklistRoot\n      steps={steps}\n      config={{\n        title:      \"Get started\",\n        subtitle:   \"Complete your setup\",\n        storageKey: `checklist-${user.id}`,  // namespace per user\n      }}\n    >\n      {children}\n    </ChecklistRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "dependencies",
+      "title": "Step dependencies",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The requires field takes an array of step ids. The step renders as locked (with a padlock icon) and its CTA is disabled until all required steps are marked complete. Steps without requires are always active."
+        },
+        {
+          "type": "code",
+          "language": "ts",
+          "code": "// This step is locked until both \"profile\" and \"project\" are complete\n{\n  id:       \"invite\",\n  title:    \"Invite a teammate\",\n  requires: [\"profile\", \"project\"],\n  onAction: () => openInvite(),\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "canActivate(id) is exposed via useChecklist if you need to check dependency status in custom UI. It returns true when all required steps are complete or when requires is empty."
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "title": "Persistence",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Statuses are saved to localStorage automatically. To namespace per user so different users on the same browser don't share state, include the user id in storageKey."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "// Per-user namespace\n<ChecklistRoot\n  steps={steps}\n  config={{ storageKey: `onboarding-${user.id}` }}\n>\n\n// To reset programmatically — use useChecklist inside a child\nfunction ResetButton() {\n  const { undo, steps } = useChecklist();\n  return (\n    <button onClick={() => steps.forEach(s => undo(s.id))}>\n      Reset progress\n    </button>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "inline",
+      "title": "Inline mode",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass position: 'inline' to suppress the floating widget. Then use children with useChecklist to compose your own layout — embed the checklist in a sidebar, a settings page, or any custom position."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  ChecklistRoot,\n  ChecklistItem,\n  ChecklistProgressRing,\n  useChecklist,\n} from \"@/components/bevelui/checklist\";\n\nfunction SidebarChecklist() {\n  const { steps, progress, completedCount, requiredCount } = useChecklist();\n  return (\n    <div className=\"flex flex-col gap-2\">\n      <div className=\"flex items-center gap-2\">\n        <ChecklistProgressRing progress={progress} size={32} strokeWidth={2} />\n        <span>{completedCount}/{requiredCount} complete</span>\n      </div>\n      {steps.map(step => <ChecklistItem key={step.id} step={step} />)}\n    </div>\n  );\n}\n\n<ChecklistRoot steps={steps} config={{ position: \"inline\" }}>\n  <Sidebar>\n    <SidebarChecklist />\n  </Sidebar>\n</ChecklistRoot>"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "ChecklistRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "steps",  "type": "ChecklistStep[]",   "required": true, "description": "All checklist step definitions."                                           },
+            { "prop": "config", "type": "ChecklistConfig",                     "description": "Title, subtitle, storageKey, position."                                    },
+            { "prop": "children","type": "ReactNode",        "required": true, "description": "Your app. The floating widget renders as a sibling unless position is inline." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-step",
+      "title": "ChecklistStep",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "id",          "type": "string",        "required": true, "description": "Unique identifier. Used in requires arrays."                          },
+            { "prop": "title",       "type": "string",        "required": true, "description": "Step label shown in the list."                                        },
+            { "prop": "description", "type": "string",                          "description": "Supporting text shown below the title when the step is active."        },
+            { "prop": "cta",         "type": "string",                          "description": "Action button label. Defaults to 'Get started'."                      },
+            { "prop": "onAction",    "type": "() => void",                      "description": "Called when the CTA is clicked. Step is marked complete automatically."},
+            { "prop": "href",        "type": "string",                          "description": "Navigate instead of calling onAction. Opens in a new tab."            },
+            { "prop": "requires",    "type": "string[]",                        "description": "IDs that must be complete before this step becomes active."            },
+            { "prop": "optional",    "type": "boolean",                         "description": "Shows a Skip button. Optional steps don't count toward completion."    }
+          ]
+        }
+      ]
+    }
+  ]
+}

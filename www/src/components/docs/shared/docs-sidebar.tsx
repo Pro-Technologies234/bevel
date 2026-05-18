@@ -15,6 +15,7 @@ import {
   IconLayoutSidebarRight,
   IconPaletteFilled,
   IconLayoutSidebarRightInactive,
+  IconChecklist,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -94,6 +95,13 @@ export function DocsSidebar() {
               label: "Properties Panel",
               href: "/docs/components/properties-panel",
               icon: IconLayoutSidebarRightInactive,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Onboarding Checklist",
+              href: "/docs/components/onboarding-checklist",
+              icon: IconChecklist,
               badge: "New",
               badgeVariant: "new",
             },
