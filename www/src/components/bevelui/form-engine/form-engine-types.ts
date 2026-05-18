@@ -5,14 +5,6 @@ import type {
   UseFormProps,
   UseFormReturn,
 } from "react-hook-form";
-import type { ZodSchema } from "zod";
-import type { CardSelectProps } from "../controls/card-select";
-import type { ChipSelectProps } from "../controls/chip-select";
-import type { RatingFieldProps } from "../controls/rating-field";
-import type { SelectFieldProps } from "../controls/select-field";
-import type { TagInputProps } from "../controls/tag-input";
-import type { Icon } from "@tabler/icons-react";
-
 export type FormEngineMode = "multi-step" | "single";
 export type FormEngineValidation = "per-step" | "on-submit";
 
@@ -82,7 +74,7 @@ export type FieldRenderProps = {
 };
 
 export type TextInputProps = {
-  icon?: Icon;
+  icon?: React.ElementType;
   [x: string]: unknown;
 };
 
@@ -92,15 +84,7 @@ export type FormEngineFieldVariant =
   | { variant: "email"; props?: TextInputProps; render?: never }
   | { variant: "password"; props?: TextInputProps; render?: never }
   | { variant: "textarea"; props?: TextInputProps; render?: never }
-  | { variant: "checkbox"; props?: never; render?: never }
-  | { variant: "date"; props?: never; render?: never }
-  | { variant: "phone"; props?: never; render?: never }
-  | { variant: "file"; props?: never; render?: never }
-  | { variant: "select"; props?: SelectFieldProps; render?: never }
-  | { variant: "card-select"; props?: CardSelectProps; render?: never }
-  | { variant: "chip-select"; props?: ChipSelectProps; render?: never }
-  | { variant: "tag-input"; props?: TagInputProps; render?: never }
-  | { variant: "rating"; props?: RatingFieldProps; render?: never }
+  | { variant: "tel"; props?: never; render?: TextInputProps }
   /**
    * Fully custom — you own the control.
    * The engine wires up value, onChange, error, and disabled for you.
@@ -189,7 +173,7 @@ export type FormEngineConfig = {
    * Full-form Zod schema applied on submit.
    * For per-step validation with field-level errors, use createZodPlugin().
    */
-  schema?: ZodSchema;
+  schema?: any;
   steps: FormEngineStepDef[];
 };
 

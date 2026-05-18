@@ -5,10 +5,12 @@ import {
   type FormEnginePlugin,
   FormEngineConfig,
 } from "@/components/bevelui/form-engine";
-import { IconCheck } from "@tabler/icons-react";
+import { IconDiscountCheck } from "@tabler/icons-react";
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { CardSelect } from "@/components/bevelui/controls/card-select";
+import { ChipSelect } from "@/components/bevelui/controls/chip-select";
 
 const config: FormEngineConfig = {
   mode: "multi-step",
@@ -56,42 +58,50 @@ const config: FormEngineConfig = {
         },
         {
           key: "plan",
-          variant: "card-select",
+          variant: "custom",
           label: "Choose a plan",
           required: true,
-          props: {
-            columns: 2,
-            size: "sm",
-            layout: "grid",
-            options: [
-              { value: "free", label: "Free", description: "$0/mo" },
-              {
-                value: "pro",
-                label: "Pro",
-                description: "$12/mo",
-                badge: "Popular",
-              },
-              {
-                value: "enterprise",
-                label: "Enterprise",
-                description: "Custom",
-              },
-            ],
-          },
+          render: ({ value, onChange, disabled }) => (
+            <CardSelect
+              className="border"
+              onChange={onChange}
+              data-selected={value === "pro"}
+              data-disabled={disabled}
+              columns={2}
+              layout="grid"
+              options={[
+                { value: "free", label: "Free", description: "$0/mo" },
+                {
+                  value: "pro",
+                  label: "Pro",
+                  description: "$12/mo",
+                  badge: "Popular",
+                },
+                {
+                  value: "enterprise",
+                  label: "Enterprise",
+                  description: "Custom",
+                },
+              ]}
+            />
+          ),
         },
         {
           key: "role",
-          variant: "chip-select",
+          variant: "custom",
           label: "Your role",
-          props: {
-            options: [
-              { value: "engineering", label: "Engineering" },
-              { value: "design", label: "Design" },
-              { value: "product", label: "Product" },
-              { value: "marketing", label: "Marketing" },
-              { value: "other", label: "Other" },
-            ],
-          },
+          render: ({ value, onChange, disabled }) => (
+            <ChipSelect
+              defaultValue={value as string}
+              options={[
+                { value: "engineering", label: "Engineering" },
+                { value: "design", label: "Design" },
+                { value: "product", label: "Product" },
+                { value: "marketing", label: "Marketing" },
+                { value: "other", label: "Other" },
+              ]}
+            />
+          ),
         },
       ],
     },
@@ -142,44 +152,37 @@ export function FormEngineDemo() {
   if (submitted) {
     return (
       <div className="flex flex-col items-center gap-4 py-12 text-center">
-        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-          <IconCheck size={24} strokeWidth={2.5} className="text-primary" />
+        <div className="animate-bounce p-2 rounded-full bg-primary/10 flex items-center justify-center">
+          <IconDiscountCheck size={54} className="text-primary " />
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-base font-semibold">Account created!</span>
+          <span className="text-xl font-semibold">Account created!</span>
           <span className="text-sm text-muted-foreground">
             This is what your onSubmit receives.
           </span>
         </div>
-        <button
-          onClick={() => setSubmitted(false)}
-          className="text-xs text-muted-foreground underline hover:text-foreground transition-colors"
-        >
-          Reset demo
-        </button>
+        <Button onClick={() => setSubmitted(false)}>Reset demo</Button>
       </div>
     );
   }
 
   return (
-    <Card className="w-full max-w-md h-full flex flex-col items-center justify-center py-6">
-      <CardContent className="flex flex-col w-full px-6">
-        <FormEngine
-          onSubmit={async (values: unknown) => {
-            await new Promise((r) => setTimeout(r, 1200));
-            console.log("Form submitted:", values);
-            setSubmitted(true);
-          }}
-          config={config}
-          plugins={plugins}
-          stepMetaProps={{
-            className: " text-center",
-          }}
-          navigationProps={{
-            layout: "split",
-          }}
-        />
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-sm mx-auto">
+      <FormEngine
+        onSubmit={async (values: unknown) => {
+          await new Promise((r) => setTimeout(r, 1200));
+          console.log("Form submitted:", values);
+          setSubmitted(true);
+        }}
+        config={config}
+        plugins={plugins}
+        stepMetaProps={{
+          className: " text-center",
+        }}
+        navigationProps={{
+          layout: "split",
+        }}
+      />
+    </div>
   );
 }

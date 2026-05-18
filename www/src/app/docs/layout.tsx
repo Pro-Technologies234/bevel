@@ -12,8 +12,8 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col min-h-screen ">
-      <div className="flex-1 flex min-h-0 bg-card/30 ">
+    <div className="flex flex-col min-h-screen dark:bg-black">
+      <div className="flex-1 flex min-h-0 ">
         <div className="flex-1 flex min-w-0">
           {/* ── Desktop sidebar ── */}
           <aside
@@ -21,7 +21,7 @@ export default function DocsLayout({
             style={{
               top: NAVBAR_HEIGHT,
               height: `calc(100vh - ${NAVBAR_HEIGHT})`,
-              width: "18rem", // 224px
+              width: "17rem", // 224px
             }}
           >
             <DocsSidebar />

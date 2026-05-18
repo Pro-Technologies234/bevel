@@ -1,0 +1,360 @@
+{
+  "meta": {
+    "title": "Tree View",
+    "description": "Recursive hierarchical data with expand/collapse, multi-select, full keyboard navigation, and optional connecting lines. File explorers, org charts, category trees.",
+    "badge": "Components System",
+    "features": [
+      "Full keyboard navigation",
+      "Multi-select",
+      "Step dependencies via requires",
+      "Animated expand/collapse",
+      "Optional connecting lines"
+    ],
+    "slug": "tree",
+    "prev": { "label": "Tree view", "href": "/docs/components/tree-view" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "keyboard", "label": "Keyboard navigation", "depth": 1 },
+    { "id": "multiselect", "label": "Multi-select", "depth": 1 },
+    { "id": "lines", "label": "Connecting lines", "depth": 1 },
+    { "id": "programmatic", "label": "useTree", "depth": 1 },
+    { "id": "api-root", "label": "TreeRoot", "depth": 2 },
+    { "id": "api-node", "label": "TreeNode", "depth": 2 },
+    { "id": "api-config", "label": "TreeConfig", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Hierarchical data is everywhere — file explorers, org charts, category trees, settings navigation, comment threads. The hard part is never the rendering. The hard part is keyboard navigation: arrow keys that traverse the visible tree, expand collapsed nodes, jump to parents, and skip disabled items. Most implementations skip it entirely."
+        },
+        {
+          "type": "text",
+          "content": "TreeRoot builds a flat list of visible nodes on every render and maps keyboard events to the correct node — next, previous, parent, first child. AnimatePresence handles expand/collapse. Multi-select works with ⌘/Ctrl click and Shift. The consumer provides nodes and gets selected ids back."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/tree/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "TreeNode, TreeConfig"
+                },
+                {
+                  "name": "tree-context.tsx",
+                  "type": "file",
+                  "comment": "TreeCtx + useTree"
+                },
+                {
+                  "name": "tree-utils.ts",
+                  "type": "file",
+                  "comment": "flatten, ancestors, parent lookup",
+                  "highlight": true
+                },
+                {
+                  "name": "tree-root.tsx",
+                  "type": "file",
+                  "comment": "keyboard handler + state"
+                },
+                {
+                  "name": "tree-node.tsx",
+                  "type": "file",
+                  "comment": "recursive renderer + animation"
+                },
+                {
+                  "name": "use-tree.ts",
+                  "type": "file",
+                  "comment": "re-export hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Keyboard navigation is wired automatically",
+          "content": "Focus the tree container (click or Tab to it) and all keyboard shortcuts work immediately. No wiring needed. Arrow keys navigate, Enter selects, Home/End jump to bounds."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Click any node to select it. Hold ⌘ or Ctrl to multi-select. Click an arrow or folder to expand. Focus the tree and use keyboard navigation."
+        },
+        {
+          "type": "demo",
+          "component": "TreeViewDemo",
+          "label": "Interactive demo"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install peer dependencies",
+              "code": "npm install motion",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.com/r/tree.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass nodes to TreeRoot. Each node has an id, label, and optional icon and children. The tree is uncontrolled by default — pass defaultExpanded and defaultSelected in config for initial state."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { TreeRoot } from \"@/components/bevelui/tree\";\nimport type { TreeNodeType } from \"@/components/bevelui/tree\";\nimport { IconFolder, IconFile } from \"@tabler/icons-react\";\n\nconst nodes: TreeNodeType[] = [\n  {\n    id:       \"src\",\n    label:    \"src\",\n    icon:     IconFolder,\n    defaultExpanded: true,\n    children: [\n      {\n        id:       \"components\",\n        label:    \"components\",\n        icon:     IconFolder,\n        children: [\n          { id: \"button\", label: \"button.tsx\", icon: IconFile },\n          { id: \"input\",  label: \"input.tsx\",  icon: IconFile },\n        ],\n      },\n    ],\n  },\n];\n\n<TreeRoot\n  nodes={nodes}\n  config={{ multiSelect: true, showLines: true }}\n  onSelect={(ids) => console.log(\"selected:\", ids)}\n  className=\"w-56 p-2 rounded-xl border border-border bg-card\"\n/>"
+        }
+      ]
+    },
+    {
+      "id": "keyboard",
+      "title": "Keyboard navigation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Focus the tree container by clicking or tabbing to it. All navigation runs on the visible flat list — collapsed branches are skipped."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "↓ Arrow Down",
+              "type": "",
+              "description": "Move focus to the next visible node."
+            },
+            {
+              "prop": "↑ Arrow Up",
+              "type": "",
+              "description": "Move focus to the previous visible node."
+            },
+            {
+              "prop": "→ Arrow Right",
+              "type": "",
+              "description": "Expand if collapsed. Move to first child if already expanded."
+            },
+            {
+              "prop": "← Arrow Left",
+              "type": "",
+              "description": "Collapse if expanded. Move to parent node if already collapsed."
+            },
+            {
+              "prop": "Enter / Space",
+              "type": "",
+              "description": "Select the focused node."
+            },
+            {
+              "prop": "Home",
+              "type": "",
+              "description": "Jump focus to the first root node."
+            },
+            {
+              "prop": "End",
+              "type": "",
+              "description": "Jump focus to the last visible node."
+            },
+            {
+              "prop": "⌘/Ctrl + click",
+              "type": "",
+              "description": "Toggle node in selection (multi-select mode only)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "multiselect",
+      "title": "Multi-select",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Enable multi-select by passing multiSelect: true in config. ⌘/Ctrl+click adds or removes a node from the selection. Without multiSelect, clicking a node replaces the current selection."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<TreeRoot\n  nodes={nodes}\n  config={{ multiSelect: true }}\n  onSelect={(ids, nodes) => {\n    console.log(\"selected ids:\", ids);\n  }}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "lines",
+      "title": "Connecting lines",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass showLines: true to render faint vertical lines connecting sibling nodes. Useful for deep trees where indentation alone doesn't communicate structure clearly."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<TreeRoot nodes={nodes} config={{ showLines: true }} />"
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "useTree",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useTree } from \"@/components/bevelui/tree\";\n\nfunction TreeToolbar() {\n  const { expandAll, collapseAll, expandTo, selected } = useTree();\n\n  return (\n    <div className=\"flex gap-2\">\n      <button onClick={expandAll}>Expand all</button>\n      <button onClick={collapseAll}>Collapse all</button>\n      <button onClick={() => expandTo(\"deeply/nested/node\")}>Reveal node</button>\n      <span>{selected.size} selected</span>\n    </div>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "TreeRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "nodes",
+              "type": "TreeNode[]",
+              "required": true,
+              "description": "The root-level nodes. Children are nested recursively."
+            },
+            {
+              "prop": "config",
+              "type": "TreeConfig",
+              "description": "multiSelect, showLines, defaultExpandAll, defaultExpanded."
+            },
+            {
+              "prop": "onSelect",
+              "type": "(ids: string[]) => void",
+              "description": "Called when the selection changes. Receives all selected ids."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the tree container div."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-node",
+      "title": "TreeNode",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier across the entire tree."
+            },
+            {
+              "prop": "label",
+              "type": "string",
+              "required": true,
+              "description": "Display text."
+            },
+            {
+              "prop": "icon",
+              "type": "React.ElementType",
+              "description": "Tabler icon or any component. Rendered at 14px."
+            },
+            {
+              "prop": "children",
+              "type": "TreeNode[]",
+              "description": "Child nodes. Presence determines if the node is a branch."
+            },
+            {
+              "prop": "data",
+              "type": "T",
+              "description": "Consumer's arbitrary data. Passed through onSelect."
+            },
+            {
+              "prop": "disabled",
+              "type": "boolean",
+              "description": "Prevents selection and keyboard focus."
+            },
+            {
+              "prop": "defaultExpanded",
+              "type": "boolean",
+              "description": "Expand this node on first render."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "TreeConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "multiSelect",
+              "type": "boolean",
+              "default": "false",
+              "description": "Allow selecting multiple nodes with ⌘/Ctrl+click."
+            },
+            {
+              "prop": "showLines",
+              "type": "boolean",
+              "default": "false",
+              "description": "Render vertical connecting lines between sibling nodes."
+            },
+            {
+              "prop": "defaultExpandAll",
+              "type": "boolean",
+              "default": "false",
+              "description": "Expand every node on mount."
+            },
+            {
+              "prop": "defaultExpanded",
+              "type": "string[]",
+              "description": "IDs to expand on mount."
+            },
+            {
+              "prop": "defaultSelected",
+              "type": "string[]",
+              "description": "IDs to select on mount."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

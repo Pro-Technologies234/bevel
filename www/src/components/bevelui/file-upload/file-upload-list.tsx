@@ -97,11 +97,7 @@ export function FileUploadList() {
 
       {pendingCount > 0 && !auto && (
         <div className="flex justify-end">
-          <Button
-            onClick={uploadAll}
-            disabled={isUploading}
-            className="gap-2 cursor-pointer"
-          >
+          <Button onClick={uploadAll} disabled={isUploading}>
             <IconUpload size={14} strokeWidth={2} />
             {isUploading
               ? "Uploading..."

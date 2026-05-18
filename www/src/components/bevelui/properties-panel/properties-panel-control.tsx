@@ -22,7 +22,7 @@ export function PropertiesControl({ control }: PropertiesControlProps) {
           value={control.value}
           placeholder={control.placeholder}
           onChange={(e) => control.onChange(e.target.value)}
-          className="h-7 text-[11px] px-2 bg-muted/50"
+          className="w-full h-7 text-[11px] px-2 bg-muted/50"
         />
       );
 

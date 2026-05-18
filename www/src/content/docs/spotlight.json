@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "title": "Spotlight Search",
+    "description": "Async content search with category tabs, recent history, and rich result cards. Triggered by / — distinct from Command Palette, which handles actions. Results come from your API.",
+    "badge": "Components System",
+    "features": [
+      "Async debounced search",
+      "Category tabs",
+      "Recent search history",
+      "Skeleton loading",
+      "/ hotkey (configurable)"
+    ],
+    "slug": "spotlight",
+    "prev": { "label": "Checklist",  "href": "/docs/components/checklist"  },
+    "next": { "label": "Tree View",  "href": "/docs/components/tree"        }
+  },
+  "tocs": [
+    { "id": "overview",     "label": "Overview",           "depth": 1 },
+    { "id": "demo",         "label": "Live demo",           "depth": 1 },
+    { "id": "installation", "label": "Installation",        "depth": 1 },
+    { "id": "usage",        "label": "Basic usage",         "depth": 1 },
+    { "id": "categories",   "label": "Categories",          "depth": 1 },
+    { "id": "history",      "label": "Recent searches",     "depth": 1 },
+    { "id": "programmatic", "label": "Programmatic control","depth": 1 },
+    { "id": "api-root",     "label": "SpotlightRoot",       "depth": 2 },
+    { "id": "api-result",   "label": "SpotlightResult",     "depth": 2 },
+    { "id": "api-config",   "label": "SpotlightConfig",     "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Command Palette is for actions — navigate to a page, run a command, trigger a shortcut. Spotlight Search is for content — find a user by name, locate a document, search across project records. The results come from your database, update on every keystroke, and group by content type."
+        },
+        {
+          "type": "text",
+          "content": "SpotlightRoot debounces the query (280ms), fires onSearch with an AbortSignal, and cancels in-flight requests when the query changes. Results group under category headers when multiple categories return matches. Recent searches persist to localStorage and show when the input is empty."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/spotlight/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                { "name": "types.ts",                  "type": "file", "comment": "SpotlightResult, SpotlightCategory"          },
+                { "name": "spotlight-context.tsx",      "type": "file", "comment": "SpotlightCtx + useSpotlight"                },
+                { "name": "spotlight-root.tsx",          "type": "file", "comment": "debounce + abort + hotkey + history", "highlight": true },
+                { "name": "spotlight-modal.tsx",         "type": "file", "comment": "backdrop + input + category tabs"          },
+                { "name": "spotlight-results.tsx",       "type": "file", "comment": "grouped category display"                 },
+                { "name": "spotlight-result-item.tsx",   "type": "file", "comment": "individual result row"                    },
+                { "name": "spotlight-empty.tsx",         "type": "file", "comment": "recent searches + empty state"            },
+                { "name": "spotlight-skeleton.tsx",      "type": "file", "comment": "loading placeholder rows"                 },
+                { "name": "index.ts",                    "type": "file"                                                         }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "vs Command Palette",
+          "content": "Install both and they coexist: Command Palette on ⌘K for actions, Spotlight on / for search. They are separate systems with separate state — opening one doesn't affect the other."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Press / or click the button to open. Try searching for alice, dashboard, form, or guide. Results group by People, Projects, and Docs. Recent searches persist between opens."
+        },
+        { "type": "demo", "component": "SpotlightDemo", "label": "Interactive demo" }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            { "title": "Install peer dependencies", "code": "npm install motion", "codeLanguage": "bash" },
+            { "title": "Add the system files", "code": "npx shadcn@latest add https://bevelui.com/r/spotlight.json", "codeLanguage": "bash" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your app in SpotlightRoot. Pass your categories and an onSearch function. The function receives the query and an AbortSignal — pass the signal to fetch so requests cancel when the query changes."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/layout.tsx",
+          "code": "import { SpotlightRoot } from \"@/components/bevelui/spotlight\";\nimport { IconUser, IconFolder, IconFileText } from \"@tabler/icons-react\";\n\nexport default function Layout({ children }) {\n  return (\n    <SpotlightRoot\n      config={{\n        categories: [\n          { id: \"people\",   label: \"People\",   icon: IconUser     },\n          { id: \"projects\", label: \"Projects\", icon: IconFolder   },\n          { id: \"docs\",     label: \"Docs\",     icon: IconFileText },\n        ],\n        hotkey:      \"/\",\n        placeholder: \"Search people, projects, docs…\",\n        storageKey:  `spotlight-${user.id}`,\n      }}\n      onSearch={async (query, signal) => {\n        const [people, projects] = await Promise.all([\n          searchPeople(query, signal),\n          searchProjects(query, signal),\n        ]);\n        return [\n          ...people.map(p => ({\n            id:       p.id,\n            title:    p.name,\n            subtitle: p.email,\n            category: \"people\",\n            icon:     p.avatar,\n            href:     `/people/${p.id}`,\n          })),\n          ...projects.map(p => ({\n            id:       p.id,\n            title:    p.name,\n            subtitle: p.description,\n            category: \"projects\",\n            badge:    p.status,\n            href:     `/projects/${p.id}`,\n          })),\n        ];\n      }}\n    >\n      {children}\n    </SpotlightRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "categories",
+      "title": "Categories",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each result has a category field matching a SpotlightCategory id. When results span multiple categories, they appear under separate headers. Category tabs allow filtering to one type. The All tab is always present."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "Results with a category id that doesn't match any SpotlightCategory still appear under the All tab — they just won't have a dedicated category tab or header label. This is intentional: you can return mixed results without pre-declaring every category."
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "title": "Recent searches",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "When the input is empty, Spotlight shows recent search queries. Each one can be dismissed individually or cleared entirely. Clicking a recent query fills the input and fires the search. Persists to localStorage under storageKey."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "// To clear history programmatically\nfunction ClearHistory() {\n  const { clearHistory } = useSpotlight();\n  return <button onClick={clearHistory}>Clear search history</button>;\n}"
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "Programmatic control",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useSpotlight } from \"@/components/bevelui/spotlight\";\n\nfunction SearchButton() {\n  const { open, isOpen } = useSpotlight();\n  return (\n    <button onClick={open}>\n      Search <kbd>/</kbd>\n    </button>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "SpotlightRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "config",   "type": "SpotlightConfig",                              "required": true, "description": "Categories, hotkey, placeholder, storage key."                                      },
+            { "prop": "onSearch", "type": "(query: string, signal: AbortSignal) => Promise<SpotlightResult[]>", "required": true, "description": "Called on every debounced keystroke. Pass signal to fetch for automatic cancellation." },
+            { "prop": "children", "type": "ReactNode",                                   "required": true, "description": "Your app. The modal renders as a portal above everything."                          }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-result",
+      "title": "SpotlightResult",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "id",          "type": "string",                   "required": true, "description": "Unique identifier."                                                     },
+            { "prop": "title",       "type": "string",                   "required": true, "description": "Primary display text."                                                  },
+            { "prop": "category",    "type": "string",                   "required": true, "description": "Maps to a SpotlightCategory id. Used for grouping and tab filtering."   },
+            { "prop": "subtitle",    "type": "string",                                     "description": "Secondary text shown below the title."                                   },
+            { "prop": "icon",        "type": "string | React.ElementType",                 "description": "Avatar URL or Tabler icon component."                                    },
+            { "prop": "badge",       "type": "string",                                     "description": "Small label shown on the right (e.g. status, type)."                    },
+            { "prop": "href",        "type": "string",                                     "description": "Navigate on select."                                                     },
+            { "prop": "onSelect",    "type": "() => void",                                 "description": "Called on select instead of navigating."                                }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "SpotlightConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "categories",         "type": "SpotlightCategory[]", "required": true, "description": "Category definitions for tabs and headers."            },
+            { "prop": "hotkey",             "type": "string",  "default": "\"/\"",            "description": "Keyboard trigger. '/' for slash, 'mod+k' for ⌘K."    },
+            { "prop": "placeholder",        "type": "string",                                "description": "Input placeholder text."                              },
+            { "prop": "maxRecentSearches",  "type": "number",  "default": "8",               "description": "Max saved recent queries."                           },
+            { "prop": "storageKey",         "type": "string",                                "description": "localStorage key for recent search history."         }
+          ]
+        }
+      ]
+    }
+  ]
+}

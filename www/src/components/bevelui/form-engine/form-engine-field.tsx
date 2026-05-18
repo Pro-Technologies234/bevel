@@ -7,16 +7,8 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-  InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Checkbox } from "@/components/ui/checkbox";
-import { CardSelect } from "../controls/card-select";
-import { ChipSelect } from "../controls/chip-select";
-import { RatingField } from "../controls/rating-field";
-import { SelectField } from "../controls/select-field";
-import { TagInput } from "../controls/tag-input";
-import { DatePicker } from "../controls/date-picker";
 import { cn } from "@/lib/utils";
 import { useFormEngineContext } from "./form-engine-context";
 import type { FieldRenderProps, FormEngineFieldDef } from "./form-engine-types";
@@ -103,6 +95,7 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
       case "text":
       case "email":
       case "number":
+      case "tel":
       case "password": {
         const Icon = field.props?.icon;
         return (
@@ -125,146 +118,13 @@ export function FormEngineField({ field }: FormEngineFieldProps) {
           </InputGroup>
         );
       }
-
-      case "textarea": {
-        const Icon = field.props?.icon;
-        return (
-          <InputGroup {...field.props}>
-            <InputGroupTextarea
-              value={(value as string) ?? ""}
-              onChange={(e) => onChange(e.target.value)}
-              onBlur={onBlur}
-              placeholder={field.placeholder}
-              disabled={disabled}
-              aria-invalid={!!error}
-            />
-            {Icon && (
-              <InputGroupAddon align="inline-end">
-                <Icon className="size-4 text-muted-foreground" />
-              </InputGroupAddon>
-            )}
-          </InputGroup>
-        );
-      }
-
-      case "checkbox":
-        return (
-          <Checkbox
-            id={field.key}
-            checked={(value as boolean) ?? false}
-            onCheckedChange={(checked) => onChange(checked)}
-            disabled={disabled}
-            aria-invalid={!!error}
-          />
-        );
-
-      case "select":
-        return (
-          <SelectField
-            {...(field.props ?? {})}
-            options={field.props?.options ?? []}
-            defaultValue={undefined}
-            value={value as string}
-            onChange={onChange}
-            placeholder={field.placeholder}
-          />
-        );
-
-      case "rating":
-        return (
-          <RatingField
-            {...((field.props ?? {}) as any)}
-            value={(value as number) ?? 0}
-            onChange={(val) => onChange(val)}
-            disabled={disabled}
-          />
-        );
-
-      case "chip-select":
-        return (
-          <ChipSelect
-            {...((field.props ?? {}) as any)}
-            options={field.props?.options ?? []}
-            value={value as string}
-            onChange={(val) => onChange(val)}
-            disabled={disabled}
-          />
-        );
-
-      case "card-select":
-        return (
-          <CardSelect
-            {...((field.props ?? {}) as any)}
-            options={field.props?.options ?? []}
-            value={value as string}
-            onChange={(val) => onChange(val)}
-            disabled={disabled}
-          />
-        );
-
-      case "tag-input":
-        return (
-          <TagInput
-            {...(field.props ?? {})}
-            value={undefined}
-            defaultValue={value as string[]}
-            onChange={(val) => onChange(val)}
-            disabled={disabled}
-            placeholder={field.placeholder}
-          />
-        );
-
-      case "date":
-        return (
-          <DatePicker
-            {...((field.props ?? {}) as any)}
-            value={value as string}
-            onChange={(val) => onChange(val)}
-            disabled={disabled}
-            withTime
-          />
-        );
-
-      case "phone":
-        return (
-          <InputGroup>
-            <InputGroupInput
-              type="tel"
-              value={(value as string) ?? ""}
-              onChange={(e) => onChange(e.target.value)}
-              onBlur={onBlur}
-              placeholder={field.placeholder}
-              disabled={disabled}
-              aria-invalid={!!error}
-            />
-          </InputGroup>
-        );
-
-      case "file":
-        return (
-          <InputGroup>
-            <InputGroupInput
-              type="file"
-              onChange={(e) => onChange(e.target.files)}
-              disabled={disabled}
-              aria-invalid={!!error}
-            />
-          </InputGroup>
-        );
-
       default:
         return null;
     }
   };
 
   return (
-    <Field
-      orientation={field.variant === "checkbox" ? "horizontal" : "vertical"}
-      className={cn(
-        field.variant === "checkbox" && "flex-row-reverse",
-        field.className,
-      )}
-    >
+    <Field className={cn(field.className)}>
       {field.label && (
         <FieldLabel htmlFor={field.key}>
           {field.label}

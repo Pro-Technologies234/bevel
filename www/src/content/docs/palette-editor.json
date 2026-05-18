@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Palette",
+    "title": "Palette Editor",
     "description": "A visual color palette editor with a 2D HSV picker, sortable swatches, and one-click export to hex arrays, CSS custom properties, Tailwind config, or HSL strings.",
     "badge": "Components System",
     "features": [

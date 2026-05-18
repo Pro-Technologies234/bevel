@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { TASA_Orbiter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -58,7 +58,7 @@ const nohemiSans = localFont({
   variable: "--font-sans", // Optional: for Tailwind CSS integration
 });
 
-const geistMono = Geist({
+const geistMono = TASA_Orbiter({
   variable: "--font-mono",
   subsets: ["latin"],
 });

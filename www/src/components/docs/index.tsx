@@ -64,7 +64,7 @@ export function DocsLayoutContent({
               style={{
                 top: NAVBAR_HEIGHT,
                 height: `calc(100vh - ${NAVBAR_HEIGHT})`,
-                width: "18rem",
+                width: "17rem",
               }}
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}

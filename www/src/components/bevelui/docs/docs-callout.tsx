@@ -82,9 +82,7 @@ export function DocsCallout({
             {resolvedTitle}
           </span>
         )}
-        <div className="text-xs text-foreground/75 leading-relaxed">
-          {children}
-        </div>
+        <div className="text-xs  leading-relaxed">{children}</div>
       </div>
     </div>
   );

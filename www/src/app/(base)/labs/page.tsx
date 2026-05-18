@@ -1,7 +1,8 @@
-import { labsMetadata } from "@/lib/metadata";
-import { LabsContent } from "@/components/labs";
-export const metadata = labsMetadata;
+import { SpotlightContent } from "@/components/docs/spotlight";
+// import { docsChecklistMetadata } from "@/lib/metadata";
 
-export default function LabsPage() {
-  return <LabsContent />;
+// export const metadata = docsChecklistMetadata;
+
+export default function ChecklistPage() {
+  return <SpotlightContent />;
 }
