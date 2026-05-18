@@ -47,7 +47,9 @@ export function DocsPropsTable({ rows, className }: DocsPropsTableProps) {
               >
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="flex items-center gap-1.5">
-                    <code className="font-mono text-primary">{row.prop}</code>
+                    <code className="font-mono bg-background/40 px-2 py-1 rounded-sm border-muted/70 border">
+                      {row.prop}
+                    </code>
                     {row.required && (
                       <span className="text-[9px] font-semibold px-1 py-0.5 rounded bg-destructive/10 text-destructive">
                         required

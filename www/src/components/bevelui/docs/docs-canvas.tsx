@@ -54,7 +54,7 @@ export const DocsCanvas = React.forwardRef<HTMLDivElement, DocsCanvasProps>(
 
         {/* Right TOC */}
         {tocs && tocs.length > 0 && (
-          <aside className="hidden xl:flex sticky top-14  w-56 shrink-0 flex-col py-12 pl-4 pr-6 overflow-y-auto">
+          <aside className="hidden xl:flex sticky top-14  w-72 shrink-0 flex-col py-12 pl-4 pr-6 overflow-y-auto">
             <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider mb-3">
               On this page
             </span>
@@ -64,7 +64,7 @@ export const DocsCanvas = React.forwardRef<HTMLDivElement, DocsCanvasProps>(
                   key={item.id}
                   href={`#${item.href ?? item.id}`}
                   className={cn(
-                    "text-xs py-1 transition-colors leading-relaxed",
+                    "text-sm py-1 transition-colors leading-relaxed",
                     item.depth === 3 && "pl-3",
                     item.depth === 2 && "pl-1.5",
                     activeId === item.id

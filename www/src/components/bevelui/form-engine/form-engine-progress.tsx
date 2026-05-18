@@ -23,10 +23,8 @@ export interface FormEngineProgressProps {
   renderStep?: (index: number, state: FormEngineProgressState) => ReactNode;
 }
 
-// ─── Circle ────────────────────────────────────────────────────────────────────
-
 interface CircleProgressProps {
-  current: number; // 0-indexed
+  current: number;
   total: number;
   size?: number;
   strokeWidth?: number;
@@ -42,7 +40,7 @@ function CircleProgress({
 }: CircleProgressProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  // progress is (current + 1) / total so step 1 of 5 shows 20%, step 5/5 = 100%
+
   const progress = (current + 1) / total;
   const offset = circumference * (1 - progress);
   const center = size / 2;
@@ -107,8 +105,6 @@ function CircleProgress({
   );
 }
 
-// ─── Dots / Pills ──────────────────────────────────────────────────────────────
-
 interface PillStepProps {
   state: FormEngineProgressState;
   className?: string;
@@ -159,8 +155,6 @@ function FormEngineProgressPill({ state, className, onClick }: PillStepProps) {
   );
 }
 
-// ─── Segments ──────────────────────────────────────────────────────────────────
-
 interface SegmentProps {
   state: FormEngineProgressState;
   onClick?: () => void;
@@ -198,8 +192,6 @@ function Segment({ state, onClick }: SegmentProps) {
     </div>
   );
 }
-
-// ─── Numbers ───────────────────────────────────────────────────────────────────
 
 interface NumbersProps {
   current: number;
@@ -252,8 +244,6 @@ function NumbersProgress({ current, total, label, className }: NumbersProps) {
   );
 }
 
-// ─── Root ──────────────────────────────────────────────────────────────────────
-
 export function FormEngineProgress({
   className,
   variant = "segments",
@@ -271,7 +261,6 @@ export function FormEngineProgress({
     return "inactive";
   }
 
-  // Escape hatch
   if (renderStep) {
     return (
       <div className={cn("flex items-center gap-2", className)}>

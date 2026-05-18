@@ -67,7 +67,7 @@ const BADGE_CLASSES: Record<
     "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
   amber:
     "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/20",
-  red: "bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/20",
+  red: "bg-linear-to-tr from-red-600 text-white to-red-400 border-red-500",
 };
 
 // ─── Single action row ────────────────────────────────────────────────────────
@@ -176,19 +176,6 @@ export function BevelSidebar({
       });
     });
   }, [pathname, sections]);
-
-  // Keyboard: Escape collapses all sections
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setOpenSections(
-          sections.reduce((acc, s) => ({ ...acc, [s.label]: false }), {}),
-        );
-      }
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [sections]);
 
   const toggleSection = useCallback((label: string) => {
     setOpenSections((prev) => ({ ...prev, [label]: !prev[label] }));

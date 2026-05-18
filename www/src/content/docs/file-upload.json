@@ -183,21 +183,7 @@
         }
       ]
     },
-    {
-      "id": "more-demo",
-      "title": "Custom UI",
-      "blocks": [
-        {
-          "type": "text",
-          "content": "Build your own UI from scratch using useFileUpload. The hook gives you access to all upload state and actions — addFiles, removeFile, retryFile, cancelFile, and uploadAll."
-        },
-        {
-          "type": "demo",
-          "component": "MediaLibary",
-          "label": "Interactive customized demo"
-        }
-      ]
-    },
+
     {
       "id": "programmatic",
       "title": "Programmatic control",

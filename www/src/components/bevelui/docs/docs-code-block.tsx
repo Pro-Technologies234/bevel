@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { IconCheck, IconCopy, IconTerminal2 } from "@tabler/icons-react";
 import { highlight } from "sugar-high";
+import { Button } from "@/components/ui/button";
 
 /**
  * Install: npm install sugar-high
@@ -112,12 +113,12 @@ export function DocsCodeBlock({
     <div
       className={cn(
         "group relative rounded-lg  overflow-hidden border",
-        "bg-card/80",
+        "bg-card/90",
         className,
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-1 border-b border-border/60 bg-muted/30 dark:bg-zinc-900/60">
+      <div className="flex items-center justify-between px-3 pt-1  bg-muted/30 dark:bg-zinc-900/60">
         <div className="flex items-center gap-2">
           <IconTerminal2
             size={13}
@@ -135,15 +136,17 @@ export function DocsCodeBlock({
           )}
         </div>
 
-        <button
+        <Button
           onClick={copy}
-          className="flex items-center gap-1.5 text-[11px] px-2 py-1 rounded-md text-muted-foreground/80 hover:text-foreground hover:bg-muted/60 transition-colors"
+          variant={"ghost"}
+          size={"sm"}
           aria-label="Copy code"
+          className=" rounded-sm cursor-pointer"
         >
           {copied ? (
             <>
-              <IconCheck size={12} strokeWidth={2.5} className="text-primary" />
-              <span className="text-primary">Copied</span>
+              <IconCheck size={12} strokeWidth={2.5} />
+              <span>Copied</span>
             </>
           ) : (
             <>
@@ -151,11 +154,11 @@ export function DocsCodeBlock({
               <span>Copy</span>
             </>
           )}
-        </button>
+        </Button>
       </div>
 
       {/* Code */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-background m-2 rounded-md max-h-96">
         <pre
           className="p-4 text-[12.5px] leading-[1.7] font-mono"
           // Allow sugar-high spans to be inlined

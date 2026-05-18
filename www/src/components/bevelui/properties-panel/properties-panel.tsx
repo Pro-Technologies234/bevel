@@ -19,11 +19,10 @@ export function PropertiesPanel({
   return (
     <div
       className={cn(
-        "flex flex-col rounded-xl border border-border bg-card/80 overflow-hidden",
+        "flex flex-col rounded-md border border-border bg-card/80 overflow-hidden",
         className,
       )}
     >
-      {/* Config-driven */}
       {sections?.map((section) => (
         <PropertiesSection
           key={section.id}
@@ -34,7 +33,6 @@ export function PropertiesPanel({
         />
       ))}
 
-      {/* Headless */}
       {children}
     </div>
   );

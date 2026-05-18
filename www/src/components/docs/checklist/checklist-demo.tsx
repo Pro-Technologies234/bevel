@@ -44,9 +44,8 @@ const STEPS: ChecklistStep[] = [
 ];
 
 function ChecklistDemoInner() {
-  const {
-    steps, progress, completedCount, requiredCount, isComplete,
-  } = useChecklist();
+  const { steps, progress, completedCount, requiredCount, isComplete } =
+    useChecklist();
 
   return (
     <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
@@ -69,8 +68,12 @@ function ChecklistDemoInner() {
       {/* Inline checklist panel */}
       <div className="w-full sm:w-72 rounded-2xl border border-border bg-card overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border/60">
-          <span className="text-[13px] font-semibold text-foreground">Get started</span>
-          <span className="text-[10px] font-mono text-primary/60">{progress}%</span>
+          <span className="text-[13px] font-semibold text-foreground">
+            Get started
+          </span>
+          <span className="text-[10px] font-mono text-primary/60">
+            {progress}%
+          </span>
         </div>
         <div className="h-1 bg-muted/40">
           <div
@@ -79,7 +82,9 @@ function ChecklistDemoInner() {
           />
         </div>
         <div className="flex flex-col divide-y divide-border/40 py-1 max-h-72 overflow-y-auto">
-          {steps.map(step => <ChecklistItem key={step.id} step={step} />)}
+          {steps.map((step) => (
+            <ChecklistItem key={step.id} step={step} />
+          ))}
         </div>
       </div>
     </div>

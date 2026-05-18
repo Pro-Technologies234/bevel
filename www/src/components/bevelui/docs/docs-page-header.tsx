@@ -20,16 +20,14 @@ export function DocsPageHeader({
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       {badge && (
-        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary/70 select-none">
-          {badge}
-        </span>
+        <span className="text-[10px] uppercase select-none">{badge}</span>
       )}
 
-      <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+      <h1 className="text-3xl font-bold tracking-tighter text-foreground">
         {title}
       </h1>
 
-      <p className="text-foreground/70 text-[15px] leading-relaxed max-w-2xl">
+      <p className="text-foreground/70 leading-relaxed text-sm font-extralight max-w-2xl">
         {description}
       </p>
 
