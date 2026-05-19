@@ -1,0 +1,403 @@
+{
+  "meta": {
+    "title": "Timeline",
+    "description": "A time-axis infrastructure system. Ruler with zoom-aware ticks, synchronized track lanes, a draggable playhead, and time↔pixel math. Consumer owns the track content — clips, keyframes, waveforms, events.",
+    "badge": "Pro System",
+    "features": [
+      "Zoom-aware ruler ticks",
+      "Cursor-anchored zoom",
+      "Scroll-synchronized tracks",
+      "Draggable playhead",
+      "TimelineClip + TimelineKeyframe helpers"
+    ],
+    "slug": "timeline",
+    "prev": { "label": "AI Chat", "href": "/docs/components/ai-chat" },
+    "next": { "label": "Tree View", "href": "/docs/components/tree" }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo-video", "label": "Video editor demo", "depth": 1 },
+    { "id": "demo-sequence", "label": "Sequence demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "clips", "label": "Clips and keyframes", "depth": 1 },
+    { "id": "zoom", "label": "Zoom and scroll", "depth": 1 },
+    { "id": "programmatic", "label": "useTimeline", "depth": 1 },
+    { "id": "api-root", "label": "TimelineRoot", "depth": 2 },
+    { "id": "api-track", "label": "TimelineTrack", "depth": 2 },
+    { "id": "api-clip", "label": "TimelineClip", "depth": 2 },
+    { "id": "api-keyframe", "label": "TimelineKeyframe", "depth": 2 },
+    { "id": "api-config", "label": "TimelineConfig", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Building a timeline UI always fails the same way. The ruler stops making sense after zooming. The playhead drifts from the ruler after scrolling. Zooming jumps to the wrong position instead of anchoring to the cursor. The track headers don't stay visible while scrolling horizontally."
+        },
+        {
+          "type": "text",
+          "content": "The system owns the time infrastructure and nothing else. TimelineRoot manages time state, zoom, and scroll. TimelineRuler calculates tick intervals that stay readable at any zoom level. TimelineTrack provides synchronized track lanes with sticky headers. TimelineClip and TimelineKeyframe position consumer content at any time range or point. What goes inside a track — video clips, animation keyframes, audio waveforms, game events — is always the consumer's concern."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/timeline/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "TimelineConfig, TimelineContextValue"
+                },
+                {
+                  "name": "timeline-context.tsx",
+                  "type": "file",
+                  "comment": "TimelineCtx + useTimeline"
+                },
+                {
+                  "name": "timeline-utils.ts",
+                  "type": "file",
+                  "comment": "tick math, zoom anchor, time format",
+                  "highlight": true
+                },
+                {
+                  "name": "timeline-root.tsx",
+                  "type": "file",
+                  "comment": "state + ruler + playhead + layout"
+                },
+                {
+                  "name": "timeline-track.tsx",
+                  "type": "file",
+                  "comment": "track lane with sticky header"
+                },
+                {
+                  "name": "timeline-clip.tsx",
+                  "type": "file",
+                  "comment": "positions content at time range"
+                },
+                {
+                  "name": "timeline-keyframe.tsx",
+                  "type": "file",
+                  "comment": "positions a point marker at time"
+                },
+                {
+                  "name": "timeline-controls.tsx",
+                  "type": "file",
+                  "comment": "zoom buttons + time display"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The system handles three hard problems",
+          "content": "1. Ruler ticks: the interval adjusts so ticks are always at least 60px apart, switching from milliseconds to seconds to minutes as you zoom out. 2. Zoom anchoring: zooming in/out keeps the time under your cursor fixed, not the start of the timeline. 3. Scroll sync: the ruler and all track lanes share a single scroll position via CSS sticky, with no JavaScript mirroring."
+        }
+      ]
+    },
+    {
+      "id": "demo-video",
+      "title": "Video editor demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Four tracks: Video, Audio, Text, Effects. Click the ruler to scrub. Use the zoom buttons or Ctrl+scroll to zoom. Press play to animate the playhead."
+        },
+        {
+          "type": "demo",
+          "component": "VideoTimelineDemo",
+          "label": "CapCut-style video editor"
+        }
+      ]
+    },
+    {
+      "id": "demo-sequence",
+      "title": "Sequence / animation demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Five property tracks with keyframe markers: X Position, Y Position, Rotation, Scale, Opacity. Scrub the playhead and watch the preview box update in real time — the system provides the time infrastructure, the consumer handles the interpolation."
+        },
+        {
+          "type": "demo",
+          "component": "SequenceTimelineDemo",
+          "label": "Unity-style animator"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install peer dependencies",
+              "code": "npm install motion",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.com/r/timeline.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your tracks in TimelineRoot with a duration. Add TimelineTrack for each lane. Use TimelineClip or TimelineKeyframe to position consumer content at specific times."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  TimelineRoot,\n  TimelineTrack,\n  TimelineClip,\n  TimelineControls,\n} from \"@/components/bevelui/timeline\";\n\n<TimelineRoot\n  duration={60}\n  config={{ defaultZoom: 50 }}\n  onTimeChange={(t) => setCurrentTime(t)}\n  className=\"h-[300px]\"\n>\n  <TimelineControls />\n\n  <TimelineTrack label=\"Video\">\n    <TimelineClip start={0} end={10}>\n      {/* Your clip UI */}\n      <div className=\"h-full bg-blue-500/30 border border-blue-500/50 rounded px-2 text-xs\">\n        Clip A\n      </div>\n    </TimelineClip>\n\n    <TimelineClip start={11} end={25}>\n      <div className=\"h-full bg-purple-500/30 border border-purple-500/50 rounded px-2 text-xs\">\n        Clip B\n      </div>\n    </TimelineClip>\n  </TimelineTrack>\n\n  <TimelineTrack label=\"Audio\">\n    <TimelineClip start={0} end={25}>\n      <div className=\"h-full bg-emerald-500/30 border border-emerald-500/50 rounded px-2 text-xs\">\n        Background\n      </div>\n    </TimelineClip>\n  </TimelineTrack>\n</TimelineRoot>"
+        }
+      ]
+    },
+    {
+      "id": "clips",
+      "title": "Clips and keyframes",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "TimelineClip positions children absolutely within a track at a start–end time range. TimelineKeyframe positions a point marker at a single time. Both read zoom from context — no manual pixel calculation needed."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "// Time range (video clips, audio blocks, effect spans)\n<TimelineClip start={5} end={12}>\n  <MyClipComponent />\n</TimelineClip>\n\n// Point in time (animation keyframes, beat markers, events)\n<TimelineKeyframe time={7.5} label=\"Position keyframe\">\n  {/* Custom marker shape — defaults to a lime diamond */}\n  <div className=\"w-3 h-3 bg-primary rotate-45\" />\n</TimelineKeyframe>"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Content is always yours",
+          "content": "TimelineClip and TimelineKeyframe are positioning helpers only. They set left and width via the zoom factor from context. What renders inside — the clip label, waveform visualization, color coding — is your component."
+        }
+      ]
+    },
+    {
+      "id": "zoom",
+      "title": "Zoom and scroll",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Ctrl+scroll (or Cmd+scroll on Mac) zooms anchored to the cursor position. Zoom buttons step by ×1.4 and ×0.7. Scroll horizontally with the trackpad or scrollbar. All zoom and scroll state is in TimelineRoot — useTimeline exposes it for custom controls."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "function MyZoomControl() {\n  const { zoom, setZoom } = useTimeline();\n\n  return (\n    <div className=\"flex gap-1\">\n      <button onClick={() => setZoom(zoom * 2)}>2×</button>\n      <button onClick={() => setZoom(zoom * 0.5)}>0.5×</button>\n      <button onClick={() => setZoom(50)}>Reset</button>\n    </div>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "programmatic",
+      "title": "useTimeline",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useTimeline } from \"@/components/bevelui/timeline\";\n\nfunction PlaybackSync() {\n  const {\n    currentTime,\n    duration,\n    zoom,\n    scrubTo,\n    setZoom,\n    timeToPixel,\n    pixelToTime,\n    visibleRange,\n  } = useTimeline();\n\n  // Sync with an external audio element\n  React.useEffect(() => {\n    audioRef.current!.currentTime = currentTime;\n  }, [currentTime]);\n\n  // Jump to a specific timecode\n  return <button onClick={() => scrubTo(45.3)}>Go to 45.3s</button>;\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "TimelineRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "duration",
+              "type": "number",
+              "required": true,
+              "description": "Total timeline length in seconds."
+            },
+            {
+              "prop": "config",
+              "type": "TimelineConfig",
+              "description": "Zoom range, default zoom, header width, ruler height, track height."
+            },
+            {
+              "prop": "onTimeChange",
+              "type": "(time: number) => void",
+              "description": "Called whenever currentTime changes — scrub, drag, or programmatic."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "TimelineControls, TimelineTrack, and any custom content."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the outer container. Use to set height."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-track",
+      "title": "TimelineTrack",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "label",
+              "type": "string",
+              "required": true,
+              "description": "Track name shown in the sticky header."
+            },
+            {
+              "prop": "height",
+              "type": "number",
+              "description": "Override per-track height in px. Defaults to config.trackHeight."
+            },
+            {
+              "prop": "actions",
+              "type": "ReactNode",
+              "description": "Rendered in the header alongside the label — e.g. mute or solo buttons."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Track content. Use TimelineClip or TimelineKeyframe to position it by time."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-clip",
+      "title": "TimelineClip",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "start",
+              "type": "number",
+              "required": true,
+              "description": "Clip start time in seconds."
+            },
+            {
+              "prop": "end",
+              "type": "number",
+              "required": true,
+              "description": "Clip end time in seconds."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Your clip UI — fills the positioned container."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the absolute positioning wrapper."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-keyframe",
+      "title": "TimelineKeyframe",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "time",
+              "type": "number",
+              "required": true,
+              "description": "Time position in seconds."
+            },
+            {
+              "prop": "label",
+              "type": "string",
+              "description": "Tooltip shown on hover."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Custom marker shape. Defaults to a lime rotated square (diamond)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "TimelineConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "minZoom",
+              "type": "number",
+              "default": "10",
+              "description": "Minimum zoom in px/second."
+            },
+            {
+              "prop": "maxZoom",
+              "type": "number",
+              "default": "3000",
+              "description": "Maximum zoom in px/second."
+            },
+            {
+              "prop": "defaultZoom",
+              "type": "number",
+              "default": "60",
+              "description": "Initial zoom level in px/second."
+            },
+            {
+              "prop": "defaultCurrentTime",
+              "type": "number",
+              "default": "0",
+              "description": "Initial playhead position."
+            },
+            {
+              "prop": "headerWidth",
+              "type": "number",
+              "default": "120",
+              "description": "Width of track label headers in px."
+            },
+            {
+              "prop": "rulerHeight",
+              "type": "number",
+              "default": "32",
+              "description": "Height of the time ruler row in px."
+            },
+            {
+              "prop": "trackHeight",
+              "type": "number",
+              "default": "48",
+              "description": "Default height of each track row in px. Overridable per track."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

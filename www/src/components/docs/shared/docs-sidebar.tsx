@@ -13,6 +13,7 @@ import {
   IconLayoutSidebarRightInactive,
   IconChecklist,
   IconListTree,
+  IconTimeline,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -106,6 +107,13 @@ export function DocsSidebar() {
               label: "Tree View",
               href: "/docs/components/tree-view",
               icon: IconListTree,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Timeline",
+              href: "/docs/components/timeline",
+              icon: IconTimeline,
               badge: "New",
               badgeVariant: "new",
             },
