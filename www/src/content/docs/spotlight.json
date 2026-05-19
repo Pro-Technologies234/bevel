@@ -11,20 +11,20 @@
       "/ hotkey (configurable)"
     ],
     "slug": "spotlight",
-    "prev": { "label": "Checklist",  "href": "/docs/components/checklist"  },
-    "next": { "label": "Tree View",  "href": "/docs/components/tree"        }
+    "prev": { "label": "Checklist", "href": "/docs/components/checklist" },
+    "next": { "label": "Tree View", "href": "/docs/components/tree" }
   },
   "tocs": [
-    { "id": "overview",     "label": "Overview",           "depth": 1 },
-    { "id": "demo",         "label": "Live demo",           "depth": 1 },
-    { "id": "installation", "label": "Installation",        "depth": 1 },
-    { "id": "usage",        "label": "Basic usage",         "depth": 1 },
-    { "id": "categories",   "label": "Categories",          "depth": 1 },
-    { "id": "history",      "label": "Recent searches",     "depth": 1 },
-    { "id": "programmatic", "label": "Programmatic control","depth": 1 },
-    { "id": "api-root",     "label": "SpotlightRoot",       "depth": 2 },
-    { "id": "api-result",   "label": "SpotlightResult",     "depth": 2 },
-    { "id": "api-config",   "label": "SpotlightConfig",     "depth": 2 }
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "categories", "label": "Categories", "depth": 1 },
+    { "id": "history", "label": "Recent searches", "depth": 1 },
+    { "id": "programmatic", "label": "Programmatic control", "depth": 1 },
+    { "id": "api-root", "label": "SpotlightRoot", "depth": 2 },
+    { "id": "api-result", "label": "SpotlightResult", "depth": 2 },
+    { "id": "api-config", "label": "SpotlightConfig", "depth": 2 }
   ],
   "sections": [
     {
@@ -46,15 +46,48 @@
               "type": "folder",
               "isOpen": true,
               "children": [
-                { "name": "types.ts",                  "type": "file", "comment": "SpotlightResult, SpotlightCategory"          },
-                { "name": "spotlight-context.tsx",      "type": "file", "comment": "SpotlightCtx + useSpotlight"                },
-                { "name": "spotlight-root.tsx",          "type": "file", "comment": "debounce + abort + hotkey + history", "highlight": true },
-                { "name": "spotlight-modal.tsx",         "type": "file", "comment": "backdrop + input + category tabs"          },
-                { "name": "spotlight-results.tsx",       "type": "file", "comment": "grouped category display"                 },
-                { "name": "spotlight-result-item.tsx",   "type": "file", "comment": "individual result row"                    },
-                { "name": "spotlight-empty.tsx",         "type": "file", "comment": "recent searches + empty state"            },
-                { "name": "spotlight-skeleton.tsx",      "type": "file", "comment": "loading placeholder rows"                 },
-                { "name": "index.ts",                    "type": "file"                                                         }
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "SpotlightResult, SpotlightCategory"
+                },
+                {
+                  "name": "spotlight-context.tsx",
+                  "type": "file",
+                  "comment": "SpotlightCtx + useSpotlight"
+                },
+                {
+                  "name": "spotlight-root.tsx",
+                  "type": "file",
+                  "comment": "debounce + abort + hotkey + history",
+                  "highlight": true
+                },
+                {
+                  "name": "spotlight-modal.tsx",
+                  "type": "file",
+                  "comment": "backdrop + input + category tabs"
+                },
+                {
+                  "name": "spotlight-results.tsx",
+                  "type": "file",
+                  "comment": "grouped category display"
+                },
+                {
+                  "name": "spotlight-result-item.tsx",
+                  "type": "file",
+                  "comment": "individual result row"
+                },
+                {
+                  "name": "spotlight-empty.tsx",
+                  "type": "file",
+                  "comment": "recent searches + empty state"
+                },
+                {
+                  "name": "spotlight-skeleton.tsx",
+                  "type": "file",
+                  "comment": "loading placeholder rows"
+                },
+                { "name": "index.ts", "type": "file" }
               ]
             }
           ]
@@ -75,7 +108,11 @@
           "type": "text",
           "content": "Press / or click the button to open. Try searching for alice, dashboard, form, or guide. Results group by People, Projects, and Docs. Recent searches persist between opens."
         },
-        { "type": "demo", "component": "SpotlightDemo", "label": "Interactive demo" }
+        {
+          "type": "demo",
+          "component": "SpotlightDemo",
+          "label": "Interactive demo"
+        }
       ]
     },
     {
@@ -85,8 +122,16 @@
         {
           "type": "steps",
           "steps": [
-            { "title": "Install peer dependencies", "code": "npm install motion", "codeLanguage": "bash" },
-            { "title": "Add the system files", "code": "npx shadcn@latest add https://bevelui.com/r/spotlight.json", "codeLanguage": "bash" }
+            {
+              "title": "Install peer dependencies",
+              "code": "npm install motion",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/spotlight.json",
+              "codeLanguage": "bash"
+            }
           ]
         }
       ]
@@ -155,9 +200,24 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "config",   "type": "SpotlightConfig",                              "required": true, "description": "Categories, hotkey, placeholder, storage key."                                      },
-            { "prop": "onSearch", "type": "(query: string, signal: AbortSignal) => Promise<SpotlightResult[]>", "required": true, "description": "Called on every debounced keystroke. Pass signal to fetch for automatic cancellation." },
-            { "prop": "children", "type": "ReactNode",                                   "required": true, "description": "Your app. The modal renders as a portal above everything."                          }
+            {
+              "prop": "config",
+              "type": "SpotlightConfig",
+              "required": true,
+              "description": "Categories, hotkey, placeholder, storage key."
+            },
+            {
+              "prop": "onSearch",
+              "type": "(query: string, signal: AbortSignal) => Promise<SpotlightResult[]>",
+              "required": true,
+              "description": "Called on every debounced keystroke. Pass signal to fetch for automatic cancellation."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Your app. The modal renders as a portal above everything."
+            }
           ]
         }
       ]
@@ -169,14 +229,49 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "id",          "type": "string",                   "required": true, "description": "Unique identifier."                                                     },
-            { "prop": "title",       "type": "string",                   "required": true, "description": "Primary display text."                                                  },
-            { "prop": "category",    "type": "string",                   "required": true, "description": "Maps to a SpotlightCategory id. Used for grouping and tab filtering."   },
-            { "prop": "subtitle",    "type": "string",                                     "description": "Secondary text shown below the title."                                   },
-            { "prop": "icon",        "type": "string | React.ElementType",                 "description": "Avatar URL or Tabler icon component."                                    },
-            { "prop": "badge",       "type": "string",                                     "description": "Small label shown on the right (e.g. status, type)."                    },
-            { "prop": "href",        "type": "string",                                     "description": "Navigate on select."                                                     },
-            { "prop": "onSelect",    "type": "() => void",                                 "description": "Called on select instead of navigating."                                }
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "required": true,
+              "description": "Primary display text."
+            },
+            {
+              "prop": "category",
+              "type": "string",
+              "required": true,
+              "description": "Maps to a SpotlightCategory id. Used for grouping and tab filtering."
+            },
+            {
+              "prop": "subtitle",
+              "type": "string",
+              "description": "Secondary text shown below the title."
+            },
+            {
+              "prop": "icon",
+              "type": "string | React.ElementType",
+              "description": "Avatar URL or Tabler icon component."
+            },
+            {
+              "prop": "badge",
+              "type": "string",
+              "description": "Small label shown on the right (e.g. status, type)."
+            },
+            {
+              "prop": "href",
+              "type": "string",
+              "description": "Navigate on select."
+            },
+            {
+              "prop": "onSelect",
+              "type": "() => void",
+              "description": "Called on select instead of navigating."
+            }
           ]
         }
       ]
@@ -188,11 +283,34 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "categories",         "type": "SpotlightCategory[]", "required": true, "description": "Category definitions for tabs and headers."            },
-            { "prop": "hotkey",             "type": "string",  "default": "\"/\"",            "description": "Keyboard trigger. '/' for slash, 'mod+k' for ⌘K."    },
-            { "prop": "placeholder",        "type": "string",                                "description": "Input placeholder text."                              },
-            { "prop": "maxRecentSearches",  "type": "number",  "default": "8",               "description": "Max saved recent queries."                           },
-            { "prop": "storageKey",         "type": "string",                                "description": "localStorage key for recent search history."         }
+            {
+              "prop": "categories",
+              "type": "SpotlightCategory[]",
+              "required": true,
+              "description": "Category definitions for tabs and headers."
+            },
+            {
+              "prop": "hotkey",
+              "type": "string",
+              "default": "\"/\"",
+              "description": "Keyboard trigger. '/' for slash, 'mod+k' for ⌘K."
+            },
+            {
+              "prop": "placeholder",
+              "type": "string",
+              "description": "Input placeholder text."
+            },
+            {
+              "prop": "maxRecentSearches",
+              "type": "number",
+              "default": "8",
+              "description": "Max saved recent queries."
+            },
+            {
+              "prop": "storageKey",
+              "type": "string",
+              "description": "localStorage key for recent search history."
+            }
           ]
         }
       ]

@@ -119,7 +119,7 @@
             },
             {
               "title": "Add the system files",
-              "code": "npx shadcn@latest add https://bevelui.com/r/tree.json",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/tree.json",
               "codeLanguage": "bash"
             }
           ]

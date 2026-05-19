@@ -4,8 +4,15 @@
   "title": "Command Palette",
   "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A fully-engineered command palette system with fuzzy search, keyboard navigation, grouped results, source tabs, filter tabs, and a Raycast-style footer. Global ⌘K shortcut included.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["button", "badge", "input", "separator"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "button",
+    "badge",
+    "input",
+    "separator"
+  ],
   "files": [
     {
       "path": "src/components/bevelui/command-palette/command-palette-types.ts",
@@ -75,6 +82,9 @@
     }
   ],
   "docs": "Import from @/components/bevelui/command-palette. Use CommandPaletteRoot as the provider, CommandPaletteTrigger to open it, and pass your sections as structured data.",
-  "categories": ["systems", "navigation"],
+  "categories": [
+    "systems",
+    "navigation"
+  ],
   "type": "registry:block"
 }

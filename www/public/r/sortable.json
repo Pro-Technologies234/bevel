@@ -56,6 +56,9 @@
     }
   ],
   "docs": "Import from @/components/bevelui/sortable. Wrap your list with SortableRoot, mark each row with SortableItem, and optionally add SortableHandle for grip-only drag. Pass config={{ layout: 'grid' }} for grid layouts. Use useSortableList for typed list state.",
-  "categories": ["systems", "drag-and-drop"],
+  "categories": [
+    "systems",
+    "drag-and-drop"
+  ],
   "type": "registry:block"
 }
