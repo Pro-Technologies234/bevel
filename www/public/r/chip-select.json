@@ -4,8 +4,12 @@
   "title": "Chip Select",
   "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A pill chip selector control supporting single or multi-select. Used by FormEngine's FieldRenderer and usable standalone.",
-  "dependencies": ["motion"],
-  "registryDependencies": ["badge"],
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [
+    "badge"
+  ],
   "files": [
     {
       "path": "src/components/bevelui/controls/chip-select.tsx",
@@ -14,6 +18,9 @@
       "target": "src/components/bevelui/controls/chip-select.tsx"
     }
   ],
-  "categories": ["controls", "forms"],
+  "categories": [
+    "controls",
+    "forms"
+  ],
   "type": "registry:component"
 }

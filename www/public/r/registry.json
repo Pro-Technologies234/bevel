@@ -186,21 +186,7 @@
       "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems", "forms"],
       "dependencies": ["react-hook-form", "zod", "motion"],
-      "registryDependencies": [
-        "button",
-        "badge",
-        "input",
-        "label",
-        "select",
-        "progress",
-        "separator",
-        "tooltip",
-        "https://bevelui.vercel.app/r/card-select.json",
-        "https://bevelui.vercel.app/r/chip-select.json",
-        "https://bevelui.vercel.app/r/rating-field.json",
-        "https://bevelui.vercel.app/r/select-field.json",
-        "https://bevelui.vercel.app/r/tag-input.json"
-      ],
+      "registryDependencies": ["button", "input-group", "label", "field"],
       "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineNavigation.",
       "files": [
         {
@@ -424,6 +410,55 @@
         }
       ]
     },
+    {
+      "name": "tree",
+      "type": "registry:block",
+      "title": "Tree View",
+      "description": "Recursive hierarchical data display with full keyboard navigation (arrow keys, Home/End), animated expand/collapse, multi-select, and optional connecting lines.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems"],
+      "dependencies": ["motion"],
+      "registryDependencies": [],
+      "docs": "Import from @/components/bevelui/tree. Pass nodes to TreeRoot. Keyboard navigation works automatically when the tree container is focused. Use config.multiSelect for multi-select and config.showLines for connecting lines.",
+      "files": [
+        {
+          "path": "src/components/bevelui/tree/tree-types.ts",
+          "target": "src/components/bevelui/tree/tree-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/tree/tree-context.tsx",
+          "target": "src/components/bevelui/tree/tree-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tree/tree-utils.ts",
+          "target": "src/components/bevelui/tree/tree-utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/tree/tree-root.tsx",
+          "target": "src/components/bevelui/tree/tree-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tree/tree-node.tsx",
+          "target": "src/components/bevelui/tree/tree-node.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/tree/tree-hook.ts",
+          "target": "src/components/bevelui/tree/tree-hook.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "src/components/bevelui/tree/index.ts",
+          "target": "src/components/bevelui/tree/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+
     {
       "name": "card-select",
       "type": "registry:component",

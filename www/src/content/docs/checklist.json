@@ -15,15 +15,15 @@
     "next": { "label": "Spotlight", "href": "/docs/components/spotlight" }
   },
   "tocs": [
-    { "id": "overview",      "label": "Overview",           "depth": 1 },
-    { "id": "demo",          "label": "Live demo",           "depth": 1 },
-    { "id": "installation",  "label": "Installation",        "depth": 1 },
-    { "id": "usage",         "label": "Basic usage",         "depth": 1 },
-    { "id": "dependencies",  "label": "Step dependencies",   "depth": 1 },
-    { "id": "persistence",   "label": "Persistence",         "depth": 1 },
-    { "id": "inline",        "label": "Inline mode",         "depth": 1 },
-    { "id": "api-root",      "label": "ChecklistRoot",       "depth": 2 },
-    { "id": "api-step",      "label": "ChecklistStep",       "depth": 2 }
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "dependencies", "label": "Step dependencies", "depth": 1 },
+    { "id": "persistence", "label": "Persistence", "depth": 1 },
+    { "id": "inline", "label": "Inline mode", "depth": 1 },
+    { "id": "api-root", "label": "ChecklistRoot", "depth": 2 },
+    { "id": "api-step", "label": "ChecklistStep", "depth": 2 }
   ],
   "sections": [
     {
@@ -45,13 +45,38 @@
               "type": "folder",
               "isOpen": true,
               "children": [
-                { "name": "types.ts",                   "type": "file", "comment": "ChecklistStep, ChecklistConfig"   },
-                { "name": "checklist-context.tsx",       "type": "file", "comment": "ChecklistCtx + useChecklist"     },
-                { "name": "checklist-root.tsx",          "type": "file", "comment": "state + persistence + layout"   },
-                { "name": "checklist-progress-ring.tsx", "type": "file", "comment": "SVG circular progress"          },
-                { "name": "checklist-item.tsx",          "type": "file", "comment": "step row with dependency check", "highlight": true },
-                { "name": "checklist-widget.tsx",        "type": "file", "comment": "floating trigger + panel"        },
-                { "name": "index.ts",                    "type": "file"                                               }
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "ChecklistStep, ChecklistConfig"
+                },
+                {
+                  "name": "checklist-context.tsx",
+                  "type": "file",
+                  "comment": "ChecklistCtx + useChecklist"
+                },
+                {
+                  "name": "checklist-root.tsx",
+                  "type": "file",
+                  "comment": "state + persistence + layout"
+                },
+                {
+                  "name": "checklist-progress-ring.tsx",
+                  "type": "file",
+                  "comment": "SVG circular progress"
+                },
+                {
+                  "name": "checklist-item.tsx",
+                  "type": "file",
+                  "comment": "step row with dependency check",
+                  "highlight": true
+                },
+                {
+                  "name": "checklist-widget.tsx",
+                  "type": "file",
+                  "comment": "floating trigger + panel"
+                },
+                { "name": "index.ts", "type": "file" }
               ]
             }
           ]
@@ -72,7 +97,11 @@
           "type": "text",
           "content": "Complete steps in order. Notice that Invite a teammate is locked until Create your first project is done. Deploy to production is optional — it can be skipped. Progress persists across page reloads."
         },
-        { "type": "demo", "component": "ChecklistDemo", "label": "Interactive demo" }
+        {
+          "type": "demo",
+          "component": "ChecklistDemo",
+          "label": "Interactive demo"
+        }
       ]
     },
     {
@@ -82,8 +111,16 @@
         {
           "type": "steps",
           "steps": [
-            { "title": "Install peer dependencies", "code": "npm install motion", "codeLanguage": "bash" },
-            { "title": "Add the system files", "code": "npx shadcn@latest add https://bevelui.com/r/checklist.json", "codeLanguage": "bash" }
+            {
+              "title": "Install peer dependencies",
+              "code": "npm install motion",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/checklist.json",
+              "codeLanguage": "bash"
+            }
           ]
         }
       ]
@@ -161,9 +198,23 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "steps",  "type": "ChecklistStep[]",   "required": true, "description": "All checklist step definitions."                                           },
-            { "prop": "config", "type": "ChecklistConfig",                     "description": "Title, subtitle, storageKey, position."                                    },
-            { "prop": "children","type": "ReactNode",        "required": true, "description": "Your app. The floating widget renders as a sibling unless position is inline." }
+            {
+              "prop": "steps",
+              "type": "ChecklistStep[]",
+              "required": true,
+              "description": "All checklist step definitions."
+            },
+            {
+              "prop": "config",
+              "type": "ChecklistConfig",
+              "description": "Title, subtitle, storageKey, position."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Your app. The floating widget renders as a sibling unless position is inline."
+            }
           ]
         }
       ]
@@ -175,14 +226,48 @@
         {
           "type": "props-table",
           "rows": [
-            { "prop": "id",          "type": "string",        "required": true, "description": "Unique identifier. Used in requires arrays."                          },
-            { "prop": "title",       "type": "string",        "required": true, "description": "Step label shown in the list."                                        },
-            { "prop": "description", "type": "string",                          "description": "Supporting text shown below the title when the step is active."        },
-            { "prop": "cta",         "type": "string",                          "description": "Action button label. Defaults to 'Get started'."                      },
-            { "prop": "onAction",    "type": "() => void",                      "description": "Called when the CTA is clicked. Step is marked complete automatically."},
-            { "prop": "href",        "type": "string",                          "description": "Navigate instead of calling onAction. Opens in a new tab."            },
-            { "prop": "requires",    "type": "string[]",                        "description": "IDs that must be complete before this step becomes active."            },
-            { "prop": "optional",    "type": "boolean",                         "description": "Shows a Skip button. Optional steps don't count toward completion."    }
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier. Used in requires arrays."
+            },
+            {
+              "prop": "title",
+              "type": "string",
+              "required": true,
+              "description": "Step label shown in the list."
+            },
+            {
+              "prop": "description",
+              "type": "string",
+              "description": "Supporting text shown below the title when the step is active."
+            },
+            {
+              "prop": "cta",
+              "type": "string",
+              "description": "Action button label. Defaults to 'Get started'."
+            },
+            {
+              "prop": "onAction",
+              "type": "() => void",
+              "description": "Called when the CTA is clicked. Step is marked complete automatically."
+            },
+            {
+              "prop": "href",
+              "type": "string",
+              "description": "Navigate instead of calling onAction. Opens in a new tab."
+            },
+            {
+              "prop": "requires",
+              "type": "string[]",
+              "description": "IDs that must be complete before this step becomes active."
+            },
+            {
+              "prop": "optional",
+              "type": "boolean",
+              "description": "Shows a Skip button. Optional steps don't count toward completion."
+            }
           ]
         }
       ]
