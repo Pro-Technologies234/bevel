@@ -276,6 +276,7 @@ export function VideoTimelineDemo() {
     </div>
   );
 }
+
 // ─── Keyframe data ────────────────────────────────────────────────────────────
 
 const KF = {
@@ -311,18 +312,31 @@ const KF = {
   ],
 };
 
+// ─── Math & Easing (Curve Mode) ───────────────────────────────────────────────
+
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
+}
+
+// "Curve Mode": Smooth easing in and out for beautiful, natural animations
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 function valueAt(frames: { t: number; v: number }[], time: number): number {
   if (!frames.length) return 0;
   if (time <= frames[0].t) return frames[0].v;
   if (time >= frames[frames.length - 1].t) return frames[frames.length - 1].v;
+
   for (let i = 0; i < frames.length - 1; i++) {
     if (time >= frames[i].t && time <= frames[i + 1].t) {
-      const t = (time - frames[i].t) / (frames[i + 1].t - frames[i].t);
-      return lerp(frames[i].v, frames[i + 1].v, t);
+      // Raw linear progress between these two keyframes (0.0 to 1.0)
+      const progress = (time - frames[i].t) / (frames[i + 1].t - frames[i].t);
+
+      // Apply the curve easing to the progress
+      const easedProgress = easeInOutCubic(progress);
+
+      return lerp(frames[i].v, frames[i + 1].v, easedProgress);
     }
   }
   return 0;
@@ -338,19 +352,37 @@ function AnimationPreview({ currentTime }: { currentTime: number }) {
   const op = valueAt(KF.opacity, currentTime);
 
   return (
-    <div className="h-36 rounded-xl border border-border bg-muted/10 flex items-center justify-center overflow-hidden relative">
-      <p className="absolute top-2 left-3 text-[10px] font-mono text-muted-foreground/30">
-        Preview
+    <div className="h-48 rounded-md border border-border bg-background flex items-center justify-center overflow-hidden relative shadow-inner">
+      <div className="absolute top-3 left-4 flex items-center gap-2">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+        </span>
+        <p className="text-xs font-mono text-muted-foreground">
+          Render Preview
+        </p>
+      </div>
+
+      <p className="absolute bottom-3 right-4 text-xs font-mono text-muted-foreground/50">
+        {currentTime.toFixed(2)}s
       </p>
+
+      {/* Crosshair background for scale reference */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">
+        <div className="w-full h-px bg-foreground" />
+        <div className="h-full w-px bg-foreground absolute" />
+      </div>
+
       <div
         style={{
-          transform: `translate(${x * 0.4}px, ${y * 0.4}px) rotate(${rot}deg) scale(${sc})`,
+          transform: `translate(${x * 0.5}px, ${y * 0.5}px) rotate(${rot}deg) scale(${sc})`,
           opacity: op,
-          transition: "none",
+          // Hardware acceleration
+          willChange: "transform, opacity",
         }}
-        className="w-12 h-12 rounded-lg bg-primary/80 border border-primary flex items-center justify-center"
+        className="w-16 h-16 rounded-xl bg-primary shadow-lg border border-primary/50 flex items-center justify-center backdrop-blur-sm"
       >
-        <span className="text-black text-[10px] font-bold">■</span>
+        <div className="w-3 h-3 rounded-full bg-primary-foreground/50" />
       </div>
     </div>
   );
@@ -369,21 +401,33 @@ function KFTrack({
 }) {
   return (
     <TimelineTrack label={label} height={38}>
-      {/* Lane line */}
-      <div className="absolute top-1/2 left-0 right-0 h-px bg-border/40 -translate-y-px" />
+      {/* Lane line connecting keyframes */}
+      <div className="absolute top-1/2 left-0 right-0 h-px bg-border/40 -translate-y-px pointer-events-none" />
+
       {frames.map((f, i) => (
         <TimelineKeyframe key={i} time={f.t}>
           <Tooltip>
             <TooltipTrigger>
               <div
-                className={cn("w-3 h-3 rotate-45 rounded-sm border", color)}
+                className={cn(
+                  "w-2.5 h-2.5 rotate-45 rounded-[2px] border transition-transform hover:scale-150 hover:z-10",
+                  color,
+                )}
               />
             </TooltipTrigger>
-            <TooltipContent>
-              <span className="flex items-center gap-1">
-                <div className={cn("w-2 h-2 rounded-xs", color)} />
-                {`${label}: ${f.v}`}
-              </span>
+            <TooltipContent side="top" className="font-mono text-xs">
+              <div className="flex items-center gap-2">
+                <div
+                  className={cn(
+                    "w-2 h-2 rounded-full",
+                    color.split(" ")[0].replace("/40", ""),
+                  )}
+                />
+                <span>
+                  {f.t}s :{" "}
+                  <span className="font-bold text-foreground">{f.v}</span>
+                </span>
+              </div>
             </TooltipContent>
           </Tooltip>
         </TimelineKeyframe>
@@ -392,67 +436,136 @@ function KFTrack({
   );
 }
 
-// ─── Inner component (reads context) ─────────────────────────────────────────
+// ─── Inner component (Syncs with Timeline Context) ───────────────────────────
 
-function SequenceInner({ setTime }: { setTime: (t: number) => void }) {
-  const { scrubTo, currentTime } = useTimeline();
+function SequenceInner({
+  time,
+  isPlaying,
+  onPlayPause,
+}: {
+  time: number;
+  isPlaying: boolean;
+  onPlayPause: () => void;
+}) {
+  const { scrubTo } = useTimeline();
+
+  // Physically moves the timeline playhead to match the external loop time
   React.useEffect(() => {
-    setTime(currentTime);
-  }, [currentTime]);
+    scrubTo(time);
+  }, [time, scrubTo]);
 
   return (
     <>
-      <TimelineControls />
+      <TimelineControls isPlaying={isPlaying} onPlayPause={onPlayPause} />
       <KFTrack
         label="X Position"
         frames={KF.posX}
-        color="bg-blue-500/40   border-blue-400"
+        color="bg-blue-500/80 border-blue-300"
       />
       <KFTrack
         label="Y Position"
         frames={KF.posY}
-        color="bg-emerald-500/40 border-emerald-400"
+        color="bg-emerald-500/80 border-emerald-300"
       />
       <KFTrack
         label="Rotation"
         frames={KF.rotation}
-        color="bg-violet-500/40  border-violet-400"
+        color="bg-violet-500/80 border-violet-300"
       />
       <KFTrack
         label="Scale"
         frames={KF.scale}
-        color="bg-amber-500/40   border-amber-400"
+        color="bg-amber-500/80 border-amber-300"
       />
       <KFTrack
         label="Opacity"
         frames={KF.opacity}
-        color="bg-rose-500/40    border-rose-400"
+        color="bg-rose-500/80 border-rose-300"
       />
     </>
   );
 }
 
-// ─── Demo ─────────────────────────────────────────────────────────────────────
+// ─── Demo Application ─────────────────────────────────────────────────────────
 
 export function SequenceTimelineDemo() {
+  const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState(0);
 
+  const requestRef = React.useRef<number | null>(null);
+  const previousTimeRef = React.useRef<number | null>(null);
+  const timeRef = React.useRef(currentTime);
+
+  const duration = 10;
+
+  // Keep ref up to date so the animation loop can read the latest value without dependency issues
+  timeRef.current = currentTime;
+
+  function handlePlayPause() {
+    // If we're at the end of the timeline and click play, start from beginning
+    if (!isPlaying && currentTime >= duration) {
+      setCurrentTime(0);
+    }
+    setIsPlaying((p) => !p);
+  }
+
+  // Pure requestAnimationFrame loop for ultra-smooth 60fps playback
+  React.useEffect(() => {
+    const updatePlayback = (timestamp: number) => {
+      if (previousTimeRef.current !== null) {
+        const deltaTime = (timestamp - previousTimeRef.current) / 1000;
+        const nextTime = timeRef.current + deltaTime;
+
+        if (nextTime >= duration) {
+          setCurrentTime(duration);
+          setIsPlaying(false);
+          previousTimeRef.current = null;
+          return;
+        }
+
+        setCurrentTime(nextTime);
+      }
+
+      previousTimeRef.current = timestamp;
+      requestRef.current = requestAnimationFrame(updatePlayback);
+    };
+
+    if (isPlaying) {
+      requestRef.current = requestAnimationFrame(updatePlayback);
+    } else {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+      previousTimeRef.current = null;
+    }
+
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    };
+  }, [isPlaying, duration]);
+
   return (
-    <div className="flex flex-col gap-3 w-full max-w-3xl">
+    <div className="flex flex-col gap-4 w-full max-w-3xl">
       <AnimationPreview currentTime={currentTime} />
 
       <TimelineRoot
-        duration={10}
+        duration={duration}
         config={{
           defaultZoom: 80,
           trackHeight: 38,
           headerWidth: 110,
           rulerHeight: 28,
         }}
-        onTimeChange={setCurrentTime}
-        className="h-[280px]"
+        // If the user manually clicks/drags the playhead, pause playback and jump to time
+        onTimeChange={(t) => {
+          setCurrentTime(t);
+          // setIsPlaying(false);
+        }}
+        className="bg-background rounded-xl border border-border shadow"
       >
-        <SequenceInner setTime={setCurrentTime} />
+        <SequenceInner
+          time={currentTime}
+          isPlaying={isPlaying}
+          onPlayPause={handlePlayPause}
+        />
       </TimelineRoot>
     </div>
   );
