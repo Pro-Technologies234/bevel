@@ -1,36 +1,36 @@
+import type { TimelineEngine } from "./timeline-engine";
+
 export interface TimelineConfig {
-  duration?: number;
-  minZoom?: number; // px/sec — default 10
-  maxZoom?: number; // px/sec — default 3000
-  defaultZoom?: number; // px/sec — default 60
-  defaultCurrentTime?: number;
-  headerWidth?: number; // px — default 120
-  rulerHeight?: number; // px — default 32
-  trackHeight?: number; // px — default 48
+  defaultZoom?: number; // px per second, default 80
+  minZoom?: number; // default 20
+  maxZoom?: number; // default 400
+  trackHeight?: number; // px, default 48
+  headerWidth?: number; // px, track label column, default 100
+  rulerHeight?: number; // px, default 32
+  snapToGrid?: boolean;
+  snapInterval?: number; // seconds, default 0.5
 }
 
-export interface TimelineTick {
-  time: number;
-  x: number; // px from left of full content (not viewport)
-  label: string;
-  isMajor: boolean;
-}
-
-export interface TimelineRange {
-  start: number;
-  end: number;
+// Resolved config (all required, defaults filled)
+export interface ResolvedTimelineConfig {
+  defaultZoom: number;
+  minZoom: number;
+  maxZoom: number;
+  trackHeight: number;
+  headerWidth: number;
+  rulerHeight: number;
+  snapToGrid: boolean;
+  snapInterval: number;
 }
 
 export interface TimelineContextValue {
   currentTime: number;
   duration: number;
-  zoom: number; // px per second
-  scrollLeft: number;
-  containerWidth: number; // visible width of scroll area (excl. header)
-  config: Required<TimelineConfig>;
-  scrubTo: (time: number) => void;
-  setZoom: (zoom: number, anchorPx?: number) => void;
-  timeToPixel: (time: number) => number;
-  pixelToTime: (px: number) => number;
-  visibleRange: TimelineRange;
+  zoom: number;
+  isPlaying: boolean;
+  config: ResolvedTimelineConfig;
+  engine: TimelineEngine;
+  scrubTo: (t: number) => void;
+  setPlaying: (playing: boolean) => void;
+  setZoom: (pps: number) => void;
 }

@@ -2,42 +2,26 @@
 
 import * as React from "react";
 import { useTimeline } from "./timeline-context";
-import { cn } from "@/lib/utils";
 
 export interface TimelineKeyframeProps {
+  /** Position in seconds */
   time: number;
   children?: React.ReactNode;
-  className?: string;
-  label?: string;
 }
 
 /**
- * Positions a single point marker at the given time inside a TimelineTrack.
- * Renders a diamond by default; pass children to customise.
+ * Positions a child element at a specific time in a TimelineTrack.
+ * Center-aligned on the time position. Children define the visual marker.
  */
-export function TimelineKeyframe({
-  time,
-  children,
-  className,
-  label,
-}: TimelineKeyframeProps) {
+export function TimelineKeyframe({ time, children }: TimelineKeyframeProps) {
   const { zoom } = useTimeline();
-  const left = time * zoom;
 
   return (
     <div
-      className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-10"
-      style={{ left }}
-      title={label ?? `t=${time}s`}
+      className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+      style={{ left: time * zoom }}
     >
-      {children ?? (
-        <div
-          className={cn(
-            "w-2.5 h-2.5 bg-primary rotate-45 rounded-sm",
-            className,
-          )}
-        />
-      )}
+      {children}
     </div>
   );
 }

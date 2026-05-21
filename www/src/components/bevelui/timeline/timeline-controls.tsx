@@ -2,85 +2,78 @@
 
 import * as React from "react";
 import { useTimeline } from "./timeline-context";
-import { formatTime } from "./timeline-utils";
-import { Button } from "@/components/ui/button";
 import {
-  IconZoomIn,
-  IconZoomOut,
   IconPlayerPlay,
   IconPlayerPause,
+  IconPlayerSkipBack,
+  IconZoomIn,
+  IconZoomOut,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 
-export interface TimelineControlsProps {
-  /** Optional external play state */
-  isPlaying?: boolean;
-  onPlayPause?: () => void;
-  className?: string;
-}
+export function TimelineControls() {
+  const { isPlaying, setPlaying, engine, config, setZoom } = useTimeline();
+  const pps = config.defaultZoom ?? 80;
 
-export function TimelineControls({
-  isPlaying,
-  onPlayPause,
-  className,
-}: TimelineControlsProps) {
-  const { currentTime, duration, zoom, setZoom, config } = useTimeline();
+  function togglePlay() {
+    setPlaying(!isPlaying);
+  }
+
+  function skipToStart() {
+    engine.seek(0);
+  }
 
   return (
-    <div
-      className={cn(
-        "flex items-center gap-2 px-3 py-2 border-b border-border bg-card/80",
-        className,
-      )}
-    >
-      {/* Play/pause */}
-      {onPlayPause && (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onPlayPause}
-          className="h-7 w-7"
+    <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 p-1 rounded-lg border border-border bg-card/80">
+        <button
+          type="button"
+          onClick={skipToStart}
+          className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          aria-label="Skip to start"
+        >
+          <IconPlayerSkipBack size={13} strokeWidth={1.8} />
+        </button>
+        <button
+          type="button"
+          onClick={togglePlay}
+          className={cn(
+            "w-7 h-7 flex items-center justify-center rounded-md transition-colors",
+            isPlaying
+              ? "bg-primary text-black"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
+          )}
+          aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
-            <IconPlayerPause size={14} strokeWidth={1.8} />
+            <IconPlayerPause size={13} strokeWidth={1.8} />
           ) : (
-            <IconPlayerPlay size={14} strokeWidth={1.8} />
+            <IconPlayerPlay size={13} strokeWidth={1.8} />
           )}
-        </Button>
-      )}
+        </button>
+      </div>
 
-      {/* Time display */}
-      <span className="text-[11px] font-mono text-muted-foreground/60 tabular-nums min-w-[80px]">
-        {formatTime(currentTime, duration)} / {formatTime(duration)}
-      </span>
-
-      <div className="flex-1" />
-
-      {/* Zoom controls */}
-      <div className="flex items-center gap-1">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setZoom(zoom * 0.7)}
-          className="h-7 w-7"
-          title="Zoom out"
+      {/* Zoom */}
+      <div className="flex items-center gap-1 p-1 rounded-lg border border-border bg-card/80">
+        <button
+          type="button"
+          onClick={() => setZoom(pps / 1.5)}
+          className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          aria-label="Zoom out"
         >
-          <IconZoomOut size={14} strokeWidth={1.8} />
-        </Button>
-
-        <span className="text-[10px] font-mono text-muted-foreground/40 w-12 text-center">
-          {zoom < 1 ? `${zoom.toFixed(1)}` : Math.round(zoom)}px/s
+          <IconZoomOut size={13} strokeWidth={1.8} />
+        </button>
+        <span className="text-[10px] font-mono text-muted-foreground/60 px-1 min-w-[40px] text-center">
+          {pps}px/s
         </span>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setZoom(zoom * 1.4)}
-          className="h-7 w-7"
-          title="Zoom in"
+        <button
+          type="button"
+          onClick={() => setZoom(pps * 1.5)}
+          className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/60 transition-colors"
+          aria-label="Zoom in"
         >
-          <IconZoomIn size={14} strokeWidth={1.8} />
-        </Button>
+          <IconZoomIn size={13} strokeWidth={1.8} />
+        </button>
       </div>
     </div>
   );

@@ -6,22 +6,20 @@ import {
   TimelineTrack,
   TimelineClip,
   TimelineControls,
-  useTimeline,
   TimelineKeyframe,
+  useTimeline,
+  TimelinePlayhead,
+  TimelineRuler,
+  TimelineContent,
 } from "@/components/bevelui/timeline";
 import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTitle,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import { Button } from "@/components/ui/button";
+import { IconVolume } from "@tabler/icons-react";
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const VIDEO_CLIPS = [
@@ -120,7 +118,7 @@ const EFFECT_CLIPS = [
   },
 ];
 
-// ─── Clip renderer ────────────────────────────────────────────────────────────
+// ─── Clip renderer ─────────────────────────────────────────────────────────────
 
 function Clip({ label, color }: { label: string; color: string }) {
   return (
@@ -135,8 +133,7 @@ function Clip({ label, color }: { label: string; color: string }) {
   );
 }
 
-// ─── Preview panel ────────────────────────────────────────────────────────────
-// Lives inside TimelineRoot so useTimeline() works with no wrapper gymnastics.
+// ─── Preview — reads currentTime from context, no external prop needed ────────
 
 function VideoPreview() {
   const { currentTime, duration } = useTimeline();
@@ -165,63 +162,60 @@ function VideoPreview() {
   );
 }
 
-// ─── Inner shell ──────────────────────────────────────────────────────────────
-// All children share the single TimelineRoot context above them in the tree.
+// ─── Inner shell — must be inside TimelineRoot to use useTimeline ─────────────
 
-function TimelineShell({
-  time,
-  isPlaying,
-  onPlayPause,
-}: {
-  time: number;
-  isPlaying: boolean;
-  onPlayPause: () => void;
-}) {
+function TimelineShell() {
   const { scrubTo } = useTimeline();
-
-  // Keep playhead in sync with the external play timer.
-  React.useEffect(() => {
-    scrubTo(time);
-  }, [time]); // eslint-disable-line react-hooks/exhaustive-deps
-
+  const trackControl = (label: string) => {
+    return (
+      <div className="flex items-center gap-2 justify-center h-full">
+        <Button variant={"ghost"} size={"icon"}>
+          <IconVolume />
+        </Button>
+        <div>
+          <span className="text-sm">{label}</span>
+        </div>
+      </div>
+    );
+  };
   return (
     <>
-      {/* Preview reads currentTime straight from context — no second root needed */}
       <VideoPreview />
 
-      <TimelineControls isPlaying={isPlaying} onPlayPause={onPlayPause} />
+      <TimelineControls />
+      <TimelineContent>
+        <TimelineTrack controls={trackControl("Video")}>
+          {VIDEO_CLIPS.map((c) => (
+            <TimelineClip key={c.id} start={c.start} end={c.end}>
+              <Clip label={c.label} color={c.color} />
+            </TimelineClip>
+          ))}
+        </TimelineTrack>
 
-      <TimelineTrack label="📹 Video">
-        {VIDEO_CLIPS.map((c) => (
-          <TimelineClip key={c.id} start={c.start} end={c.end}>
-            <Clip label={c.label} color={c.color} />
-          </TimelineClip>
-        ))}
-      </TimelineTrack>
+        <TimelineTrack controls={trackControl("Audio")}>
+          {AUDIO_CLIPS.map((c) => (
+            <TimelineClip key={c.id} start={c.start} end={c.end}>
+              <Clip label={c.label} color={c.color} />
+            </TimelineClip>
+          ))}
+        </TimelineTrack>
 
-      <TimelineTrack label="🎵 Audio">
-        {AUDIO_CLIPS.map((c) => (
-          <TimelineClip key={c.id} start={c.start} end={c.end}>
-            <Clip label={c.label} color={c.color} />
-          </TimelineClip>
-        ))}
-      </TimelineTrack>
+        <TimelineTrack controls={trackControl("Text")}>
+          {TEXT_CLIPS.map((c) => (
+            <TimelineClip key={c.id} start={c.start} end={c.end}>
+              <Clip label={c.label} color={c.color} />
+            </TimelineClip>
+          ))}
+        </TimelineTrack>
 
-      <TimelineTrack label="💬 Text">
-        {TEXT_CLIPS.map((c) => (
-          <TimelineClip key={c.id} start={c.start} end={c.end}>
-            <Clip label={c.label} color={c.color} />
-          </TimelineClip>
-        ))}
-      </TimelineTrack>
-
-      <TimelineTrack label="✨ Effects">
-        {EFFECT_CLIPS.map((c) => (
-          <TimelineClip key={c.id} start={c.start} end={c.end}>
-            <Clip label={c.label} color={c.color} />
-          </TimelineClip>
-        ))}
-      </TimelineTrack>
+        <TimelineTrack controls={trackControl("Effects")}>
+          {EFFECT_CLIPS.map((c) => (
+            <TimelineClip key={c.id} start={c.start} end={c.end}>
+              <Clip label={c.label} color={c.color} />
+            </TimelineClip>
+          ))}
+        </TimelineTrack>
+      </TimelineContent>
     </>
   );
 }
@@ -229,31 +223,31 @@ function TimelineShell({
 // ─── Demo ─────────────────────────────────────────────────────────────────────
 
 export function VideoTimelineDemo() {
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [time, setTime] = React.useState(0);
-  const playRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
+  // const [isPlaying, setIsPlaying] = React.useState(false);
+  // const [time, setTime] = React.useState(0);
+  // const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
 
-  React.useEffect(() => {
-    if (isPlaying) {
-      playRef.current = setInterval(() => {
-        setTime((t) => {
-          if (t >= 28) {
-            setIsPlaying(false);
-            return 0;
-          }
-          return +(t + 0.05).toFixed(3);
-        });
-      }, 50);
-    } else {
-      if (playRef.current) clearInterval(playRef.current);
-    }
-    return () => {
-      if (playRef.current) clearInterval(playRef.current);
-    };
-  }, [isPlaying]);
+  // React.useEffect(() => {
+  //   if (isPlaying) {
+  //     intervalRef.current = setInterval(() => {
+  //       setTime((t) => {
+  //         if (t >= 28) {
+  //           setIsPlaying(false);
+  //           return 0;
+  //         }
+  //         return +(t + 0.05).toFixed(3);
+  //       });
+  //     }, 50);
+  //   } else {
+  //     if (intervalRef.current) clearInterval(intervalRef.current);
+  //   }
+  //   return () => {
+  //     if (intervalRef.current) clearInterval(intervalRef.current);
+  //   };
+  // }, [isPlaying]);
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="w-full max-w-3xl p-4">
       <TimelineRoot
         duration={28}
         config={{
@@ -262,23 +256,44 @@ export function VideoTimelineDemo() {
           headerWidth: 100,
           rulerHeight: 28,
         }}
-        onTimeChange={(t) => {
-          setTime(t);
-          // setIsPlaying(false);
-        }}
+        // onTimeChange={(t) => setTime(t)}
       >
         <TimelineShell
-          time={time}
-          isPlaying={isPlaying}
-          onPlayPause={() => setIsPlaying((p) => !p)}
+
+        // onPlayPause={() => setIsPlaying((p) => !p)}
         />
       </TimelineRoot>
     </div>
   );
 }
+// "use client";
 
-// ─── Keyframe data ────────────────────────────────────────────────────────────
+// import * as React from "react";
+// import {
+//   TimelineRoot,
+//   TimelineTrack,
+//   TimelineClip,
+//   TimelineControls,
+//   TimelineKeyframe,
+//   TimelineContent,
+//   useTimeline,
+// } from "@/components/bevelui/timeline";
 
+// import { cn } from "@/lib/utils";
+// import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+// import { Button } from "@/components/ui/button";
+import {
+  IconEye,
+  IconEyeOff,
+  IconLock,
+  IconLockOpen,
+  IconVideo,
+  IconPlayerPlay,
+  IconSparkles,
+  IconMusic,
+} from "@tabler/icons-react";
+
+// ─── Animation Data ─────────────────────────────────────────────────────────
 const KF = {
   posX: [
     { t: 0, v: 0 },
@@ -298,136 +313,134 @@ const KF = {
     { t: 7, v: 90 },
     { t: 10, v: 360 },
   ],
-  scale: [
-    { t: 0, v: 1 },
-    { t: 3, v: 1.5 },
-    { t: 6, v: 0.8 },
-    { t: 9, v: 1.2 },
-  ],
-  opacity: [
-    { t: 0, v: 1 },
-    { t: 2, v: 0.3 },
-    { t: 5, v: 1 },
-    { t: 8, v: 0.6 },
-  ],
 };
 
-// ─── Math & Easing (Curve Mode) ───────────────────────────────────────────────
-
-function lerp(a: number, b: number, t: number): number {
-  return a + (b - a) * t;
-}
-
-// "Curve Mode": Smooth easing in and out for beautiful, natural animations
+// ─── Interpolation ──────────────────────────────────────────────────────────
 function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
 }
 
 function valueAt(frames: { t: number; v: number }[], time: number): number {
   if (!frames.length) return 0;
   if (time <= frames[0].t) return frames[0].v;
   if (time >= frames[frames.length - 1].t) return frames[frames.length - 1].v;
-
   for (let i = 0; i < frames.length - 1; i++) {
     if (time >= frames[i].t && time <= frames[i + 1].t) {
-      // Raw linear progress between these two keyframes (0.0 to 1.0)
-      const progress = (time - frames[i].t) / (frames[i + 1].t - frames[i].t);
-
-      // Apply the curve easing to the progress
-      const easedProgress = easeInOutCubic(progress);
-
-      return lerp(frames[i].v, frames[i + 1].v, easedProgress);
+      const p = (time - frames[i].t) / (frames[i + 1].t - frames[i].t);
+      return lerp(frames[i].v, frames[i + 1].v, easeInOutCubic(p));
     }
   }
-  return 0;
+  return frames[frames.length - 1].v;
 }
 
-// ─── Animated preview ─────────────────────────────────────────────────────────
+// ─── Live Preview (Unity Game View style) ───────────────────────────────────
+function AnimationPreview() {
+  const { engine } = useTimeline();
+  const t = engine.currentTime;
 
-function AnimationPreview({ currentTime }: { currentTime: number }) {
-  const x = valueAt(KF.posX, currentTime);
-  const y = valueAt(KF.posY, currentTime);
-  const rot = valueAt(KF.rotation, currentTime);
-  const sc = valueAt(KF.scale, currentTime);
-  const op = valueAt(KF.opacity, currentTime);
+  const x = valueAt(KF.posX, t);
+  const y = valueAt(KF.posY, t);
+  const rot = valueAt(KF.rotation, t);
 
   return (
-    <div className="h-48 rounded-md border border-border bg-background flex items-center justify-center overflow-hidden relative shadow-inner">
-      <div className="absolute top-3 left-4 flex items-center gap-2">
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+    <div className="h-72 bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden relative mb-4 shadow-2xl">
+      <div className="absolute top-3 left-4 flex items-center gap-2 z-20">
+        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+        <span className="text-xs font-mono text-zinc-400 tracking-widest">
+          GAME VIEW
         </span>
-        <p className="text-xs font-mono text-muted-foreground">
-          Render Preview
-        </p>
       </div>
 
-      <p className="absolute bottom-3 right-4 text-xs font-mono text-muted-foreground/50">
-        {currentTime.toFixed(2)}s
-      </p>
+      <div className="absolute bottom-3 right-4 font-mono text-xs text-zinc-500 z-20">
+        {t.toFixed(2)}s
+      </div>
 
-      {/* Crosshair background for scale reference */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-10">
-        <div className="w-full h-px bg-foreground" />
-        <div className="h-full w-px bg-foreground absolute" />
+        <div className="w-full h-px bg-white" />
+        <div className="absolute h-full w-px bg-white" />
       </div>
 
       <div
+        className="absolute left-1/2 top-1/2 w-24 h-24 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-cyan-500 rounded-2xl shadow-2xl flex items-center justify-center border border-white/30"
         style={{
-          transform: `translate(${x * 0.5}px, ${y * 0.5}px) rotate(${rot}deg) scale(${sc})`,
-          opacity: op,
-          // Hardware acceleration
-          willChange: "transform, opacity",
+          transform: `translate(-50%, -50%) translate(${x * 1.2}px, ${y * 1.2}px) rotate(${rot}deg)`,
+          willChange: "transform",
         }}
-        className="w-16 h-16 rounded-xl bg-primary shadow-lg border border-primary/50 flex items-center justify-center backdrop-blur-sm"
       >
-        <div className="w-3 h-3 rounded-full bg-primary-foreground/50" />
+        <div className="w-8 h-8 bg-white rounded-xl rotate-45" />
       </div>
     </div>
   );
 }
 
-// ─── Keyframe track ───────────────────────────────────────────────────────────
+// ─── Track Header Component (Unity style) ───────────────────────────────────
+function TrackHeader({
+  label,
+  icon,
+  color = "text-white",
+}: {
+  label: string;
+  icon: React.ReactNode;
+  color?: string;
+}) {
+  const [visible, setVisible] = React.useState(true);
+  const [locked, setLocked] = React.useState(false);
 
+  return (
+    <div className="flex items-center gap-2 h-full px-3 text-sm font-medium">
+      {icon}
+      <span className={color}>{label}</span>
+
+      <div className="ml-auto flex items-center gap-1">
+        <button
+          onClick={() => setVisible(!visible)}
+          className="text-zinc-400 hover:text-white"
+        >
+          {visible ? <IconEye size={16} /> : <IconEyeOff size={16} />}
+        </button>
+        <button
+          onClick={() => setLocked(!locked)}
+          className="text-zinc-400 hover:text-white"
+        >
+          {locked ? <IconLock size={16} /> : <IconLockOpen size={16} />}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Keyframe Track ─────────────────────────────────────────────────────────
 function KFTrack({
   label,
+  icon,
   frames,
   color,
 }: {
   label: string;
+  icon: React.ReactNode;
   frames: { t: number; v: number }[];
   color: string;
 }) {
   return (
-    <TimelineTrack label={label} height={38}>
-      {/* Lane line connecting keyframes */}
-      <div className="absolute top-1/2 left-0 right-0 h-px bg-border/40 -translate-y-px pointer-events-none" />
-
+    <TimelineTrack controls={<TrackHeader label={label} icon={icon} />}>
+      <div className="absolute top-1/2 left-0 right-0 h-px bg-zinc-700 -translate-y-1/2" />
       {frames.map((f, i) => (
         <TimelineKeyframe key={i} time={f.t}>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               <div
                 className={cn(
-                  "w-2.5 h-2.5 rotate-45 rounded-[2px] border transition-transform hover:scale-150 hover:z-10",
+                  "w-3 h-3 rotate-45 border-2 shadow-md hover:scale-125 cursor-pointer transition-all",
                   color,
                 )}
               />
             </TooltipTrigger>
-            <TooltipContent side="top" className="font-mono text-xs">
-              <div className="flex items-center gap-2">
-                <div
-                  className={cn(
-                    "w-2 h-2 rounded-full",
-                    color.split(" ")[0].replace("/40", ""),
-                  )}
-                />
-                <span>
-                  {f.t}s :{" "}
-                  <span className="font-bold text-foreground">{f.v}</span>
-                </span>
-              </div>
+            <TooltipContent>
+              {f.t}s : {f.v}
             </TooltipContent>
           </Tooltip>
         </TimelineKeyframe>
@@ -436,136 +449,165 @@ function KFTrack({
   );
 }
 
-// ─── Inner component (Syncs with Timeline Context) ───────────────────────────
-
-function SequenceInner({
-  time,
-  isPlaying,
-  onPlayPause,
-}: {
-  time: number;
-  isPlaying: boolean;
-  onPlayPause: () => void;
-}) {
-  const { scrubTo } = useTimeline();
-
-  // Physically moves the timeline playhead to match the external loop time
-  React.useEffect(() => {
-    scrubTo(time);
-  }, [time, scrubTo]);
+// ─── Clip Track (Unity style) ───────────────────────────────────────────────
+function AnimationClipTrack() {
+  const [clips, setClips] = React.useState([
+    { start: 0, end: 3.8, name: "Walk", color: "from-emerald-600 to-teal-600" },
+    { start: 4.2, end: 7.1, name: "Run", color: "from-blue-600 to-cyan-600" },
+    {
+      start: 7.5,
+      end: 9.8,
+      name: "Jump",
+      color: "from-violet-600 to-purple-600",
+    },
+  ]);
 
   return (
-    <>
-      <TimelineControls isPlaying={isPlaying} onPlayPause={onPlayPause} />
-      <KFTrack
-        label="X Position"
-        frames={KF.posX}
-        color="bg-blue-500/80 border-blue-300"
-      />
-      <KFTrack
-        label="Y Position"
-        frames={KF.posY}
-        color="bg-emerald-500/80 border-emerald-300"
-      />
-      <KFTrack
-        label="Rotation"
-        frames={KF.rotation}
-        color="bg-violet-500/80 border-violet-300"
-      />
-      <KFTrack
-        label="Scale"
-        frames={KF.scale}
-        color="bg-amber-500/80 border-amber-300"
-      />
-      <KFTrack
-        label="Opacity"
-        frames={KF.opacity}
-        color="bg-rose-500/80 border-rose-300"
-      />
-    </>
+    <TimelineTrack
+      controls={
+        <TrackHeader label="MainCharac" icon={<IconPlayerPlay size={18} />} />
+      }
+    >
+      {clips.map((clip, i) => (
+        <TimelineClip
+          key={i}
+          start={clip.start}
+          end={clip.end}
+          onMove={(s, e) => {
+            const newClips = [...clips];
+            newClips[i] = { ...newClips[i], start: s, end: e };
+            setClips(newClips);
+          }}
+          className={cn(
+            "border border-white/20 text-white text-xs font-medium",
+            `bg-gradient-to-r ${clip.color}`,
+          )}
+        >
+          <div className="px-2 py-1 truncate">{clip.name}</div>
+        </TimelineClip>
+      ))}
+    </TimelineTrack>
   );
 }
 
-// ─── Demo Application ─────────────────────────────────────────────────────────
-
-export function SequenceTimelineDemo() {
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [currentTime, setCurrentTime] = React.useState(0);
-
-  const requestRef = React.useRef<number | null>(null);
-  const previousTimeRef = React.useRef<number | null>(null);
-  const timeRef = React.useRef(currentTime);
-
-  const duration = 10;
-
-  // Keep ref up to date so the animation loop can read the latest value without dependency issues
-  timeRef.current = currentTime;
-
-  function handlePlayPause() {
-    // If we're at the end of the timeline and click play, start from beginning
-    if (!isPlaying && currentTime >= duration) {
-      setCurrentTime(0);
-    }
-    setIsPlaying((p) => !p);
-  }
-
-  // Pure requestAnimationFrame loop for ultra-smooth 60fps playback
-  React.useEffect(() => {
-    const updatePlayback = (timestamp: number) => {
-      if (previousTimeRef.current !== null) {
-        const deltaTime = (timestamp - previousTimeRef.current) / 1000;
-        const nextTime = timeRef.current + deltaTime;
-
-        if (nextTime >= duration) {
-          setCurrentTime(duration);
-          setIsPlaying(false);
-          previousTimeRef.current = null;
-          return;
-        }
-
-        setCurrentTime(nextTime);
-      }
-
-      previousTimeRef.current = timestamp;
-      requestRef.current = requestAnimationFrame(updatePlayback);
-    };
-
-    if (isPlaying) {
-      requestRef.current = requestAnimationFrame(updatePlayback);
-    } else {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      previousTimeRef.current = null;
-    }
-
-    return () => {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-    };
-  }, [isPlaying, duration]);
+function ParticleTrack() {
+  const [clip, setClip] = React.useState({ start: 2.5, end: 6.8 });
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-3xl">
-      <AnimationPreview currentTime={currentTime} />
+    <TimelineTrack
+      controls={
+        <TrackHeader
+          label="Control Track"
+          icon={<IconSparkles size={18} className="text-cyan-400" />}
+        />
+      }
+    >
+      <TimelineClip
+        start={clip.start}
+        end={clip.end}
+        onMove={(s, e) => setClip({ start: s, end: e })}
+        className="bg-gradient-to-r from-cyan-500 to-blue-500 border border-cyan-400 text-white text-xs"
+      >
+        <div className="px-2 py-1 flex items-center gap-1">
+          <span>particle</span>
+          <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+        </div>
+      </TimelineClip>
+    </TimelineTrack>
+  );
+}
+
+function AudioTrack() {
+  const [clip, setClip] = React.useState({ start: 1.2, end: 8.5 });
+
+  return (
+    <TimelineTrack
+      controls={
+        <TrackHeader
+          label="None (Audio Source)"
+          icon={<IconMusic size={18} className="text-orange-400" />}
+        />
+      }
+    >
+      <TimelineClip
+        start={clip.start}
+        end={clip.end}
+        onMove={(s, e) => setClip({ start: s, end: e })}
+        className="bg-gradient-to-r from-orange-600 to-amber-600 border border-orange-400 text-white text-xs"
+      >
+        <div className="px-2 py-1">Airbag</div>
+      </TimelineClip>
+    </TimelineTrack>
+  );
+}
+
+// ─── Main Demo ──────────────────────────────────────────────────────────────
+export function SequenceTimelineDemo() {
+  return (
+    <div className="w-full max-w-7xl mx-auto p-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold mb-1">Unity Timeline Replica</h1>
+        <p className="text-zinc-400">
+          Drag clips • Resize • Scrub • Zoom • Live preview
+        </p>
+      </div>
 
       <TimelineRoot
-        duration={duration}
+        duration={12}
         config={{
-          defaultZoom: 80,
-          trackHeight: 38,
-          headerWidth: 110,
-          rulerHeight: 28,
+          defaultZoom: 95,
+          minZoom: 30,
+          maxZoom: 280,
+          trackHeight: 46,
+          headerWidth: 190,
+          rulerHeight: 38,
+          snapToGrid: true,
+          snapInterval: 0.05,
         }}
-        // If the user manually clicks/drags the playhead, pause playback and jump to time
-        onTimeChange={(t) => {
-          setCurrentTime(t);
-          // setIsPlaying(false);
-        }}
-        className="bg-background rounded-xl border border-border shadow"
+        className="bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden shadow-2xl"
       >
-        <SequenceInner
-          time={currentTime}
-          isPlaying={isPlaying}
-          onPlayPause={handlePlayPause}
-        />
+        <div className="p-4 border-b border-zinc-800">
+          <TimelineControls />
+        </div>
+
+        <TimelineContent>
+          <AnimationPreview />
+
+          {/* Unity-style Tracks */}
+          <TimelineTrack
+            controls={
+              <TrackHeader
+                label="Directional Light"
+                icon={<div className="w-4 h-4 bg-green-500 rounded" />}
+              />
+            }
+          >
+            <TimelineClip
+              start={0}
+              end={11}
+              className="bg-green-600/80 border border-green-400"
+            >
+              <div className="px-3 py-1 text-xs font-medium">Active</div>
+            </TimelineClip>
+          </TimelineTrack>
+
+          <AnimationClipTrack />
+          <ParticleTrack />
+          <AudioTrack />
+
+          <KFTrack
+            label="Position X"
+            icon={<IconSparkles size={18} />}
+            frames={KF.posX}
+            color="bg-blue-500 border-blue-400"
+          />
+          <KFTrack
+            label="Rotation"
+            icon={<IconSparkles size={18} />}
+            frames={KF.rotation}
+            color="bg-purple-500 border-purple-400"
+          />
+        </TimelineContent>
       </TimelineRoot>
     </div>
   );
