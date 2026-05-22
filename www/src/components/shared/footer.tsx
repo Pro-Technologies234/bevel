@@ -20,7 +20,7 @@ export function Footer() {
           {/* Right — links */}
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com"
+              href="https://github.com/poyekitoye"
               target="_blank"
               rel="noopener noreferrer"
               className=" "
@@ -34,10 +34,10 @@ export function Footer() {
               </Button>
             </a>
             <a
-              href="https://x.com"
+              href="https://x.com/EgaamPoyeKitoye"
               target="_blank"
               rel="noopener noreferrer"
-              className=" "
+              className=""
             >
               <Button
                 size={"icon"}
