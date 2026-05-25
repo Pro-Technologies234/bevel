@@ -13,6 +13,7 @@ import {
   IconLayoutSidebarRightInactive,
   IconChecklist,
   IconListTree,
+  IconPhotoFilled,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -106,6 +107,20 @@ export function DocsSidebar() {
               label: "Tree View",
               href: "/docs/components/tree-view",
               icon: IconListTree,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Resizable Panels",
+              href: "/docs/components/resizable",
+              icon: IconLayoutSidebarRightInactive,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Media Gallery",
+              href: "/docs/components/media-gallery",
+              icon: IconPhotoFilled,
               badge: "New",
               badgeVariant: "new",
             },

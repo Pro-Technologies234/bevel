@@ -1,0 +1,381 @@
+{
+  "meta": {
+    "title": "Media Gallery",
+    "description": "A selectable media grid for images, video, audio, and documents. Multi-select, type filtering, keyboard-navigable lightbox, and drag-to-reorder via the Sortable system.",
+    "badge": "Components System",
+    "features": [
+      "6 composable parts",
+      "Multi-select with Cmd/Ctrl",
+      "Keyboard lightbox navigation",
+      "Type filtering built-in",
+      "Drag-to-reorder via Sortable"
+    ],
+    "slug": "gallery",
+    "prev": {
+      "label": "Resizable Panel",
+      "href": "/docs/components/resizable"
+    },
+    "next": {
+      "label": "Timeline",
+      "href": "/docs/components/timeline"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "selection", "label": "Handling selection", "depth": 1 },
+    { "id": "sortable", "label": "Drag-to-reorder", "depth": 1 },
+    { "id": "custom", "label": "Custom layout", "depth": 1 },
+    { "id": "api-root", "label": "GalleryRoot", "depth": 2 },
+    { "id": "api-config", "label": "GalleryConfig", "depth": 2 },
+    { "id": "api-item", "label": "GalleryItem", "depth": 2 },
+    { "id": "api-hook", "label": "useGallery", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A media grid sounds simple — it isn't. Multi-select needs Shift, Cmd, and Ctrl to all behave correctly. The lightbox needs keyboard navigation, needs to track which subset of items are previewable, and needs to close cleanly. Filtering by type means the grid, the selection state, and the lightbox index all need to stay in sync. Reorder means drag-and-drop wired to the same state."
+        },
+        {
+          "type": "text",
+          "content": "GalleryRoot owns all of it through context. The default layout — toolbar, grid, lightbox — is rendered automatically. Pass children to replace it with your own composition using the same useGallery hook."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/gallery/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "gallery-root.tsx",
+                  "type": "file",
+                  "comment": "context + state"
+                },
+                {
+                  "name": "gallery-grid.tsx",
+                  "type": "file",
+                  "comment": "responsive grid + sortable wrap"
+                },
+                {
+                  "name": "gallery-item.tsx",
+                  "type": "file",
+                  "comment": "thumbnail, selection, preview"
+                },
+                {
+                  "name": "gallery-lightbox.tsx",
+                  "type": "file",
+                  "comment": "keyboard-nav fullscreen preview",
+                  "highlight": true
+                },
+                {
+                  "name": "gallery-toolbar.tsx",
+                  "type": "file",
+                  "comment": "filter tabs + selection controls"
+                },
+                {
+                  "name": "gallery-context.tsx",
+                  "type": "file",
+                  "comment": "useGallery hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Sortable dependency",
+          "content": "Gallery uses the Bevel Sortable system internally when config.sortable is true. The shadcn install command pulls both. If you already have Sortable installed, only the gallery files are added."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Click to select, Cmd/Ctrl+click to multi-select, double-click to open the lightbox. Filter by type with the tabs above. Drag to reorder."
+        },
+        {
+          "type": "demo",
+          "component": "GalleryDemo",
+          "label": "Interactive demo",
+          "preview": "gallery"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Gallery has no npm dependencies beyond what Sortable already requires."
+        },
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Add the files",
+              "description": "Installs gallery + its sortable dependency into components/bevelui/.",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/gallery.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import and use",
+              "code": "import { GalleryRoot } from \"@/components/bevelui/gallery\";\nimport type { GalleryItem } from \"@/components/bevelui/gallery\";",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass an items array to GalleryRoot. The default layout — filter toolbar, responsive grid, and lightbox — renders automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/assets/page.tsx",
+          "code": "import { GalleryRoot } from \"@/components/bevelui/gallery\";\nimport type { GalleryItem } from \"@/components/bevelui/gallery\";\n\nconst items: GalleryItem[] = [\n  { id: \"1\", type: \"image\",    url: \"/hero.jpg\",     name: \"hero.jpg\" },\n  { id: \"2\", type: \"image\",    url: \"/product.jpg\",  name: \"product.jpg\" },\n  { id: \"3\", type: \"video\",    url: \"/demo.mp4\",     name: \"demo.mp4\",\n             thumbnail: \"/demo-thumb.jpg\", duration: 124 },\n  { id: \"4\", type: \"document\", url: \"/brief.pdf\",    name: \"brief.pdf\",\n             size: 4200000 },\n];\n\nexport default function AssetsPage() {\n  return (\n    <GalleryRoot\n      items={items}\n      config={{ selectionMode: \"multi\", showNames: true }}\n    />\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "selection",
+      "title": "Handling selection",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Use the onSelect callback to receive selected IDs whenever the selection changes. In multi mode, Cmd/Ctrl+click adds to the selection. Shift+click selects a range."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<GalleryRoot\n  items={items}\n  onSelect={(selectedIds) => {\n    // selectedIds: string[]\n    setSelectedIds(selectedIds);\n  }}\n  config={{ selectionMode: \"multi\" }}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "sortable",
+      "title": "Drag-to-reorder",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Set config.sortable to true and pass onReorder to persist the new order. The grid wraps itself in a SortableRoot internally — no extra setup needed."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const [items, setItems] = React.useState(initialItems);\n\n<GalleryRoot\n  items={items}\n  onReorder={(reordered) => setItems(reordered)}\n  config={{\n    sortable: true,\n    selectionMode: \"multi\",\n  }}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "custom",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass children to GalleryRoot to replace the default layout entirely. useGallery gives you access to the full context — items, selection, filter, lightbox controls."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  GalleryRoot, GalleryGrid, GalleryToolbar,\n  GalleryLightbox, useGallery,\n} from \"@/components/bevelui/gallery\";\n\nfunction SelectionBanner() {\n  const { selectedIds, clearSelection } = useGallery();\n  if (selectedIds.size === 0) return null;\n  return (\n    <div className=\"flex items-center justify-between p-3 bg-primary/10 rounded-lg\">\n      <span>{selectedIds.size} items selected</span>\n      <button onClick={clearSelection}>Clear</button>\n    </div>\n  );\n}\n\nexport function MyGallery() {\n  return (\n    <GalleryRoot items={items} config={{ selectionMode: \"multi\" }}>\n      <GalleryToolbar />\n      <SelectionBanner />\n      <GalleryGrid />\n      <GalleryLightbox />\n    </GalleryRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "GalleryRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "items",
+              "type": "GalleryItem[]",
+              "required": true,
+              "description": "Media items to display. The array is filtered internally based on the active type filter."
+            },
+            {
+              "prop": "onReorder",
+              "type": "(items: GalleryItem[]) => void",
+              "description": "Called when drag-to-reorder completes. Required when config.sortable is true."
+            },
+            {
+              "prop": "onSelect",
+              "type": "(ids: string[]) => void",
+              "description": "Called whenever selection changes."
+            },
+            {
+              "prop": "config",
+              "type": "GalleryConfig",
+              "description": "Display and behaviour options."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the root container in the default layout."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "GalleryConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "selectionMode",
+              "type": "\"none\" | \"single\" | \"multi\"",
+              "default": "\"single\"",
+              "description": "How items can be selected. In multi mode, Cmd/Ctrl+click adds to selection."
+            },
+            {
+              "prop": "sortable",
+              "type": "boolean",
+              "default": "false",
+              "description": "Enable drag-to-reorder. Wraps the grid in SortableRoot."
+            },
+            {
+              "prop": "columns",
+              "type": "number",
+              "description": "Fixed column count. Omit for auto-fill responsive grid."
+            },
+            {
+              "prop": "aspectRatio",
+              "type": "number",
+              "description": "Force aspect ratio on thumbnails. 1 = square, 16/9 = widescreen."
+            },
+            {
+              "prop": "showNames",
+              "type": "boolean",
+              "default": "false",
+              "description": "Show filename overlay on each thumbnail."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-item",
+      "title": "GalleryItem",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier."
+            },
+            {
+              "prop": "url",
+              "type": "string",
+              "required": true,
+              "description": "Source URL for the media."
+            },
+            {
+              "prop": "type",
+              "type": "\"image\" | \"video\" | \"audio\" | \"document\" | \"other\"",
+              "required": true,
+              "description": "Determines which filter tab this item appears under and how it is previewed."
+            },
+            {
+              "prop": "name",
+              "type": "string",
+              "required": true,
+              "description": "Filename shown in showNames mode and the lightbox caption."
+            },
+            {
+              "prop": "thumbnail",
+              "type": "string",
+              "description": "Separate thumbnail URL. Falls back to url for images."
+            },
+            {
+              "prop": "duration",
+              "type": "number",
+              "description": "Duration in seconds. Shown as a badge on video and audio items."
+            },
+            {
+              "prop": "size",
+              "type": "number",
+              "description": "File size in bytes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useGallery",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "items",
+              "type": "GalleryItem[]",
+              "description": "Current filtered item list."
+            },
+            {
+              "prop": "selectedIds",
+              "type": "Set<string>",
+              "description": "Currently selected item IDs."
+            },
+            {
+              "prop": "lightboxId",
+              "type": "string | null",
+              "description": "ID of the item currently open in the lightbox."
+            },
+            {
+              "prop": "filter",
+              "type": "MediaType | \"all\"",
+              "description": "Active type filter."
+            },
+            {
+              "prop": "select",
+              "type": "(id, multi?) => void",
+              "description": "Select an item. Pass multi=true for additive selection."
+            },
+            {
+              "prop": "clearSelection",
+              "type": "() => void",
+              "description": "Deselect all items."
+            },
+            {
+              "prop": "openLightbox",
+              "type": "(id: string) => void",
+              "description": "Open the lightbox for a given item."
+            },
+            {
+              "prop": "setFilter",
+              "type": "(f: MediaType | 'all') => void",
+              "description": "Change the active type filter."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

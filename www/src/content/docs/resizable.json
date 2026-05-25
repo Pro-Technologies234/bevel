@@ -1,0 +1,307 @@
+{
+  "meta": {
+    "title": "Resizable Panel",
+    "description": "Split-pane layouts with smooth drag-to-resize, min/max constraints, and collapsible panels. Zero React re-renders during drag — CSS custom properties handle all position updates.",
+    "badge": "Components System",
+    "features": [
+      "5 composable parts",
+      "Horizontal & vertical splits",
+      "Min/max/collapse constraints",
+      "Zero re-renders during drag",
+      "CSS custom properties engine"
+    ],
+    "slug": "resizable",
+    "prev": {
+      "label": "Color Palette",
+      "href": "/docs/components/palette"
+    },
+    "next": {
+      "label": "Media Gallery",
+      "href": "/docs/components/gallery"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "three-panel", "label": "Three panels", "depth": 1 },
+    { "id": "vertical", "label": "Vertical split", "depth": 1 },
+    { "id": "api-root", "label": "ResizableRoot", "depth": 2 },
+    { "id": "api-panel", "label": "ResizablePanel", "depth": 2 },
+    { "id": "api-handle", "label": "ResizableHandle", "depth": 2 },
+    { "id": "api-config", "label": "ResizablePanelConfig", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Split-pane layouts fail in the same ways every time. The handle fires dozens of state updates per drag, re-rendering the entire tree on every pixel. The panels jank. The rest of the UI flickers. You reach for a library that adds 40kb to solve a pointer-events problem."
+        },
+        {
+          "type": "text",
+          "content": "ResizableRoot solves this at the architecture level. Panel sizes live as CSS custom properties — --panel-0, --panel-1 — written directly to the container element during drag. React never sees these updates. One re-render fires when you release the handle, committing the final sizes to state. The layout is always smooth."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/resizable/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "resizable-root.tsx",
+                  "type": "file",
+                  "comment": "context + CSS var engine"
+                },
+                {
+                  "name": "resizable-panel.tsx",
+                  "type": "file",
+                  "comment": "reads --panel-N var"
+                },
+                {
+                  "name": "resizable-handle.tsx",
+                  "type": "file",
+                  "comment": "pointer capture + direct DOM write",
+                  "highlight": true
+                },
+                {
+                  "name": "resizable-context.tsx",
+                  "type": "file",
+                  "comment": "useResizable hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "How zero-rerender drag works",
+          "content": "On pointerdown the handle calls setPointerCapture so events keep firing even when the cursor leaves. On pointermove it calls setSizeDirect(index, size) which writes containerEl.style.setProperty('--panel-N', size + '%') directly — bypassing React entirely. On pointerup, commitSizes() updates React state exactly once."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drag the handles between panels. The left panel has a 12% minimum and 38% maximum. All three panels share the same 100% width."
+        },
+        {
+          "type": "demo",
+          "component": "ResizableDemo",
+          "label": "Interactive demo",
+          "preview": "resizable"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "No new npm dependencies. The system uses pointer events and CSS custom properties — nothing else."
+        },
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Add the files",
+              "description": "Copies the resizable folder into components/bevelui/.",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/resizable.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import and use",
+              "code": "import { ResizableRoot, ResizablePanel, ResizableHandle } from \"@/components/bevelui/resizable\"",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass defaultSizes as an array of percentages summing to 100. The index prop on ResizablePanel and ResizableHandle maps each element to its size slot."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/layout.tsx",
+          "code": "import {\n  ResizableRoot,\n  ResizablePanel,\n  ResizableHandle,\n} from \"@/components/bevelui/resizable\";\n\nexport default function AppLayout() {\n  return (\n    <ResizableRoot\n      defaultSizes={[30, 70]}\n      direction=\"horizontal\"\n      className=\"h-screen\"\n    >\n      <ResizablePanel index={0}>\n        <Sidebar />\n      </ResizablePanel>\n\n      <ResizableHandle index={0} />\n\n      <ResizablePanel index={1}>\n        <Main />\n      </ResizablePanel>\n    </ResizableRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "three-panel",
+      "title": "Three panels",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Add a panelConfigs array to set per-panel constraints. Index 0 here is collapsible with a 12% min and 38% max."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<ResizableRoot\n  defaultSizes={[20, 55, 25]}\n  direction=\"horizontal\"\n  panelConfigs={[\n    { minSize: 12, maxSize: 38, collapsible: true },\n    { minSize: 30 },\n    { minSize: 14, maxSize: 40 },\n  ]}\n  onResize={(sizes) => console.log(sizes)}\n  className=\"h-screen\"\n>\n  <ResizablePanel index={0}><FileTree /></ResizablePanel>\n  <ResizableHandle index={0} />\n  <ResizablePanel index={1}><Editor /></ResizablePanel>\n  <ResizableHandle index={1} />\n  <ResizablePanel index={2}><Inspector /></ResizablePanel>\n</ResizableRoot>"
+        }
+      ]
+    },
+    {
+      "id": "vertical",
+      "title": "Vertical split",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Set direction to vertical for a top/bottom split. The handle becomes a horizontal bar and the size axis switches to height."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<ResizableRoot\n  defaultSizes={[60, 40]}\n  direction=\"vertical\"\n  className=\"h-screen\"\n>\n  <ResizablePanel index={0}><Canvas /></ResizablePanel>\n  <ResizableHandle index={0} />\n  <ResizablePanel index={1}><Console /></ResizablePanel>\n</ResizableRoot>"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Nesting splits",
+          "content": "Nest a vertical ResizableRoot inside a horizontal one to get a full IDE-style layout — file tree on the left, editor top-right, terminal bottom-right. Each root manages its own CSS vars independently."
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "ResizableRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "defaultSizes",
+              "type": "number[]",
+              "required": true,
+              "description": "Initial panel sizes as percentages. Must sum to 100. Length must match your panel count."
+            },
+            {
+              "prop": "direction",
+              "type": "\"horizontal\" | \"vertical\"",
+              "default": "\"horizontal\"",
+              "description": "Split axis. Horizontal divides left/right. Vertical divides top/bottom."
+            },
+            {
+              "prop": "panelConfigs",
+              "type": "ResizablePanelConfig[]",
+              "description": "Per-panel constraints indexed to match defaultSizes."
+            },
+            {
+              "prop": "onResize",
+              "type": "(sizes: number[]) => void",
+              "description": "Called once per drag end with the final sizes array."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the outer flex container."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-panel",
+      "title": "ResizablePanel",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "index",
+              "type": "number",
+              "required": true,
+              "description": "Panel index. Must match its position in defaultSizes."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the panel div."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-handle",
+      "title": "ResizableHandle",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "index",
+              "type": "number",
+              "required": true,
+              "description": "Controls the boundary between panel[index] and panel[index + 1]."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the handle div."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "ResizablePanelConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "minSize",
+              "type": "number",
+              "default": "5",
+              "description": "Minimum panel size in percent."
+            },
+            {
+              "prop": "maxSize",
+              "type": "number",
+              "default": "95",
+              "description": "Maximum panel size in percent."
+            },
+            {
+              "prop": "collapsible",
+              "type": "boolean",
+              "default": "false",
+              "description": "Allow the panel to collapse to collapsedSize."
+            },
+            {
+              "prop": "collapsedSize",
+              "type": "number",
+              "default": "0",
+              "description": "Size when collapsed, in percent."
+            },
+            {
+              "prop": "defaultCollapsed",
+              "type": "boolean",
+              "default": "false",
+              "description": "Start collapsed."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
