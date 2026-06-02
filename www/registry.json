@@ -458,7 +458,62 @@
         }
       ]
     },
-
+    {
+      "name": "gallery",
+      "type": "registry:block",
+      "title": "Gallery",
+      "description": "An image gallery system with a sortable grid layout, drag-and-drop upload support, and a fullscreen lightbox viewer with navigation controls.",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
+      "categories": ["systems", "media"],
+      "dependencies": [],
+      "registryDependencies": [
+        "button",
+        "https://bevelui.vercel.app/r/sortable.json"
+      ],
+      "docs": "Import from @/components/bevelui/gallery. Drop GalleryRoot anywhere for the full editor, or compose with GalleryGrid, GalleryToolbar, and GalleryLightbox manually. Use useGallery for programmatic control inside any child component.",
+      "files": [
+        {
+          "path": "src/components/bevelui/gallery/gallery-types.ts",
+          "target": "src/components/bevelui/gallery/gallery-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/gallery/gallery-utils.ts",
+          "target": "src/components/bevelui/gallery/gallery-utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/gallery/gallery-context.tsx",
+          "target": "src/components/bevelui/gallery/gallery-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/gallery/gallery-root.tsx",
+          "target": "src/components/bevelui/gallery/gallery-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/gallery/gallery-grid.tsx",
+          "target": "src/components/bevelui/gallery/gallery-grid.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/gallery/gallery-toolbar.tsx",
+          "target": "src/components/bevelui/gallery/gallery-toolbar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/gallery/gallery-lightbox.tsx",
+          "target": "src/components/bevelui/gallery/gallery-lightbox.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/gallery/index.ts",
+          "target": "src/components/bevelui/gallery/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
     {
       "name": "card-select",
       "type": "registry:component",

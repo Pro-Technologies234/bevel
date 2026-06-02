@@ -11,7 +11,11 @@
       "Optional connecting lines"
     ],
     "slug": "tree",
-    "prev": { "label": "Tree view", "href": "/docs/components/tree-view" }
+    "prev": { "label": "Tree view", "href": "/docs/components/tree-view" },
+    "next": {
+      "label": "Media Gallery",
+      "href": "/docs/components/media-gallery"
+    }
   },
   "tocs": [
     { "id": "overview", "label": "Overview", "depth": 1 },
@@ -47,7 +51,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "types.ts",
+                  "name": "tree-types.ts",
                   "type": "file",
                   "comment": "TreeNode, TreeConfig"
                 },
@@ -73,7 +77,7 @@
                   "comment": "recursive renderer + animation"
                 },
                 {
-                  "name": "use-tree.ts",
+                  "name": "tree-hook.ts",
                   "type": "file",
                   "comment": "re-export hook"
                 },

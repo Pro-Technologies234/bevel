@@ -237,6 +237,10 @@ export function FileUploadProvider({
     [onError],
   );
 
+  useEffect(() => {
+    onFilesChange?.(files);
+  }, [files, onFilesChange]);
+
   return (
     <FileUploadContext.Provider
       value={{
