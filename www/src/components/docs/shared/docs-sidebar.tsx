@@ -110,13 +110,13 @@ export function DocsSidebar() {
               badge: "New",
               badgeVariant: "new",
             },
-            {
-              label: "Resizable Panels",
-              href: "/docs/components/resizable",
-              icon: IconLayoutSidebarRightInactive,
-              badge: "New",
-              badgeVariant: "new",
-            },
+            // {
+            //   label: "Resizable Panels",
+            //   href: "/docs/components/resizable",
+            //   icon: IconLayoutSidebarRightInactive,
+            //   badge: "New",
+            //   badgeVariant: "new",
+            // },
             {
               label: "Media Gallery",
               href: "/docs/components/media-gallery",

@@ -12,12 +12,8 @@
     ],
     "slug": "gallery",
     "prev": {
-      "label": "Resizable Panel",
-      "href": "/docs/components/resizable"
-    },
-    "next": {
-      "label": "Timeline",
-      "href": "/docs/components/timeline"
+      "label": "Tree View",
+      "href": "/docs/components/tree-view"
     }
   },
   "tocs": [
@@ -53,6 +49,11 @@
               "type": "folder",
               "isOpen": true,
               "children": [
+                {
+                  "name": "gallery-types.tsx",
+                  "type": "file",
+                  "comment": "GalleryItem + GalleryConfig"
+                },
                 {
                   "name": "gallery-root.tsx",
                   "type": "file",

@@ -53,8 +53,8 @@ export function GalleryToolbar() {
   const mode = config.selectionMode ?? "single";
 
   return (
-    <div className="flex items-center justify-between gap-3">
-      <div className="flex items-center gap-1 p-1 rounded-lg border border-border bg-card/80 w-fit">
+    <div className="flex items-center flex-wrap justify-between gap-3">
+      <div className="flex items-center overflow-x-auto gap-1 p-1 rounded-lg border border-border bg-card/80 w-fit">
         {FILTERS.map(({ label, value, icon: Icon }) => (
           <ToolbarButton
             key={value}

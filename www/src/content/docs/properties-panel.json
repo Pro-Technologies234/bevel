@@ -12,10 +12,13 @@
     ],
     "slug": "properties-panel",
     "prev": {
-      "label": "Context Menu",
-      "href": "/docs/components/context-menu"
+      "label": "Palette Editor",
+      "href": "/docs/components/palette-editor"
     },
-    "next": { "label": "AI Chat Interface", "href": "/docs/components/ai-chat" }
+    "next": {
+      "label": "Tree View",
+      "href": "/docs/components/tree-view"
+    }
   },
   "tocs": [
     { "id": "overview", "label": "Overview", "depth": 1 },

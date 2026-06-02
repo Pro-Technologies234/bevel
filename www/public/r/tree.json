@@ -4,9 +4,7 @@
   "title": "Tree View",
   "author": "Bevel UI <hello@bevelui.pxxl.click>",
   "description": "Recursive hierarchical data display with full keyboard navigation (arrow keys, Home/End), animated expand/collapse, multi-select, and optional connecting lines.",
-  "dependencies": [
-    "motion"
-  ],
+  "dependencies": ["motion"],
   "registryDependencies": [],
   "files": [
     {
@@ -53,8 +51,6 @@
     }
   ],
   "docs": "Import from @/components/bevelui/tree. Pass nodes to TreeRoot. Keyboard navigation works automatically when the tree container is focused. Use config.multiSelect for multi-select and config.showLines for connecting lines.",
-  "categories": [
-    "systems"
-  ],
+  "categories": ["systems"],
   "type": "registry:block"
 }
