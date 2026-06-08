@@ -14,6 +14,7 @@ import {
   IconChecklist,
   IconListTree,
   IconPhotoFilled,
+  IconCalendarEvent,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -121,6 +122,13 @@ export function DocsSidebar() {
               label: "Media Gallery",
               href: "/docs/components/media-gallery",
               icon: IconPhotoFilled,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Calendar",
+              href: "/docs/components/calendar",
+              icon: IconCalendarEvent,
               badge: "New",
               badgeVariant: "new",
             },

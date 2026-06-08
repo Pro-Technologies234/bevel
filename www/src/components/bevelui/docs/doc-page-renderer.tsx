@@ -101,7 +101,7 @@ function renderBlock(
         );
       }
       return (
-        <>
+        <React.Fragment key={index}>
           <DocsDemo
             key={index}
             code={block.code}
@@ -125,7 +125,7 @@ function renderBlock(
               </span>
             </a>
           )}
-        </>
+        </React.Fragment>
       );
     }
 

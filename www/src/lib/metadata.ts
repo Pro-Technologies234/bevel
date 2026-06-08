@@ -453,6 +453,34 @@ export const docsFormEngineMetadata: Metadata = {
   },
 };
 
+export const docsCalendarMetadata: Metadata = {
+  title: "Calendar — Bevel UI",
+  description:
+    "A multi-view scheduling system. Month, week, day, and agenda views with overlap layout, drag-to-create, drag-to-reschedule, a mini navigator, and a floating event popover — bring your own event data.",
+  openGraph: {
+    title: "Calendar — Bevel UI",
+    description:
+      "Multi-view scheduling system with overlap layout, drag interactions, and full render prop customisation.",
+    url: "https://bevelui.com/docs/components/calendar",
+    images: [
+      {
+        url: "/api/og?title=Calendar&description=Month%2C+week%2C+day+%26+agenda+views+with+overlap+layout+%26+drag+interactions",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Calendar — Bevel UI",
+    description:
+      "Multi-view scheduling with overlap layout, drag-to-create, and render props throughout.",
+  },
+  alternates: {
+    canonical: "https://bevelui.com/docs/components/calendar",
+  },
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // DOCS — COMPONENTS INDEX
 // ─────────────────────────────────────────────────────────────────────────────

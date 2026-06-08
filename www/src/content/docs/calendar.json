@@ -1,0 +1,654 @@
+{
+  "meta": {
+    "title": "Calendar",
+    "description": "A multi-view scheduling system. Month, week, day, and agenda views with overlap layout, drag-to-create, drag-to-reschedule, a mini navigator, and a floating event popover — bring your own event data and render logic.",
+    "badge": "Components System",
+    "features": [
+      "9 composable parts",
+      "Overlap layout algorithm",
+      "Drag-to-create & reschedule",
+      "All-day & multi-day spanning",
+      "Custom render props throughout"
+    ],
+    "slug": "calendar",
+    "prev": {
+      "label": "Media Gallery",
+      "href": "/docs/components/media-gallery"
+    },
+    "next": {
+      "label": "Rich Text Editor",
+      "href": "/docs/components/rich-text"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "event-type", "label": "Extending events", "depth": 1 },
+    { "id": "render-props", "label": "Render props", "depth": 1 },
+    { "id": "scenarios", "label": "Usage scenarios", "depth": 1 },
+    { "id": "api-root", "label": "CalendarRoot", "depth": 2 },
+    { "id": "api-nav", "label": "CalendarNav", "depth": 2 },
+    { "id": "api-mini", "label": "CalendarMini", "depth": 2 },
+    { "id": "api-month", "label": "CalendarMonthView", "depth": 2 },
+    { "id": "api-week", "label": "CalendarWeekView", "depth": 2 },
+    { "id": "api-day", "label": "CalendarDayView", "depth": 2 },
+    { "id": "api-agenda", "label": "CalendarAgendaView", "depth": 2 },
+    { "id": "api-popover", "label": "CalendarEventPopover", "depth": 2 },
+    { "id": "api-hook", "label": "useCalendar", "depth": 2 },
+    { "id": "api-config", "label": "CalendarConfig", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Most calendar libraries own your data model. You adapt your tasks, appointments, or posts to fit their event shape. Their event card is what you get. You style around it. When you need something the library didn't anticipate, you file an issue and wait."
+        },
+        {
+          "type": "text",
+          "content": "This system owns nothing but the hard parts. The overlap layout algorithm that places simultaneous events side by side. The sweep-line collision detection that computes which events share a time column. The drag interactions — click-drag to create, drag to move, edge-drag to resize — all writing directly to the DOM with zero React re-renders during the gesture. The @floating-ui event popover that never escapes the viewport. Your event shape, your render logic, your handlers. The system just does the layout."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/calendar/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "CalendarEventBase, config, context"
+                },
+                {
+                  "name": "calendar-engine.ts",
+                  "type": "file",
+                  "comment": "overlap algorithm, date utils — no React",
+                  "highlight": true
+                },
+                {
+                  "name": "calendar-context.tsx",
+                  "type": "file",
+                  "comment": "useCalendar hook"
+                },
+                {
+                  "name": "calendar-root.tsx",
+                  "type": "file",
+                  "comment": "provider + state machine"
+                },
+                {
+                  "name": "calendar-nav.tsx",
+                  "type": "file",
+                  "comment": "prev/next/today + view switcher"
+                },
+                {
+                  "name": "calendar-mini.tsx",
+                  "type": "file",
+                  "comment": "sidebar month navigator"
+                },
+                {
+                  "name": "calendar-month-view.tsx",
+                  "type": "file",
+                  "comment": "month grid, spanning events"
+                },
+                {
+                  "name": "calendar-time-grid.tsx",
+                  "type": "file",
+                  "comment": "shared engine: week + day views",
+                  "highlight": true
+                },
+                {
+                  "name": "calendar-week-view.tsx",
+                  "type": "file",
+                  "comment": "7-column view"
+                },
+                {
+                  "name": "calendar-day-view.tsx",
+                  "type": "file",
+                  "comment": "single-column view"
+                },
+                {
+                  "name": "calendar-agenda-view.tsx",
+                  "type": "file",
+                  "comment": "grouped chronological list"
+                },
+                {
+                  "name": "calendar-event-popover.tsx",
+                  "type": "file",
+                  "comment": "@floating-ui detail card"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The overlap algorithm",
+          "content": "calendar-engine.ts contains computeOverlapLayout() — a sweep-line algorithm that groups overlapping events into collision sets, then greedily assigns each event to the first column where it doesn't overlap the previous event. The result is the column index and total column count for each event, which the time grid uses to compute left% and width%. It runs once when events change and is memoized per day column."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "All four views, a mini navigator, and a custom event popover. Click any event to open its popover. Click-drag on an empty slot to select a time range. Switch views with the tabs in the top right."
+        },
+        {
+          "type": "demo",
+          "component": "CalendarDemo",
+          "label": "Interactive demo",
+          "preview": "calendar"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Calendar uses @floating-ui/react for the event popover. Install it if you haven't already."
+        },
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install the peer dependency",
+              "code": "npm install @floating-ui/react",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/calendar.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import and use",
+              "code": "import {\n  CalendarRoot,\n  CalendarNav,\n  CalendarMonthView,\n  CalendarEventPopover,\n  type CalendarEventBase,\n} from \"@/components/bevelui/calendar\"",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your layout in CalendarRoot, pass your events, then compose the views you need as children. CalendarRoot provides context — every child component reads from it via useCalendar()."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "components/my-calendar.tsx",
+          "code": "import {\n  CalendarRoot,\n  CalendarNav,\n  CalendarMonthView,\n  CalendarWeekView,\n  CalendarEventPopover,\n  useCalendar,\n  type CalendarEventBase,\n} from \"@/components/bevelui/calendar\";\n\ntype MyEvent = CalendarEventBase & {\n  projectId: string;\n};\n\nconst events: MyEvent[] = [\n  {\n    id: \"1\",\n    title: \"Team standup\",\n    start: new Date(2025, 0, 13, 9, 0),\n    end:   new Date(2025, 0, 13, 9, 30),\n    color: \"#60a5fa\",\n    projectId: \"proj_abc\",\n  },\n];\n\nfunction Shell() {\n  const { activeView } = useCalendar<MyEvent>();\n  return (\n    <>\n      <CalendarNav />\n      {activeView === \"month\" && <CalendarMonthView<MyEvent> />}\n      {activeView === \"week\"  && <CalendarWeekView<MyEvent>  />}\n      <CalendarEventPopover<MyEvent> />\n    </>\n  );\n}\n\nexport function MyCalendar() {\n  return (\n    <CalendarRoot<MyEvent>\n      events={events}\n      config={{ defaultView: \"week\", weekStartsOn: 1 }}\n      onRangeSelect={(start, end) => openCreateModal(start, end)}\n      onEventMove={(event, newStart, newEnd) => updateEvent(event.id, newStart, newEnd)}\n    >\n      <Shell />\n    </CalendarRoot>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Inner component pattern",
+          "content": "Any component that needs useCalendar() must be a child of CalendarRoot. The Shell pattern — a component that composes the views and reads activeView to decide which to render — is the standard approach."
+        }
+      ]
+    },
+    {
+      "id": "event-type",
+      "title": "Extending events",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "CalendarEventBase is the minimum contract the system needs. Extend it with whatever fields your domain requires — the generic T flows through every component and hook."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import type { CalendarEventBase } from \"@/components/bevelui/calendar\";\n\n// Your domain model\ntype Task = CalendarEventBase & {\n  assignee: string;\n  priority: \"low\" | \"medium\" | \"high\";\n  status: \"todo\" | \"in-progress\" | \"done\";\n  projectId: string;\n};\n\n// The calendar is fully typed — renderEvent receives Task, not CalendarEventBase\n<CalendarRoot<Task> events={tasks}>\n  <CalendarWeekView<Task>\n    renderEvent={(task, view) => (\n      <TaskCard\n        task={task}\n        compact={view === \"month\"}\n      />\n    )}\n  />\n  <CalendarEventPopover<Task>\n    renderEventPopover={(task, close) => (\n      <TaskDetail task={task} onClose={close} />\n    )}\n  />\n</CalendarRoot>"
+        }
+      ]
+    },
+    {
+      "id": "render-props",
+      "title": "Render props",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Every visual surface in every view is a render prop. If you don't pass one, a sensible default renders. Pass one to take full control."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<CalendarWeekView<AppEvent>\n  // The event card inside the positioned wrapper\n  renderEvent={(event, view) => (\n    <div className=\"px-1.5 py-1\">\n      <p className=\"text-[10px] font-semibold\" style={{ color: event.color }}>\n        {event.title}\n      </p>\n      {event.location && (\n        <p className=\"text-[9px] text-muted-foreground/60\">{event.location}</p>\n      )}\n    </div>\n  )}\n\n  // Day column headers (Mon 13, Tue 14...)\n  renderDayHeader={(date) => (\n    <div className=\"text-center py-2\">\n      <p className=\"text-[9px] text-muted-foreground/50\">{format(date, \"EEE\")}</p>\n      <p className={cn(\"text-sm font-semibold\", isToday(date) && \"text-primary\")}>\n        {date.getDate()}\n      </p>\n    </div>\n  )}\n\n  // Individual time slot cells — e.g. mark unavailable slots\n  renderTimeSlot={(date, hour) =>\n    isUnavailable(date, hour) ? (\n      <div className=\"absolute inset-0 bg-muted/30 border-t border-dashed border-border/40\" />\n    ) : null\n  }\n\n  // Override the current-time red line\n  renderNowIndicator={() => (\n    <div className=\"w-full h-0.5 bg-primary\" />\n  )}\n/>"
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "renderEvent receives the view name",
+          "content": "The second argument to renderEvent is the current view (\"month\" | \"week\" | \"day\" | \"agenda\"). Use it to render a compact version in month view and a detailed version in week/day view — the same function, different output."
+        }
+      ]
+    },
+    {
+      "id": "scenarios",
+      "title": "Usage scenarios",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The same system covers very different products. Here are three patterns."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Booking system (Calendly-style)",
+          "code": "// Availability slots — only week view, working hours only, click-drag to book\n<CalendarRoot<AvailabilitySlot>\n  events={slots}\n  config={{\n    defaultView: \"week\",\n    startHour: 8,\n    endHour: 18,\n    workingHours: { start: 9, end: 17 },\n    snapToGrid: true,\n    slotInterval: 30,\n  }}\n  onRangeSelect={(start, end) => openBookingForm({ start, end })}\n>\n  <Shell />\n</CalendarRoot>"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Project management (ClickUp-style)",
+          "code": "// Tasks by due date — month + agenda, sidebar mini nav, custom task cards\n<CalendarRoot<Task> events={tasks}>\n  <div className=\"flex h-screen\">\n    <aside className=\"w-52 p-4 border-r border-border\">\n      <CalendarMini />\n    </aside>\n    <div className=\"flex-1 flex flex-col p-4 gap-3\">\n      <CalendarNav views={[\"month\", \"agenda\"]} />\n      {activeView === \"month\"  && (\n        <CalendarMonthView<Task>\n          renderEvent={(task) => <TaskChip task={task} />}\n        />\n      )}\n      {activeView === \"agenda\" && <CalendarAgendaView<Task> />}\n    </div>\n  </div>\n  <CalendarEventPopover<Task>\n    renderEventPopover={(task, close) => <TaskPanel task={task} />}\n  />\n</CalendarRoot>"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Shift scheduling (HR)",
+          "code": "// Staff shifts — week view, 6am–11pm, custom day headers with headcount\n<CalendarRoot<Shift>\n  events={shifts}\n  config={{\n    defaultView: \"week\",\n    startHour: 6,\n    endHour: 23,\n    workingHours: null,  // no shading — every hour is fair game\n  }}\n  onEventMove={(shift, newStart, newEnd) =>\n    updateShift(shift.id, { newStart, newEnd })\n  }\n>\n  <CalendarNav views={[\"week\", \"day\"]} />\n  <CalendarWeekView<Shift>\n    renderEvent={(shift) => <ShiftCard shift={shift} />}\n    renderDayHeader={(date) => (\n      <DayHeader date={date} staffCount={getStaffCount(date)} />\n    )}\n  />\n  <CalendarEventPopover<Shift>\n    renderEventPopover={(shift, close) => <ShiftDetail shift={shift} />}\n  />\n</CalendarRoot>"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "CalendarRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "events",
+              "type": "T[]",
+              "required": true,
+              "description": "Your event data. T must extend CalendarEventBase."
+            },
+            {
+              "prop": "config",
+              "type": "CalendarConfig",
+              "description": "View, hour range, snap, and working hours settings."
+            },
+            {
+              "prop": "onEventClick",
+              "type": "(event: T) => void",
+              "description": "Called when the user clicks any event in any view."
+            },
+            {
+              "prop": "onEventMove",
+              "type": "(event: T, newStart: Date, newEnd: Date) => void",
+              "description": "Called on pointer-up after dragging an event to a new time. Persist the change here."
+            },
+            {
+              "prop": "onEventResize",
+              "type": "(event: T, newEnd: Date) => void",
+              "description": "Called on pointer-up after resizing an event's end time."
+            },
+            {
+              "prop": "onRangeSelect",
+              "type": "(start: Date, end: Date) => void",
+              "description": "Called when the user click-drags on an empty slot in week/day view. Use to open a create form."
+            },
+            {
+              "prop": "onDayClick",
+              "type": "(date: Date) => void",
+              "description": "Called when the user clicks an empty day cell in month view."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the root flex container."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-nav",
+      "title": "CalendarNav",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "views",
+              "type": "CalendarView[]",
+              "default": "[\"month\",\"week\",\"day\",\"agenda\"]",
+              "description": "Which view buttons to show in the switcher. Pass a subset to limit options."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the nav container."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-mini",
+      "title": "CalendarMini",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A small standalone month grid for sidebar navigation. It maintains its own month pointer (navigable independently with its own prev/next), but clicking any date calls navigate() on the main CalendarRoot context — syncing the main view to that date."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the mini calendar container."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-month",
+      "title": "CalendarMonthView",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "renderEvent",
+              "type": "(event: T, view: CalendarView) => ReactNode",
+              "description": "Content of each event bar. Default: colored bar with title."
+            },
+            {
+              "prop": "renderDayCell",
+              "type": "(date: Date, events: T[]) => ReactNode",
+              "description": "Extra content rendered inside the day cell, below the event list."
+            },
+            {
+              "prop": "renderDayHeader",
+              "type": "(label: string, index: number) => ReactNode",
+              "description": "Custom Mon/Tue/Wed column header."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-week",
+      "title": "CalendarWeekView",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "renderEvent",
+              "type": "(event: T, view: CalendarView) => ReactNode",
+              "description": "Content inside the positioned event card."
+            },
+            {
+              "prop": "renderDayHeader",
+              "type": "(date: Date) => ReactNode",
+              "description": "Custom column header for each day."
+            },
+            {
+              "prop": "renderTimeSlot",
+              "type": "(date: Date, hour: number) => ReactNode",
+              "description": "Custom content in each hour-height slot cell. Useful for marking unavailable times."
+            },
+            {
+              "prop": "renderNowIndicator",
+              "type": "() => ReactNode",
+              "description": "Override the current-time line. Default: red dot + line."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-day",
+      "title": "CalendarDayView",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Accepts the same render props as CalendarWeekView. Uses the same CalendarTimeGrid engine internally — just a single-column variant."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "renderEvent",
+              "type": "(event: T, view: CalendarView) => ReactNode",
+              "description": ""
+            },
+            {
+              "prop": "renderDayHeader",
+              "type": "(date: Date) => ReactNode",
+              "description": ""
+            },
+            {
+              "prop": "renderTimeSlot",
+              "type": "(date: Date, hour: number) => ReactNode",
+              "description": ""
+            },
+            {
+              "prop": "renderNowIndicator",
+              "type": "() => ReactNode",
+              "description": ""
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-agenda",
+      "title": "CalendarAgendaView",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "renderEventRow",
+              "type": "(event: T, view: CalendarView) => ReactNode",
+              "description": "Full-width row content for each event. Default: colored left bar + title + time."
+            },
+            {
+              "prop": "lookaheadDays",
+              "type": "number",
+              "default": "60",
+              "description": "How many days forward from currentDate to include."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-popover",
+      "title": "CalendarEventPopover",
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "Positioned by @floating-ui",
+          "content": "CalendarEventPopover uses useFloating with flip and shift middleware — it automatically moves to whichever side has room and never escapes the viewport. It anchors to the DOM element that was clicked, via the selectedEventAnchor stored in context."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "renderEventPopover",
+              "type": "(event: T, close: () => void) => ReactNode",
+              "description": "Full content of the popover card. You own everything inside — title, time, description, edit/delete buttons. close() dismisses it."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the popover container div."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useCalendar",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Call useCalendar() anywhere inside CalendarRoot to access full context. Use it to build custom filter panels, event counters, or any UI that needs to read or drive the calendar state."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "events",
+              "type": "T[]",
+              "description": "The full events array passed to CalendarRoot."
+            },
+            {
+              "prop": "currentDate",
+              "type": "Date",
+              "description": "The date the calendar is currently showing."
+            },
+            {
+              "prop": "activeView",
+              "type": "CalendarView",
+              "description": "Currently active view."
+            },
+            {
+              "prop": "selectedEventId",
+              "type": "string | null",
+              "description": "ID of the event whose popover is open, or null."
+            },
+            {
+              "prop": "config",
+              "type": "ResolvedCalendarConfig",
+              "description": "Resolved config with all defaults filled."
+            },
+            {
+              "prop": "navigate",
+              "type": "(date: Date) => void",
+              "description": "Jump the calendar to any date."
+            },
+            {
+              "prop": "goToToday",
+              "type": "() => void",
+              "description": ""
+            },
+            {
+              "prop": "prev",
+              "type": "() => void",
+              "description": "Go back one period (month/week/day depending on activeView)."
+            },
+            {
+              "prop": "next",
+              "type": "() => void",
+              "description": ""
+            },
+            {
+              "prop": "setView",
+              "type": "(view: CalendarView) => void",
+              "description": ""
+            },
+            {
+              "prop": "selectEvent",
+              "type": "(id: string | null, anchor?: HTMLElement | null) => void",
+              "description": "Open the event popover programmatically, anchored to the given element."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "CalendarConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "defaultView",
+              "type": "CalendarView",
+              "default": "\"month\"",
+              "description": "Which view opens first."
+            },
+            {
+              "prop": "weekStartsOn",
+              "type": "0 | 1",
+              "default": "1",
+              "description": "0 = Sunday, 1 = Monday."
+            },
+            {
+              "prop": "startHour",
+              "type": "number",
+              "default": "0",
+              "description": "First hour shown in the time grid (0–23)."
+            },
+            {
+              "prop": "endHour",
+              "type": "number",
+              "default": "24",
+              "description": "Last hour shown in the time grid (0–23)."
+            },
+            {
+              "prop": "slotInterval",
+              "type": "number",
+              "default": "30",
+              "description": "Snap interval in minutes for drag-to-create and event move."
+            },
+            {
+              "prop": "workingHours",
+              "type": "{ start: number; end: number } | null",
+              "default": "{ start: 9, end: 17 }",
+              "description": "Slots outside this range are shaded. Pass null to disable shading."
+            },
+            {
+              "prop": "snapToGrid",
+              "type": "boolean",
+              "default": "true",
+              "description": "Snap drag interactions to slotInterval."
+            },
+            {
+              "prop": "hourHeight",
+              "type": "number",
+              "default": "64",
+              "description": "Pixel height of each hour row in the time grid."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
