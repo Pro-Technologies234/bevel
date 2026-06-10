@@ -9,7 +9,7 @@ import {
   IconCheck,
   IconEye,
 } from "@tabler/icons-react";
-import type { GalleryItem, MediaType } from "./gallery-types";
+import type { GalleryItem, MediaType } from "./types";
 
 function formatSize(bytes?: number): string {
   if (!bytes) return "";

@@ -192,7 +192,7 @@ function DemoUI() {
 
 // ─── Export ───────────────────────────────────────────────────────────────────
 
-export function ProductTourDemo() {
+export function TourDemo() {
   return (
     <TourRoot steps={STEPS} defaultOpen={false}>
       <div className="flex flex-col gap-4 w-full">

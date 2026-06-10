@@ -44,7 +44,7 @@ import {
   IconCircleCheckFilled,
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { FileUploadDemo } from "@/components/docs/file-upload/file-upload-demo";
+import { FileUploadDemo } from "@/components/demo/file-upload";
 import { MediaLibary } from "@/components/docs/file-upload/media-libary";
 
 // ─── Simulated upload (same as original) ─────────────────────────────────────

@@ -104,7 +104,7 @@
         },
         {
           "type": "demo",
-          "component": "TreeViewDemo",
+          "component": "TreeDemo",
           "label": "Interactive demo"
         }
       ]

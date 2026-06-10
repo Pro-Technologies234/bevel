@@ -24,7 +24,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { FormEngineDemo } from "@/components/docs/form-engine/form-engine-demo";
+import { FormEngineDemo } from "@/components/demo/form-engine";
 import {
   FormEngineBackButton,
   FormEngineNextButton,

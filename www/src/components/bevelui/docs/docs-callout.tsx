@@ -19,28 +19,28 @@ export interface DocsCalloutProps {
 const CALLOUT_CONFIG = {
   info: {
     icon: IconInfoCircle,
-    containerClass: "bg-emerald-500/30 border border-emerald-500/90",
+    containerClass: "bg-emerald-500/5 border-l-2 border-emerald-500/90",
     iconClass: "text-emerald-500",
     titleClass: "text-emerald-600 dark:text-emerald-400",
     defaultTitle: "Note",
   },
   warning: {
     icon: IconAlertTriangle,
-    containerClass: "bg-amber-500/30 border border-amber-500/90",
+    containerClass: "bg-amber-500/5 border-l-2 border-amber-500/90",
     iconClass: "text-amber-500",
     titleClass: "text-amber-600 dark:text-amber-400",
     defaultTitle: "Warning",
   },
   tip: {
     icon: IconBulb,
-    containerClass: "bg-primary/30 border border-primary/90",
+    containerClass: "bg-primary/5 border-l-2 border-primary/90",
     iconClass: "text-primary",
     titleClass: "text-primary",
     defaultTitle: "Tip",
   },
   danger: {
     icon: IconAlertCircle,
-    containerClass: "bg-destructive/30 border border-destructive/90",
+    containerClass: "bg-destructive/5 border-l-2 border-destructive/90",
     iconClass: "text-destructive",
     titleClass: "text-destructive",
     defaultTitle: "Important",
@@ -60,7 +60,7 @@ export function DocsCallout({
   return (
     <div
       className={cn(
-        "flex gap-3 px-4 py-3.5 rounded-lg",
+        "flex gap-3 px-4 py-3.5 rounded-r-lg",
         config.containerClass,
         className,
       )}

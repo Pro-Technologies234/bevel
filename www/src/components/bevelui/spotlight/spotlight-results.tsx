@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useSpotlight } from "./spotlight-context";
 import { SpotlightResultItem } from "./spotlight-result-item";
@@ -11,9 +9,10 @@ export function SpotlightResults({ config }: { config: SpotlightConfig }) {
 
   if (isLoading) return <SpotlightSkeleton />;
 
-  const filtered = activeCategory === "all"
-    ? results
-    : results.filter(r => r.category === activeCategory);
+  const filtered =
+    activeCategory === "all"
+      ? results
+      : results.filter((r) => r.category === activeCategory);
 
   if (filtered.length === 0) {
     return (
@@ -23,32 +22,34 @@ export function SpotlightResults({ config }: { config: SpotlightConfig }) {
     );
   }
 
-  // Group by category
   const grouped: Record<string, typeof filtered> = {};
   for (const r of filtered) {
     if (!grouped[r.category]) grouped[r.category] = [];
     grouped[r.category].push(r);
   }
 
-  const showGroups = activeCategory === "all" && Object.keys(grouped).length > 1;
+  const showGroups =
+    activeCategory === "all" && Object.keys(grouped).length > 1;
 
   return (
     <div className="flex flex-col py-2">
       {showGroups
         ? Object.entries(grouped).map(([catId, items]) => {
-            const cat = config.categories.find(c => c.id === catId);
+            const cat = config.categories.find((c) => c.id === catId);
             return (
               <div key={catId}>
                 <div className="px-4 py-1.5">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/40">
+                  <span className="text-[10px]  uppercase text-muted-foreground">
                     {cat?.label ?? catId}
                   </span>
                 </div>
-                {items.map(r => <SpotlightResultItem key={r.id} result={r} />)}
+                {items.map((r) => (
+                  <SpotlightResultItem key={r.id} result={r} />
+                ))}
               </div>
             );
           })
-        : filtered.map(r => <SpotlightResultItem key={r.id} result={r} />)}
+        : filtered.map((r) => <SpotlightResultItem key={r.id} result={r} />)}
     </div>
   );
 }

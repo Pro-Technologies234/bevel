@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useSpotlight } from "./spotlight-context";
 import { SpotlightResults } from "./spotlight-results";
@@ -9,8 +7,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import type { SpotlightConfig } from "./types";
 
-export function SpotlightModal({ config }: { config: SpotlightConfig }) {
-  const { isOpen, close, query, setQuery, isLoading } = useSpotlight();
+export function SpotlightModal() {
+  const { config, isOpen, close, query, setQuery, isLoading } = useSpotlight();
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -23,60 +21,74 @@ export function SpotlightModal({ config }: { config: SpotlightConfig }) {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
             onClick={close}
           />
 
-          {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.97, y: -8 }}
-            animate={{ opacity: 1, scale: 1,    y: 0  }}
-            exit={{   opacity: 0, scale: 0.97, y: -8  }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -8 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
-            className="fixed left-1/2 top-[20%] z-50 -translate-x-1/2 w-full max-w-xl px-4"
+            className="fixed left-1/2 top-[10%] z-50 -translate-x-1/2 w-full max-w-4xl px-4  "
           >
-            <div className="rounded-2xl border border-border bg-card shadow-2xl shadow-black/50 overflow-hidden">
-              {/* Search input */}
-              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border/60">
-                {isLoading
-                  ? <IconLoader2 size={17} className="text-muted-foreground/50 shrink-0 animate-spin" />
-                  : <IconSearch  size={17} className="text-muted-foreground/50 shrink-0" />}
+            <div className="rounded-xl border border-border bg-popover shadow-2xl shadow-black/50 overflow-hidden h-full min-h-[400px] flex flex-col justify-between">
+              <div className="flex items-center gap-3 px-4 py-3 border-b border-border/60">
+                {isLoading ? (
+                  <IconLoader2
+                    size={17}
+                    className="text-muted-foreground/50 shrink-0 animate-spin"
+                  />
+                ) : (
+                  <IconSearch
+                    size={17}
+                    className="text-muted-foreground/50 shrink-0"
+                  />
+                )}
                 <input
                   ref={inputRef}
                   value={query}
-                  onChange={e => setQuery(e.target.value)}
+                  onChange={(e) => setQuery(e.target.value)}
                   placeholder={config.placeholder ?? "Search anything…"}
-                  className="flex-1 bg-transparent text-[15px] text-foreground placeholder:text-muted-foreground/40 outline-none"
+                  className="flex-1 bg-transparent text-[14px] text-foreground placeholder:text-muted-foreground/40 outline-none"
                 />
                 {query && (
-                  <button type="button" onClick={() => setQuery("")} className="text-muted-foreground/40 hover:text-muted-foreground transition-colors shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setQuery("")}
+                    className="text-muted-foreground/40 hover:text-muted-foreground transition-colors shrink-0"
+                  >
                     <IconX size={14} />
                   </button>
                 )}
               </div>
 
-              {/* Category tabs */}
               {config.categories.length > 0 && hasResults && (
                 <CategoryTabs categories={config.categories} />
               )}
 
-              {/* Body */}
-              <div className="max-h-[400px] overflow-y-auto">
-                {hasResults ? <SpotlightResults config={config} /> : <SpotlightEmpty />}
+              <div className="max-h-[500px] overflow-y-auto flex-1">
+                {hasResults ? (
+                  <SpotlightResults config={config} />
+                ) : (
+                  <SpotlightEmpty />
+                )}
               </div>
 
-              {/* Footer */}
               <div className="flex items-center justify-between px-4 py-2 border-t border-border/40 bg-muted/20">
                 <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground/30">
                   <span>↑↓ navigate</span>
                   <span>⏎ open</span>
                   <span>esc close</span>
                 </div>
-                <span className="text-[10px] font-mono text-muted-foreground/20">Spotlight</span>
+                <span className="text-[10px] font-mono text-muted-foreground/20">
+                  Spotlight
+                </span>
               </div>
             </div>
           </motion.div>
@@ -86,21 +98,28 @@ export function SpotlightModal({ config }: { config: SpotlightConfig }) {
   );
 }
 
-function CategoryTabs({ categories }: { categories: SpotlightConfig["categories"] }) {
+function CategoryTabs({
+  categories,
+}: {
+  categories: SpotlightConfig["categories"];
+}) {
   const { activeCategory, setCategory, results } = useSpotlight();
   const all = [{ id: "all", label: "All" }, ...categories];
 
   return (
     <div className="flex items-center gap-1 px-3 py-2 border-b border-border/40 overflow-x-auto">
-      {all.map(cat => {
-        const count = cat.id === "all" ? results.length : results.filter(r => r.category === cat.id).length;
+      {all.map((cat) => {
+        const count =
+          cat.id === "all"
+            ? results.length
+            : results.filter((r) => r.category === cat.id).length;
         return (
           <button
             key={cat.id}
             type="button"
             onClick={() => setCategory(cat.id)}
             className={cn(
-              "flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors whitespace-nowrap",
+              "flex items-center gap-1.5 px-3 py-1 rounded-sm text-[11px] font-medium transition-colors whitespace-nowrap",
               activeCategory === cat.id
                 ? "bg-primary/10 text-primary"
                 : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/60",
@@ -108,7 +127,14 @@ function CategoryTabs({ categories }: { categories: SpotlightConfig["categories"
           >
             {cat.label}
             {count > 0 && (
-              <span className={cn("text-[9px] font-mono", activeCategory === cat.id ? "text-primary/60" : "text-muted-foreground/30")}>
+              <span
+                className={cn(
+                  "text-[9px] font-mono",
+                  activeCategory === cat.id
+                    ? "text-primary/60"
+                    : "text-muted-foreground/30",
+                )}
+              >
                 {count}
               </span>
             )}

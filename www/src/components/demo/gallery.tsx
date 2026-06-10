@@ -131,7 +131,7 @@ const ITEMS: GalleryItem[] = [
 
 export function GalleryDemo() {
   return (
-    <div className="w-full rounded-xl border border-border bg-[#0c0c0c] p-4">
+    <div className="w-full max-w-3xl rounded-xl border border-border bg-[#0c0c0c] p-4">
       <GalleryRoot
         items={ITEMS}
         config={{
@@ -149,9 +149,11 @@ export function GalleryDemo() {
 
 export function GalleryMinimalDemo() {
   return (
-    <GalleryRoot
-      items={ITEMS.slice(0, 6)}
-      config={{ selectionMode: "single" }}
-    />
+    <div className="w-full max-w-3xl rounded-xl border border-border bg-[#0c0c0c] p-4">
+      <GalleryRoot
+        items={ITEMS.slice(0, 6)}
+        config={{ selectionMode: "single" }}
+      />
+    </div>
   );
 }
