@@ -11,8 +11,10 @@
       "/ hotkey (configurable)"
     ],
     "slug": "spotlight",
-    "prev": { "label": "Checklist", "href": "/docs/components/checklist" },
-    "next": { "label": "Tree View", "href": "/docs/components/tree" }
+    "prev": {
+      "label": "Media Gallery",
+      "href": "/docs/components/media-gallery"
+    }
   },
   "tocs": [
     { "id": "overview", "label": "Overview", "depth": 1 },

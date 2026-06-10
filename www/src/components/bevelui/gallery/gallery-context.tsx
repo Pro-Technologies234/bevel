@@ -4,7 +4,7 @@ import type {
   GalleryContextValue,
   GalleryItem,
   MediaType,
-} from "./gallery-types";
+} from "./types";
 
 export const GalleryCtx = React.createContext<GalleryContextValue | null>(null);
 

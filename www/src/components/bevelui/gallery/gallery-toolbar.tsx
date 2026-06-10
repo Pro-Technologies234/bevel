@@ -9,7 +9,7 @@ import {
   IconCheckbox,
   IconX,
 } from "@tabler/icons-react";
-import type { MediaType } from "./gallery-types";
+import type { MediaType } from "./types";
 import { Button } from "@/components/ui/button";
 
 const FILTERS: {

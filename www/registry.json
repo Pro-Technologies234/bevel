@@ -473,13 +473,8 @@
       "docs": "Import from @/components/bevelui/gallery. Drop GalleryRoot anywhere for the full editor, or compose with GalleryGrid, GalleryToolbar, and GalleryLightbox manually. Use useGallery for programmatic control inside any child component.",
       "files": [
         {
-          "path": "src/components/bevelui/gallery/gallery-types.ts",
-          "target": "src/components/bevelui/gallery/gallery-types.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "src/components/bevelui/gallery/gallery-utils.ts",
-          "target": "src/components/bevelui/gallery/gallery-utils.ts",
+          "path": "src/components/bevelui/gallery/types.ts",
+          "target": "src/components/bevelui/gallery/types.ts",
           "type": "registry:lib"
         },
         {
@@ -510,6 +505,64 @@
         {
           "path": "src/components/bevelui/gallery/index.ts",
           "target": "src/components/bevelui/gallery/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "spotlight",
+      "type": "registry:block",
+      "title": "Spotlight Search",
+      "description": "Async content search with category tabs, debounced API calls, AbortController cancellation, recent search history, and skeleton loading. Distinct from Command Palette.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems"],
+      "dependencies": ["motion"],
+      "registryDependencies": [],
+      "docs": "Import from @/components/bevelui/spotlight. Wrap your app with SpotlightRoot, provide categories and an onSearch function. The / hotkey and modal are wired automatically.",
+      "files": [
+        {
+          "path": "src/components/bevelui/spotlight/types.ts",
+          "target": "src/components/bevelui/spotlight/types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-context.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-root.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-modal.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-modal.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-results.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-results.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-result-item.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-result-item.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-empty.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-empty.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/spotlight-skeleton.tsx",
+          "target": "src/components/bevelui/spotlight/spotlight-skeleton.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/spotlight/index.ts",
+          "target": "src/components/bevelui/spotlight/index.ts",
           "type": "registry:lib"
         }
       ]
