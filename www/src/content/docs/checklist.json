@@ -11,8 +11,7 @@
       "Optional steps + skip"
     ],
     "slug": "checklist",
-    "prev": { "label": "AI Chat", "href": "/docs/components/ai-chat" },
-    "next": { "label": "Spotlight", "href": "/docs/components/spotlight" }
+    "prev": { "label": "Spotlight", "href": "/docs/components/spotlight" }
   },
   "tocs": [
     { "id": "overview", "label": "Overview", "depth": 1 },
