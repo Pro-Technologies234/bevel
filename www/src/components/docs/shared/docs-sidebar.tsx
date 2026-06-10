@@ -14,6 +14,7 @@ import {
   IconChecklist,
   IconListTree,
   IconPhotoFilled,
+  IconWorldSearch,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -124,13 +125,13 @@ export function DocsSidebar() {
               badge: "New",
               badgeVariant: "new",
             },
-            // {
-            //   label: "Spotlight Search",
-            //   href: "/docs/components/spotlight",
-            //   icon: IconHomeSearch,
-            //   badge: "New",
-            //   badgeVariant: "new",
-            // },
+            {
+              label: "Spotlight Search",
+              href: "/docs/components/spotlight",
+              icon: IconWorldSearch,
+              badge: "New",
+              badgeVariant: "new",
+            },
           ],
         },
       ]}

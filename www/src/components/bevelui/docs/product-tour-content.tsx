@@ -2,13 +2,8 @@
 
 import pageData from "@/content/docs/product-tour.json";
 import { DocPageRenderer } from "@/components/bevelui/docs/doc-page-renderer";
-import { ProductTourDemo } from "@/components/docs/product-tour/product-tour-demo";
+import { TourDemo } from "@/components/demo/tour";
 
 export function ProductTourContent() {
-  return (
-    <DocPageRenderer
-      page={pageData as any}
-      demoRegistry={{ ProductTourDemo }}
-    />
-  );
+  return <DocPageRenderer page={pageData as any} demoRegistry={{ TourDemo }} />;
 }

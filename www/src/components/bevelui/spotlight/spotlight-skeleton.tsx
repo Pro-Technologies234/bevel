@@ -15,7 +15,9 @@ function SkeletonRow() {
 export function SpotlightSkeleton() {
   return (
     <div className="flex flex-col py-2">
-      {Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)}
+      {Array.from({ length: 5 }).map((_, i) => (
+        <SkeletonRow key={i} />
+      ))}
     </div>
   );
 }

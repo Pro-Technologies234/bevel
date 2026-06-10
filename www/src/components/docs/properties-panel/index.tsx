@@ -2,7 +2,7 @@
 
 import pageData from "@/content/docs/properties-panel.json";
 import { DocPageRenderer } from "@/components/bevelui/docs/doc-page-renderer";
-import { PropertiesPanelDemo } from "./properties-panel-demo";
+import { PropertiesPanelDemo } from "../../demo/properties-panel";
 
 export function PropertiesPanelContent() {
   return (

@@ -102,7 +102,7 @@ const FILE_TREE: TreeNodeType[] = [
   },
 ];
 
-export function TreeViewDemo() {
+export function TreeDemo() {
   const [selected, setSelected] = React.useState<string[]>([]);
 
   return (

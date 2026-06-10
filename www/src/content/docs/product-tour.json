@@ -102,7 +102,7 @@
         },
         {
           "type": "demo",
-          "component": "ProductTourDemo",
+          "component": "TourDemo",
           "label": "Interactive demo",
           "preview": "product-tour"
         }

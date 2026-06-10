@@ -1,24 +1,5 @@
 "use client";
 
-/**
- * SECTION: Systems
- *
- * WHAT CHANGED AND WHY:
- *
- * Old framing: "All systems. Production-ready."
- * → This sounds like a product catalogue. It's describing the systems from Bevel's perspective.
- *
- * New framing: "Things you won't build from scratch"
- * → Same systems, completely different angle. Speaks to the developer's relief, not our inventory.
- *
- * Old tab approach: Switching between demos in the same window
- * → Works fine technically but the framing makes it feel like a comparison table
- *
- * New approach: Each system gets a card that leads with the PAIN it removes,
- * not just the name + description. The install command is secondary.
- * The active demo stays but the surrounding context changes completely.
- */
-
 import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -28,9 +9,7 @@ import Link from "next/link";
 import { Wrapper } from "@/components/shared/wrapper";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CommandPaletteShowcase } from "@/components/bevelui/docs/command-palette-content";
-import { MediaLibary } from "@/components/docs/file-upload/media-libary";
-import { FormEngineShowcase } from "@/components/bevelui/docs/form-engine-content";
+
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import {
@@ -40,57 +19,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ProductTourDemo } from "@/components/docs/product-tour/product-tour-demo";
+import { SYSTEMS } from "@/components/showcase";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const SYSTEMS = [
-  {
-    id: "product-tour",
-    title: "Product Tour",
-
-    painRemoved:
-      "No more positioning logic, overlay masking, scroll handling, or skip state.",
-    what: "A guided tour that works. Floating cards anchored to any element, keyboard navigation, media per step, SVG overlay masking — all pre-wired.",
-    href: "/docs/components/product-tour",
-    accent: "#c2f13c",
-    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
-    demo: <ProductTourDemo />,
-  },
-  {
-    id: "command-palette",
-    title: "Command Palette",
-    painRemoved:
-      "No more building fuzzy search, keyboard navigation, or grouped results from scratch.",
-    what: "⌘K that actually works. Fuzzy search with zero dependencies, source and filter tabs, grouped results with avatars, accessible keyboard flow.",
-    href: "/docs/components/command-palette",
-    accent: "#818cf8",
-    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json",
-    demo: <CommandPaletteShowcase />,
-  },
-  {
-    id: "file-upload",
-    title: "File Upload",
-    painRemoved:
-      "No more abort controllers, retry logic, per-file error handling, or progress tracking.",
-    what: "Drag-and-drop with per-file progress, cancel, retry, grid and list views. You bring one function — the upload handler. The system handles everything else.",
-    href: "/docs/components/file-upload",
-    accent: "#f97316",
-    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json",
-    demo: <MediaLibary />,
-  },
-  {
-    id: "form-engine",
-    title: "Form Engine",
-    painRemoved:
-      "No more multi-step state machines, per-step validation, or back/forward navigation bugs.",
-    what: "Form orchestration with a plugin architecture. react-hook-form + zod, conditional fields, custom layouts. The engine owns the steps. Your fields and logic stay yours.",
-    href: "/docs/components/form-engine",
-    accent: "#e879f9",
-    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/form-engine.json",
-    demo: <FormEngineShowcase />,
-  },
-];
 
 export default function Systems() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -247,7 +178,7 @@ export default function Systems() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.97 }}
                   transition={{ duration: 0.2 }}
-                  className="w-full"
+                  className="w-full flex justify-center"
                 >
                   {active.demo}
                 </motion.div>
