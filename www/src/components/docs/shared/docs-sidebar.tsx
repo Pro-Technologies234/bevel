@@ -128,7 +128,7 @@ export function DocsSidebar() {
             },
             {
               label: "Onboarding Checklist",
-              href: "/docs/components/onboarding-checklist",
+              href: "/docs/components/checklist",
               icon: IconChecklist,
               badge: "New",
               badgeVariant: "new",
