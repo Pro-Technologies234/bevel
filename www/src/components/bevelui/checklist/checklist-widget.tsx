@@ -33,7 +33,7 @@ export function ChecklistWidget({ config }: { config: ChecklistConfig }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="w-80 rounded-md border border-border bg-card shadow-2xl shadow-black/40 overflow-hidden p-1"
+            className="w-80 rounded-xl border border-border bg-card shadow-2xl shadow-black/40 overflow-hidden p-1"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border/60">
