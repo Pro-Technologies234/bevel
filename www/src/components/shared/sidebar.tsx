@@ -192,7 +192,7 @@ export function BevelSidebar({
     <nav
       aria-label="Documentation navigation"
       className={cn(
-        "relative h-full flex flex-col py-6 pt-0  gap-5 overflow-y-auto bg-card/80",
+        "relative h-full flex flex-col py-8 pt-0  gap-5 overflow-y-auto bg-card/80",
         // Width is set by the parent — sidebar is width-agnostic
         className,
       )}

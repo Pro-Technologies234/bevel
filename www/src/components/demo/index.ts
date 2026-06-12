@@ -8,6 +8,9 @@ import { TreeDemo } from "./tree";
 import { PropertiesPanelDemo } from "./properties-panel";
 import { PaletteEditorDemo } from "./palette-editor";
 import { GalleryDemo } from "./gallery";
+import { SpotlightDemo } from "./spotlight";
+// import { ChecklistDemo } from "./checklist";
+import { KanbanDemo } from "./kanban";
 
 export const DEMO_REGISTRY: Record<string, React.ComponentType> = {
   tour: TourDemo,
@@ -19,4 +22,7 @@ export const DEMO_REGISTRY: Record<string, React.ComponentType> = {
   "properties-panel": PropertiesPanelDemo,
   tree: TreeDemo,
   gallery: GalleryDemo,
+  spotlight: SpotlightDemo,
+  // checklist: ChecklistDemo,
+  kanban: KanbanDemo,
 };

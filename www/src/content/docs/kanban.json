@@ -1,0 +1,389 @@
+{
+  "meta": {
+    "title": "Kanban",
+    "description": "A multi-container drag-and-drop board. Drag cards within and between columns, drag columns to reorder, with a virtual state machine that shows placeholders live during drag — committed once on drop.",
+    "badge": "Components System",
+    "features": [
+      "6 composable parts",
+      "Multi-container DnD via dnd-kit",
+      "Virtual drag state machine",
+      "Column reorder via header drag",
+      "Full render prop API"
+    ],
+    "slug": "kanban",
+    "prev": {
+      "label": "Onboarding Checklist",
+      "href": "/docs/components/checklist"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "render-props", "label": "Render props", "depth": 1 },
+    { "id": "scenarios", "label": "Usage scenarios", "depth": 1 },
+    { "id": "api-root", "label": "KanbanRoot", "depth": 2 },
+    { "id": "api-board", "label": "KanbanBoard", "depth": 2 },
+    { "id": "api-column", "label": "KanbanColumn", "depth": 2 },
+    { "id": "api-card", "label": "KanbanCard", "depth": 2 },
+    { "id": "api-hook", "label": "useKanban", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Single-container drag-and-drop is solved. Multi-container isn't. When a card crosses a column boundary, dnd-kit's default collision detection breaks. The placeholder needs to appear in the target column before the drop. The state needs to reflect mid-drag positions for visual feedback without mutating your actual data. Rollback on cancel needs to be clean."
+        },
+        {
+          "type": "text",
+          "content": "KanbanRoot owns a virtual columns state that tracks in-drag positions. On every onDragOver event it updates this state — the placeholder appears live, the source column gap closes, the target column opens. On drop it commits once via onColumnsChange. On cancel it rolls back to the pre-drag snapshot. Your data only changes when the user completes a drag."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/kanban/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "KanbanCardBase, KanbanColumnBase, context"
+                },
+                {
+                  "name": "kanban-engine.ts",
+                  "type": "file",
+                  "comment": "pure move/reorder functions — no React"
+                },
+                {
+                  "name": "kanban-context.tsx",
+                  "type": "file",
+                  "comment": "useKanban hook"
+                },
+                {
+                  "name": "kanban-root.tsx",
+                  "type": "file",
+                  "comment": "DndContext + virtual state machine",
+                  "highlight": true
+                },
+                {
+                  "name": "kanban-board.tsx",
+                  "type": "file",
+                  "comment": "horizontal scroll, column SortableContext"
+                },
+                {
+                  "name": "kanban-column.tsx",
+                  "type": "file",
+                  "comment": "useSortable + useDroppable per column"
+                },
+                {
+                  "name": "kanban-card.tsx",
+                  "type": "file",
+                  "comment": "useSortable per card"
+                },
+                {
+                  "name": "kanban-drag-overlay.tsx",
+                  "type": "file",
+                  "comment": "ghost card / column during drag"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The virtual state machine",
+          "content": "KanbanRoot keeps dragColumns as local state — a copy of your columns that gets mutated on every onDragOver. This is what drives the live placeholder. On onDragEnd it calls onColumnsChange(dragColumns) to commit. On onDragCancel it resets from a snapshot taken at onDragStart. Your columns prop never changes until drop."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A full sprint board with priority badges, assignee avatars, and due dates. Drag any card between columns or within a column. Drag a column header to reorder columns."
+        },
+        {
+          "type": "demo",
+          "component": "KanbanDemo",
+          "label": "Interactive demo",
+          "preview": "kanban"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Kanban uses dnd-kit, which you already have installed if you're using the Sortable system."
+        },
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install peer dependency (if not already present)",
+              "code": "npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/kanban.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import and use",
+              "code": "import {\n  KanbanRoot,\n  KanbanBoard,\n  type KanbanCardBase,\n  type KanbanColumnBase,\n} from \"@/components/bevelui/kanban\"",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Extend KanbanCardBase and KanbanColumnBase with your domain fields, then pass your columns to KanbanRoot with a renderCard function. KanbanBoard reads from context and renders everything."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "components/my-board.tsx",
+          "code": "import {\n  KanbanRoot,\n  KanbanBoard,\n  type KanbanCardBase,\n  type KanbanColumnBase,\n} from \"@/components/bevelui/kanban\";\n\ntype Task = KanbanCardBase & {\n  title: string;\n  priority: \"low\" | \"medium\" | \"high\";\n};\n\ntype Column = KanbanColumnBase<Task>;\n\nconst initialColumns: Column[] = [\n  { id: \"todo\",       title: \"To Do\",       cards: [...] },\n  { id: \"inprogress\", title: \"In Progress\", cards: [...] },\n  { id: \"done\",       title: \"Done\",        cards: [...] },\n];\n\nexport function MyBoard() {\n  const [columns, setColumns] = React.useState(initialColumns);\n\n  return (\n    <KanbanRoot<Task, Column>\n      columns={columns}\n      onColumnsChange={setColumns}\n      renderCard={(task, column, { isDragging }) => (\n        <div\n          className={cn(\n            \"rounded-xl border border-border bg-card p-3\",\n            isDragging && \"opacity-40\",\n          )}\n        >\n          <p className=\"text-sm font-medium\">{task.title}</p>\n        </div>\n      )}\n    >\n      <KanbanBoard />\n    </KanbanRoot>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "renderCard is used in two places",
+          "content": "The same renderCard function renders cards in their columns AND in the DragOverlay ghost. The meta.isOverlay flag lets you style the ghost differently — a slightly lifted shadow, bolder border, or reduced opacity on the original slot via meta.isDragging."
+        }
+      ]
+    },
+    {
+      "id": "render-props",
+      "title": "Render props",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "All visual surfaces are render props on KanbanRoot. Column headers double as drag handles for column reordering — whatever you pass to renderColumnHeader becomes the drag trigger."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<KanbanRoot<Task, Column>\n  columns={columns}\n  onColumnsChange={setColumns}\n\n  // Card content — receives card, column, and drag meta\n  renderCard={(task, column, { isDragging, isOverlay }) => (\n    <TaskCard task={task} lifted={isOverlay} />\n  )}\n\n  // Column header — also the drag handle for column reorder\n  // Receives column and { cardCount, isOver }\n  renderColumnHeader={(column, { cardCount, isOver }) => (\n    <div className={cn(\"px-3 py-3\", isOver && \"text-primary\")}>\n      <span className=\"font-semibold\">{column.title}</span>\n      <Badge>{cardCount}</Badge>\n    </div>\n  )}\n\n  // Column footer — rendered below the card list\n  renderColumnFooter={(column) => (\n    <button onClick={() => addCard(column.id)}>+ Add card</button>\n  )}\n\n  // Empty column state — shown when a column has no cards\n  renderEmptyColumn={(column) => (\n    <div className=\"text-center py-8 text-muted-foreground/30 text-sm\">\n      Drop cards here\n    </div>\n  )}\n>\n  <KanbanBoard />\n</KanbanRoot>"
+        }
+      ]
+    },
+    {
+      "id": "scenarios",
+      "title": "Usage scenarios",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The same system covers project management, CRM pipelines, hiring workflows, and content calendars."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "CRM pipeline",
+          "code": "type Lead = KanbanCardBase & {\n  company: string;\n  value: number;\n  owner: string;\n};\n\ntype Stage = KanbanColumnBase<Lead> & {\n  target: number;  // monthly revenue target\n};\n\n<KanbanRoot<Lead, Stage>\n  columns={stages}\n  onCardMove={(lead, from, to) => {\n    // Update lead stage in your CRM\n    updateLead(lead.id, { stage: to });\n  }}\n  renderCard={(lead) => (\n    <LeadCard lead={lead} />\n  )}\n  renderColumnHeader={(stage, { cardCount }) => (\n    <StageHeader\n      stage={stage}\n      count={cardCount}\n      totalValue={sumValue(stage.cards)}\n    />\n  )}\n>\n  <KanbanBoard />\n</KanbanRoot>"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Hiring pipeline",
+          "code": "type Candidate = KanbanCardBase & {\n  name: string;\n  role: string;\n  score?: number;\n};\n\n// useKanban() works inside KanbanRoot for custom sidebar panels\nfunction ApplicantCount() {\n  const { columns } = useKanban<Candidate>();\n  const total = columns.reduce((n, c) => n + c.cards.length, 0);\n  return <span>{total} applicants</span>;\n}\n\n<KanbanRoot<Candidate>\n  columns={pipeline}\n  onColumnsChange={setPipeline}\n  renderCard={(candidate) => <CandidateCard candidate={candidate} />}\n>\n  <div className=\"flex items-center justify-between mb-4\">\n    <h2>Hiring Pipeline</h2>\n    <ApplicantCount />\n  </div>\n  <KanbanBoard />\n</KanbanRoot>"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "KanbanRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "columns",
+              "type": "TColumn[]",
+              "required": true,
+              "description": "Your column data, each containing a cards array. T must extend KanbanColumnBase."
+            },
+            {
+              "prop": "onColumnsChange",
+              "type": "(columns: TColumn[]) => void",
+              "description": "Called once per drag-end with the full updated columns array. Use this to update your state."
+            },
+            {
+              "prop": "onCardMove",
+              "type": "(card, fromColumnId, toColumnId, toIndex) => void",
+              "description": "Granular callback for a card move. Fires alongside onColumnsChange."
+            },
+            {
+              "prop": "onColumnReorder",
+              "type": "(fromIndex: number, toIndex: number) => void",
+              "description": "Called when columns are reordered by dragging their headers."
+            },
+            {
+              "prop": "renderCard",
+              "type": "(card, column, meta: CardRenderMeta) => ReactNode",
+              "required": true,
+              "description": "Render the card content. Used in columns and in the DragOverlay ghost. meta.isOverlay is true for the ghost."
+            },
+            {
+              "prop": "renderColumnHeader",
+              "type": "(column, meta: ColumnRenderMeta) => ReactNode",
+              "description": "Render the column header. Acts as the drag handle for column reordering. Default: title + card count."
+            },
+            {
+              "prop": "renderColumnFooter",
+              "type": "(column, meta: ColumnRenderMeta) => ReactNode",
+              "description": "Render below the card list. Typically an Add card button."
+            },
+            {
+              "prop": "renderEmptyColumn",
+              "type": "(column) => ReactNode",
+              "description": "Render when a column has no cards. Default: dashed drop zone."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the root container div."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-board",
+      "title": "KanbanBoard",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "KanbanBoard reads columns from context and renders them in a horizontally-scrollable container, wrapped in a SortableContext for column reordering. Drop this inside KanbanRoot as a child."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the scroll container div."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-column",
+      "title": "KanbanColumn",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Used internally by KanbanBoard. Expose it if you need to build a custom board layout. Each column is both useSortable (for column reordering) and useDroppable (to accept cards when empty)."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "column",
+              "type": "TColumn",
+              "required": true,
+              "description": "The column data object."
+            },
+            {
+              "prop": "width",
+              "type": "number",
+              "default": "280",
+              "description": "Column width in px."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-card",
+      "title": "KanbanCard",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Used internally by KanbanColumn. Each card is useSortable with data.type = 'card'. The renderCard function from context fills the content."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "card",
+              "type": "TCard",
+              "required": true,
+              "description": ""
+            },
+            {
+              "prop": "column",
+              "type": "TColumn",
+              "required": true,
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useKanban",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Call useKanban() anywhere inside KanbanRoot to build custom panels, sidebars, or controls that read or reflect board state."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "columns",
+              "type": "TColumn[]",
+              "description": "Current (virtual) columns — reflects in-drag positions."
+            },
+            {
+              "prop": "activeId",
+              "type": "string | null",
+              "description": "ID of the item currently being dragged."
+            },
+            {
+              "prop": "activeType",
+              "type": "\"card\" | \"column\" | null",
+              "description": "Whether a card or column is being dragged."
+            },
+            {
+              "prop": "activeCard",
+              "type": "TCard | null",
+              "description": "The card being dragged, or null."
+            },
+            {
+              "prop": "activeColumnData",
+              "type": "TColumn | null",
+              "description": "The column being dragged, or null."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
