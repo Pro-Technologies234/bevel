@@ -10,6 +10,8 @@ import { PaletteEditorDemo } from "@/components/demo/palette-editor";
 import { PropertiesPanelDemo } from "@/components/demo/properties-panel";
 import { TreeDemo } from "@/components/demo/tree";
 import { GalleryDemo } from "@/components/demo/gallery";
+import { SpotlightDemo } from "../demo/spotlight";
+import { ChecklistDemo } from "../docs/checklist/checklist-demo";
 
 export const SYSTEMS = [
   {
@@ -111,5 +113,27 @@ export const SYSTEMS = [
     accent: "#e879f9",
     cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/gallery.json",
     demo: <GalleryDemo />,
+  },
+  {
+    id: "spotlight",
+    title: "Spotlight Search",
+    painRemoved:
+      "No more building custom spotlight search or managing complex state.",
+    what: "A flexible spotlight search with real-time preview, import/export functionality, and a clean UI. Customize your search display without writing any CSS.",
+    href: "/docs/components/spotlight",
+    accent: "#818cf8",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/spotlight.json",
+    demo: <SpotlightDemo />,
+  },
+  {
+    id: "checklist",
+    title: "Onboarding Checklist",
+    painRemoved:
+      "No more building custom onboarding checklists or managing complex state.",
+    what: "A flexible onboarding checklist with real-time preview, import/export functionality, and a clean UI. Customize your onboarding experience without writing any CSS.",
+    href: "/docs/components/checklist",
+    accent: "#818cf8",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/checklist.json",
+    demo: <ChecklistDemo />,
   },
 ];

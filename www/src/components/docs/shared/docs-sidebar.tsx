@@ -97,13 +97,6 @@ export function DocsSidebar() {
               badge: "New",
               badgeVariant: "new",
             },
-            // {
-            //   label: "Onboarding Checklist",
-            //   href: "/docs/components/onboarding-checklist",
-            //   icon: IconChecklist,
-            //   badge: "New",
-            //   badgeVariant: "new",
-            // },
             {
               label: "Tree View",
               href: "/docs/components/tree-view",
@@ -129,6 +122,13 @@ export function DocsSidebar() {
               label: "Spotlight Search",
               href: "/docs/components/spotlight",
               icon: IconWorldSearch,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Onboarding Checklist",
+              href: "/docs/components/onboarding-checklist",
+              icon: IconChecklist,
               badge: "New",
               badgeVariant: "new",
             },

@@ -50,7 +50,7 @@ function ChecklistDemoInner() {
   return (
     <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
       {/* Progress widget simulation */}
-      <div className="flex flex-col items-center justify-center gap-3 p-6 rounded-2xl border border-border bg-card/40 flex-1">
+      <div className="flex flex-col items-center justify-center gap-3 p-6 rounded-xl border border-border bg-card/40 flex-1">
         <ChecklistProgressRing progress={progress} size={64} strokeWidth={3} />
         <div className="text-center">
           <p className="text-sm font-semibold text-foreground">
@@ -66,9 +66,9 @@ function ChecklistDemoInner() {
       </div>
 
       {/* Inline checklist panel */}
-      <div className="w-full sm:w-72 rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="w-full sm:w-72 rounded-xl border border-border bg-card overflow-hidden">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border/60">
-          <span className="text-[13px] font-semibold text-foreground">
+          <span className="text-md font-semibold text-foreground font-sans">
             Get started
           </span>
           <span className="text-[10px] font-mono text-primary/60">

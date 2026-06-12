@@ -14,6 +14,10 @@
     "prev": {
       "label": "Media Gallery",
       "href": "/docs/components/media-gallery"
+    },
+    "next": {
+      "label": "Onboarding Checklist",
+      "href": "/docs/components/checklist"
     }
   },
   "tocs": [
