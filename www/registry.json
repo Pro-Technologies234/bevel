@@ -616,6 +616,54 @@
       ]
     },
     {
+      "name": "kanban",
+      "type": "registry:block",
+      "title": "Kanban Board",
+      "description": "A draggable kanban board with columns and cards, supporting drag-and-drop functionality and real-time updates.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems"],
+      "dependencies": ["motion"],
+      "registryDependencies": ["button"],
+      "docs": "Import from @/components/bevelui/kanban. Wrap your app with KanbanRoot and pass columns and tasks. The board renders automatically. Use position: 'inline' and children to compose your own layout.",
+      "files": [
+        {
+          "path": "src/components/bevelui/kanban/kanban-types.ts",
+          "target": "src/components/bevelui/kanban/kanban-types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/kanban/kanban-context.tsx",
+          "target": "src/components/bevelui/kanban/kanban-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/kanban/kanban-root.tsx",
+          "target": "src/components/bevelui/kanban/kanban-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/kanban/kanban-board.tsx",
+          "target": "src/components/bevelui/kanban/kanban-board.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/kanban/kanban-card.tsx",
+          "target": "src/components/bevelui/kanban/kanban-card.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/kanban/kanban-widget.tsx",
+          "target": "src/components/bevelui/kanban/kanban-widget.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/kanban/index.ts",
+          "target": "src/components/bevelui/kanban/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "card-select",
       "type": "registry:component",
       "title": "Card Select",

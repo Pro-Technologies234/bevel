@@ -11,7 +11,8 @@
       "Optional steps + skip"
     ],
     "slug": "checklist",
-    "prev": { "label": "Spotlight", "href": "/docs/components/spotlight" }
+    "prev": { "label": "Spotlight", "href": "/docs/components/spotlight" },
+    "next": { "label": "Kanban", "href": "/docs/components/kanban" }
   },
   "tocs": [
     { "id": "overview", "label": "Overview", "depth": 1 },

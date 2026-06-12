@@ -477,6 +477,34 @@ export const docsComponentsMetadata: Metadata = {
   },
 };
 
+export const docsKanbanMetadata: Metadata = {
+  title: "Kanban — Bevel UI",
+  description:
+    "A multi-container drag-and-drop board. Drag cards within and between columns, drag columns to reorder — with a virtual state machine that shows live placeholders during drag.",
+  openGraph: {
+    title: "Kanban — Bevel UI",
+    description:
+      "Multi-container DnD board with virtual drag state, live placeholders, and full render prop customisation.",
+    url: "https://bevelui.com/docs/components/kanban",
+    images: [
+      {
+        url: "/api/og?title=Kanban&description=Multi-container+drag-and-drop+board+with+virtual+state+machine",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kanban — Bevel UI",
+    description:
+      "Multi-container DnD board. Virtual drag state, live placeholders, full render props.",
+  },
+  alternates: {
+    canonical: "https://bevelui.vercel.app/docs/components/kanban",
+  },
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // LABS — INDIVIDUAL PREVIEWS (app/preview/[name]/page.tsx)
 // ─────────────────────────────────────────────────────────────────────────────

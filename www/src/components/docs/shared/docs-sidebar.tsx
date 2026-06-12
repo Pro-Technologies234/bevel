@@ -15,6 +15,7 @@ import {
   IconListTree,
   IconPhotoFilled,
   IconWorldSearch,
+  IconLayoutKanban,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -129,6 +130,13 @@ export function DocsSidebar() {
               label: "Onboarding Checklist",
               href: "/docs/components/onboarding-checklist",
               icon: IconChecklist,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Kanban",
+              href: "/docs/components/kanban",
+              icon: IconLayoutKanban,
               badge: "New",
               badgeVariant: "new",
             },
