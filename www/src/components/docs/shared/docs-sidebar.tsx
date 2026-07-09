@@ -16,6 +16,8 @@ import {
   IconPhotoFilled,
   IconWorldSearch,
   IconLayoutKanban,
+  IconCrop,
+  IconCursorOff,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -137,6 +139,20 @@ export function DocsSidebar() {
               label: "Kanban",
               href: "/docs/components/kanban",
               icon: IconLayoutKanban,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Cropper",
+              href: "/docs/components/cropper",
+              icon: IconCrop,
+              badge: "New",
+              badgeVariant: "new",
+            },
+            {
+              label: "Cursors",
+              href: "/docs/components/cursors",
+              icon: IconCursorOff,
               badge: "New",
               badgeVariant: "new",
             },

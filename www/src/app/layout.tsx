@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TASA_Orbiter } from "next/font/google";
+import { TASA_Orbiter, Host_Grotesk } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";

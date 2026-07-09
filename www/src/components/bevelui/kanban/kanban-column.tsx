@@ -80,7 +80,7 @@ export function KanbanColumn<
       data-column-id={column.id}
       {...attributes}
       className={cn(
-        "flex flex-col rounded-xl border border-border bg-card/50",
+        "flex flex-col rounded-xl border border-border bg-background/60",
         "transition-opacity duration-200",
         isColumnDragging && "opacity-40 shadow-2xl",
         isOver && !isColumnDragging && "border-primary/40 bg-primary/5",

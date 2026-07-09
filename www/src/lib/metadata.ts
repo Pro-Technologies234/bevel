@@ -477,6 +477,11 @@ export const docsComponentsMetadata: Metadata = {
   },
 };
 
+
+// 
+// DOCS - KANBAN
+//
+
 export const docsKanbanMetadata: Metadata = {
   title: "Kanban — Bevel UI",
   description:
@@ -502,6 +507,30 @@ export const docsKanbanMetadata: Metadata = {
   },
   alternates: {
     canonical: "https://bevelui.vercel.app/docs/components/kanban",
+  },
+};
+
+// 
+// DOCS - CROPPER
+//
+
+// Add this export to @/lib/metadata.ts
+
+export const docsCropperMetadata = {
+  title: "Image Cropper — Bevel UI",
+  description:
+    "A fully-engineered crop system with dual coordinate spaces, handle drag math, aspect ratio constraints, and canvas-based export at full image resolution.",
+  openGraph: {
+    title: "Image Cropper — Bevel UI",
+    description:
+      "Dual coordinate spaces, eight-handle drag with aspect ratio enforcement, rule-of-thirds overlay, and offscreen canvas export. Drop in one component.",
+    url: "https://bevelui.com/docs/cropper",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Image Cropper — Bevel UI",
+    description:
+      "Dual coordinate spaces, eight-handle drag with aspect ratio enforcement, rule-of-thirds overlay, and offscreen canvas export. Drop in one component.",
   },
 };
 

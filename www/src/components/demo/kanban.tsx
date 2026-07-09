@@ -8,6 +8,7 @@ import {
   type KanbanColumnBase,
   type CardRenderMeta,
   type ColumnRenderMeta,
+  KanbanDragOverlay,
   KanbanProvider,
 } from "@/components/bevelui/kanban";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ import {
   IconCircleDot,
   IconCircle,
 } from "@tabler/icons-react";
+import {Button} from "@/components/ui/button"
 
 // ─── Extended types ────────────────────────────────────────────────────────────
 
@@ -198,10 +200,10 @@ const PRIORITY: Record<
   Priority,
   { label: string; color: string; dot: string }
 > = {
-  low: { label: "Low", color: "text-slate-400", dot: "bg-slate-400" },
-  medium: { label: "Med", color: "text-blue-400", dot: "bg-blue-400" },
-  high: { label: "High", color: "text-orange-400", dot: "bg-orange-400" },
-  urgent: { label: "Urgent", color: "text-red-400", dot: "bg-red-400" },
+  low: { label: "Low", color: "text-slate-400", dot: "bg-slate-400/20" },
+  medium: { label: "Med", color: "text-blue-400", dot: "bg-blue-400/20" },
+  high: { label: "High", color: "text-orange-400", dot: "bg-orange-400/20" },
+  urgent: { label: "Urgent", color: "text-red-400", dot: "bg-red-400/20" },
 };
 
 // ─── Card component ────────────────────────────────────────────────────────────
@@ -212,9 +214,9 @@ function TaskCard({ task, meta }: { task: Task; meta: CardRenderMeta }) {
   return (
     <div
       className={cn(
-        "group rounded-xl border border-border bg-card p-3 flex flex-col gap-2.5",
-        "hover:border-border/80 hover:shadow-sm transition-all",
-        meta.isOverlay && "shadow-2xl border-primary/30",
+        "group rounded-lg  bg-card p-3 flex flex-col gap-2.5",
+        "hover:border-border/80 hover:shadow-sm transition-all easing-[cubic-bezier(0.18, 0.67, 0.6, 1.22)]",
+        meta.isOverlay && "shadow-2xl border-primary/30 rotate-4",
       )}
     >
       {/* Tags */}
@@ -232,7 +234,7 @@ function TaskCard({ task, meta }: { task: Task; meta: CardRenderMeta }) {
       )}
 
       {/* Title */}
-      <p className="text-[12px] font-medium text-foreground leading-snug">
+      <p className={cn("text-[12px] font-medium text-foreground leading-snug")}>
         {task.title}
       </p>
 
@@ -245,14 +247,17 @@ function TaskCard({ task, meta }: { task: Task; meta: CardRenderMeta }) {
 
       {/* Meta row */}
       <div className="flex items-center justify-between gap-2 pt-0.5">
-        <div className="flex items-center gap-2">
+        <div className='flex items-center gap-0.5' >
+
           {/* Priority dot */}
           <div
-            className={cn("w-1.5 h-1.5 rounded-full flex-shrink-0", p.dot)}
+            className={cn("w-2 h-5 rounded-sm flex-shrink-0 animate-pulse", p.dot)}
           />
+        <div className={cn("flex items-center gap-1 px-2 py-0.5",p.dot," rounded")}>
           <span className={cn("text-[10px] font-medium", p.color)}>
             {p.label}
           </span>
+        </div>
         </div>
 
         <div className="flex items-center gap-2 text-muted-foreground/40">
@@ -263,8 +268,8 @@ function TaskCard({ task, meta }: { task: Task; meta: CardRenderMeta }) {
             </div>
           )}
           {task.assignee && (
-            <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
-              <span className="text-[8px] font-bold text-primary">
+            <div className="w-6 h-6 rounded-full bg-background flex items-center justify-center">
+              <span className=" text-xs text-muted-foreground">
                 {task.assignee[0]}
               </span>
             </div>
@@ -288,8 +293,8 @@ function ColumnHeader({
   return (
     <div className="flex items-center justify-between px-3 py-3">
       <div className="flex items-center gap-2">
-        <Icon size={13} strokeWidth={2} style={{ color: column.color }} />
-        <span className="text-[12px] font-semibold text-foreground">
+        <Icon size={16} strokeWidth={2} style={{ color: column.color }} />
+        <span className=" font-semibold text-foreground">
           {column.title}
         </span>
         <span
@@ -299,13 +304,14 @@ function ColumnHeader({
           {meta.cardCount}
         </span>
       </div>
-      <button
+      <Button
         type="button"
-        className="p-1 rounded-md text-muted-foreground/30 hover:text-muted-foreground hover:bg-muted/60 transition-colors"
+        variant="secondary"
+        size={'icon'}
         onClick={(e) => e.stopPropagation()}
       >
-        <IconDots size={13} strokeWidth={2} />
-      </button>
+        <IconDots  />
+      </Button>
     </div>
   );
 }
@@ -331,7 +337,7 @@ export function KanbanDemo() {
   const [columns, setColumns] = React.useState<TaskColumn[]>(INITIAL_COLUMNS);
 
   return (
-    <div className="w-full max-w-4xl rounded-xl border border-border bg-[#0c0c0c] p-4">
+    <div className="w-full max-w-4xl  p-4">
       {/* Board header */}
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -371,6 +377,7 @@ export function KanbanDemo() {
         renderColumnFooter={(column) => <ColumnFooter column={column} />}
       >
         <KanbanBoard />
+        <KanbanDragOverlay/>
       </KanbanProvider>
     </div>
   );
