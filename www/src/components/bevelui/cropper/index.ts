@@ -8,5 +8,5 @@ export type {
   AspectRatioPreset,
   OutputFormat,
   CropperConfig,
-  CropperRootProps,
+  // CropperRootProps,
 } from "./types";
