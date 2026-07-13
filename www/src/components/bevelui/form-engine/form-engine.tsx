@@ -10,7 +10,7 @@ import {
   FormEngineStepMetaProps,
 } from "./form-engine-step-meta";
 import { FormEngineStepCanvas } from "./form-engine-step-canvas";
-import type { FormEngineProps } from "./form-engine-types";
+import type { FormEngineProps } from "./types";
 import {
   FormEngineNavigation,
   FormEngineNavigationProps,

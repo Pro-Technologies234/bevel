@@ -10,6 +10,15 @@
       "Animated progress ring",
       "Optional steps + skip"
     ],
+    "keywords": [
+      "onboarding",
+      "checklist",
+      "step dependencies",
+      "progress",
+      "widget",
+      "localStorage",
+      "floating"
+    ],
     "slug": "checklist",
     "prev": { "label": "Spotlight", "href": "/docs/components/spotlight" },
     "next": { "label": "Kanban", "href": "/docs/components/kanban" }

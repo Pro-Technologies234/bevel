@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "spotlight",
   "title": "Spotlight Search",
-  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "Async content search with category tabs, debounced API calls, AbortController cancellation, recent search history, and skeleton loading. Distinct from Command Palette.",
   "dependencies": [
     "motion"
@@ -59,7 +59,7 @@
     },
     {
       "path": "src/components/bevelui/spotlight/index.ts",
-      "content": "export { SpotlightRoot }       from \"./spotlight-root\";\r\nexport { SpotlightModal }      from \"./spotlight-modal\";\r\nexport { SpotlightResultItem } from \"./spotlight-result-item\";\r\nexport { useSpotlight }        from \"./spotlight-context\";\r\nexport type { SpotlightResult, SpotlightCategory, SpotlightConfig } from \"./types\";",
+      "content": "export { SpotlightRoot } from \"./spotlight-root\";\r\nexport { SpotlightModal } from \"./spotlight-modal\";\r\nexport { SpotlightResultItem } from \"./spotlight-result-item\";\r\nexport { SpotlightProvider, useSpotlight } from \"./spotlight-context\";\r\nexport type {\r\n  SpotlightResult,\r\n  SpotlightCategory,\r\n  SpotlightConfig,\r\n} from \"./types\";\r\n",
       "type": "registry:lib",
       "target": "src/components/bevelui/spotlight/index.ts"
     }

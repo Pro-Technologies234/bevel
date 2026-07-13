@@ -1,4 +1,4 @@
-import type { TreeNode } from "./tree-types";
+import type { TreeNode } from "./types";
 
 /** Returns all node ids in the tree */
 export function getAllIds(nodes: TreeNode[]): string[] {

@@ -10,6 +10,17 @@
       "Library-agnostic",
       "Composable layout"
     ],
+    "keywords": [
+      "form",
+      "multi-step",
+      "wizard",
+      "validation",
+      "zod",
+      "react-hook-form",
+      "plugins",
+      "conditional fields",
+      "headless"
+    ],
     "slug": "form-engine",
     "prev": { "label": "File Upload", "href": "/docs/components/file-upload" },
     "next": { "label": "Sortable", "href": "/docs/components/sortable" }
@@ -52,45 +63,65 @@
               "isOpen": true,
               "children": [
                 {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "All type definitions"
+                },
+                {
                   "name": "form-engine.tsx",
                   "type": "file",
-                  "comment": "config-driven entry point"
+                  "comment": "Batteries-included entry point"
                 },
                 {
                   "name": "form-engine-root.tsx",
                   "type": "file",
-                  "comment": "headless context + flow"
+                  "comment": "Headless context provider"
                 },
                 {
-                  "name": "form-engine-step.tsx",
+                  "name": "form-engine-context.tsx",
                   "type": "file",
-                  "comment": "renders active step"
+                  "comment": "Context + useFormEngineContext"
                 },
                 {
-                  "name": "form-engine-canvas.tsx",
+                  "name": "form-engine-hook.tsx",
                   "type": "file",
-                  "comment": "renders step content in headless mode"
-                },
-                {
-                  "name": "form-engine-meta.tsx",
-                  "type": "file",
-                  "comment": "renders step title and description"
+                  "comment": "Core state logic (useFormEngineState)"
                 },
                 {
                   "name": "form-engine-field.tsx",
                   "type": "file",
-                  "comment": "all field variants",
+                  "comment": "Field renderer + useFormEngineField",
                   "highlight": true
+                },
+                {
+                  "name": "form-engine-step.tsx",
+                  "type": "file",
+                  "comment": "Renders active step (headless mode)"
+                },
+                {
+                  "name": "form-engine-step-canvas.tsx",
+                  "type": "file",
+                  "comment": "Renders fields for config-driven steps"
+                },
+                {
+                  "name": "form-engine-step-meta.tsx",
+                  "type": "file",
+                  "comment": "Step title & description"
                 },
                 {
                   "name": "form-engine-progress.tsx",
                   "type": "file",
-                  "comment": "step indicator dots"
+                  "comment": "Progress indicators (dots, segments, etc.)"
                 },
                 {
-                  "name": "form-engine-plugins.tsx",
+                  "name": "form-engine-navigation.tsx",
                   "type": "file",
-                  "comment": "zod, analytics, server validation",
+                  "comment": "Back/Next buttons"
+                },
+                {
+                  "name": "form-engine-plugin.ts",
+                  "type": "file",
+                  "comment": "Factory plugins (Zod, logs, analytics, server)",
                   "highlight": true
                 },
                 { "name": "index.ts", "type": "file" }
@@ -117,7 +148,7 @@
         {
           "type": "demo",
           "component": "FormEngineDemo",
-          "code": "import {\r\n  FormEngine,\r\n  createZodPlugin,\r\n  createLogPlugin,\r\n  type FormEnginePlugin,\r\n  FormEngineConfig,\r\n} from \"@/components/bevelui/form-engine\";\r\nimport { IconDiscountCheck } from \"@tabler/icons-react\";\r\nimport { useState } from \"react\";\r\nimport z from \"zod\";\r\nimport { Button } from \"@/components/ui/button\";\r\nimport { CardSelect } from \"@/components/bevelui/controls/card-select\";\r\nimport { ChipSelect } from \"@/components/bevelui/controls/chip-select\";\r\n\r\nconst config: FormEngineConfig = {\r\n  mode: \"multi-step\",\r\n  validation: \"per-step\",\r\n  steps: [\r\n    {\r\n      id: \"account\",\r\n      title: \"Create your account\",\r\n      description: \"Your login credentials.\",\r\n      fields: [\r\n        {\r\n          key: \"name\",\r\n          variant: \"text\",\r\n          label: \"Full name\",\r\n          placeholder: \"Alex Johnson\",\r\n          required: true,\r\n        },\r\n        {\r\n          key: \"email\",\r\n          variant: \"email\",\r\n          label: \"Email address\",\r\n          placeholder: \"alex@acme.com\",\r\n          required: true,\r\n        },\r\n        {\r\n          key: \"password\",\r\n          variant: \"password\",\r\n          label: \"Password\",\r\n          placeholder: \"8+ characters\",\r\n          required: true,\r\n        },\r\n      ],\r\n    },\r\n    {\r\n      id: \"workspace\",\r\n      title: \"Set up your workspace\",\r\n      description: \"Where your team will work.\",\r\n      fields: [\r\n        {\r\n          key: \"workspace\",\r\n          variant: \"text\",\r\n          label: \"Workspace name\",\r\n          placeholder: \"Acme Inc.\",\r\n          required: true,\r\n        },\r\n        {\r\n          key: \"plan\",\r\n          variant: \"custom\",\r\n          label: \"Choose a plan\",\r\n          required: true,\r\n          render: ({ value, onChange, disabled }) => (\r\n            <CardSelect\r\n              className=\"border\"\r\n              onChange={onChange}\r\n              data-selected={value === \"pro\"}\r\n              data-disabled={disabled}\r\n              columns={2}\r\n              layout=\"grid\"\r\n              options={[\r\n                { value: \"free\", label: \"Free\", description: \"$0/mo\" },\r\n                {\r\n                  value: \"pro\",\r\n                  label: \"Pro\",\r\n                  description: \"$12/mo\",\r\n                  badge: \"Popular\",\r\n                },\r\n                {\r\n                  value: \"enterprise\",\r\n                  label: \"Enterprise\",\r\n                  description: \"Custom\",\r\n                },\r\n              ]}\r\n            />\r\n          ),\r\n        },\r\n        {\r\n          key: \"role\",\r\n          variant: \"custom\",\r\n          label: \"Your role\",\r\n          render: ({ value, onChange, disabled }) => (\r\n            <ChipSelect\r\n              defaultValue={value as string}\r\n              options={[\r\n                { value: \"engineering\", label: \"Engineering\" },\r\n                { value: \"design\", label: \"Design\" },\r\n                { value: \"product\", label: \"Product\" },\r\n                { value: \"marketing\", label: \"Marketing\" },\r\n                { value: \"other\", label: \"Other\" },\r\n              ]}\r\n            />\r\n          ),\r\n        },\r\n      ],\r\n    },\r\n    {\r\n      id: \"billing\",\r\n      title: \"Add billing details\",\r\n      description: \"Optional — you can do this later from settings.\",\r\n      fields: [\r\n        {\r\n          key: \"cardName\",\r\n          variant: \"text\",\r\n          label: \"Name on card\",\r\n          placeholder: \"Alex Johnson\",\r\n        },\r\n        {\r\n          key: \"cardNumber\",\r\n          variant: \"text\",\r\n          label: \"Card number\",\r\n          placeholder: \"1234 5678 9012 3456\",\r\n        },\r\n      ],\r\n    },\r\n  ],\r\n};\r\n\r\nconst stepSchemas = {\r\n  0: z.object({\r\n    name: z.string().min(2, \"Name must be at least 2 characters\"),\r\n    email: z.string().email(\"Enter a valid email address\"),\r\n    password: z.string().min(8, \"Password must be at least 8 characters\"),\r\n  }),\r\n  1: z.object({\r\n    workspace: z.string().min(2, \"Workspace name is required\"),\r\n    plan: z.enum([\"free\", \"pro\", \"enterprise\"], {\r\n      error: \"Please select a plan\",\r\n    }),\r\n  }),\r\n};\r\n\r\nexport function FormEngineDemo() {\r\n  const [submitted, setSubmitted] = useState(false);\r\n\r\n  const plugins: FormEnginePlugin[] = [\r\n    createZodPlugin(stepSchemas),\r\n    createLogPlugin(\"[demo]\"),\r\n  ];\r\n\r\n  if (submitted) {\r\n    return (\r\n      <div className=\"flex flex-col items-center gap-4 py-12 text-center\">\r\n        <div className=\"animate-bounce p-2 rounded-full bg-primary/10 flex items-center justify-center\">\r\n          <IconDiscountCheck size={54} className=\"text-primary \" />\r\n        </div>\r\n        <div className=\"flex flex-col gap-1\">\r\n          <span className=\"text-xl font-semibold\">Account created!</span>\r\n          <span className=\"text-sm text-muted-foreground\">\r\n            This is what your onSubmit receives.\r\n          </span>\r\n        </div>\r\n        <Button onClick={() => setSubmitted(false)}>Reset demo</Button>\r\n      </div>\r\n    );\r\n  }\r\n\r\n  return (\r\n    <div className=\"w-full max-w-sm mx-auto\">\r\n      <FormEngine\r\n        onSubmit={async (values: unknown) => {\r\n          await new Promise((r) => setTimeout(r, 1200));\r\n          console.log(\"Form submitted:\", values);\r\n          setSubmitted(true);\r\n        }}\r\n        config={config}\r\n        plugins={plugins}\r\n        stepMetaProps={{\r\n          className: \" text-center\",\r\n        }}\r\n        navigationProps={{\r\n          layout: \"split\",\r\n        }}\r\n      />\r\n    </div>\r\n  );\r\n}\r\n",
+          "code": "import {\n  FormEngine,\n  createZodPlugin,\n  createLogPlugin,\n  type FormEnginePlugin,\n  FormEngineConfig,\n} from \"@/components/bevelui/form-engine\";\nimport { IconDiscountCheck } from \"@tabler/icons-react\";\nimport { useState } from \"react\";\nimport z from \"zod\";\nimport { Button } from \"@/components/ui/button\";\nimport { CardSelect } from \"@/components/bevelui/controls/card-select\";\nimport { ChipSelect } from \"@/components/bevelui/controls/chip-select\";\n\nconst config: FormEngineConfig = {\n  mode: \"multi-step\",\n  validation: \"per-step\",\n  steps: [\n    {\n      id: \"account\",\n      title: \"Create your account\",\n      description: \"Your login credentials.\",\n      fields: [\n        {\n          key: \"name\",\n          variant: \"text\",\n          label: \"Full name\",\n          placeholder: \"Alex Johnson\",\n          required: true,\n        },\n        {\n          key: \"email\",\n          variant: \"email\",\n          label: \"Email address\",\n          placeholder: \"alex@acme.com\",\n          required: true,\n        },\n        {\n          key: \"password\",\n          variant: \"password\",\n          label: \"Password\",\n          placeholder: \"8+ characters\",\n          required: true,\n        },\n      ],\n    },\n    {\n      id: \"workspace\",\n      title: \"Set up your workspace\",\n      description: \"Where your team will work.\",\n      fields: [\n        {\n          key: \"workspace\",\n          variant: \"text\",\n          label: \"Workspace name\",\n          placeholder: \"Acme Inc.\",\n          required: true,\n        },\n        {\n          key: \"plan\",\n          variant: \"custom\",\n          label: \"Choose a plan\",\n          required: true,\n          render: ({ value, onChange, disabled }) => (\n            <CardSelect\n              className=\"border\"\n              onChange={onChange}\n              data-selected={value === \"pro\"}\n              data-disabled={disabled}\n              columns={2}\n              layout=\"grid\"\n              options={[\n                { value: \"free\", label: \"Free\", description: \"$0/mo\" },\n                {\n                  value: \"pro\",\n                  label: \"Pro\",\n                  description: \"$12/mo\",\n                  badge: \"Popular\",\n                },\n                {\n                  value: \"enterprise\",\n                  label: \"Enterprise\",\n                  description: \"Custom\",\n                },\n              ]}\n            />\n          ),\n        },\n        {\n          key: \"role\",\n          variant: \"custom\",\n          label: \"Your role\",\n          render: ({ value, onChange, disabled }) => (\n            <ChipSelect\n              defaultValue={value as string}\n              options={[\n                { value: \"engineering\", label: \"Engineering\" },\n                { value: \"design\", label: \"Design\" },\n                { value: \"product\", label: \"Product\" },\n                { value: \"marketing\", label: \"Marketing\" },\n                { value: \"other\", label: \"Other\" },\n              ]}\n            />\n          ),\n        },\n      ],\n    },\n    {\n      id: \"billing\",\n      title: \"Add billing details\",\n      description: \"Optional — you can do this later from settings.\",\n      fields: [\n        {\n          key: \"cardName\",\n          variant: \"text\",\n          label: \"Name on card\",\n          placeholder: \"Alex Johnson\",\n        },\n        {\n          key: \"cardNumber\",\n          variant: \"text\",\n          label: \"Card number\",\n          placeholder: \"1234 5678 9012 3456\",\n        },\n      ],\n    },\n  ],\n};\n\nconst stepSchemas = {\n  0: z.object({\n    name: z.string().min(2, \"Name must be at least 2 characters\"),\n    email: z.string().email(\"Enter a valid email address\"),\n    password: z.string().min(8, \"Password must be at least 8 characters\"),\n  }),\n  1: z.object({\n    workspace: z.string().min(2, \"Workspace name is required\"),\n    plan: z.enum([\"free\", \"pro\", \"enterprise\"], {\n      error: \"Please select a plan\",\n    }),\n  }),\n};\n\nexport function FormEngineDemo() {\n  const [submitted, setSubmitted] = useState(false);\n\n  const plugins: FormEnginePlugin[] = [\n    createZodPlugin(stepSchemas),\n    createLogPlugin(\"[demo]\"),\n  ];\n\n  if (submitted) {\n    return (\n      <div className=\"flex flex-col items-center gap-4 py-12 text-center\">\n        <div className=\"animate-bounce p-2 rounded-full bg-primary/10 flex items-center justify-center\">\n          <IconDiscountCheck size={54} className=\"text-primary\" />\n        </div>\n        <div className=\"flex flex-col gap-1\">\n          <span className=\"text-xl font-semibold\">Account created!</span>\n          <span className=\"text-sm text-muted-foreground\">\n            This is what your onSubmit receives.\n          </span>\n        </div>\n        <Button onClick={() => setSubmitted(false)}>Reset demo</Button>\n      </div>\n    );\n  }\n\n  return (\n    <div className=\"w-full max-w-sm mx-auto\">\n      <FormEngine\n        onSubmit={async (values: unknown) => {\n          await new Promise((r) => setTimeout(r, 1200));\n          console.log(\"Form submitted:\", values);\n          setSubmitted(true);\n        }}\n        config={config}\n        plugins={plugins}\n        stepMetaProps={{\n          className: \"text-center\",\n        }}\n        navigationProps={{\n          layout: \"split\",\n        }}\n      />\n    </div>\n  );\n}\n",
           "label": "Interactive demo"
         }
       ]
@@ -175,7 +206,7 @@
           "type": "code",
           "language": "tsx",
           "filename": "app/onboarding/page.tsx",
-          "code": "import { FormEngine, type FormEngineConfig } from \"@/components/bevelui/form-engine\";\n\nconst config: FormEngineConfig = {\n  mode: \"multi-step\",\n  validation: \"per-step\",\n  steps: [\n    {\n      id: \"account\",\n      title: \"Create your account\",\n      description: \"Your login details.\",\n      fields: [\n        { key: \"name\", variant: \"text\", label: \"Full name\", required: true },\n        { key: \"email\", variant: \"email\", label: \"Email\", required: true },\n        { key: \"password\", variant: \"password\", label: \"Password\", required: true },\n      ],\n    },\n    {\n      id: \"plan\",\n      title: \"Choose a plan\",\n      fields: [\n        {\n          key: \"plan\",\n          variant: \"card-select\",\n          label: \"Plan\",\n          required: true,\n          props: {\n            options: [\n              { value: \"free\", label: \"Free\", description: \"$0/mo\" },\n              { value: \"pro\", label: \"Pro\", description: \"$12/mo\" },\n            ],\n          },\n        },\n      ],\n    },\n  ],\n};\n\nexport default function OnboardingPage() {\n  return (\n    <FormEngine\n      config={config}\n      onSubmit={async (values) => createAccount(values)}\n    />\n  );\n}"
+          "code": "import { FormEngine, type FormEngineConfig } from \"@/components/bevelui/form-engine\";\n\nconst config: FormEngineConfig = {\n  mode: \"multi-step\",\n  validation: \"per-step\",\n  steps: [\n    {\n      id: \"account\",\n      title: \"Create your account\",\n      description: \"Your login details.\",\n      fields: [\n        { key: \"name\", variant: \"text\", label: \"Full name\", required: true },\n        { key: \"email\", variant: \"email\", label: \"Email\", required: true },\n        { key: \"password\", variant: \"password\", label: \"Password\", required: true },\n      ],\n    },\n    {\n      id: \"plan\",\n      title: \"Choose a plan\",\n      fields: [\n        {\n          key: \"plan\",\n          variant: \"custom\",\n          label: \"Plan\",\n          required: true,\n          render: ({ value, onChange }) => (\n            <CardSelect\n              options={[\n                { value: \"free\", label: \"Free\" },\n                { value: \"pro\", label: \"Pro\" },\n              ]}\n              value={value as string}\n              onChange={onChange}\n            />\n          ),\n        },\n      ],\n    },\n  ],\n};\n\nexport default function OnboardingPage() {\n  return (\n    <FormEngine\n      config={config}\n      onSubmit={async (values) => createAccount(values)}\n    />\n  );\n}"
         }
       ]
     },
@@ -405,14 +436,14 @@
             },
             {
               "prop": "variant",
-              "type": "\"text\" | \"email\" | \"password\" | \"number\" | \"tel\" | \"custom\"",
+              "type": "\"text\" | \"email\" | \"password\" | \"number\" | \"tel\" | \"textarea\" | \"custom\"",
               "required": true,
-              "description": "Which control to render. Use custom to inject any component."
+              "description": "Which control to render. Use 'custom' to inject any component."
             },
             {
               "prop": "render",
               "type": "(props: FieldRenderProps) => ReactNode",
-              "description": "Required when variant is custom. Receives value, onChange, onBlur, error, and disabled."
+              "description": "Required when variant is 'custom'. Receives value, onChange, onBlur, error, and disabled."
             },
             {
               "prop": "label",
@@ -427,7 +458,7 @@
             {
               "prop": "required",
               "type": "boolean | string",
-              "description": "Marks field as required. true uses a default message. A string sets a custom validation message."
+              "description": "Marks field as required. 'true' uses a default message. A string sets a custom validation message."
             },
             {
               "prop": "rules",
@@ -447,7 +478,7 @@
             {
               "prop": "props",
               "type": "object",
-              "description": "Variant-specific props passed to the underlying control."
+              "description": "Variant-specific props passed to the underlying control. For text-based variants, accepts icon and other attributes."
             }
           ]
         }

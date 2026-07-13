@@ -15,8 +15,8 @@
       "docs": "Import from @/components/bevelui/tour. Wrap your app with TourRoot, attach TourAnchor to any element, and use TourTrigger to start the tour.",
       "files": [
         {
-          "path": "src/components/bevelui/tour/tour-types.ts",
-          "target": "src/components/bevelui/tour/tour-types.ts",
+          "path": "src/components/bevelui/tour/types.ts",
+          "target": "src/components/bevelui/tour/types.ts",
           "type": "registry:lib"
         },
         {
@@ -68,8 +68,8 @@
       "docs": "Import from @/components/bevelui/command-palette. Use CommandPaletteRoot as the provider, CommandPaletteTrigger to open it, and pass your sections as structured data.",
       "files": [
         {
-          "path": "src/components/bevelui/command-palette/command-palette-types.ts",
-          "target": "src/components/bevelui/command-palette/command-palette-types.ts",
+          "path": "src/components/bevelui/command-palette/types.ts",
+          "target": "src/components/bevelui/command-palette/types.ts",
           "type": "registry:lib"
         },
         {
@@ -142,8 +142,8 @@
       "docs": "Import from @/components/bevelui/file-upload. Use FileUploadRoot as the provider and supply your own onUpload function. Supports S3, Cloudinary, or any custom endpoint.",
       "files": [
         {
-          "path": "src/components/bevelui/file-upload/file-upload-types.ts",
-          "target": "src/components/bevelui/file-upload/file-upload-types.ts",
+          "path": "src/components/bevelui/file-upload/types.ts",
+          "target": "src/components/bevelui/file-upload/types.ts",
           "type": "registry:lib"
         },
         {
@@ -182,22 +182,32 @@
       "name": "form-engine",
       "type": "registry:block",
       "title": "Form Engine",
-      "description": "A fully-engineered config-driven form system supporting single-step and multi-step flows. Features a six-hook plugin system, react-hook-form + zod integration, composable API, RTL support, and a zero-config shortcut component.",
-      "author": "Bevel UI <hello@bevelui.vercel.app>",
-      "categories": ["systems", "forms"],
-      "dependencies": ["react-hook-form", "zod", "motion"],
-      "registryDependencies": ["button", "input-group", "label", "field"],
-      "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for the zero-config shortcut or compose manually with FormEngineRoot, FormEngineProgress, FormEngineStepMeta, FormEngineStepCanvas, and FormEngineNavigation.",
+      "description": "A step orchestration engine for multi-step and single-step forms. Owns the flow — you own the fields. Bring any validation library via plugins, or wire in your own form state with FormEngineStep.",
+      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "categories": ["systems"],
+      "dependencies": [
+        "react-hook-form",
+        "@hookform/resolvers",
+        "zod",
+        "motion"
+      ],
+      "registryDependencies": ["button", "input-group", "field"],
+      "docs": "Import from @/components/bevelui/form-engine. Use FormEngine for a batteries-included experience with config-driven fields, or FormEngineRoot for headless mode. The engine manages step flow, validation gates, and submission — you bring the fields and state. Plugins extend lifecycle hooks for validation, analytics, and more.",
       "files": [
         {
-          "path": "src/components/bevelui/form-engine/form-engine-types.ts",
-          "target": "src/components/bevelui/form-engine/form-engine-types.ts",
+          "path": "src/components/bevelui/form-engine/types.ts",
+          "target": "src/components/bevelui/form-engine/types.ts",
           "type": "registry:lib"
         },
         {
-          "path": "src/components/bevelui/form-engine/form-engine-plugin.ts",
-          "target": "src/components/bevelui/form-engine/form-engine-plugin.ts",
-          "type": "registry:lib"
+          "path": "src/components/bevelui/form-engine/form-engine.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-root.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-root.tsx",
+          "type": "registry:component"
         },
         {
           "path": "src/components/bevelui/form-engine/form-engine-context.tsx",
@@ -205,23 +215,28 @@
           "type": "registry:component"
         },
         {
-          "path": "src/components/bevelui/form-engine/form-engine-hook.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine-hook.tsx",
-          "type": "registry:hook"
-        },
-        {
           "path": "src/components/bevelui/form-engine/form-engine-field.tsx",
           "target": "src/components/bevelui/form-engine/form-engine-field.tsx",
           "type": "registry:component"
         },
         {
-          "path": "src/components/bevelui/form-engine/form-engine-progress.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine-progress.tsx",
+          "path": "src/components/bevelui/form-engine/form-engine-hook.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-hook.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-navigation.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-navigation.tsx",
           "type": "registry:component"
         },
         {
-          "path": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
+          "path": "src/components/bevelui/form-engine/form-engine-plugin.ts",
+          "target": "src/components/bevelui/form-engine/form-engine-plugin.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/form-engine/form-engine-progress.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-progress.tsx",
           "type": "registry:component"
         },
         {
@@ -235,18 +250,8 @@
           "type": "registry:component"
         },
         {
-          "path": "src/components/bevelui/form-engine/form-engine-navigation.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine-navigation.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "src/components/bevelui/form-engine/form-engine-root.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine-root.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "src/components/bevelui/form-engine/form-engine.tsx",
-          "target": "src/components/bevelui/form-engine/form-engine.tsx",
+          "path": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-step-meta.tsx",
           "type": "registry:component"
         },
         {
@@ -273,8 +278,8 @@
       "docs": "Import from @/components/bevelui/sortable. Wrap your list with SortableRoot, mark each row with SortableItem, and optionally add SortableHandle for grip-only drag. Pass config={{ layout: 'grid' }} for grid layouts. Use useSortableList for typed list state.",
       "files": [
         {
-          "path": "src/components/bevelui/sortable/sortable-types.ts",
-          "target": "src/components/bevelui/sortable/sortable-types.ts",
+          "path": "src/components/bevelui/sortable/types.ts",
+          "target": "src/components/bevelui/sortable/types.ts",
           "type": "registry:lib"
         },
         {
@@ -321,8 +326,8 @@
       "docs": "Import from @/components/bevelui/palette. Drop PaletteRoot anywhere for the full editor, or compose with PaletteGrid, PaletteToolbar, and PaletteColorEditor manually. Use usePalette for programmatic control inside any child component.",
       "files": [
         {
-          "path": "src/components/bevelui/palette/palette-types.ts",
-          "target": "src/components/bevelui/palette/palette-types.ts",
+          "path": "src/components/bevelui/palette/types.ts",
+          "target": "src/components/bevelui/palette/types.ts",
           "type": "registry:lib"
         },
         {
@@ -384,8 +389,8 @@
       "docs": "Import from @/components/bevelui/properties-panel. Pass a sections array to PropertiesPanel for config-driven rendering, or compose PropertiesSection and PropertiesRow directly for headless control. Both modes work simultaneously.",
       "files": [
         {
-          "path": "src/components/bevelui/properties-panel/properties-panel-types.ts",
-          "target": "src/components/bevelui/properties-panel/properties-panel-types.ts",
+          "path": "src/components/bevelui/properties-panel/types.ts",
+          "target": "src/components/bevelui/properties-panel/types.ts",
           "type": "registry:lib"
         },
         {
@@ -420,15 +425,15 @@
       "type": "registry:block",
       "title": "Tree View",
       "description": "Recursive hierarchical data display with full keyboard navigation (arrow keys, Home/End), animated expand/collapse, multi-select, and optional connecting lines.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems"],
       "dependencies": ["motion"],
       "registryDependencies": [],
       "docs": "Import from @/components/bevelui/tree. Pass nodes to TreeRoot. Keyboard navigation works automatically when the tree container is focused. Use config.multiSelect for multi-select and config.showLines for connecting lines.",
       "files": [
         {
-          "path": "src/components/bevelui/tree/tree-types.ts",
-          "target": "src/components/bevelui/tree/tree-types.ts",
+          "path": "src/components/bevelui/tree/types.ts",
+          "target": "src/components/bevelui/tree/types.ts",
           "type": "registry:lib"
         },
         {
@@ -519,7 +524,7 @@
       "type": "registry:block",
       "title": "Spotlight Search",
       "description": "Async content search with category tabs, debounced API calls, AbortController cancellation, recent search history, and skeleton loading. Distinct from Command Palette.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems"],
       "dependencies": ["motion"],
       "registryDependencies": [],
@@ -577,7 +582,7 @@
       "type": "registry:block",
       "title": "Onboarding Checklist",
       "description": "A floating onboarding checklist with step dependencies, localStorage persistence, animated progress ring, and inline or floating widget modes.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems"],
       "dependencies": ["motion"],
       "registryDependencies": ["button"],
@@ -625,15 +630,15 @@
       "type": "registry:block",
       "title": "Kanban Board",
       "description": "A draggable kanban board with columns and cards, supporting drag-and-drop functionality and real-time updates.",
-      "author": "Bevel UI <hello@bevelui.pxxl.click>",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
       "categories": ["systems"],
       "dependencies": ["motion"],
       "registryDependencies": ["button"],
       "docs": "Import from @/components/bevelui/kanban. Wrap your app with KanbanRoot and pass columns and tasks. The board renders automatically. Use position: 'inline' and children to compose your own layout.",
       "files": [
         {
-          "path": "src/components/bevelui/kanban/kanban-types.ts",
-          "target": "src/components/bevelui/kanban/kanban-types.ts",
+          "path": "src/components/bevelui/kanban/types.ts",
+          "target": "src/components/bevelui/kanban/types.ts",
           "type": "registry:lib"
         },
         {
@@ -668,6 +673,103 @@
         }
       ]
     },
+    {
+      "name": "cropper",
+      "type": "registry:block",
+      "title": "Image Cropper",
+      "description": "Dual coordinate spaces, eight-handle drag with aspect ratio enforcement, rule-of-thirds overlay, and offscreen canvas export at full image resolution.",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
+      "categories": ["systems"],
+      "dependencies": [],
+      "registryDependencies": ["button"],
+      "docs": "Import from @/components/bevelui/cropper. Wrap your app with CropperRoot and pass src and onCrop. The default layout renders a toolbar with aspect ratio presets, a canvas with the overlay, and a live preview panel. Pass children to compose your own layout using the same useCropper hook.",
+      "files": [
+        {
+          "path": "src/components/bevelui/cropper/types.ts",
+          "target": "src/components/bevelui/cropper/types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/cropper/crop-engine.ts",
+          "target": "src/components/bevelui/cropper/crop-engine.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/cropper/cropper-context.tsx",
+          "target": "src/components/bevelui/cropper/cropper-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cropper/cropper-root.tsx",
+          "target": "src/components/bevelui/cropper/cropper-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cropper/cropper-canvas.tsx",
+          "target": "src/components/bevelui/cropper/cropper-canvas.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cropper/cropper-toolbar.tsx",
+          "target": "src/components/bevelui/cropper/cropper-toolbar.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cropper/cropper-preview.tsx",
+          "target": "src/components/bevelui/cropper/cropper-preview.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cropper/index.ts",
+          "target": "src/components/bevelui/cropper/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "cursors",
+      "type": "registry:block",
+      "title": "Collaborative Cursors",
+      "description": "Real-time presence overlay with conflict-free position sync, idle detection, and a label overlap resolver that prevents names from stacking.",
+      "author": "Bevel UI <hello@bevelui.vercel.app>",
+      "categories": ["systems"],
+      "dependencies": [],
+      "registryDependencies": [],
+      "docs": "Import from @/components/bevelui/cursors. Wrap your shared surface with CursorsRoot and CursorCanvas. CursorsRoot holds state and exposes the imperative update API. CursorCanvas is the tracking surface — it measures mouse position, normalizes it, and calls onMove. Use the useCursors hook to wire your transport with updateCursor and removeCursor.",
+      "files": [
+        {
+          "path": "src/components/bevelui/cursors/types.ts",
+          "target": "src/components/bevelui/cursors/types.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/cursors/cursor-utils.ts",
+          "target": "src/components/bevelui/cursors/cursor-utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/components/bevelui/cursors/cursors-context.tsx",
+          "target": "src/components/bevelui/cursors/cursors-context.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cursors/cursors-root.tsx",
+          "target": "src/components/bevelui/cursors/cursors-root.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cursors/cursor-canvas.tsx",
+          "target": "src/components/bevelui/cursors/cursor-canvas.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "src/components/bevelui/cursors/index.ts",
+          "target": "src/components/bevelui/cursors/index.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+
     {
       "name": "card-select",
       "type": "registry:component",

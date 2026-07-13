@@ -48,7 +48,7 @@
     },
     {
       "path": "src/components/bevelui/gallery/index.ts",
-      "content": "export { GalleryRoot } from \"./gallery-root\";\r\nexport { GalleryGrid } from \"./gallery-grid\";\r\nexport { GalleryItemCard } from \"./gallery-item\";\r\nexport { GalleryLightbox } from \"./gallery-lightbox\";\r\nexport { GalleryToolbar } from \"./gallery-toolbar\";\r\nexport { useGallery } from \"./gallery-context\";\r\nexport type { GalleryItem, GalleryConfig, MediaType } from \"./types\";\r\n",
+      "content": "export { GalleryRoot } from \"./gallery-root\";\r\nexport { GalleryGrid } from \"./gallery-grid\";\r\nexport { GalleryItemCard } from \"./gallery-item\";\r\nexport { GalleryLightbox } from \"./gallery-lightbox\";\r\nexport { GalleryToolbar } from \"./gallery-toolbar\";\r\nexport { GalleryProvider, useGallery } from \"./gallery-context\";\r\nexport type { GalleryItem, GalleryConfig, MediaType } from \"./types\";\r\n",
       "type": "registry:lib",
       "target": "src/components/bevelui/gallery/index.ts"
     }

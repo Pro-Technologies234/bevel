@@ -10,6 +10,17 @@
       "Error + retry flow",
       "Grid and list views"
     ],
+    "keywords": [
+      "upload",
+      "drag and drop",
+      "dropzone",
+      "progress",
+      "cancel",
+      "retry",
+      "modal",
+      "grid view",
+      "list view"
+    ],
     "slug": "file-upload",
     "prev": {
       "label": "Command Palette",
@@ -51,7 +62,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "file-upload-types.tsx",
+                  "name": "types.ts",
                   "type": "file",
                   "comment": "FileUploadConfig + FileEntry"
                 },

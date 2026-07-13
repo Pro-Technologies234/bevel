@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "checklist",
   "title": "Onboarding Checklist",
-  "author": "Bevel UI <hello@bevelui.pxxl.click>",
+  "author": "Bevel UI <hello@bevelui.vercel.app>",
   "description": "A floating onboarding checklist with step dependencies, localStorage persistence, animated progress ring, and inline or floating widget modes.",
   "dependencies": [
     "motion"

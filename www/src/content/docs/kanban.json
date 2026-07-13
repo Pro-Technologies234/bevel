@@ -10,6 +10,17 @@
       "Column reorder via header drag",
       "Full render prop API"
     ],
+    "keywords": [
+      "kanban",
+      "board",
+      "drag drop",
+      "columns",
+      "cards",
+      "dnd-kit",
+      "virtual state",
+      "reorder",
+      "placeholders"
+    ],
     "slug": "kanban",
     "prev": {
       "label": "Onboarding Checklist",

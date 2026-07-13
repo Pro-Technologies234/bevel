@@ -10,6 +10,16 @@
       "Keyboard navigable",
       "Supports video, GIF, image"
     ],
+    "keywords": [
+      "tour",
+      "onboarding",
+      "guided tour",
+      "walkthrough",
+      "overlay",
+      "media",
+      "keyboard navigation",
+      "floating-ui"
+    ],
     "slug": "product-tour",
     "prev": { "label": "Quick start", "href": "/docs/quick-start" },
     "next": {
@@ -79,6 +89,7 @@
                   "comment": "programmatic control hook",
                   "highlight": true
                 },
+                { "name": "types.ts", "type": "file" },
                 { "name": "index.ts", "type": "file" }
               ]
             }

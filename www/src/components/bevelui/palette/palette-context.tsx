@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { PaletteContextValue } from "./palette-types";
+import type { PaletteContextValue } from "./types";
 
 export const PaletteCtx = React.createContext<PaletteContextValue | null>(null);
 

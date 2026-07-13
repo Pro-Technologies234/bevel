@@ -19,4 +19,4 @@ export type {
   CommandPaletteSourceTab,
   CommandPaletteFilterTab,
   CommandPaletteContextValue,
-} from "./command-palette-types";
+} from "./types";

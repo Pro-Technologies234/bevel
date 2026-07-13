@@ -11,7 +11,7 @@ import type {
   FileEntry,
   FileUploadConfig,
   FileUploadContextValue,
-} from "./file-upload-types";
+} from "./types";
 import { formatBytes, getFileExt } from "./file-upload-utils";
 import { FileRejection } from "react-dropzone";
 

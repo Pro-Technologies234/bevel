@@ -9,4 +9,4 @@ export type {
   TourMedia,
   TourSide,
   TourContextValue,
-} from "./tour-types";
+} from "./types";

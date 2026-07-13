@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "registry:build": "shadcn build",
+    "build-search": "bun run scripts/generate-search-data.ts",
+    "docs:search:build": "bun run build-search",
     "postinstall": "prisma generate",
     "prisma:setup": "bunx --bun prisma generate && bunx --bun prisma migrate deploy",
     "vercel-build": "bun run prisma:setup && bun run build"

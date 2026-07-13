@@ -10,6 +10,15 @@
       "Collapsible sections",
       "Custom control escape hatch"
     ],
+    "keywords": [
+      "properties",
+      "inspector",
+      "controls",
+      "figma-style",
+      "collapsible sections",
+      "headless",
+      "config-driven"
+    ],
     "slug": "properties-panel",
     "prev": {
       "label": "Palette Editor",
@@ -53,7 +62,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "properties-panel-types.ts",
+                  "name": "types.ts",
                   "type": "file",
                   "comment": "PropertyControl, PropertyRowDef, PropertySectionDef"
                 },

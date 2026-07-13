@@ -1,10 +1,7 @@
 import React from "react";
 import { CommandPaletteProvider } from "./command-palette-context";
 import { CommandPalette, type CommandPaletteProps } from "./command-palette";
-import type {
-  CommandPaletteItem,
-  CommandPaletteSection,
-} from "./command-palette-types";
+import type { CommandPaletteItem, CommandPaletteSection } from "./types";
 
 interface CommandPaletteRootProps extends Omit<
   CommandPaletteProps,

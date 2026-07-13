@@ -10,6 +10,17 @@
       "CSS vars + Tailwind output",
       "Controlled or uncontrolled"
     ],
+    "keywords": [
+      "palette",
+      "color",
+      "editor",
+      "HSV",
+      "swatch",
+      "export",
+      "tailwind",
+      "css-vars",
+      "sortable"
+    ],
     "slug": "palette",
     "prev": { "label": "Sortable", "href": "/docs/components/sortable" },
     "next": { "label": "Theming", "href": "/docs/theming" }
@@ -48,7 +59,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "palette-types.ts",
+                  "name": "types.ts",
                   "type": "file",
                   "comment": "PaletteColor, PaletteConfig"
                 },

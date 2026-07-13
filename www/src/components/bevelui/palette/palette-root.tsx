@@ -4,11 +4,7 @@ import { PaletteGrid } from "./palette-grid";
 import { PaletteToolbar } from "./palette-toolbar";
 import { PaletteColorEditor } from "./palette-color-editor";
 import { normalizeHex } from "./palette-utils";
-import type {
-  PaletteColor,
-  PaletteConfig,
-  PaletteContextValue,
-} from "./palette-types";
+import type { PaletteColor, PaletteConfig, PaletteContextValue } from "./types";
 import { cn } from "@/lib/utils";
 
 let _id = 0;

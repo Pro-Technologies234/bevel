@@ -2,7 +2,7 @@ import * as React from "react";
 import { IconChevronRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { PropertiesRow } from "./properties-panel-row";
-import type { PropertyRowDef } from "./properties-panel-types";
+import type { PropertyRowDef } from "./types";
 
 export interface PropertiesSectionProps {
   title: string;

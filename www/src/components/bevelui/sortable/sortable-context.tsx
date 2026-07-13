@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { SortableContextValue } from "./sortable-types";
+import type { SortableContextValue } from "./types";
 
 export const SortableCtx = React.createContext<SortableContextValue | null>(
   null,

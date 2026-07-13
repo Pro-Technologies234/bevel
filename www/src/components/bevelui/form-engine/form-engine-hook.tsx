@@ -13,7 +13,7 @@ import type {
   FormEnginePlugin,
   FormEngineRootProps,
   FormEngineValidateResult,
-} from "./form-engine-types";
+} from "./types";
 
 export interface UseFormEngineStateProps extends Pick<
   FormEngineRootProps,

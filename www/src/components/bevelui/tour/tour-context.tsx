@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import type { TourContextValue, TourStepDef } from "./tour-types";
+import type { TourContextValue, TourStepDef } from "./types";
 
 const TourContext = createContext<TourContextValue | undefined>(undefined);
 

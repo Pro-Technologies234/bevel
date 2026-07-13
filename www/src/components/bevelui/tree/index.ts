@@ -5,4 +5,4 @@ export type {
   TreeNode as TreeNodeType,
   TreeConfig,
   TreeContextValue,
-} from "./tree-types";
+} from "./types";

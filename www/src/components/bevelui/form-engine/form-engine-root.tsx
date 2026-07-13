@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { FormEngineContext } from "./form-engine-context";
 import { useFormEngineState } from "./form-engine-hook";
-import type { FormEngineRootProps } from "./form-engine-types";
+import type { FormEngineRootProps } from "./types";
 
 /**
  * FormEngineRoot — provides the engine context without rendering any UI.

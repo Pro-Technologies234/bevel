@@ -1,7 +1,7 @@
 import { KanbanProvider, KanbanProviderProps } from "./kanban-context";
 import { KanbanDragOverlay } from "./kanban-drag-overlay";
 
-import type { KanbanCardBase, KanbanColumnBase } from "./kanban-types";
+import type { KanbanCardBase, KanbanColumnBase } from "./types";
 import { cn } from "@/lib/utils";
 
 export interface KanbanRootProps extends KanbanProviderProps<

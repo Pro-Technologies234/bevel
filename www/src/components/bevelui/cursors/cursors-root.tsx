@@ -14,7 +14,7 @@ import type {
   LocalUser,
   NormalizedPosition,
   RemoteCursor,
-} from "./cursors-types";
+} from "./types";
 
 export interface CursorsRootProps {
   /** The local user's identity. */

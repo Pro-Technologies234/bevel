@@ -1,5 +1,5 @@
 import { arrayMove } from "@dnd-kit/sortable";
-import type { KanbanCardBase, KanbanColumnBase } from "./kanban-types";
+import type { KanbanCardBase, KanbanColumnBase } from "./types";
 
 export function findCard<T extends KanbanCardBase>(
   columns: KanbanColumnBase<T>[],

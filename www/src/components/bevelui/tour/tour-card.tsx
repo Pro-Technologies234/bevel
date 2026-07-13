@@ -22,7 +22,7 @@ import {
   IconPlayerPause,
 } from "@tabler/icons-react";
 import { useTour } from "./tour-context";
-import type { TourContextValue, TourMedia } from "./tour-types";
+import type { TourContextValue, TourMedia } from "./types";
 
 function TourMediaBlock({ media }: { media: TourMedia }) {
   const [playing, setPlaying] = React.useState(true);

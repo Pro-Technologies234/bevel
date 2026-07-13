@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { PropertiesSection } from "./properties-panel-section";
-import type { PropertySectionDef } from "./properties-panel-types";
+import type { PropertySectionDef } from "./types";
 
 export interface PropertiesPanelProps {
   /** Config-driven sections. Each section renders its rows automatically. */

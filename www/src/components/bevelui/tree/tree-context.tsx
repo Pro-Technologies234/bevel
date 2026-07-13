@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { TreeContextValue } from "./tree-types";
+import type { TreeContextValue } from "./types";
 
 export const TreeCtx = React.createContext<TreeContextValue | null>(null);
 

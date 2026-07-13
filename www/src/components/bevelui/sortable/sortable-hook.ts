@@ -1,6 +1,6 @@
 import * as React from "react";
 import { arrayMove } from "@dnd-kit/sortable";
-import type { SortableBaseItem } from "./sortable-types";
+import type { SortableBaseItem } from "./types";
 
 export interface UseSortableListReturn<T extends SortableBaseItem> {
   items: T[];

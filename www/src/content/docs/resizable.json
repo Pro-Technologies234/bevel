@@ -10,6 +10,15 @@
       "Zero re-renders during drag",
       "CSS custom properties engine"
     ],
+    "keywords": [
+      "resizable",
+      "split-pane",
+      "drag",
+      "panel",
+      "collapsible",
+      "zero re-render",
+      "css custom properties"
+    ],
     "slug": "resizable",
     "prev": {
       "label": "Color Palette",
@@ -73,6 +82,7 @@
                   "type": "file",
                   "comment": "useResizable hook"
                 },
+                { "name": "types.ts", "type": "file" },
                 { "name": "index.ts", "type": "file" }
               ]
             }

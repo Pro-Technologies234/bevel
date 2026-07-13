@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useCursors } from "./cursors-context";
 import { throttle } from "./cursor-utils";
-import type { CursorMeta } from "./cursors-types";
+import type { CursorMeta } from "./types";
 import { cn } from "@/lib/utils";
 
 // ─── Cursor arrow SVG ─────────────────────────────────────────────────────────

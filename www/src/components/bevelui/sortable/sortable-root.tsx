@@ -19,7 +19,7 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { SortableCtx } from "./sortable-context";
-import type { SortableBaseItem, SortableConfig } from "./sortable-types";
+import type { SortableBaseItem, SortableConfig } from "./types";
 
 export interface SortableRootProps<T extends SortableBaseItem> {
   items: T[];

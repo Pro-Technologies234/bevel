@@ -6,4 +6,4 @@ export type {
   PropertyControl,
   PropertyRowDef,
   PropertySectionDef,
-} from "./properties-panel-types";
+} from "./types";

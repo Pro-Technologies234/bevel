@@ -10,6 +10,16 @@
       "Type filtering built-in",
       "Drag-to-reorder via Sortable"
     ],
+    "keywords": [
+      "media",
+      "gallery",
+      "images",
+      "videos",
+      "lightbox",
+      "multi-select",
+      "sortable",
+      "filtering"
+    ],
     "slug": "gallery",
     "prev": {
       "label": "Tree View",
@@ -54,7 +64,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "gallery-types.tsx",
+                  "name": "types.ts",
                   "type": "file",
                   "comment": "GalleryItem + GalleryConfig"
                 },

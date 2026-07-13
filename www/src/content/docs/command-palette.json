@@ -10,6 +10,16 @@
       "⌘K wired automatically",
       "Avatar + initials fallback"
     ],
+    "keywords": [
+      "command",
+      "palette",
+      "cmd+k",
+      "fuzzy search",
+      "keyboard shortcuts",
+      "actions",
+      "tabs",
+      "avatars"
+    ],
     "slug": "command-palette",
     "prev": {
       "label": "Product Tour",
@@ -85,6 +95,7 @@
                   "type": "file",
                   "comment": "programmatic control hook"
                 },
+                { "name": "types.ts", "type": "file" },
                 { "name": "index.ts", "type": "file" }
               ]
             }

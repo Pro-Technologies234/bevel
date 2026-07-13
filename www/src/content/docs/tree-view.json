@@ -10,6 +10,15 @@
       "Animated expand/collapse",
       "Optional connecting lines"
     ],
+    "keywords": [
+      "tree",
+      "hierarchy",
+      "expand",
+      "collapse",
+      "keyboard navigation",
+      "multi-select",
+      "connecting lines"
+    ],
     "slug": "tree",
     "prev": { "label": "Tree view", "href": "/docs/components/tree-view" },
     "next": {
@@ -51,7 +60,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "tree-types.ts",
+                  "name": "types.ts",
                   "type": "file",
                   "comment": "TreeNode, TreeConfig"
                 },

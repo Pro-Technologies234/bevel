@@ -2,7 +2,7 @@ import React from "react";
 import { TourProvider } from "./tour-context";
 import { TourOverlay } from "./tour-overlay";
 import { TourCard } from "./tour-card";
-import type { TourStepDef } from "./tour-types";
+import type { TourStepDef } from "./types";
 
 interface TourRootProps {
   children: React.ReactNode;

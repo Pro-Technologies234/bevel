@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { PropertyControl } from "./properties-panel-types";
+import type { PropertyControl } from "./types";
 
 interface PropertiesControlProps {
   control: PropertyControl;

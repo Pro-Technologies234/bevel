@@ -10,7 +10,7 @@ import type {
   CommandPaletteContextValue,
   CommandPaletteItem,
   CommandPaletteSection,
-} from "./command-palette-types";
+} from "./types";
 import { scoreItem } from "./command-palette-fuzzy";
 
 const CommandPaletteContext = createContext<

@@ -2,10 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { IconFilter, IconPlus, IconSortAscending } from "@tabler/icons-react";
-import type {
-  CommandPaletteSourceTab,
-  CommandPaletteFilterTab,
-} from "./command-palette-types";
+import type { CommandPaletteSourceTab, CommandPaletteFilterTab } from "./types";
 import { useCommandPalette } from "./command-palette-context";
 
 function SourceTabItem({

@@ -10,6 +10,16 @@
       "Custom drag overlay",
       "useSortableList hook"
     ],
+    "keywords": [
+      "sortable",
+      "drag",
+      "reorder",
+      "list",
+      "handle",
+      "dnd-kit",
+      "overlay",
+      "useSortableList"
+    ],
     "slug": "sortable",
     "prev": { "label": "Form Engine", "href": "/docs/components/form-engine" },
     "next": { "label": "Palette", "href": "/docs/components/palette" }
@@ -47,7 +57,7 @@
               "isOpen": true,
               "children": [
                 {
-                  "name": "sortable-types.ts",
+                  "name": "types.ts",
                   "type": "file",
                   "comment": "SortableBaseItem, SortableConfig"
                 },

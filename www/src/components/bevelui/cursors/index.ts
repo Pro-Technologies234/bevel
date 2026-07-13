@@ -8,4 +8,4 @@ export type {
   CursorsConfig,
   CursorMeta,
   // CursorsRootProps,
-} from "./cursors-types";
+} from "./types";

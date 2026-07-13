@@ -36,7 +36,7 @@ export type {
   FormEngineValidateResult,
   FieldRenderProps,
   FormDefaultValues,
-} from "./form-engine-types";
+} from "./types";
 
 export type {
   FormEngineProgressProps,

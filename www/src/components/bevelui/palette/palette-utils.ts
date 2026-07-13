@@ -1,4 +1,4 @@
-import { ExportFormat, PaletteColor } from "./palette-types";
+import { ExportFormat, PaletteColor } from "./types";
 
 export function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");

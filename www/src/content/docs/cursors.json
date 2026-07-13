@@ -3,23 +3,36 @@
     "title": "Collaborative Cursors",
     "description": "Real-time presence overlay with conflict-free position sync, idle detection, and a label overlap resolver that prevents names from stacking.",
     "badge": "Pro System",
+    "keywords": [
+      "collaborative",
+      "presence",
+      "real-time",
+      "multiplayer",
+      "cursor overlay",
+      "idle detection",
+      "label overlap",
+      "transport"
+    ],
     "slug": "cursors",
     "prev": { "label": "Image Cropper", "href": "/docs/components/cropper" },
-    "next": { "label": "Rich Text Editor", "href": "/docs/components/rich-text" }
+    "next": {
+      "label": "Rich Text Editor",
+      "href": "/docs/components/rich-text"
+    }
   },
   "tocs": [
-    { "id": "overview",         "label": "Overview",            "depth": 1 },
-    { "id": "demo",             "label": "Live demo",           "depth": 1 },
-    { "id": "installation",     "label": "Installation",        "depth": 1 },
-    { "id": "usage",            "label": "Basic usage",         "depth": 1 },
-    { "id": "transport",        "label": "Wiring a transport",  "depth": 1 },
-    { "id": "idle",             "label": "Idle detection",      "depth": 1 },
-    { "id": "api-root",         "label": "CursorsRoot",         "depth": 2 },
-    { "id": "api-config",       "label": "CursorsConfig",       "depth": 2 },
-    { "id": "api-canvas",       "label": "CursorCanvas",        "depth": 2 },
-    { "id": "api-hook",         "label": "useCursors",          "depth": 2 },
-    { "id": "api-types",        "label": "Types",               "depth": 2 },
-    { "id": "internals",        "label": "How it works",        "depth": 1 }
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "transport", "label": "Wiring a transport", "depth": 1 },
+    { "id": "idle", "label": "Idle detection", "depth": 1 },
+    { "id": "api-root", "label": "CursorsRoot", "depth": 2 },
+    { "id": "api-config", "label": "CursorsConfig", "depth": 2 },
+    { "id": "api-canvas", "label": "CursorCanvas", "depth": 2 },
+    { "id": "api-hook", "label": "useCursors", "depth": 2 },
+    { "id": "api-types", "label": "Types", "depth": 2 },
+    { "id": "internals", "label": "How it works", "depth": 1 }
   ],
   "sections": [
     {
@@ -40,12 +53,33 @@
               "name": "components/bevelui/cursors/",
               "type": "folder",
               "children": [
-                { "name": "types.ts",             "type": "file", "comment": "NormalizedPosition, RemoteCursor, CursorMeta" },
-                { "name": "cursor-utils.ts",      "type": "file", "comment": "color assignment, label overlap resolver, throttle", "highlight": true },
-                { "name": "cursors-context.tsx",  "type": "file", "comment": "useCursors hook" },
-                { "name": "cursors-root.tsx",     "type": "file", "comment": "state, idle timers, updateCursor / removeCursor" },
-                { "name": "cursor-canvas.tsx",    "type": "file", "comment": "mouse tracking, cursor overlay, DOM updates" },
-                { "name": "index.ts",             "type": "file" }
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "NormalizedPosition, RemoteCursor, CursorMeta"
+                },
+                {
+                  "name": "cursor-utils.ts",
+                  "type": "file",
+                  "comment": "color assignment, label overlap resolver, throttle",
+                  "highlight": true
+                },
+                {
+                  "name": "cursors-context.tsx",
+                  "type": "file",
+                  "comment": "useCursors hook"
+                },
+                {
+                  "name": "cursors-root.tsx",
+                  "type": "file",
+                  "comment": "state, idle timers, updateCursor / removeCursor"
+                },
+                {
+                  "name": "cursor-canvas.tsx",
+                  "type": "file",
+                  "comment": "mouse tracking, cursor overlay, DOM updates"
+                },
+                { "name": "index.ts", "type": "file" }
               ]
             }
           ]

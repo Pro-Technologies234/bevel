@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { FormEngineContextValue } from "./form-engine-types";
+import type { FormEngineContextValue } from "./types";
 
 export const FormEngineContext = createContext<FormEngineContextValue | null>(
   null,

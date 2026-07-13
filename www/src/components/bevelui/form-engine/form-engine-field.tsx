@@ -11,7 +11,7 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 import { useFormEngineContext } from "./form-engine-context";
-import type { FieldRenderProps, FormEngineFieldDef } from "./form-engine-types";
+import type { FieldRenderProps, FormEngineFieldDef } from "./types";
 
 /**
  * useFormEngineField — read and write a single field from within the engine.

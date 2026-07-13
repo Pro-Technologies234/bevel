@@ -26,7 +26,7 @@ import type {
   CardRenderMeta,
   ColumnRenderMeta,
   DragType,
-} from "./kanban-types";
+} from "./types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const KanbanCtx = React.createContext<KanbanContextValue<

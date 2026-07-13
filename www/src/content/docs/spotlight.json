@@ -10,6 +10,16 @@
       "Skeleton loading",
       "/ hotkey (configurable)"
     ],
+    "keywords": [
+      "spotlight",
+      "search",
+      "async",
+      "debounce",
+      "categories",
+      "recent",
+      "history",
+      "slash"
+    ],
     "slug": "spotlight",
     "prev": {
       "label": "Media Gallery",

@@ -11,4 +11,4 @@ export type {
   CardRenderMeta,
   ColumnRenderMeta,
   KanbanContextValue,
-} from "./kanban-types";
+} from "./types";

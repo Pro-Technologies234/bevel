@@ -4,7 +4,7 @@ import { downloadColor, generateColor, hexToHsl } from "./palette-utils";
 import { IconDownload, IconCopy, IconCopyCheck } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button";
-import { ExportFormat } from "./palette-types";
+import { ExportFormat } from "./types";
 
 const FORMAT_LABELS: Record<ExportFormat, string> = {
   "hex-array": "Hex array",

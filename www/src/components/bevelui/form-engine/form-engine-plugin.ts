@@ -1,8 +1,5 @@
 import type { ZodSchema } from "zod";
-import type {
-  FormEnginePlugin,
-  FormEngineValidateResult,
-} from "./form-engine-types";
+import type { FormEnginePlugin, FormEngineValidateResult } from "./types";
 
 /**
  * createZodPlugin — per-step Zod validation.

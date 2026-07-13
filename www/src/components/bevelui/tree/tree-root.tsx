@@ -9,7 +9,7 @@ import {
   getFirstChildId,
 } from "./tree-utils";
 import { cn } from "@/lib/utils";
-import type { TreeNode, TreeConfig, TreeContextValue } from "./tree-types";
+import type { TreeNode, TreeConfig, TreeContextValue } from "./types";
 
 export interface TreeRootProps<T = unknown> {
   nodes: TreeNode<T>[];

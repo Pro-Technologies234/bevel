@@ -2,11 +2,7 @@ import * as React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
-import type {
-  KanbanCardBase,
-  KanbanColumnBase,
-  CardRenderMeta,
-} from "./kanban-types";
+import type { KanbanCardBase, KanbanColumnBase, CardRenderMeta } from "./types";
 
 export interface KanbanCardProps<
   TCard extends KanbanCardBase,

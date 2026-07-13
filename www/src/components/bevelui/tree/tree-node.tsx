@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useTree } from "./tree-context";
 import { IconChevronRight, IconFile } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import type { TreeNode } from "./tree-types";
+import type { TreeNode } from "./types";
 
 const INDENT = 16;
 

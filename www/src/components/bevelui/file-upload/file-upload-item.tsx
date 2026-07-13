@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import type { FileEntry } from "./file-upload-types";
+import type { FileEntry } from "./types";
 import { motion } from "motion/react";
 import {
   IconCheck,

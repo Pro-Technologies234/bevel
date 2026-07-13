@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { PropertiesControl } from "./properties-panel-control";
-import type { PropertyControl } from "./properties-panel-types";
+import type { PropertyControl } from "./types";
 
 export interface PropertiesRowProps {
   label: string;

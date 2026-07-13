@@ -10,10 +10,7 @@ import {
 } from "./command-palette-tabs";
 import { CommandPaletteResults } from "./command-palette-results";
 import { CommandPaletteFooter } from "./command-palette-footer";
-import type {
-  CommandPaletteSourceTab,
-  CommandPaletteFilterTab,
-} from "./command-palette-types";
+import type { CommandPaletteSourceTab, CommandPaletteFilterTab } from "./types";
 
 interface CommandPaletteShellProps {
   sourceTabs?: CommandPaletteSourceTab[];

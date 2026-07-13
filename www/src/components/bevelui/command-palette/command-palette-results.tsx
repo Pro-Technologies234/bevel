@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { IconCornerDownLeft } from "@tabler/icons-react";
 import { useCommandPalette } from "./command-palette-context";
 import { highlightMatch } from "./command-palette-fuzzy";
-import type { CommandPaletteItem } from "./command-palette-types";
+import type { CommandPaletteItem } from "./types";
 
 function ItemAvatar({ item }: { item: CommandPaletteItem }) {
   if (typeof item.icon === "string") {

@@ -11,7 +11,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useKanban } from "./kanban-context";
 import { KanbanCard } from "./kanban-card";
 import { cn } from "@/lib/utils";
-import type { KanbanCardBase, KanbanColumnBase } from "./kanban-types";
+import type { KanbanCardBase, KanbanColumnBase } from "./types";
 
 export interface KanbanColumnProps<
   TCard extends KanbanCardBase,

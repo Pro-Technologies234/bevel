@@ -7,4 +7,4 @@ export type {
   FileEntry,
   FileUploadConfig,
   FileUploadContextValue,
-} from "./file-upload-types";
+} from "./types";
