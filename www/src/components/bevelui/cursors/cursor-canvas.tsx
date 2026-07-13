@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useCursors } from "./cursors-context";
 import { throttle } from "./cursor-utils";
-import type { CursorMeta } from "./types";
+import type { CursorMeta } from "./cursors-types";
 import { cn } from "@/lib/utils";
 
 // ─── Cursor arrow SVG ─────────────────────────────────────────────────────────
@@ -39,13 +39,14 @@ function CursorArrow({ color }: { color: string }) {
 // between updateCursor being called and the React render completing).
 
 function CursorElement({ meta }: { meta: CursorMeta }) {
-  const { containerRef, positionsRef, cursorElsRef, labelElsRef } = useCursors();
+  const { containerRef, positionsRef, cursorElsRef, labelElsRef } =
+    useCursors();
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const labelRef   = React.useRef<HTMLDivElement>(null);
+  const labelRef = React.useRef<HTMLDivElement>(null);
 
   React.useLayoutEffect(() => {
     const wrapper = wrapperRef.current;
-    const label   = labelRef.current;
+    const label = labelRef.current;
     if (!wrapper || !label) return;
 
     // Register with Root so imperative updates can reach these elements
@@ -53,7 +54,7 @@ function CursorElement({ meta }: { meta: CursorMeta }) {
     labelElsRef.current.set(meta.userId, label);
 
     // Apply initial position if updateCursor was called before this element mounted
-    const pos       = positionsRef.current.get(meta.userId);
+    const pos = positionsRef.current.get(meta.userId);
     const container = containerRef.current;
     if (pos && container) {
       const x = Math.round(pos.x * container.offsetWidth);
@@ -131,8 +132,8 @@ export function CursorCanvas({ children, className }: CursorCanvasProps) {
       const container = containerRef.current;
       if (!container || !onMove) return;
       const rect = container.getBoundingClientRect();
-      const x = (e.clientX - rect.left)  / rect.width;
-      const y = (e.clientY - rect.top)   / rect.height;
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
       // Ignore movement outside the canvas bounds
       if (x < 0 || x > 1 || y < 0 || y > 1) return;
       onMove({ x, y });
@@ -151,14 +152,13 @@ export function CursorCanvas({ children, className }: CursorCanvasProps) {
   // Filter which cursors to render
   const visibleCursors = React.useMemo<CursorMeta[]>(() => {
     const all = Array.from(cursors.values());
-    return config.showSelf ? all : all.filter((c) => c.userId !== localUser.userId);
+    return config.showSelf
+      ? all
+      : all.filter((c) => c.userId !== localUser.userId);
   }, [cursors, config.showSelf, localUser.userId]);
 
   return (
-    <div
-      ref={containerRef}
-      className={cn("relative", className)}
-    >
+    <div ref={containerRef} className={cn("relative", className)}>
       {children}
 
       {/* Cursor overlay — renders above content, no pointer events */}

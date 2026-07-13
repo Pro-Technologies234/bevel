@@ -225,6 +225,11 @@
           "type": "registry:component"
         },
         {
+          "path": "src/components/bevelui/form-engine/form-engine-step.tsx",
+          "target": "src/components/bevelui/form-engine/form-engine-step.tsx",
+          "type": "registry:component"
+        },
+        {
           "path": "src/components/bevelui/form-engine/form-engine-step-canvas.tsx",
           "target": "src/components/bevelui/form-engine/form-engine-step-canvas.tsx",
           "type": "registry:component"

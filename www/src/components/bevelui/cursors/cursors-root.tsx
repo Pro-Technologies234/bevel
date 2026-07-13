@@ -2,7 +2,11 @@
 
 import * as React from "react";
 import { CursorsCtx } from "./cursors-context";
-import { colorFromUserId, resolveLabels, type LabelLayout } from "./cursor-utils";
+import {
+  colorFromUserId,
+  resolveLabels,
+  type LabelLayout,
+} from "./cursor-utils";
 import type {
   CursorsConfig,
   CursorsContextValue,
@@ -10,7 +14,7 @@ import type {
   LocalUser,
   NormalizedPosition,
   RemoteCursor,
-} from "./types";
+} from "./cursors-types";
 
 export interface CursorsRootProps {
   /** The local user's identity. */
@@ -31,18 +35,24 @@ export function CursorsRoot({
   children,
 }: CursorsRootProps) {
   // ── React state: only cursor identity/presence, not positions ───────────────
-  const [cursors, setCursors] = React.useState<Map<string, CursorMeta>>(new Map());
+  const [cursors, setCursors] = React.useState<Map<string, CursorMeta>>(
+    new Map(),
+  );
 
   // ── Refs: hot-path data, never triggers re-renders ──────────────────────────
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const positionsRef = React.useRef<Map<string, NormalizedPosition>>(new Map());
   const cursorElsRef = React.useRef<Map<string, HTMLDivElement>>(new Map());
-  const labelElsRef  = React.useRef<Map<string, HTMLDivElement>>(new Map());
-  const rafRef       = React.useRef<number | null>(null);
+  const labelElsRef = React.useRef<Map<string, HTMLDivElement>>(new Map());
+  const rafRef = React.useRef<number | null>(null);
 
   // Idle / remove timers per userId
-  const idleTimers   = React.useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
-  const removeTimers = React.useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const idleTimers = React.useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
+  const removeTimers = React.useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
 
   // Stable ref so idle timer callbacks can call removeCursor without stale closure
   const removeCursorRef = React.useRef<(userId: string) => void>(() => {});
@@ -65,7 +75,7 @@ export function CursorsRoot({
           id: userId,
           cursorX: pos.x * W,
           cursorY: pos.y * H,
-          labelW: labelEl.offsetWidth  || 72,
+          labelW: labelEl.offsetWidth || 72,
           labelH: labelEl.offsetHeight || 22,
         });
       });
@@ -94,12 +104,20 @@ export function CursorsRoot({
     });
 
     const it = idleTimers.current.get(userId);
-    if (it !== undefined) { clearTimeout(it); idleTimers.current.delete(userId); }
+    if (it !== undefined) {
+      clearTimeout(it);
+      idleTimers.current.delete(userId);
+    }
     const rt = removeTimers.current.get(userId);
-    if (rt !== undefined) { clearTimeout(rt); removeTimers.current.delete(userId); }
+    if (rt !== undefined) {
+      clearTimeout(rt);
+      removeTimers.current.delete(userId);
+    }
   }, []);
 
-  React.useEffect(() => { removeCursorRef.current = removeCursor; }, [removeCursor]);
+  React.useEffect(() => {
+    removeCursorRef.current = removeCursor;
+  }, [removeCursor]);
 
   // ── updateCursor — the hot path ───────────────────────────────────────────────
   // Called by the consumer's transport wiring on every incoming cursor event.
@@ -112,7 +130,7 @@ export function CursorsRoot({
       positionsRef.current.set(userId, position);
 
       // 2. Direct DOM: translate the cursor wrapper
-      const cursorEl  = cursorElsRef.current.get(userId);
+      const cursorEl = cursorElsRef.current.get(userId);
       const container = containerRef.current;
       if (cursorEl && container) {
         const x = Math.round(position.x * container.offsetWidth);
@@ -126,7 +144,8 @@ export function CursorsRoot({
       // 4. React state — only on structural changes (new cursor, un-idle)
       setCursors((prev) => {
         const existing = prev.get(userId);
-        if (existing && !existing.isIdle && existing.userName === userName) return prev;
+        if (existing && !existing.isIdle && existing.userName === userName)
+          return prev;
         const next = new Map(prev);
         next.set(userId, {
           userId,
@@ -143,7 +162,7 @@ export function CursorsRoot({
       const existingRemove = removeTimers.current.get(userId);
       if (existingRemove !== undefined) clearTimeout(existingRemove);
 
-      const idleMs   = (config.idleAfter   ?? 3)  * 1000;
+      const idleMs = (config.idleAfter ?? 3) * 1000;
       const removeMs = (config.removeAfter ?? 10) * 1000;
 
       idleTimers.current.set(

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import type { CursorsContextValue } from "./types";
+import type { CursorsContextValue } from "./cursors-types";
 
 export const CursorsCtx = React.createContext<CursorsContextValue | null>(null);
 

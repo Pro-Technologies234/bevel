@@ -18,6 +18,7 @@ import {
   IconLayoutKanban,
   IconCrop,
   IconCursorOff,
+  IconPointer,
 } from "@tabler/icons-react";
 
 export function DocsSidebar() {
@@ -152,7 +153,7 @@ export function DocsSidebar() {
             {
               label: "Cursors",
               href: "/docs/components/cursors",
-              icon: IconCursorOff,
+              icon: IconPointer,
               badge: "New",
               badgeVariant: "new",
             },
