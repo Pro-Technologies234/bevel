@@ -2,13 +2,7 @@
 
 import * as React from "react";
 import { useAIChatCtx } from "./ai-chat-context";
-import {
-  IconCopy,
-  IconCheck,
-  IconThumbUp,
-  IconThumbDown,
-  IconRefresh,
-} from "@tabler/icons-react";
+import { IconCopy, IconCheck, IconThumbUp, IconThumbDown, IconRefresh } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import type { AIMessage } from "./types";
 import { Button } from "@/components/ui/button";
@@ -30,8 +24,9 @@ function Btn({
       onClick={onClick}
       title={label}
       aria-label={label}
-      variant={"ghost"}
-      className={cn("p-1 rounded transition-colors")}
+      variant="ghost"
+      size="icon-xs"
+      className={cn("transition-colors", active && "text-primary")}
     >
       <Icon size={13} strokeWidth={1.8} />
     </Button>
@@ -45,9 +40,10 @@ export function AIChatMessageActions({ message }: { message: AIMessage }) {
 
   function copy() {
     const text = message.content
-      .filter((b) => b.type === "text")
-      .map((b) => (b as any).text)
+      .filter((b): b is Extract<typeof b, { type: "text" }> => b.type === "text")
+      .map((b) => b.text)
       .join("\n\n");
+    if (!text) return;
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -55,12 +51,7 @@ export function AIChatMessageActions({ message }: { message: AIMessage }) {
 
   return (
     <div className="flex items-center gap-0.5">
-      <Btn
-        icon={copied ? IconCheck : IconCopy}
-        label="Copy"
-        active={copied}
-        onClick={copy}
-      />
+      <Btn icon={copied ? IconCheck : IconCopy} label="Copy" active={copied} onClick={copy} />
       <Btn
         icon={IconThumbUp}
         label="Good response"
@@ -73,11 +64,7 @@ export function AIChatMessageActions({ message }: { message: AIMessage }) {
         active={feedback === "down"}
         onClick={() => setFeedback((p) => (p === "down" ? null : "down"))}
       />
-      <Btn
-        icon={IconRefresh}
-        label="Regenerate"
-        onClick={() => regenerate(message.id)}
-      />
+      <Btn icon={IconRefresh} label="Regenerate" onClick={() => regenerate(message.id)} />
     </div>
   );
 }

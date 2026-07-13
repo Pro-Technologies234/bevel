@@ -2,23 +2,8 @@
 
 import * as React from "react";
 import { useAIChatCtx } from "./ai-chat-context";
-import {
-  IconArrowUp,
-  IconPaperclip,
-  IconX,
-  IconSquare,
-  IconWaveSine,
-  IconMicrophone,
-} from "@tabler/icons-react";
+import { IconArrowUp, IconPaperclip, IconSquare } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -30,22 +15,14 @@ import { AIChatAction } from "./ai-chat-action";
 import { AIChatFileEntry } from "./ai-chat-file-entry";
 
 export function AIChatInput({ className }: { className?: string }) {
-  const {
-    sendMessage,
-    stopGeneration,
-    isLoading,
-    isStreaming,
-    config,
-    model,
-    setModel,
-  } = useAIChatCtx();
+  const { send, stop, isLoading, isStreaming, config, model, setModel } = useAIChatCtx();
   const [text, setText] = React.useState("");
   const [files, setFiles] = React.useState<File[]>([]);
   const taRef = React.useRef<HTMLTextAreaElement>(null);
   const fileRef = React.useRef<HTMLInputElement>(null);
 
   const isActive = isLoading || isStreaming;
-  const canSend = (text.trim().length > 0 || files.length > 0) && !isLoading;
+  const canSend = (text.trim().length > 0 || files.length > 0) && !isActive;
 
   function resize() {
     const el = taRef.current;
@@ -56,7 +33,7 @@ export function AIChatInput({ className }: { className?: string }) {
 
   function submit() {
     if (!canSend) return;
-    sendMessage(text.trim(), files.length ? files : undefined);
+    send(text.trim(), files.length ? files : undefined);
     setText("");
     setFiles([]);
     if (taRef.current) taRef.current.style.height = "auto";
@@ -68,13 +45,7 @@ export function AIChatInput({ className }: { className?: string }) {
   }
 
   return (
-    <div
-      className={cn(
-        "shrink-0 border-t  border border-border bg-card/40 backdrop-blur-sm p-1 mx-4 rounded-3xl",
-        className,
-      )}
-    >
-      {/* File chips */}
+    <div className={cn("shrink-0 border border-border bg-card/40 backdrop-blur-sm p-1 mx-4 mb-4 rounded-3xl", className)}>
       {files.length > 0 && (
         <div className="px-2 overflow-x-auto flex gap-2 pb-1.5 pt-0.5">
           {files.map((f, i) => (
@@ -82,15 +53,12 @@ export function AIChatInput({ className }: { className?: string }) {
           ))}
         </div>
       )}
-      {/* Composer */}
+
       <div className="flex flex-col items-end gap-2 rounded-2xl border border-border bg-card p-4">
         <textarea
           ref={taRef}
           value={text}
-          onChange={(e) => {
-            setText(e.target.value);
-            resize();
-          }}
+          onChange={(e) => { setText(e.target.value); resize(); }}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
@@ -104,55 +72,31 @@ export function AIChatInput({ className }: { className?: string }) {
 
         <div className="flex w-full justify-between items-center gap-1 shrink-0 pb-0.5">
           <div className="flex items-center gap-2">
-            {/* Model selector */}
             {config.models && config.models.length > 1 && (
-              <AIChatModelSelector
-                model={model}
-                models={config.models.map((m) => m.label)}
-                change={setModel}
-              />
+              <AIChatModelSelector model={model} models={config.models} onChange={setModel} />
             )}
-
-            {/* Attach */}
             <AIChatAction
               type="button"
               onClick={() => fileRef.current?.click()}
               title="Attach files"
-              size={"icon"}
+              variant="ghost"
+              size="icon"
             >
               <IconPaperclip size={15} strokeWidth={1.8} />
             </AIChatAction>
           </div>
-          <div className="flex items-center gap-2">
-            {/* Send / Stop */}
-            <AIChatAction
-              type="button"
-              disabled={!isActive && !canSend}
-              title={isActive ? "Stop" : "Send (Enter)"}
-              variant={"ghost"}
-              size={"icon"}
-              className=" cursor-pointer"
-            >
-              <IconMicrophone />
-            </AIChatAction>
-            <AIChatAction
-              type="button"
-              onClick={isActive ? stopGeneration : submit}
-              disabled={!isActive && !canSend}
-              title={isActive ? "Stop" : "Send (Enter)"}
-              variant={canSend ? "default" : isActive ? "outline" : "default"}
-              size={"icon"}
-              className=" cursor-pointer"
-            >
-              {isActive ? (
-                <IconSquare />
-              ) : canSend ? (
-                <IconArrowUp />
-              ) : (
-                <IconWaveSine />
-              )}{" "}
-            </AIChatAction>
-          </div>
+
+          <AIChatAction
+            type="button"
+            onClick={isActive ? stop : submit}
+            disabled={!isActive && !canSend}
+            title={isActive ? "Stop" : "Send (Enter)"}
+            variant={canSend || isActive ? "default" : "outline"}
+            size="icon"
+            className="cursor-pointer"
+          >
+            {isActive ? <IconSquare size={14} /> : <IconArrowUp size={16} />}
+          </AIChatAction>
         </div>
       </div>
 
@@ -163,9 +107,7 @@ export function AIChatInput({ className }: { className?: string }) {
         className="sr-only"
         onChange={(e) => {
           const added = Array.from(e.target.files ?? []);
-          setFiles((p) =>
-            [...p, ...added].slice(0, config.maxAttachments ?? 5),
-          );
+          setFiles((p) => [...p, ...added].slice(0, config.maxAttachments ?? 5));
           e.target.value = "";
         }}
       />
@@ -174,23 +116,24 @@ export function AIChatInput({ className }: { className?: string }) {
 }
 
 export function AIChatModelSelector({
-  models,
   model,
-  change,
+  models,
+  onChange,
 }: {
   model: string;
-  models: string[];
-  change: (m: string) => void;
+  models: { value: string; label: string }[];
+  onChange: (value: string) => void;
 }) {
+  const current = models.find((m) => m.value === model);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <AIChatAction className=" capitalize">{model}</AIChatAction>
+        <AIChatAction variant="ghost" size="sm">{current?.label ?? model}</AIChatAction>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {models.map((m) => (
-          <DropdownMenuItem onClick={() => change(m)} key={m}>
-            {m}
+          <DropdownMenuItem onClick={() => onChange(m.value)} key={m.value}>
+            {m.label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
