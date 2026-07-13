@@ -1,0 +1,313 @@
+{
+  "meta": {
+    "title": "Collaborative Cursors",
+    "description": "Real-time presence overlay with conflict-free position sync, idle detection, and a label overlap resolver that prevents names from stacking.",
+    "badge": "Pro System",
+    "slug": "cursors",
+    "prev": { "label": "Image Cropper", "href": "/docs/components/cropper" },
+    "next": { "label": "Rich Text Editor", "href": "/docs/components/rich-text" }
+  },
+  "tocs": [
+    { "id": "overview",         "label": "Overview",            "depth": 1 },
+    { "id": "demo",             "label": "Live demo",           "depth": 1 },
+    { "id": "installation",     "label": "Installation",        "depth": 1 },
+    { "id": "usage",            "label": "Basic usage",         "depth": 1 },
+    { "id": "transport",        "label": "Wiring a transport",  "depth": 1 },
+    { "id": "idle",             "label": "Idle detection",      "depth": 1 },
+    { "id": "api-root",         "label": "CursorsRoot",         "depth": 2 },
+    { "id": "api-config",       "label": "CursorsConfig",       "depth": 2 },
+    { "id": "api-canvas",       "label": "CursorCanvas",        "depth": 2 },
+    { "id": "api-hook",         "label": "useCursors",          "depth": 2 },
+    { "id": "api-types",        "label": "Types",               "depth": 2 },
+    { "id": "internals",        "label": "How it works",        "depth": 1 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Collaborative cursors have three hard problems. Positions update at 10–20 Hz per user — you cannot run every update through React state without killing performance. Labels need to avoid stacking when multiple users hover near the same point. And the system must be transport-agnostic — it cannot know whether you're using WebSockets, Supabase Realtime, Partykit, or anything else."
+        },
+        {
+          "type": "text",
+          "content": "This system solves all three. Cursor positions bypass React entirely — incoming coordinates write directly to element style transforms, the same pattern used in the Timeline system. A per-frame label overlap resolver runs an iterative axis-aligned separation algorithm that eliminates stacking without any layout thrashing. Transport wiring is two lines inside a child component that calls useCursors."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/cursors/",
+              "type": "folder",
+              "children": [
+                { "name": "types.ts",             "type": "file", "comment": "NormalizedPosition, RemoteCursor, CursorMeta" },
+                { "name": "cursor-utils.ts",      "type": "file", "comment": "color assignment, label overlap resolver, throttle", "highlight": true },
+                { "name": "cursors-context.tsx",  "type": "file", "comment": "useCursors hook" },
+                { "name": "cursors-root.tsx",     "type": "file", "comment": "state, idle timers, updateCursor / removeCursor" },
+                { "name": "cursor-canvas.tsx",    "type": "file", "comment": "mouse tracking, cursor overlay, DOM updates" },
+                { "name": "index.ts",             "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "No transport included",
+          "content": "The system is intentionally transport-agnostic. It exposes updateCursor and removeCursor — you call these from whatever real-time channel your app uses. The wiring pattern is shown in the demo below."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Four simulated users move via random walk, each driven by the same updateCursor call a real transport would use. Move your own cursor inside the canvas — it broadcasts via onMove (logged to console in the demo)."
+        },
+        {
+          "type": "demo",
+          "component": "CursorsDemo",
+          "label": "Interactive demo",
+          "preview": "cursors"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Add the files",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/cursors.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import",
+              "code": "import { CursorsRoot, CursorCanvas, useCursors } from \"@/components/bevelui/cursors\";",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Wrap your shared surface in CursorsRoot and CursorCanvas. CursorsRoot is the provider — it holds state and exposes the imperative update API. CursorCanvas is the tracking surface — it measures mouse position, normalizes it, and calls onMove."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/collab/page.tsx",
+          "code": "import { CursorsRoot, CursorCanvas } from \"@/components/bevelui/cursors\";\n\nexport default function CollabPage() {\n  return (\n    <CursorsRoot\n      localUser={{ userId: session.userId, userName: session.name }}\n      onMove={(pos) => channel.send({ type: \"cursor\", ...pos })}\n    >\n      <CursorCanvas className=\"h-full w-full\">\n        <TransportWiring />\n        {/* your shared content */}\n      </CursorCanvas>\n    </CursorsRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "title": "Wiring a transport",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "updateCursor and removeCursor are stable refs — safe to pass directly to event listeners. The canonical pattern is a small component inside CursorCanvas that wires your channel on mount and cleans up on unmount."
+        },
+        {
+          "type": "demo",
+          "component": "CursorsTransportDemo",
+          "label": "Transport wiring pattern"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Works with any transport",
+          "content": "The pattern is identical for WebSocket (socket.io, native WS), Supabase Realtime, Partykit, Liveblocks, or any custom channel. The system does not care how the bytes arrive."
+        }
+      ]
+    },
+    {
+      "id": "idle",
+      "title": "Idle detection",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Every call to updateCursor resets a timer per userId. If no update arrives within idleAfter seconds, the cursor fades to opacity-0 via a CSS transition. If silence continues until removeAfter, removeCursor is called automatically and the element is unmounted. Both values are configurable."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<CursorsRoot\n  localUser={localUser}\n  config={{\n    idleAfter:   3,   // fade after 3 seconds of silence\n    removeAfter: 10,  // unmount after 10 seconds total\n  }}\n  onMove={broadcast}\n>"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "CursorsRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "localUser",
+              "type": "LocalUser",
+              "required": true,
+              "description": "The local user's identity. Used to filter self from the overlay when showSelf is false."
+            },
+            {
+              "prop": "onMove",
+              "type": "(position: NormalizedPosition) => void",
+              "description": "Called whenever the local cursor moves inside CursorCanvas. Wire this to your broadcast function."
+            },
+            {
+              "prop": "config",
+              "type": "CursorsConfig",
+              "description": "Idle timing, self-render, and throttle options."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "required": true,
+              "description": "Should contain a CursorCanvas somewhere in the tree."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "CursorsConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "showSelf",
+              "type": "boolean",
+              "default": "false",
+              "description": "Render an overlay cursor for the local user. Normally false since the OS cursor is visible."
+            },
+            {
+              "prop": "idleAfter",
+              "type": "number",
+              "default": "3",
+              "description": "Seconds of inactivity before a remote cursor fades to invisible."
+            },
+            {
+              "prop": "removeAfter",
+              "type": "number",
+              "default": "10",
+              "description": "Seconds before an idle cursor is fully removed from the DOM. Must be greater than idleAfter."
+            },
+            {
+              "prop": "throttleMs",
+              "type": "number",
+              "default": "50",
+              "description": "Minimum milliseconds between onMove broadcasts. 50ms = 20 Hz, which is sufficient for smooth appearance on the receiver side."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-canvas",
+      "title": "CursorCanvas",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Your shared surface content. Rendered inside the tracking container."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the tracking container div. Use to set dimensions and position:relative is already set."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useCursors",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Returns the full context value. Must be called inside CursorsRoot."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "updateCursor",
+              "type": "(cursor: RemoteCursor) => void",
+              "description": "Call this when a position update arrives from your transport. Safe to call at 20 Hz per user — position updates bypass React state entirely."
+            },
+            {
+              "prop": "removeCursor",
+              "type": "(userId: string) => void",
+              "description": "Call this when a user disconnects. Immediately removes the cursor from the overlay."
+            },
+            {
+              "prop": "cursors",
+              "type": "Map<string, CursorMeta>",
+              "description": "Current cursor presence map. Only changes on join, leave, and idle state transitions — not on position updates."
+            },
+            {
+              "prop": "localUser",
+              "type": "LocalUser",
+              "description": "The local user passed to CursorsRoot."
+            },
+            {
+              "prop": "config",
+              "type": "CursorsConfig",
+              "description": "The resolved config."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-types",
+      "title": "Types",
+      "blocks": [
+        {
+          "type": "code",
+          "language": "ts",
+          "code": "interface NormalizedPosition {\n  x: number; // 0–1 fraction of container width\n  y: number; // 0–1 fraction of container height\n}\n\ninterface RemoteCursor {\n  userId:   string;\n  userName: string;\n  position: NormalizedPosition;\n}\n\ninterface LocalUser {\n  userId:   string;\n  userName: string;\n  color?:   string; // override auto-assigned color\n}\n\ninterface CursorMeta {\n  userId:   string;\n  userName: string;\n  color:    string;\n  isIdle:   boolean;\n}"
+        }
+      ]
+    },
+    {
+      "id": "internals",
+      "title": "How it works",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Positions are stored in a plain Map ref (positionsRef), not React state. When updateCursor is called, it writes the new target position to the ref and then directly updates element.style.transform on the cursor's wrapper div. This means no React re-render fires on every mouse move — only on structural changes (cursor joins, cursor leaves, idle state flip)."
+        },
+        {
+          "type": "text",
+          "content": "Label overlap runs in a requestAnimationFrame, scheduled via cancelAnimationFrame + requestAnimationFrame so multiple rapid position updates coalesce into one layout pass. The resolver reads label dimensions from offsetWidth/offsetHeight, runs 8 iterations of axis-aligned separation, clamps to container bounds, then writes the resolved offsets as transform on each label element — all direct DOM, no React."
+        },
+        {
+          "type": "text",
+          "content": "Colors are assigned deterministically from userId via a djb2-style hash mapped to a 12-color palette. The same userId always produces the same color for all observers, even after reconnect, with no coordination needed."
+        },
+        {
+          "type": "text",
+          "content": "Positions are normalized to 0–1 fractions of the container dimensions before broadcasting. This makes them viewport-independent — a cursor at (0.5, 0.5) always appears in the center regardless of how large the container is on each user's screen."
+        }
+      ]
+    }
+  ]
+}

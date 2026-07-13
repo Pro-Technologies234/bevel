@@ -1,0 +1,364 @@
+{
+  "meta": {
+    "title": "Image Cropper",
+    "description": "Dual coordinate spaces, eight-handle drag with aspect ratio enforcement, rule-of-thirds overlay, and offscreen canvas export at full image resolution.",
+    "badge": "Pro System",
+    "slug": "cropper",
+    "prev": { "label": "Palette Editor", "href": "/docs/components/palette" },
+    "next": { "label": "Rich Text Editor", "href": "/docs/components/rich-text" }
+  },
+  "tocs": [
+    { "id": "overview",       "label": "Overview",              "depth": 1 },
+    { "id": "demo",           "label": "Live demo",             "depth": 1 },
+    { "id": "installation",   "label": "Installation",          "depth": 1 },
+    { "id": "usage",          "label": "Basic usage",           "depth": 1 },
+    { "id": "aspect-ratio",   "label": "Aspect ratio",          "depth": 1 },
+    { "id": "custom-layout",  "label": "Custom layout",         "depth": 1 },
+    { "id": "hook",           "label": "useCropper",            "depth": 1 },
+    { "id": "api-root",       "label": "CropperRoot",           "depth": 2 },
+    { "id": "api-config",     "label": "CropperConfig",         "depth": 2 },
+    { "id": "api-canvas",     "label": "CropperCanvas",         "depth": 2 },
+    { "id": "api-preview",    "label": "CropperPreview",        "depth": 2 },
+    { "id": "api-hook",       "label": "useCropper",            "depth": 2 },
+    { "id": "internals",      "label": "How it works",          "depth": 1 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Image cropping looks simple until you build it. The image must be scaled and centered to fit whatever container you give it. Drag deltas arrive in display pixels but the crop region lives in image pixels — those two spaces must stay in sync as the container resizes. Eight handles plus a move zone all share one pointer handler. Aspect ratio enforcement has different logic for corner vs edge drags. And the final export must run at the original image resolution regardless of how small the preview is on screen."
+        },
+        {
+          "type": "text",
+          "content": "CropperRoot owns all of it. Pass src and onCrop — the default layout renders a toolbar with aspect ratio presets, a canvas with the overlay, and a live preview panel. Pass children to compose your own layout using the same useCropper hook."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/cropper/",
+              "type": "folder",
+              "children": [
+                { "name": "types.ts",           "type": "file", "comment": "CropRegion, CropperConfig, context value" },
+                { "name": "crop-engine.ts",     "type": "file", "comment": "transform, drag math, hit-test, export", "highlight": true },
+                { "name": "cropper-context.tsx","type": "file", "comment": "useCropper hook" },
+                { "name": "cropper-root.tsx",   "type": "file", "comment": "state + context provider" },
+                { "name": "cropper-canvas.tsx", "type": "file", "comment": "SVG overlay, pointer handling" },
+                { "name": "cropper-toolbar.tsx","type": "file", "comment": "aspect ratio presets, crop button" },
+                { "name": "cropper-preview.tsx","type": "file", "comment": "live canvas preview" },
+                { "name": "index.ts",           "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "title": "CORS requirement",
+          "content": "Images loaded from a different origin must respond with Access-Control-Allow-Origin headers. CropperCanvas already sets crossOrigin=\"anonymous\" on the img element — the server must allow it or the canvas export will throw a security error."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drag the handles to resize the crop region. Drag inside the region to move it. Use the aspect ratio presets in the toolbar, then click Crop to export."
+        },
+        {
+          "type": "demo",
+          "component": "CropperDemo",
+          "label": "Interactive demo",
+          "preview": "cropper"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Add the files",
+              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/cropper.json",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Import",
+              "code": "import { CropperRoot } from \"@/components/bevelui/cropper\";",
+              "codeLanguage": "tsx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass src and onCrop. The default layout — toolbar, canvas, preview — renders automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/editor/page.tsx",
+          "code": "import { CropperRoot } from \"@/components/bevelui/cropper\";\n\nexport default function EditorPage() {\n  function handleCrop(blob: Blob) {\n    const url = URL.createObjectURL(blob);\n    // upload, preview, or download\n  }\n\n  return (\n    <CropperRoot\n      src=\"/photo.jpg\"\n      onCrop={handleCrop}\n    />\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "aspect-ratio",
+      "title": "Aspect ratio presets",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass defaultAspectRatio to lock the initial region. The user can still switch via the toolbar. Setting a fixed ratio constrains all eight handles consistently — corners are width-primary, edge handles re-center the opposite axis."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<CropperRoot\n  src={src}\n  config={{\n    defaultAspectRatio: \"16:9\",\n    outputFormat: \"image/jpeg\",\n    quality: 0.88,\n  }}\n  onCrop={handleCrop}\n/>"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Programmatic ratio control",
+          "content": "Call setAspectRatioPreset from useCropper to switch the ratio from outside the toolbar — useful when you want ratio controls inline with the rest of your form."
+        }
+      ]
+    },
+    {
+      "id": "custom-layout",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass children to CropperRoot to replace the default layout entirely. All sub-components still read from context via useCropper."
+        },
+        {
+          "type": "demo",
+          "component": "CropperCustomLayoutDemo",
+          "label": "Custom layout demo"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  CropperRoot,\n  CropperCanvas,\n  CropperToolbar,\n  CropperPreview,\n} from \"@/components/bevelui/cropper\";\n\nexport function MyEditor() {\n  return (\n    <CropperRoot src={src} onCrop={handleCrop}>\n      <div className=\"flex flex-col gap-3\">\n        <CropperToolbar />\n        <div className=\"flex gap-4 items-start\">\n          <CropperCanvas className=\"flex-1\" />\n          <CropperPreview maxSize={180} />\n        </div>\n      </div>\n    </CropperRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "hook",
+      "title": "useCropper",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Access the full crop state and actions anywhere inside CropperRoot. Useful for wiring a custom Crop button, reading the current region dimensions, or triggering export from outside the toolbar."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { useCropper } from \"@/components/bevelui/cropper\";\n\nfunction MyCropButton() {\n  const { crop, region } = useCropper();\n\n  return (\n    <button\n      onClick={async () => {\n        const blob = await crop();\n        upload(blob);\n      }}\n      disabled={!region}\n    >\n      Export crop\n    </button>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "CropperRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "src",
+              "type": "string",
+              "required": true,
+              "description": "Image URL. Must have CORS headers if the origin differs from your app."
+            },
+            {
+              "prop": "config",
+              "type": "CropperConfig",
+              "description": "Display and behaviour options. See CropperConfig below."
+            },
+            {
+              "prop": "onCrop",
+              "type": "(blob: Blob) => void",
+              "description": "Called when crop() resolves. Receives the exported image blob."
+            },
+            {
+              "prop": "children",
+              "type": "ReactNode",
+              "description": "Custom layout. Replaces the default toolbar + canvas + preview arrangement."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the default layout wrapper."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "CropperConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "defaultAspectRatio",
+              "type": "\"free\" | \"1:1\" | \"4:3\" | \"16:9\" | \"3:2\" | \"9:16\"",
+              "default": "\"free\"",
+              "description": "Initial aspect ratio preset applied when the image loads."
+            },
+            {
+              "prop": "outputFormat",
+              "type": "\"image/png\" | \"image/jpeg\" | \"image/webp\"",
+              "default": "\"image/png\"",
+              "description": "Canvas export format."
+            },
+            {
+              "prop": "quality",
+              "type": "number",
+              "default": "0.92",
+              "description": "Export quality for jpeg and webp (0–1)."
+            },
+            {
+              "prop": "minSize",
+              "type": "number",
+              "default": "20",
+              "description": "Minimum crop dimension in image pixels. Prevents degenerate zero-size regions."
+            },
+            {
+              "prop": "showGrid",
+              "type": "boolean",
+              "default": "true",
+              "description": "Show rule-of-thirds guide lines over the crop region."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-canvas",
+      "title": "CropperCanvas",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the canvas container. Use to set height — defaults to 420px."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-preview",
+      "title": "CropperPreview",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "maxSize",
+              "type": "number",
+              "default": "140",
+              "description": "Maximum dimension of the preview in pixels. Aspect ratio of the crop region is preserved."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the preview wrapper."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useCropper",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "src",
+              "type": "string",
+              "description": "The image URL passed to CropperRoot."
+            },
+            {
+              "prop": "imageSize",
+              "type": "ImageSize | null",
+              "description": "Natural dimensions of the loaded image in pixels."
+            },
+            {
+              "prop": "region",
+              "type": "CropRegion | null",
+              "description": "Current crop region in image coordinates: { x, y, width, height }."
+            },
+            {
+              "prop": "aspectRatioPreset",
+              "type": "AspectRatioPreset",
+              "description": "The currently active preset string."
+            },
+            {
+              "prop": "aspectRatio",
+              "type": "number | null",
+              "description": "Derived numeric ratio (width / height), or null when free."
+            },
+            {
+              "prop": "setRegion",
+              "type": "(region: CropRegion) => void",
+              "description": "Directly set the crop region in image coordinates."
+            },
+            {
+              "prop": "setAspectRatioPreset",
+              "type": "(preset: AspectRatioPreset) => void",
+              "description": "Switch preset and reset the region to the new default."
+            },
+            {
+              "prop": "crop",
+              "type": "() => Promise<Blob>",
+              "description": "Renders the crop to an offscreen canvas at full image resolution and returns the blob. Also fires onCrop."
+            },
+            {
+              "prop": "reset",
+              "type": "() => void",
+              "description": "Resets the crop region to the default for the current aspect ratio."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "internals",
+      "title": "How it works",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The system maintains two coordinate spaces. Image space is the coordinate system of the original image in pixels — CropRegion always lives here, and so does the canvas export. Canvas space is the display pixel space inside the container after the image has been scaled to fit. computeTransform() derives a scale factor and centering offsets each time the container resizes via ResizeObserver. Drag deltas arrive in canvas space and are divided by scale before being applied to the region, so drag feel is consistent at any container size."
+        },
+        {
+          "type": "text",
+          "content": "The entire overlay is one SVG element. On pointerdown, hitTest() checks the pointer position against eight handle rects and the interior move zone — no per-handle event listeners. setPointerCapture() on the SVG ensures pointermove and pointerup arrive even if the cursor leaves mid-drag. Drag state is stored in a ref, not useState, so the pointer move handler does not trigger a re-render on every pixel — only the region state update does."
+        },
+        {
+          "type": "text",
+          "content": "Aspect ratio enforcement runs after the edge deltas are applied. Pure-horizontal drags (east/west only) recompute height from the new width and re-center vertically. Pure-vertical drags recompute width and re-center horizontally. Corner drags treat width as primary and derive height. A second clamp pass after AR adjustment keeps the entire region inside image bounds."
+        }
+      ]
+    }
+  ]
+}
