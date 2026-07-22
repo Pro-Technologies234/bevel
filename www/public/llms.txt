@@ -73,3 +73,9 @@ Labs source code is available with the Pro license.
 - No npm package to manage — source lives in your project
 - Works with any backend, any data-fetching library
 - React 18+ and React 19 compatible
+
+## AI Integrations
+
+- MCP Server (Model Context Protocol): https://bevelui.vercel.app/api/mcp
+- Master Registry Index: https://bevelui.vercel.app/r/index.json
+- Full Documentation Corpus: https://bevelui.vercel.app/llms-full.txt

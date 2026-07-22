@@ -47,7 +47,7 @@ export function DocsPageHeader({
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+          <h1 className="text-3xl sm:text-4xl font-medium tracking-tight text-foreground">
             {title}
           </h1>
 

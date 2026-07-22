@@ -21,7 +21,7 @@ export { DocsTabs } from "./docs-tabs";
 export { DocsFileTree } from "./docs-file-tree";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-export type { DocsTOCItem, DocsCanvasProps } from "./docs-canvas";
+export type { DocsCanvasProps } from "./docs-canvas";
 export type { DocsNavigationProps, DocsNavLink } from "./docs-navigation";
 export type { DocsTypographyProps } from "./docs-typography";
 export type { DocsPageHeaderProps } from "./docs-page-header";
