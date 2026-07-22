@@ -63,32 +63,72 @@ export function DocsInstallBlock({
           </p>
         </div>
 
-        {/* CLI / Manual Tabs */}
-        <div className="flex items-center gap-1 bg-background/80 p-1 rounded-lg border border-border/50">
+        {/* Actions & Tabs */}
+        <div className="flex items-center gap-2">
+          {/* Copy AI Prompt Button */}
           <button
-            onClick={() => setActiveTab("cli")}
-            className={cn(
-              "px-3 py-1 text-xs font-medium rounded-md transition-all",
-              activeTab === "cli"
-                ? "bg-muted text-foreground font-semibold shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
-            )}
+            onClick={() => {
+              const promptText = `You are an expert React & Tailwind CSS developer. Integrate the Bevel UI system "${registryName}" into my project.
+
+Installation command:
+npx shadcn@latest add https://bevelui.vercel.app/r/${registryName}.json
+
+Documentation & reference:
+https://bevelui.vercel.app/docs/components/${registryName}
+
+Instructions:
+1. Run the shadcn CLI install command to add the system files to components/bevelui/${registryName}/.
+2. Ensure peer dependencies (motion, Tailwind CSS) are installed.
+3. Import the system component and compose it cleanly with proper state management and responsive design.`;
+
+              navigator.clipboard.writeText(promptText);
+              setCopiedIndex(999);
+              setTimeout(() => setCopiedIndex(null), 2000);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-lg border border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 transition-all cursor-pointer shadow-xs"
+            title="Copy structured prompt for Cursor, v0, ChatGPT, or Claude"
           >
-            CLI
-          </button>
-          <button
-            onClick={() => setActiveTab("manual")}
-            className={cn(
-              "px-3 py-1 text-xs font-medium rounded-md transition-all",
-              activeTab === "manual"
-                ? "bg-muted text-foreground font-semibold shadow-xs"
-                : "text-muted-foreground hover:text-foreground"
+            {copiedIndex === 999 ? (
+              <>
+                <IconCheck size={14} className="text-emerald-400" />
+                <span>Prompt Copied!</span>
+              </>
+            ) : (
+              <>
+                <span className="text-sm">✨</span>
+                <span>Copy AI Prompt</span>
+              </>
             )}
-          >
-            Manual
           </button>
+
+          {/* CLI / Manual Tabs */}
+          <div className="flex items-center gap-1 bg-background/80 p-1 rounded-lg border border-border/50">
+            <button
+              onClick={() => setActiveTab("cli")}
+              className={cn(
+                "px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer",
+                activeTab === "cli"
+                  ? "bg-muted text-foreground font-semibold shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              CLI
+            </button>
+            <button
+              onClick={() => setActiveTab("manual")}
+              className={cn(
+                "px-3 py-1 text-xs font-medium rounded-md transition-all cursor-pointer",
+                activeTab === "manual"
+                  ? "bg-muted text-foreground font-semibold shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              Manual
+            </button>
+          </div>
         </div>
       </div>
+
 
       {/* Content Area */}
       <div className="p-6">
