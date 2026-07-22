@@ -3,6 +3,12 @@
     "title": "Media Gallery",
     "description": "A selectable media grid for images, video, audio, and documents. Multi-select, type filtering, keyboard-navigable lightbox, and drag-to-reorder via the Sortable system.",
     "badge": "Components System",
+    "category": "media-color",
+    "useCases": ["Asset library", "Photo picker", "CMS media"],
+    "tier": "free",
+    "builtWith": ["Motion", "Tailwind CSS"],
+    "related": ["file-upload", "cropper"],
+    "registryName": "gallery",
     "features": [
       "6 composable parts",
       "Multi-select with Cmd/Ctrl",
@@ -23,7 +29,7 @@
     "slug": "gallery",
     "prev": {
       "label": "Tree View",
-      "href": "/docs/components/tree-view"
+      "href": "/docs/components/tree"
     },
     "next": {
       "label": "Spotlight",
@@ -38,6 +44,7 @@
     { "id": "selection", "label": "Handling selection", "depth": 1 },
     { "id": "sortable", "label": "Drag-to-reorder", "depth": 1 },
     { "id": "custom", "label": "Custom layout", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
     { "id": "api-root", "label": "GalleryRoot", "depth": 2 },
     { "id": "api-config", "label": "GalleryConfig", "depth": 2 },
     { "id": "api-item", "label": "GalleryItem", "depth": 2 },
@@ -133,24 +140,8 @@
       "title": "Installation",
       "blocks": [
         {
-          "type": "text",
-          "content": "Gallery has no npm dependencies beyond what Sortable already requires."
-        },
-        {
-          "type": "steps",
-          "steps": [
-            {
-              "title": "Add the files",
-              "description": "Installs gallery + its sortable dependency into components/bevelui/.",
-              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/gallery.json",
-              "codeLanguage": "bash"
-            },
-            {
-              "title": "Import and use",
-              "code": "import { GalleryRoot } from \"@/components/bevelui/gallery\";\nimport type { GalleryItem } from \"@/components/bevelui/gallery\";",
-              "codeLanguage": "tsx"
-            }
-          ]
+          "type": "install",
+          "registryName": "gallery"
         }
       ]
     },
@@ -212,6 +203,25 @@
           "type": "code",
           "language": "tsx",
           "code": "import {\n  GalleryRoot, GalleryGrid, GalleryToolbar,\n  GalleryLightbox, useGallery,\n} from \"@/components/bevelui/gallery\";\n\nfunction SelectionBanner() {\n  const { selectedIds, clearSelection } = useGallery();\n  if (selectedIds.size === 0) return null;\n  return (\n    <div className=\"flex items-center justify-between p-3 bg-primary/10 rounded-lg\">\n      <span>{selectedIds.size} items selected</span>\n      <button onClick={clearSelection}>Clear</button>\n    </div>\n  );\n}\n\nexport function MyGallery() {\n  return (\n    <GalleryRoot items={items} config={{ selectionMode: \"multi\" }}>\n      <GalleryToolbar />\n      <SelectionBanner />\n      <GalleryGrid />\n      <GalleryLightbox />\n    </GalleryRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "How does Media Gallery handle large media files?",
+              "a": "Media Gallery supports lazy loading, separate high-res lightbox previews, and lightweight thumbnail rendering so large image and video libraries render fluidly."
+            },
+            {
+              "q": "Can I combine drag-to-reorder with multi-selection?",
+              "a": "Yes! When sortable is enabled, drag handles allow smooth list reordering while Cmd/Ctrl keyboard modifiers continue to work for multi-selection."
+            }
+          ]
         }
       ]
     },

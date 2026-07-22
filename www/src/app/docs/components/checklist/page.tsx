@@ -1,8 +1,9 @@
-﻿import { ChecklistContent } from "@/components/docs/checklist";
-// import { docsChecklistMetadata } from "@/lib/metadata";
+import { ChecklistContent } from "@/components/docs/checklist";
+import { getSystemMetadata } from "@/content/docs/manifest";
 
-// export const metadata = docsChecklistMetadata;
+export const metadata = getSystemMetadata("checklist");
 
 export default function ChecklistPage() {
   return <ChecklistContent />;
 }
+

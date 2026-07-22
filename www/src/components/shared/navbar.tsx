@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   IconBoltFilled,
-  IconCircleFilled,
   IconMenu2,
   IconX,
+  IconBrandGithub,
 } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { Wrapper } from "@/components/shared/wrapper";
@@ -19,6 +19,7 @@ import { useSectionValue } from "@/hooks/use-section-value";
 import Marquee from "../base/home/Marquee";
 import Image from "next/image";
 import { BrandMark } from "./brand-mark";
+import { ThemeToggle } from "./theme-toggle";
 
 const navigations = [
   { id: "intro", label: "Intro", href: "/" },
@@ -68,21 +69,23 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
             </Link>
 
             {/* Desktop nav links */}
-            <ul className="hidden md:flex items-center gap-0.5">
-              {navigations.slice(1).map((item) => (
-                <li key={item.id}>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className={cn(
-                      "cursor-pointer text-sm font-medium rounded-full tracking-tight",
-                    )}
-                    asChild
-                  >
-                    <Link href={item.href}>{item.label}</Link>
-                  </Button>
-                </li>
-              ))}
+            <ul className="hidden md:flex items-center gap-1">
+              {navigations.slice(1).map((item) => {
+                const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                return (
+                  <li key={item.id}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "text-[13px] font-medium transition-colors px-3 py-1.5 rounded-full hover:bg-muted/60",
+                        isActive ? "text-foreground bg-muted/40" : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -94,29 +97,33 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
             </div>
 
             {/* CTA — hidden on mobile */}
-            <Link href="/docs/introduction" className="hidden md:block">
-              <Button
-                size="sm"
-                className="p-4 rounded-full font-semibold tracking-tight cursor-pointer bevel  gap-1.5"
-              >
-                <IconBoltFilled size={13} />
-                Get Started
-              </Button>
-            </Link>
+            <div className="hidden md:flex items-center gap-1.5">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <Button variant="ghost" size="icon" className="rounded-full w-9 h-9 text-muted-foreground hover:text-foreground">
+                  <IconBrandGithub size={18} />
+                </Button>
+              </a>
+              <ThemeToggle />
+              <Link href="/docs/introduction">
+                <Button
+                  size="sm"
+                  className="rounded-full px-4 gap-1.5 font-semibold shadow-sm ml-1"
+                >
+                  <IconBoltFilled size={14} />
+                  Get Started
+                </Button>
+              </Link>
+            </div>
 
             {/* Mobile hamburger */}
             <Button
-              onClick={() => setMobileOpen((p) => !p)}
-              variant={mobileOpen ? "default" : "outline"}
-              aria-label="Toggle navigation"
-              className={cn(
-                " rounded-full p-4 uppercase font-medium text-xs md:hidden",
-                !mobileOpen &&
-                  "border-dashed border-2 border-foreground/80! font-light",
-              )}
+              onClick={() => setMobileOpen(true)}
+              variant="ghost"
+              size="icon"
+              aria-label="Open menu"
+              className="md:hidden text-foreground"
             >
-              <IconCircleFilled className=" size-2" />
-              Menu
+              <IconMenu2 size={20} />
             </Button>
           </div>
         </Wrapper>
@@ -139,63 +146,65 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
             {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 z-50 h-full w-[90vw] md:w-90 bg-background  shadow-xl md:hidden flex flex-col pl-8 pr-4"
+              className="fixed top-0 right-0 z-50 h-full w-[85vw] max-w-sm bg-background border-l border-border/40 shadow-2xl md:hidden flex flex-col"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 200, damping: 30 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-end  py-4 ">
+              <div className="flex items-center justify-between p-4 border-b border-border/40">
+                <BrandMark />
                 <Button
-                  onClick={() => setMobileOpen((p) => !p)}
-                  variant={mobileOpen ? "default" : "outline"}
-                  aria-label="Toggle navigation"
-                  className={cn(
-                    " rounded-full p-4 uppercase font-medium text-xs z-500!",
-                    !mobileOpen &&
-                      "border-dashed border-2 border-foreground/80! font-light",
-                  )}
+                  onClick={() => setMobileOpen(false)}
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-foreground -mr-2"
                 >
-                  <IconCircleFilled className=" size-2" />
-                  Close
+                  <IconX size={20} />
                 </Button>
               </div>
 
               {/* Drawer search */}
-              <div className=" py-3 border-b border-border/60">
+              <div className="p-4 border-b border-border/40">
                 <DocsCommandSearch />
               </div>
 
               {/* Drawer nav */}
-              <nav className="flex-1 overflow-y-auto py-4 flex flex-col justify-center gap-4">
-                {navigations.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={cn(
-                      "w-fit relative rounded-lg text-3xl md:text-4xl uppercase font-medium tracking-tighter transition-colors text-lime-50",
-                      pathname == item.href &&
-                        " after:absolute after:inset-x-0 after:border-2 after:-bottom-2 after:border-foreground after:border-dashed",
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <nav className="flex-1 overflow-y-auto p-4 flex flex-col gap-1">
+                {navigations.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                  return (
+                    <Link
+                      key={item.id}
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={cn(
+                        "px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground/80 hover:bg-muted hover:text-foreground"
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </nav>
 
-              {/* Drawer CTA */}
-              <div className=" py-6 border-t border-border/60 flex flex-col text-lime-50">
-                <span className=" text-sm font-medium text-muted-foreground">
-                  GENERAL ENQUIRIES:
-                </span>
-                <a
-                  href="mailto:poyekitoye@gmail.com"
-                  className=" text-xl font-semibold"
-                >
-                  POYEKITOYE@GMAIL.COM
-                </a>
+              {/* Drawer Footer */}
+              <div className="p-4 border-t border-border/40 flex items-center justify-between bg-muted/10">
+                <div className="flex items-center gap-2">
+                  <ThemeToggle />
+                  <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                    <Button variant="ghost" size="icon" className="rounded-full w-9 h-9 text-muted-foreground hover:text-foreground">
+                      <IconBrandGithub size={18} />
+                    </Button>
+                  </a>
+                </div>
+                <Button size="sm" className="rounded-full" asChild>
+                  <Link href="/docs/introduction">Get Started</Link>
+                </Button>
               </div>
             </motion.div>
           </>

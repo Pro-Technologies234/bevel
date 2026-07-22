@@ -3,6 +3,12 @@
     "title": "Palette Editor",
     "description": "A visual color palette editor with a 2D HSV picker, sortable swatches, and one-click export to hex arrays, CSS custom properties, Tailwind config, or HSL strings.",
     "badge": "Components System",
+    "category": "media-color",
+    "useCases": ["Design system", "Theme builder", "Brand kit"],
+    "tier": "free",
+    "builtWith": ["Tailwind CSS"],
+    "related": ["properties-panel", "form-engine"],
+    "registryName": "palette",
     "features": [
       "2D HSV color picker",
       "Hex / HSL / RGB export",
@@ -34,6 +40,7 @@
     { "id": "export", "label": "Export formats", "depth": 1 },
     { "id": "custom-layout", "label": "Custom layout", "depth": 1 },
     { "id": "programmatic", "label": "usePalette", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
     { "id": "api-root", "label": "PaletteRoot", "depth": 2 },
     { "id": "api-config", "label": "PaletteConfig", "depth": 2 },
     { "id": "api-color", "label": "PaletteColor", "depth": 2 }
@@ -137,28 +144,13 @@
       "title": "Installation",
       "blocks": [
         {
-          "type": "callout",
-          "variant": "info",
-          "content": "Palette depends on the Sortable system for swatch reordering. Install Sortable first if you haven't already."
-        },
-        {
-          "type": "steps",
-          "steps": [
+          "type": "install",
+          "registryName": "palette",
+          "optionalSteps": [
             {
-              "title": "Install Sortable peer dependencies",
-              "description": "Palette's swatch grid uses Sortable internally.",
-              "code": "npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities @dnd-kit/modifiers",
-              "codeLanguage": "bash"
-            },
-            {
-              "title": "Add the Sortable system",
+              "title": "Sortable peer dependency",
               "code": "npx shadcn@latest add https://bevelui.vercel.app/r/sortable.json",
-              "codeLanguage": "bash"
-            },
-            {
-              "title": "Add the Palette system",
-              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/palette.json",
-              "codeLanguage": "bash"
+              "note": "Palette's swatch grid uses Sortable internally for drag-and-drop."
             }
           ]
         }
@@ -250,6 +242,25 @@
           "type": "code",
           "language": "tsx",
           "code": "import { PaletteRoot, PaletteGrid, usePalette } from \"@/components/bevelui/palette\";\n\nfunction PaletteActions() {\n  const { colors, selectedId, add, remove, duplicate } = usePalette();\n\n  return (\n    <div className=\"flex items-center gap-2\">\n      <span className=\"text-xs text-muted-foreground\">{colors.length} colors</span>\n      <button onClick={() => add(\"#6366f1\")}>Add indigo</button>\n      {selectedId && (\n        <>\n          <button onClick={() => duplicate(selectedId)}>Duplicate</button>\n          <button onClick={() => remove(selectedId)}>Delete</button>\n        </>\n      )}\n    </div>\n  );\n}\n\n// usePalette must be called inside PaletteRoot\nexport function App() {\n  return (\n    <PaletteRoot defaultColors={[]}>\n      <PaletteGrid />\n      <PaletteActions />\n    </PaletteRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "What export formats does Palette Editor produce?",
+              "a": "Palette Editor generates hex arrays, CSS custom variables, Tailwind config objects, and HSL string arrays with a single click."
+            },
+            {
+              "q": "Does Palette Editor support drag-and-drop swatch reordering?",
+              "a": "Yes! Drag handles built into swatches let you reorder colors cleanly using the Bevel Sortable engine."
+            }
+          ]
         }
       ]
     },

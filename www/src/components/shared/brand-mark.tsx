@@ -7,7 +7,7 @@ export function BrandMark({ className }: { className?: string }) {
     <div className={cn("flex items-center flex-1 gap-2", className)}>
       <BevelIcon className="size-6! shrink-0 text-primary -translate-y-1" />
       <span className=" font-bold tracking-tight text-lg ">Bevel UI</span>
-      <Badge className="text-xs rounded-full bg-red-600 text-white">Beta</Badge>
+      <Badge className="text-[10px] rounded-full bg-primary/10 text-primary border-none shadow-none uppercase tracking-widest font-semibold px-2 py-0.5 ml-1">BETA</Badge>
     </div>
   );
 }

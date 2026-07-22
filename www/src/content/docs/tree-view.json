@@ -3,6 +3,12 @@
     "title": "Tree View",
     "description": "Recursive hierarchical data with expand/collapse, multi-select, full keyboard navigation, and optional connecting lines. File explorers, org charts, category trees.",
     "badge": "Components System",
+    "category": "layout-panels",
+    "useCases": ["File explorer", "Org chart", "Sidebar nav"],
+    "tier": "free",
+    "builtWith": ["Tailwind CSS"],
+    "related": ["sortable", "properties-panel"],
+    "registryName": "tree",
     "features": [
       "Full keyboard navigation",
       "Multi-select",
@@ -20,10 +26,10 @@
       "connecting lines"
     ],
     "slug": "tree",
-    "prev": { "label": "Tree view", "href": "/docs/components/tree-view" },
+    "prev": { "label": "Tree view", "href": "/docs/components/tree" },
     "next": {
       "label": "Media Gallery",
-      "href": "/docs/components/media-gallery"
+      "href": "/docs/components/gallery"
     }
   },
   "tocs": [
@@ -35,6 +41,7 @@
     { "id": "multiselect", "label": "Multi-select", "depth": 1 },
     { "id": "lines", "label": "Connecting lines", "depth": 1 },
     { "id": "programmatic", "label": "useTree", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
     { "id": "api-root", "label": "TreeRoot", "depth": 2 },
     { "id": "api-node", "label": "TreeNode", "depth": 2 },
     { "id": "api-config", "label": "TreeConfig", "depth": 2 }
@@ -123,17 +130,13 @@
       "title": "Installation",
       "blocks": [
         {
-          "type": "steps",
-          "steps": [
+          "type": "install",
+          "registryName": "tree",
+          "optionalSteps": [
             {
-              "title": "Install peer dependencies",
+              "title": "Peer dependency",
               "code": "npm install motion",
-              "codeLanguage": "bash"
-            },
-            {
-              "title": "Add the system files",
-              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/tree.json",
-              "codeLanguage": "bash"
+              "note": "Required for smooth animated node expansion."
             }
           ]
         }
@@ -247,6 +250,25 @@
           "type": "code",
           "language": "tsx",
           "code": "import { useTree } from \"@/components/bevelui/tree\";\n\nfunction TreeToolbar() {\n  const { expandAll, collapseAll, expandTo, selected } = useTree();\n\n  return (\n    <div className=\"flex gap-2\">\n      <button onClick={expandAll}>Expand all</button>\n      <button onClick={collapseAll}>Collapse all</button>\n      <button onClick={() => expandTo(\"deeply/nested/node\")}>Reveal node</button>\n      <span>{selected.size} selected</span>\n    </div>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "How does keyboard navigation work across deep or nested branches?",
+              "a": "Tree View flattens all visible nodes dynamically into a single linear focus array. Arrow keys move smoothly through visible nodes while automatically respecting expand/collapse state."
+            },
+            {
+              "q": "Can I render custom icons for specific file extensions or folder types?",
+              "a": "Yes! Pass any React component or Tabler icon to the icon prop of each TreeNode definition."
+            }
+          ]
         }
       ]
     },

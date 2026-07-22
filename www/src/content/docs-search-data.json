@@ -10,7 +10,13 @@
           "description": "Fully-engineered UI systems for React. Not a component library.",
           "href": "/docs/introduction",
           "category": "getting-started",
-          "keywords": ["introduction", "overview", "about", "bevel", "what is"]
+          "keywords": [
+            "introduction",
+            "overview",
+            "about",
+            "bevel",
+            "what is"
+          ]
         },
         {
           "id": "intro-how",
@@ -18,7 +24,13 @@
           "description": "Install with shadcn CLI, copy source files, own it forever.",
           "href": "/docs/introduction#how-it-works",
           "category": "getting-started",
-          "keywords": ["shadcn", "cli", "install", "copy", "source"]
+          "keywords": [
+            "shadcn",
+            "cli",
+            "install",
+            "copy",
+            "source"
+          ]
         },
         {
           "id": "intro-philosophy",
@@ -53,7 +65,13 @@
           "description": "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
           "href": "/docs/installation#install-system",
           "category": "getting-started",
-          "keywords": ["install", "npx", "shadcn", "add", "cli command"]
+          "keywords": [
+            "install",
+            "npx",
+            "shadcn",
+            "add",
+            "cli command"
+          ]
         },
         {
           "id": "installation-paths",
@@ -61,7 +79,12 @@
           "description": "How to import Bevel systems after installation.",
           "href": "/docs/installation#import-paths",
           "category": "getting-started",
-          "keywords": ["import", "paths", "components/bevelui", "alias"]
+          "keywords": [
+            "import",
+            "paths",
+            "components/bevelui",
+            "alias"
+          ]
         },
         {
           "id": "installation-structure",
@@ -106,7 +129,11 @@
           "description": "Learn about Live demo in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#demo",
           "category": "checklist",
-          "keywords": ["checklist", "demo", "live demo"]
+          "keywords": [
+            "checklist",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "checklist-installation",
@@ -114,7 +141,11 @@
           "description": "Learn about Installation in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#installation",
           "category": "checklist",
-          "keywords": ["checklist", "installation", "installation"]
+          "keywords": [
+            "checklist",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "checklist-usage",
@@ -122,7 +153,11 @@
           "description": "Learn about Basic usage in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#usage",
           "category": "checklist",
-          "keywords": ["checklist", "usage", "basic usage"]
+          "keywords": [
+            "checklist",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "checklist-dependencies",
@@ -130,7 +165,11 @@
           "description": "Learn about Step dependencies in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#dependencies",
           "category": "checklist",
-          "keywords": ["checklist", "dependencies", "step dependencies"]
+          "keywords": [
+            "checklist",
+            "dependencies",
+            "step dependencies"
+          ]
         },
         {
           "id": "checklist-persistence",
@@ -138,7 +177,11 @@
           "description": "Learn about Persistence in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#persistence",
           "category": "checklist",
-          "keywords": ["checklist", "persistence", "persistence"]
+          "keywords": [
+            "checklist",
+            "persistence",
+            "persistence"
+          ]
         },
         {
           "id": "checklist-inline",
@@ -146,7 +189,11 @@
           "description": "Learn about Inline mode in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#inline",
           "category": "checklist",
-          "keywords": ["checklist", "inline", "inline mode"]
+          "keywords": [
+            "checklist",
+            "inline",
+            "inline mode"
+          ]
         },
         {
           "id": "checklist-api-root",
@@ -154,7 +201,11 @@
           "description": "Learn about ChecklistRoot in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#api-root",
           "category": "checklist",
-          "keywords": ["checklist", "api-root", "checklistroot"]
+          "keywords": [
+            "checklist",
+            "api-root",
+            "checklistroot"
+          ]
         },
         {
           "id": "checklist-api-step",
@@ -162,7 +213,11 @@
           "description": "Learn about ChecklistStep in the Onboarding Checklist system.",
           "href": "/docs/components/checklist#api-step",
           "category": "checklist",
-          "keywords": ["checklist", "api-step", "checkliststep"]
+          "keywords": [
+            "checklist",
+            "api-step",
+            "checkliststep"
+          ]
         }
       ]
     },
@@ -194,7 +249,11 @@
           "description": "Learn about Live demo in the Command Palette system.",
           "href": "/docs/components/command-palette#demo",
           "category": "command-palette",
-          "keywords": ["command-palette", "demo", "live demo"]
+          "keywords": [
+            "command-palette",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "command-palette-installation",
@@ -202,7 +261,11 @@
           "description": "Learn about Installation in the Command Palette system.",
           "href": "/docs/components/command-palette#installation",
           "category": "command-palette",
-          "keywords": ["command-palette", "installation", "installation"]
+          "keywords": [
+            "command-palette",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "command-palette-usage",
@@ -210,7 +273,11 @@
           "description": "Learn about Basic usage in the Command Palette system.",
           "href": "/docs/components/command-palette#usage",
           "category": "command-palette",
-          "keywords": ["command-palette", "usage", "basic usage"]
+          "keywords": [
+            "command-palette",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "command-palette-sections",
@@ -218,7 +285,11 @@
           "description": "Learn about Sections and items in the Command Palette system.",
           "href": "/docs/components/command-palette#sections",
           "category": "command-palette",
-          "keywords": ["command-palette", "sections", "sections and items"]
+          "keywords": [
+            "command-palette",
+            "sections",
+            "sections and items"
+          ]
         },
         {
           "id": "command-palette-tabs",
@@ -226,7 +297,11 @@
           "description": "Learn about Source and filter tabs in the Command Palette system.",
           "href": "/docs/components/command-palette#tabs",
           "category": "command-palette",
-          "keywords": ["command-palette", "tabs", "source and filter tabs"]
+          "keywords": [
+            "command-palette",
+            "tabs",
+            "source and filter tabs"
+          ]
         },
         {
           "id": "command-palette-programmatic",
@@ -241,12 +316,28 @@
           ]
         },
         {
+          "id": "command-palette-faq",
+          "title": "Command Palette — FAQ",
+          "description": "Learn about FAQ in the Command Palette system.",
+          "href": "/docs/components/command-palette#faq",
+          "category": "command-palette",
+          "keywords": [
+            "command-palette",
+            "faq",
+            "faq"
+          ]
+        },
+        {
           "id": "command-palette-api-item",
           "title": "Command Palette — CommandPaletteItem",
           "description": "Learn about CommandPaletteItem in the Command Palette system.",
           "href": "/docs/components/command-palette#api-item",
           "category": "command-palette",
-          "keywords": ["command-palette", "api-item", "commandpaletteitem"]
+          "keywords": [
+            "command-palette",
+            "api-item",
+            "commandpaletteitem"
+          ]
         },
         {
           "id": "command-palette-api-section",
@@ -266,7 +357,11 @@
           "description": "Learn about CommandPaletteRoot in the Command Palette system.",
           "href": "/docs/components/command-palette#api-root",
           "category": "command-palette",
-          "keywords": ["command-palette", "api-root", "commandpaletteroot"]
+          "keywords": [
+            "command-palette",
+            "api-root",
+            "commandpaletteroot"
+          ]
         }
       ]
     },
@@ -298,7 +393,11 @@
           "description": "Learn about Live demo in the Image Cropper system.",
           "href": "/docs/components/cropper#demo",
           "category": "cropper",
-          "keywords": ["cropper", "demo", "live demo"]
+          "keywords": [
+            "cropper",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "cropper-installation",
@@ -306,7 +405,11 @@
           "description": "Learn about Installation in the Image Cropper system.",
           "href": "/docs/components/cropper#installation",
           "category": "cropper",
-          "keywords": ["cropper", "installation", "installation"]
+          "keywords": [
+            "cropper",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "cropper-usage",
@@ -314,7 +417,11 @@
           "description": "Learn about Basic usage in the Image Cropper system.",
           "href": "/docs/components/cropper#usage",
           "category": "cropper",
-          "keywords": ["cropper", "usage", "basic usage"]
+          "keywords": [
+            "cropper",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "cropper-aspect-ratio",
@@ -322,7 +429,11 @@
           "description": "Learn about Aspect ratio in the Image Cropper system.",
           "href": "/docs/components/cropper#aspect-ratio",
           "category": "cropper",
-          "keywords": ["cropper", "aspect-ratio", "aspect ratio"]
+          "keywords": [
+            "cropper",
+            "aspect-ratio",
+            "aspect ratio"
+          ]
         },
         {
           "id": "cropper-custom-layout",
@@ -330,7 +441,11 @@
           "description": "Learn about Custom layout in the Image Cropper system.",
           "href": "/docs/components/cropper#custom-layout",
           "category": "cropper",
-          "keywords": ["cropper", "custom-layout", "custom layout"]
+          "keywords": [
+            "cropper",
+            "custom-layout",
+            "custom layout"
+          ]
         },
         {
           "id": "cropper-hook",
@@ -338,7 +453,11 @@
           "description": "Learn about useCropper in the Image Cropper system.",
           "href": "/docs/components/cropper#hook",
           "category": "cropper",
-          "keywords": ["cropper", "hook", "usecropper"]
+          "keywords": [
+            "cropper",
+            "hook",
+            "usecropper"
+          ]
         },
         {
           "id": "cropper-api-root",
@@ -346,7 +465,11 @@
           "description": "Learn about CropperRoot in the Image Cropper system.",
           "href": "/docs/components/cropper#api-root",
           "category": "cropper",
-          "keywords": ["cropper", "api-root", "cropperroot"]
+          "keywords": [
+            "cropper",
+            "api-root",
+            "cropperroot"
+          ]
         },
         {
           "id": "cropper-api-config",
@@ -354,7 +477,11 @@
           "description": "Learn about CropperConfig in the Image Cropper system.",
           "href": "/docs/components/cropper#api-config",
           "category": "cropper",
-          "keywords": ["cropper", "api-config", "cropperconfig"]
+          "keywords": [
+            "cropper",
+            "api-config",
+            "cropperconfig"
+          ]
         },
         {
           "id": "cropper-api-canvas",
@@ -362,7 +489,11 @@
           "description": "Learn about CropperCanvas in the Image Cropper system.",
           "href": "/docs/components/cropper#api-canvas",
           "category": "cropper",
-          "keywords": ["cropper", "api-canvas", "croppercanvas"]
+          "keywords": [
+            "cropper",
+            "api-canvas",
+            "croppercanvas"
+          ]
         },
         {
           "id": "cropper-api-preview",
@@ -370,7 +501,11 @@
           "description": "Learn about CropperPreview in the Image Cropper system.",
           "href": "/docs/components/cropper#api-preview",
           "category": "cropper",
-          "keywords": ["cropper", "api-preview", "cropperpreview"]
+          "keywords": [
+            "cropper",
+            "api-preview",
+            "cropperpreview"
+          ]
         },
         {
           "id": "cropper-api-hook",
@@ -378,7 +513,11 @@
           "description": "Learn about useCropper in the Image Cropper system.",
           "href": "/docs/components/cropper#api-hook",
           "category": "cropper",
-          "keywords": ["cropper", "api-hook", "usecropper"]
+          "keywords": [
+            "cropper",
+            "api-hook",
+            "usecropper"
+          ]
         },
         {
           "id": "cropper-internals",
@@ -386,7 +525,11 @@
           "description": "Learn about How it works in the Image Cropper system.",
           "href": "/docs/components/cropper#internals",
           "category": "cropper",
-          "keywords": ["cropper", "internals", "how it works"]
+          "keywords": [
+            "cropper",
+            "internals",
+            "how it works"
+          ]
         }
       ]
     },
@@ -418,7 +561,11 @@
           "description": "Learn about Live demo in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#demo",
           "category": "cursors",
-          "keywords": ["cursors", "demo", "live demo"]
+          "keywords": [
+            "cursors",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "cursors-installation",
@@ -426,7 +573,11 @@
           "description": "Learn about Installation in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#installation",
           "category": "cursors",
-          "keywords": ["cursors", "installation", "installation"]
+          "keywords": [
+            "cursors",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "cursors-usage",
@@ -434,7 +585,11 @@
           "description": "Learn about Basic usage in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#usage",
           "category": "cursors",
-          "keywords": ["cursors", "usage", "basic usage"]
+          "keywords": [
+            "cursors",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "cursors-transport",
@@ -442,7 +597,11 @@
           "description": "Learn about Wiring a transport in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#transport",
           "category": "cursors",
-          "keywords": ["cursors", "transport", "wiring a transport"]
+          "keywords": [
+            "cursors",
+            "transport",
+            "wiring a transport"
+          ]
         },
         {
           "id": "cursors-idle",
@@ -450,7 +609,11 @@
           "description": "Learn about Idle detection in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#idle",
           "category": "cursors",
-          "keywords": ["cursors", "idle", "idle detection"]
+          "keywords": [
+            "cursors",
+            "idle",
+            "idle detection"
+          ]
         },
         {
           "id": "cursors-api-root",
@@ -458,7 +621,11 @@
           "description": "Learn about CursorsRoot in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#api-root",
           "category": "cursors",
-          "keywords": ["cursors", "api-root", "cursorsroot"]
+          "keywords": [
+            "cursors",
+            "api-root",
+            "cursorsroot"
+          ]
         },
         {
           "id": "cursors-api-config",
@@ -466,7 +633,11 @@
           "description": "Learn about CursorsConfig in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#api-config",
           "category": "cursors",
-          "keywords": ["cursors", "api-config", "cursorsconfig"]
+          "keywords": [
+            "cursors",
+            "api-config",
+            "cursorsconfig"
+          ]
         },
         {
           "id": "cursors-api-canvas",
@@ -474,7 +645,11 @@
           "description": "Learn about CursorCanvas in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#api-canvas",
           "category": "cursors",
-          "keywords": ["cursors", "api-canvas", "cursorcanvas"]
+          "keywords": [
+            "cursors",
+            "api-canvas",
+            "cursorcanvas"
+          ]
         },
         {
           "id": "cursors-api-hook",
@@ -482,7 +657,11 @@
           "description": "Learn about useCursors in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#api-hook",
           "category": "cursors",
-          "keywords": ["cursors", "api-hook", "usecursors"]
+          "keywords": [
+            "cursors",
+            "api-hook",
+            "usecursors"
+          ]
         },
         {
           "id": "cursors-api-types",
@@ -490,7 +669,11 @@
           "description": "Learn about Types in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#api-types",
           "category": "cursors",
-          "keywords": ["cursors", "api-types", "types"]
+          "keywords": [
+            "cursors",
+            "api-types",
+            "types"
+          ]
         },
         {
           "id": "cursors-internals",
@@ -498,7 +681,11 @@
           "description": "Learn about How it works in the Collaborative Cursors system.",
           "href": "/docs/components/cursors#internals",
           "category": "cursors",
-          "keywords": ["cursors", "internals", "how it works"]
+          "keywords": [
+            "cursors",
+            "internals",
+            "how it works"
+          ]
         }
       ]
     },
@@ -531,7 +718,11 @@
           "description": "Learn about Live demo in the File Upload system.",
           "href": "/docs/components/file-upload#demo",
           "category": "file-upload",
-          "keywords": ["file-upload", "demo", "live demo"]
+          "keywords": [
+            "file-upload",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "file-upload-installation",
@@ -539,7 +730,11 @@
           "description": "Learn about Installation in the File Upload system.",
           "href": "/docs/components/file-upload#installation",
           "category": "file-upload",
-          "keywords": ["file-upload", "installation", "installation"]
+          "keywords": [
+            "file-upload",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "file-upload-usage",
@@ -547,7 +742,11 @@
           "description": "Learn about Basic usage in the File Upload system.",
           "href": "/docs/components/file-upload#usage",
           "category": "file-upload",
-          "keywords": ["file-upload", "usage", "basic usage"]
+          "keywords": [
+            "file-upload",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "file-upload-config",
@@ -555,7 +754,11 @@
           "description": "Learn about With config in the File Upload system.",
           "href": "/docs/components/file-upload#config",
           "category": "file-upload",
-          "keywords": ["file-upload", "config", "with config"]
+          "keywords": [
+            "file-upload",
+            "config",
+            "with config"
+          ]
         },
         {
           "id": "file-upload-progress",
@@ -563,7 +766,11 @@
           "description": "Learn about Real upload progress in the File Upload system.",
           "href": "/docs/components/file-upload#progress",
           "category": "file-upload",
-          "keywords": ["file-upload", "progress", "real upload progress"]
+          "keywords": [
+            "file-upload",
+            "progress",
+            "real upload progress"
+          ]
         },
         {
           "id": "file-upload-modal",
@@ -571,7 +778,11 @@
           "description": "Learn about Modal mode in the File Upload system.",
           "href": "/docs/components/file-upload#modal",
           "category": "file-upload",
-          "keywords": ["file-upload", "modal", "modal mode"]
+          "keywords": [
+            "file-upload",
+            "modal",
+            "modal mode"
+          ]
         },
         {
           "id": "file-upload-programmatic",
@@ -579,7 +790,11 @@
           "description": "Learn about Programmatic control in the File Upload system.",
           "href": "/docs/components/file-upload#programmatic",
           "category": "file-upload",
-          "keywords": ["file-upload", "programmatic", "programmatic control"]
+          "keywords": [
+            "file-upload",
+            "programmatic",
+            "programmatic control"
+          ]
         },
         {
           "id": "file-upload-api-root",
@@ -587,7 +802,11 @@
           "description": "Learn about FileUploadRoot in the File Upload system.",
           "href": "/docs/components/file-upload#api-root",
           "category": "file-upload",
-          "keywords": ["file-upload", "api-root", "fileuploadroot"]
+          "keywords": [
+            "file-upload",
+            "api-root",
+            "fileuploadroot"
+          ]
         },
         {
           "id": "file-upload-api-config",
@@ -595,7 +814,11 @@
           "description": "Learn about FileUploadConfig in the File Upload system.",
           "href": "/docs/components/file-upload#api-config",
           "category": "file-upload",
-          "keywords": ["file-upload", "api-config", "fileuploadconfig"]
+          "keywords": [
+            "file-upload",
+            "api-config",
+            "fileuploadconfig"
+          ]
         },
         {
           "id": "file-upload-api-entry",
@@ -603,7 +826,11 @@
           "description": "Learn about FileEntry in the File Upload system.",
           "href": "/docs/components/file-upload#api-entry",
           "category": "file-upload",
-          "keywords": ["file-upload", "api-entry", "fileentry"]
+          "keywords": [
+            "file-upload",
+            "api-entry",
+            "fileentry"
+          ]
         }
       ]
     },
@@ -636,7 +863,11 @@
           "description": "Learn about Live demo in the Form Engine system.",
           "href": "/docs/components/form-engine#demo",
           "category": "form-engine",
-          "keywords": ["form-engine", "demo", "live demo"]
+          "keywords": [
+            "form-engine",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "form-engine-installation",
@@ -644,7 +875,11 @@
           "description": "Learn about Installation in the Form Engine system.",
           "href": "/docs/components/form-engine#installation",
           "category": "form-engine",
-          "keywords": ["form-engine", "installation", "installation"]
+          "keywords": [
+            "form-engine",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "form-engine-philosophy",
@@ -652,7 +887,11 @@
           "description": "Learn about Philosophy in the Form Engine system.",
           "href": "/docs/components/form-engine#philosophy",
           "category": "form-engine",
-          "keywords": ["form-engine", "philosophy", "philosophy"]
+          "keywords": [
+            "form-engine",
+            "philosophy",
+            "philosophy"
+          ]
         },
         {
           "id": "form-engine-usage",
@@ -660,7 +899,11 @@
           "description": "Learn about Basic usage in the Form Engine system.",
           "href": "/docs/components/form-engine#usage",
           "category": "form-engine",
-          "keywords": ["form-engine", "usage", "basic usage"]
+          "keywords": [
+            "form-engine",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "form-engine-with-zod",
@@ -668,7 +911,11 @@
           "description": "Learn about With zod validation in the Form Engine system.",
           "href": "/docs/components/form-engine#with-zod",
           "category": "form-engine",
-          "keywords": ["form-engine", "with-zod", "with zod validation"]
+          "keywords": [
+            "form-engine",
+            "with-zod",
+            "with zod validation"
+          ]
         },
         {
           "id": "form-engine-custom-fields",
@@ -676,7 +923,11 @@
           "description": "Learn about Custom fields in the Form Engine system.",
           "href": "/docs/components/form-engine#custom-fields",
           "category": "form-engine",
-          "keywords": ["form-engine", "custom-fields", "custom fields"]
+          "keywords": [
+            "form-engine",
+            "custom-fields",
+            "custom fields"
+          ]
         },
         {
           "id": "form-engine-headless-mode",
@@ -684,7 +935,11 @@
           "description": "Learn about Headless mode in the Form Engine system.",
           "href": "/docs/components/form-engine#headless-mode",
           "category": "form-engine",
-          "keywords": ["form-engine", "headless-mode", "headless mode"]
+          "keywords": [
+            "form-engine",
+            "headless-mode",
+            "headless mode"
+          ]
         },
         {
           "id": "form-engine-plugins",
@@ -692,7 +947,11 @@
           "description": "Learn about Plugins in the Form Engine system.",
           "href": "/docs/components/form-engine#plugins",
           "category": "form-engine",
-          "keywords": ["form-engine", "plugins", "plugins"]
+          "keywords": [
+            "form-engine",
+            "plugins",
+            "plugins"
+          ]
         },
         {
           "id": "form-engine-single-step",
@@ -700,7 +959,11 @@
           "description": "Learn about Single step mode in the Form Engine system.",
           "href": "/docs/components/form-engine#single-step",
           "category": "form-engine",
-          "keywords": ["form-engine", "single-step", "single step mode"]
+          "keywords": [
+            "form-engine",
+            "single-step",
+            "single step mode"
+          ]
         },
         {
           "id": "form-engine-custom-layout",
@@ -708,7 +971,11 @@
           "description": "Learn about Custom layout in the Form Engine system.",
           "href": "/docs/components/form-engine#custom-layout",
           "category": "form-engine",
-          "keywords": ["form-engine", "custom-layout", "custom layout"]
+          "keywords": [
+            "form-engine",
+            "custom-layout",
+            "custom layout"
+          ]
         },
         {
           "id": "form-engine-api-config",
@@ -716,7 +983,11 @@
           "description": "Learn about FormEngineConfig in the Form Engine system.",
           "href": "/docs/components/form-engine#api-config",
           "category": "form-engine",
-          "keywords": ["form-engine", "api-config", "formengineconfig"]
+          "keywords": [
+            "form-engine",
+            "api-config",
+            "formengineconfig"
+          ]
         },
         {
           "id": "form-engine-api-step",
@@ -724,7 +995,11 @@
           "description": "Learn about FormEngineStepDef in the Form Engine system.",
           "href": "/docs/components/form-engine#api-step",
           "category": "form-engine",
-          "keywords": ["form-engine", "api-step", "formenginestepdef"]
+          "keywords": [
+            "form-engine",
+            "api-step",
+            "formenginestepdef"
+          ]
         },
         {
           "id": "form-engine-api-field",
@@ -732,7 +1007,11 @@
           "description": "Learn about FormEngineFieldDef in the Form Engine system.",
           "href": "/docs/components/form-engine#api-field",
           "category": "form-engine",
-          "keywords": ["form-engine", "api-field", "formenginefielddef"]
+          "keywords": [
+            "form-engine",
+            "api-field",
+            "formenginefielddef"
+          ]
         },
         {
           "id": "form-engine-api-plugin",
@@ -740,7 +1019,11 @@
           "description": "Learn about FormEnginePlugin in the Form Engine system.",
           "href": "/docs/components/form-engine#api-plugin",
           "category": "form-engine",
-          "keywords": ["form-engine", "api-plugin", "formengineplugin"]
+          "keywords": [
+            "form-engine",
+            "api-plugin",
+            "formengineplugin"
+          ]
         }
       ]
     },
@@ -772,7 +1055,11 @@
           "description": "Learn about Live demo in the Media Gallery system.",
           "href": "/docs/components/gallery#demo",
           "category": "gallery",
-          "keywords": ["gallery", "demo", "live demo"]
+          "keywords": [
+            "gallery",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "gallery-installation",
@@ -780,7 +1067,11 @@
           "description": "Learn about Installation in the Media Gallery system.",
           "href": "/docs/components/gallery#installation",
           "category": "gallery",
-          "keywords": ["gallery", "installation", "installation"]
+          "keywords": [
+            "gallery",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "gallery-usage",
@@ -788,7 +1079,11 @@
           "description": "Learn about Basic usage in the Media Gallery system.",
           "href": "/docs/components/gallery#usage",
           "category": "gallery",
-          "keywords": ["gallery", "usage", "basic usage"]
+          "keywords": [
+            "gallery",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "gallery-selection",
@@ -796,7 +1091,11 @@
           "description": "Learn about Handling selection in the Media Gallery system.",
           "href": "/docs/components/gallery#selection",
           "category": "gallery",
-          "keywords": ["gallery", "selection", "handling selection"]
+          "keywords": [
+            "gallery",
+            "selection",
+            "handling selection"
+          ]
         },
         {
           "id": "gallery-sortable",
@@ -804,7 +1103,11 @@
           "description": "Learn about Drag-to-reorder in the Media Gallery system.",
           "href": "/docs/components/gallery#sortable",
           "category": "gallery",
-          "keywords": ["gallery", "sortable", "drag-to-reorder"]
+          "keywords": [
+            "gallery",
+            "sortable",
+            "drag-to-reorder"
+          ]
         },
         {
           "id": "gallery-custom",
@@ -812,7 +1115,23 @@
           "description": "Learn about Custom layout in the Media Gallery system.",
           "href": "/docs/components/gallery#custom",
           "category": "gallery",
-          "keywords": ["gallery", "custom", "custom layout"]
+          "keywords": [
+            "gallery",
+            "custom",
+            "custom layout"
+          ]
+        },
+        {
+          "id": "gallery-faq",
+          "title": "Media Gallery — FAQ",
+          "description": "Learn about FAQ in the Media Gallery system.",
+          "href": "/docs/components/gallery#faq",
+          "category": "gallery",
+          "keywords": [
+            "gallery",
+            "faq",
+            "faq"
+          ]
         },
         {
           "id": "gallery-api-root",
@@ -820,7 +1139,11 @@
           "description": "Learn about GalleryRoot in the Media Gallery system.",
           "href": "/docs/components/gallery#api-root",
           "category": "gallery",
-          "keywords": ["gallery", "api-root", "galleryroot"]
+          "keywords": [
+            "gallery",
+            "api-root",
+            "galleryroot"
+          ]
         },
         {
           "id": "gallery-api-config",
@@ -828,7 +1151,11 @@
           "description": "Learn about GalleryConfig in the Media Gallery system.",
           "href": "/docs/components/gallery#api-config",
           "category": "gallery",
-          "keywords": ["gallery", "api-config", "galleryconfig"]
+          "keywords": [
+            "gallery",
+            "api-config",
+            "galleryconfig"
+          ]
         },
         {
           "id": "gallery-api-item",
@@ -836,7 +1163,11 @@
           "description": "Learn about GalleryItem in the Media Gallery system.",
           "href": "/docs/components/gallery#api-item",
           "category": "gallery",
-          "keywords": ["gallery", "api-item", "galleryitem"]
+          "keywords": [
+            "gallery",
+            "api-item",
+            "galleryitem"
+          ]
         },
         {
           "id": "gallery-api-hook",
@@ -844,7 +1175,11 @@
           "description": "Learn about useGallery in the Media Gallery system.",
           "href": "/docs/components/gallery#api-hook",
           "category": "gallery",
-          "keywords": ["gallery", "api-hook", "usegallery"]
+          "keywords": [
+            "gallery",
+            "api-hook",
+            "usegallery"
+          ]
         }
       ]
     },
@@ -858,7 +1193,9 @@
           "description": "Bevel systems install via the shadcn CLI. Each system is copied directly into your project — no npm package, no versioning, no lock-in.",
           "href": "/docs/components/installation",
           "category": "installation",
-          "keywords": ["installation"]
+          "keywords": [
+            "installation"
+          ]
         },
         {
           "id": "installation-prerequisites",
@@ -866,7 +1203,11 @@
           "description": "Learn about Prerequisites in the Installation system.",
           "href": "/docs/components/installation#prerequisites",
           "category": "installation",
-          "keywords": ["installation", "prerequisites", "prerequisites"]
+          "keywords": [
+            "installation",
+            "prerequisites",
+            "prerequisites"
+          ]
         },
         {
           "id": "installation-install-shadcn",
@@ -874,7 +1215,11 @@
           "description": "Learn about Set up shadcn/ui in the Installation system.",
           "href": "/docs/components/installation#install-shadcn",
           "category": "installation",
-          "keywords": ["installation", "install-shadcn", "set up shadcn/ui"]
+          "keywords": [
+            "installation",
+            "install-shadcn",
+            "set up shadcn/ui"
+          ]
         },
         {
           "id": "installation-install-system",
@@ -882,7 +1227,11 @@
           "description": "Learn about Install a system in the Installation system.",
           "href": "/docs/components/installation#install-system",
           "category": "installation",
-          "keywords": ["installation", "install-system", "install a system"]
+          "keywords": [
+            "installation",
+            "install-system",
+            "install a system"
+          ]
         },
         {
           "id": "installation-folder-structure",
@@ -890,7 +1239,11 @@
           "description": "Learn about Folder structure in the Installation system.",
           "href": "/docs/components/installation#folder-structure",
           "category": "installation",
-          "keywords": ["installation", "folder-structure", "folder structure"]
+          "keywords": [
+            "installation",
+            "folder-structure",
+            "folder structure"
+          ]
         },
         {
           "id": "installation-import-paths",
@@ -898,7 +1251,11 @@
           "description": "Learn about Import paths in the Installation system.",
           "href": "/docs/components/installation#import-paths",
           "category": "installation",
-          "keywords": ["installation", "import-paths", "import paths"]
+          "keywords": [
+            "installation",
+            "import-paths",
+            "import paths"
+          ]
         }
       ]
     },
@@ -912,7 +1269,9 @@
           "description": "Bevel UI ships fully-engineered UI systems — not component libraries. Each system solves a complete, hard UI engineering problem so you can drop in working architecture rather than build it from scratch.",
           "href": "/docs/components/introduction",
           "category": "introduction",
-          "keywords": ["introduction"]
+          "keywords": [
+            "introduction"
+          ]
         },
         {
           "id": "introduction-what-is-bevel",
@@ -920,7 +1279,11 @@
           "description": "Learn about What is Bevel? in the Introduction system.",
           "href": "/docs/components/introduction#what-is-bevel",
           "category": "introduction",
-          "keywords": ["introduction", "what-is-bevel", "what is bevel?"]
+          "keywords": [
+            "introduction",
+            "what-is-bevel",
+            "what is bevel?"
+          ]
         },
         {
           "id": "introduction-how-it-works",
@@ -928,7 +1291,11 @@
           "description": "Learn about How it works in the Introduction system.",
           "href": "/docs/components/introduction#how-it-works",
           "category": "introduction",
-          "keywords": ["introduction", "how-it-works", "how it works"]
+          "keywords": [
+            "introduction",
+            "how-it-works",
+            "how it works"
+          ]
         },
         {
           "id": "introduction-philosophy",
@@ -936,7 +1303,11 @@
           "description": "Learn about Philosophy in the Introduction system.",
           "href": "/docs/components/introduction#philosophy",
           "category": "introduction",
-          "keywords": ["introduction", "philosophy", "philosophy"]
+          "keywords": [
+            "introduction",
+            "philosophy",
+            "philosophy"
+          ]
         },
         {
           "id": "introduction-faq",
@@ -944,7 +1315,11 @@
           "description": "Learn about FAQ in the Introduction system.",
           "href": "/docs/components/introduction#faq",
           "category": "introduction",
-          "keywords": ["introduction", "faq", "faq"]
+          "keywords": [
+            "introduction",
+            "faq",
+            "faq"
+          ]
         }
       ]
     },
@@ -977,7 +1352,11 @@
           "description": "Learn about Live demo in the Kanban system.",
           "href": "/docs/components/kanban#demo",
           "category": "kanban",
-          "keywords": ["kanban", "demo", "live demo"]
+          "keywords": [
+            "kanban",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "kanban-installation",
@@ -985,7 +1364,11 @@
           "description": "Learn about Installation in the Kanban system.",
           "href": "/docs/components/kanban#installation",
           "category": "kanban",
-          "keywords": ["kanban", "installation", "installation"]
+          "keywords": [
+            "kanban",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "kanban-usage",
@@ -993,7 +1376,11 @@
           "description": "Learn about Basic usage in the Kanban system.",
           "href": "/docs/components/kanban#usage",
           "category": "kanban",
-          "keywords": ["kanban", "usage", "basic usage"]
+          "keywords": [
+            "kanban",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "kanban-render-props",
@@ -1001,7 +1388,11 @@
           "description": "Learn about Render props in the Kanban system.",
           "href": "/docs/components/kanban#render-props",
           "category": "kanban",
-          "keywords": ["kanban", "render-props", "render props"]
+          "keywords": [
+            "kanban",
+            "render-props",
+            "render props"
+          ]
         },
         {
           "id": "kanban-scenarios",
@@ -1009,7 +1400,11 @@
           "description": "Learn about Usage scenarios in the Kanban system.",
           "href": "/docs/components/kanban#scenarios",
           "category": "kanban",
-          "keywords": ["kanban", "scenarios", "usage scenarios"]
+          "keywords": [
+            "kanban",
+            "scenarios",
+            "usage scenarios"
+          ]
         },
         {
           "id": "kanban-api-root",
@@ -1017,7 +1412,11 @@
           "description": "Learn about KanbanRoot in the Kanban system.",
           "href": "/docs/components/kanban#api-root",
           "category": "kanban",
-          "keywords": ["kanban", "api-root", "kanbanroot"]
+          "keywords": [
+            "kanban",
+            "api-root",
+            "kanbanroot"
+          ]
         },
         {
           "id": "kanban-api-board",
@@ -1025,7 +1424,11 @@
           "description": "Learn about KanbanBoard in the Kanban system.",
           "href": "/docs/components/kanban#api-board",
           "category": "kanban",
-          "keywords": ["kanban", "api-board", "kanbanboard"]
+          "keywords": [
+            "kanban",
+            "api-board",
+            "kanbanboard"
+          ]
         },
         {
           "id": "kanban-api-column",
@@ -1033,7 +1436,11 @@
           "description": "Learn about KanbanColumn in the Kanban system.",
           "href": "/docs/components/kanban#api-column",
           "category": "kanban",
-          "keywords": ["kanban", "api-column", "kanbancolumn"]
+          "keywords": [
+            "kanban",
+            "api-column",
+            "kanbancolumn"
+          ]
         },
         {
           "id": "kanban-api-card",
@@ -1041,7 +1448,11 @@
           "description": "Learn about KanbanCard in the Kanban system.",
           "href": "/docs/components/kanban#api-card",
           "category": "kanban",
-          "keywords": ["kanban", "api-card", "kanbancard"]
+          "keywords": [
+            "kanban",
+            "api-card",
+            "kanbancard"
+          ]
         },
         {
           "id": "kanban-api-hook",
@@ -1049,7 +1460,11 @@
           "description": "Learn about useKanban in the Kanban system.",
           "href": "/docs/components/kanban#api-hook",
           "category": "kanban",
-          "keywords": ["kanban", "api-hook", "usekanban"]
+          "keywords": [
+            "kanban",
+            "api-hook",
+            "usekanban"
+          ]
         }
       ]
     },
@@ -1082,7 +1497,11 @@
           "description": "Learn about Live demo in the Palette Editor system.",
           "href": "/docs/components/palette#demo",
           "category": "palette",
-          "keywords": ["palette", "demo", "live demo"]
+          "keywords": [
+            "palette",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "palette-installation",
@@ -1090,7 +1509,11 @@
           "description": "Learn about Installation in the Palette Editor system.",
           "href": "/docs/components/palette#installation",
           "category": "palette",
-          "keywords": ["palette", "installation", "installation"]
+          "keywords": [
+            "palette",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "palette-usage",
@@ -1098,7 +1521,11 @@
           "description": "Learn about Basic usage in the Palette Editor system.",
           "href": "/docs/components/palette#usage",
           "category": "palette",
-          "keywords": ["palette", "usage", "basic usage"]
+          "keywords": [
+            "palette",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "palette-controlled",
@@ -1106,7 +1533,11 @@
           "description": "Learn about Controlled mode in the Palette Editor system.",
           "href": "/docs/components/palette#controlled",
           "category": "palette",
-          "keywords": ["palette", "controlled", "controlled mode"]
+          "keywords": [
+            "palette",
+            "controlled",
+            "controlled mode"
+          ]
         },
         {
           "id": "palette-export",
@@ -1114,7 +1545,11 @@
           "description": "Learn about Export formats in the Palette Editor system.",
           "href": "/docs/components/palette#export",
           "category": "palette",
-          "keywords": ["palette", "export", "export formats"]
+          "keywords": [
+            "palette",
+            "export",
+            "export formats"
+          ]
         },
         {
           "id": "palette-custom-layout",
@@ -1122,7 +1557,11 @@
           "description": "Learn about Custom layout in the Palette Editor system.",
           "href": "/docs/components/palette#custom-layout",
           "category": "palette",
-          "keywords": ["palette", "custom-layout", "custom layout"]
+          "keywords": [
+            "palette",
+            "custom-layout",
+            "custom layout"
+          ]
         },
         {
           "id": "palette-programmatic",
@@ -1130,7 +1569,23 @@
           "description": "Learn about usePalette in the Palette Editor system.",
           "href": "/docs/components/palette#programmatic",
           "category": "palette",
-          "keywords": ["palette", "programmatic", "usepalette"]
+          "keywords": [
+            "palette",
+            "programmatic",
+            "usepalette"
+          ]
+        },
+        {
+          "id": "palette-faq",
+          "title": "Palette Editor — FAQ",
+          "description": "Learn about FAQ in the Palette Editor system.",
+          "href": "/docs/components/palette#faq",
+          "category": "palette",
+          "keywords": [
+            "palette",
+            "faq",
+            "faq"
+          ]
         },
         {
           "id": "palette-api-root",
@@ -1138,7 +1593,11 @@
           "description": "Learn about PaletteRoot in the Palette Editor system.",
           "href": "/docs/components/palette#api-root",
           "category": "palette",
-          "keywords": ["palette", "api-root", "paletteroot"]
+          "keywords": [
+            "palette",
+            "api-root",
+            "paletteroot"
+          ]
         },
         {
           "id": "palette-api-config",
@@ -1146,7 +1605,11 @@
           "description": "Learn about PaletteConfig in the Palette Editor system.",
           "href": "/docs/components/palette#api-config",
           "category": "palette",
-          "keywords": ["palette", "api-config", "paletteconfig"]
+          "keywords": [
+            "palette",
+            "api-config",
+            "paletteconfig"
+          ]
         },
         {
           "id": "palette-api-color",
@@ -1154,7 +1617,11 @@
           "description": "Learn about PaletteColor in the Palette Editor system.",
           "href": "/docs/components/palette#api-color",
           "category": "palette",
-          "keywords": ["palette", "api-color", "palettecolor"]
+          "keywords": [
+            "palette",
+            "api-color",
+            "palettecolor"
+          ]
         }
       ]
     },
@@ -1186,7 +1653,11 @@
           "description": "Learn about Live demo in the Product Tour system.",
           "href": "/docs/components/product-tour#demo",
           "category": "product-tour",
-          "keywords": ["product-tour", "demo", "live demo"]
+          "keywords": [
+            "product-tour",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "product-tour-installation",
@@ -1194,7 +1665,11 @@
           "description": "Learn about Installation in the Product Tour system.",
           "href": "/docs/components/product-tour#installation",
           "category": "product-tour",
-          "keywords": ["product-tour", "installation", "installation"]
+          "keywords": [
+            "product-tour",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "product-tour-usage",
@@ -1202,7 +1677,11 @@
           "description": "Learn about Basic usage in the Product Tour system.",
           "href": "/docs/components/product-tour#usage",
           "category": "product-tour",
-          "keywords": ["product-tour", "usage", "basic usage"]
+          "keywords": [
+            "product-tour",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "product-tour-with-media",
@@ -1210,7 +1689,11 @@
           "description": "Learn about With media in the Product Tour system.",
           "href": "/docs/components/product-tour#with-media",
           "category": "product-tour",
-          "keywords": ["product-tour", "with-media", "with media"]
+          "keywords": [
+            "product-tour",
+            "with-media",
+            "with media"
+          ]
         },
         {
           "id": "product-tour-programmatic",
@@ -1218,7 +1701,23 @@
           "description": "Learn about Programmatic control in the Product Tour system.",
           "href": "/docs/components/product-tour#programmatic",
           "category": "product-tour",
-          "keywords": ["product-tour", "programmatic", "programmatic control"]
+          "keywords": [
+            "product-tour",
+            "programmatic",
+            "programmatic control"
+          ]
+        },
+        {
+          "id": "product-tour-faq",
+          "title": "Product Tour — FAQ",
+          "description": "Learn about FAQ in the Product Tour system.",
+          "href": "/docs/components/product-tour#faq",
+          "category": "product-tour",
+          "keywords": [
+            "product-tour",
+            "faq",
+            "faq"
+          ]
         },
         {
           "id": "product-tour-api-tourstepdef",
@@ -1226,7 +1725,11 @@
           "description": "Learn about TourStepDef in the Product Tour system.",
           "href": "/docs/components/product-tour#api-tourstepdef",
           "category": "product-tour",
-          "keywords": ["product-tour", "api-tourstepdef", "tourstepdef"]
+          "keywords": [
+            "product-tour",
+            "api-tourstepdef",
+            "tourstepdef"
+          ]
         },
         {
           "id": "product-tour-api-touranchor",
@@ -1234,7 +1737,11 @@
           "description": "Learn about TourAnchor in the Product Tour system.",
           "href": "/docs/components/product-tour#api-touranchor",
           "category": "product-tour",
-          "keywords": ["product-tour", "api-touranchor", "touranchor"]
+          "keywords": [
+            "product-tour",
+            "api-touranchor",
+            "touranchor"
+          ]
         },
         {
           "id": "product-tour-api-tourroot",
@@ -1242,7 +1749,11 @@
           "description": "Learn about TourRoot in the Product Tour system.",
           "href": "/docs/components/product-tour#api-tourroot",
           "category": "product-tour",
-          "keywords": ["product-tour", "api-tourroot", "tourroot"]
+          "keywords": [
+            "product-tour",
+            "api-tourroot",
+            "tourroot"
+          ]
         }
       ]
     },
@@ -1273,7 +1784,11 @@
           "description": "Learn about Live demo in the Properties Panel system.",
           "href": "/docs/components/properties-panel#demo",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "demo", "live demo"]
+          "keywords": [
+            "properties-panel",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "properties-panel-installation",
@@ -1281,7 +1796,11 @@
           "description": "Learn about Installation in the Properties Panel system.",
           "href": "/docs/components/properties-panel#installation",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "installation", "installation"]
+          "keywords": [
+            "properties-panel",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "properties-panel-config-driven",
@@ -1289,7 +1808,11 @@
           "description": "Learn about Config-driven in the Properties Panel system.",
           "href": "/docs/components/properties-panel#config-driven",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "config-driven", "config-driven"]
+          "keywords": [
+            "properties-panel",
+            "config-driven",
+            "config-driven"
+          ]
         },
         {
           "id": "properties-panel-headless",
@@ -1297,7 +1820,11 @@
           "description": "Learn about Headless in the Properties Panel system.",
           "href": "/docs/components/properties-panel#headless",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "headless", "headless"]
+          "keywords": [
+            "properties-panel",
+            "headless",
+            "headless"
+          ]
         },
         {
           "id": "properties-panel-controls",
@@ -1305,7 +1832,11 @@
           "description": "Learn about Control types in the Properties Panel system.",
           "href": "/docs/components/properties-panel#controls",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "controls", "control types"]
+          "keywords": [
+            "properties-panel",
+            "controls",
+            "control types"
+          ]
         },
         {
           "id": "properties-panel-api-panel",
@@ -1313,7 +1844,11 @@
           "description": "Learn about PropertiesPanel in the Properties Panel system.",
           "href": "/docs/components/properties-panel#api-panel",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "api-panel", "propertiespanel"]
+          "keywords": [
+            "properties-panel",
+            "api-panel",
+            "propertiespanel"
+          ]
         },
         {
           "id": "properties-panel-api-section",
@@ -1321,7 +1856,11 @@
           "description": "Learn about PropertiesSection in the Properties Panel system.",
           "href": "/docs/components/properties-panel#api-section",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "api-section", "propertiessection"]
+          "keywords": [
+            "properties-panel",
+            "api-section",
+            "propertiessection"
+          ]
         },
         {
           "id": "properties-panel-api-row",
@@ -1329,7 +1868,11 @@
           "description": "Learn about PropertiesRow in the Properties Panel system.",
           "href": "/docs/components/properties-panel#api-row",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "api-row", "propertiesrow"]
+          "keywords": [
+            "properties-panel",
+            "api-row",
+            "propertiesrow"
+          ]
         },
         {
           "id": "properties-panel-api-controls",
@@ -1337,7 +1880,11 @@
           "description": "Learn about PropertyControl in the Properties Panel system.",
           "href": "/docs/components/properties-panel#api-controls",
           "category": "properties-panel",
-          "keywords": ["properties-panel", "api-controls", "propertycontrol"]
+          "keywords": [
+            "properties-panel",
+            "api-controls",
+            "propertycontrol"
+          ]
         }
       ]
     },
@@ -1368,7 +1915,11 @@
           "description": "Learn about Live demo in the Resizable Panel system.",
           "href": "/docs/components/resizable#demo",
           "category": "resizable",
-          "keywords": ["resizable", "demo", "live demo"]
+          "keywords": [
+            "resizable",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "resizable-installation",
@@ -1376,7 +1927,11 @@
           "description": "Learn about Installation in the Resizable Panel system.",
           "href": "/docs/components/resizable#installation",
           "category": "resizable",
-          "keywords": ["resizable", "installation", "installation"]
+          "keywords": [
+            "resizable",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "resizable-usage",
@@ -1384,7 +1939,11 @@
           "description": "Learn about Basic usage in the Resizable Panel system.",
           "href": "/docs/components/resizable#usage",
           "category": "resizable",
-          "keywords": ["resizable", "usage", "basic usage"]
+          "keywords": [
+            "resizable",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "resizable-three-panel",
@@ -1392,7 +1951,11 @@
           "description": "Learn about Three panels in the Resizable Panel system.",
           "href": "/docs/components/resizable#three-panel",
           "category": "resizable",
-          "keywords": ["resizable", "three-panel", "three panels"]
+          "keywords": [
+            "resizable",
+            "three-panel",
+            "three panels"
+          ]
         },
         {
           "id": "resizable-vertical",
@@ -1400,7 +1963,11 @@
           "description": "Learn about Vertical split in the Resizable Panel system.",
           "href": "/docs/components/resizable#vertical",
           "category": "resizable",
-          "keywords": ["resizable", "vertical", "vertical split"]
+          "keywords": [
+            "resizable",
+            "vertical",
+            "vertical split"
+          ]
         },
         {
           "id": "resizable-api-root",
@@ -1408,7 +1975,11 @@
           "description": "Learn about ResizableRoot in the Resizable Panel system.",
           "href": "/docs/components/resizable#api-root",
           "category": "resizable",
-          "keywords": ["resizable", "api-root", "resizableroot"]
+          "keywords": [
+            "resizable",
+            "api-root",
+            "resizableroot"
+          ]
         },
         {
           "id": "resizable-api-panel",
@@ -1416,7 +1987,11 @@
           "description": "Learn about ResizablePanel in the Resizable Panel system.",
           "href": "/docs/components/resizable#api-panel",
           "category": "resizable",
-          "keywords": ["resizable", "api-panel", "resizablepanel"]
+          "keywords": [
+            "resizable",
+            "api-panel",
+            "resizablepanel"
+          ]
         },
         {
           "id": "resizable-api-handle",
@@ -1424,7 +1999,11 @@
           "description": "Learn about ResizableHandle in the Resizable Panel system.",
           "href": "/docs/components/resizable#api-handle",
           "category": "resizable",
-          "keywords": ["resizable", "api-handle", "resizablehandle"]
+          "keywords": [
+            "resizable",
+            "api-handle",
+            "resizablehandle"
+          ]
         },
         {
           "id": "resizable-api-config",
@@ -1432,7 +2011,11 @@
           "description": "Learn about ResizablePanelConfig in the Resizable Panel system.",
           "href": "/docs/components/resizable#api-config",
           "category": "resizable",
-          "keywords": ["resizable", "api-config", "resizablepanelconfig"]
+          "keywords": [
+            "resizable",
+            "api-config",
+            "resizablepanelconfig"
+          ]
         }
       ]
     },
@@ -1464,7 +2047,11 @@
           "description": "Learn about Live demo in the Sortable system.",
           "href": "/docs/components/sortable#demo",
           "category": "sortable",
-          "keywords": ["sortable", "demo", "live demo"]
+          "keywords": [
+            "sortable",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "sortable-installation",
@@ -1472,7 +2059,11 @@
           "description": "Learn about Installation in the Sortable system.",
           "href": "/docs/components/sortable#installation",
           "category": "sortable",
-          "keywords": ["sortable", "installation", "installation"]
+          "keywords": [
+            "sortable",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "sortable-usage",
@@ -1480,7 +2071,11 @@
           "description": "Learn about Basic usage in the Sortable system.",
           "href": "/docs/components/sortable#usage",
           "category": "sortable",
-          "keywords": ["sortable", "usage", "basic usage"]
+          "keywords": [
+            "sortable",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "sortable-handle-mode",
@@ -1488,7 +2083,11 @@
           "description": "Learn about Handle mode in the Sortable system.",
           "href": "/docs/components/sortable#handle-mode",
           "category": "sortable",
-          "keywords": ["sortable", "handle-mode", "handle mode"]
+          "keywords": [
+            "sortable",
+            "handle-mode",
+            "handle mode"
+          ]
         },
         {
           "id": "sortable-overlay",
@@ -1496,7 +2095,11 @@
           "description": "Learn about Custom overlay in the Sortable system.",
           "href": "/docs/components/sortable#overlay",
           "category": "sortable",
-          "keywords": ["sortable", "overlay", "custom overlay"]
+          "keywords": [
+            "sortable",
+            "overlay",
+            "custom overlay"
+          ]
         },
         {
           "id": "sortable-programmatic",
@@ -1504,7 +2107,11 @@
           "description": "Learn about useSortableList in the Sortable system.",
           "href": "/docs/components/sortable#programmatic",
           "category": "sortable",
-          "keywords": ["sortable", "programmatic", "usesortablelist"]
+          "keywords": [
+            "sortable",
+            "programmatic",
+            "usesortablelist"
+          ]
         },
         {
           "id": "sortable-api-root",
@@ -1512,7 +2119,11 @@
           "description": "Learn about SortableRoot in the Sortable system.",
           "href": "/docs/components/sortable#api-root",
           "category": "sortable",
-          "keywords": ["sortable", "api-root", "sortableroot"]
+          "keywords": [
+            "sortable",
+            "api-root",
+            "sortableroot"
+          ]
         },
         {
           "id": "sortable-api-item",
@@ -1520,7 +2131,11 @@
           "description": "Learn about SortableItem in the Sortable system.",
           "href": "/docs/components/sortable#api-item",
           "category": "sortable",
-          "keywords": ["sortable", "api-item", "sortableitem"]
+          "keywords": [
+            "sortable",
+            "api-item",
+            "sortableitem"
+          ]
         },
         {
           "id": "sortable-api-handle",
@@ -1528,7 +2143,11 @@
           "description": "Learn about SortableHandle in the Sortable system.",
           "href": "/docs/components/sortable#api-handle",
           "category": "sortable",
-          "keywords": ["sortable", "api-handle", "sortablehandle"]
+          "keywords": [
+            "sortable",
+            "api-handle",
+            "sortablehandle"
+          ]
         }
       ]
     },
@@ -1560,7 +2179,11 @@
           "description": "Learn about Live demo in the Spotlight Search system.",
           "href": "/docs/components/spotlight#demo",
           "category": "spotlight",
-          "keywords": ["spotlight", "demo", "live demo"]
+          "keywords": [
+            "spotlight",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "spotlight-installation",
@@ -1568,7 +2191,11 @@
           "description": "Learn about Installation in the Spotlight Search system.",
           "href": "/docs/components/spotlight#installation",
           "category": "spotlight",
-          "keywords": ["spotlight", "installation", "installation"]
+          "keywords": [
+            "spotlight",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "spotlight-usage",
@@ -1576,7 +2203,11 @@
           "description": "Learn about Basic usage in the Spotlight Search system.",
           "href": "/docs/components/spotlight#usage",
           "category": "spotlight",
-          "keywords": ["spotlight", "usage", "basic usage"]
+          "keywords": [
+            "spotlight",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "spotlight-categories",
@@ -1584,7 +2215,11 @@
           "description": "Learn about Categories in the Spotlight Search system.",
           "href": "/docs/components/spotlight#categories",
           "category": "spotlight",
-          "keywords": ["spotlight", "categories", "categories"]
+          "keywords": [
+            "spotlight",
+            "categories",
+            "categories"
+          ]
         },
         {
           "id": "spotlight-history",
@@ -1592,7 +2227,11 @@
           "description": "Learn about Recent searches in the Spotlight Search system.",
           "href": "/docs/components/spotlight#history",
           "category": "spotlight",
-          "keywords": ["spotlight", "history", "recent searches"]
+          "keywords": [
+            "spotlight",
+            "history",
+            "recent searches"
+          ]
         },
         {
           "id": "spotlight-programmatic",
@@ -1600,7 +2239,11 @@
           "description": "Learn about Programmatic control in the Spotlight Search system.",
           "href": "/docs/components/spotlight#programmatic",
           "category": "spotlight",
-          "keywords": ["spotlight", "programmatic", "programmatic control"]
+          "keywords": [
+            "spotlight",
+            "programmatic",
+            "programmatic control"
+          ]
         },
         {
           "id": "spotlight-api-root",
@@ -1608,7 +2251,11 @@
           "description": "Learn about SpotlightRoot in the Spotlight Search system.",
           "href": "/docs/components/spotlight#api-root",
           "category": "spotlight",
-          "keywords": ["spotlight", "api-root", "spotlightroot"]
+          "keywords": [
+            "spotlight",
+            "api-root",
+            "spotlightroot"
+          ]
         },
         {
           "id": "spotlight-api-result",
@@ -1616,7 +2263,11 @@
           "description": "Learn about SpotlightResult in the Spotlight Search system.",
           "href": "/docs/components/spotlight#api-result",
           "category": "spotlight",
-          "keywords": ["spotlight", "api-result", "spotlightresult"]
+          "keywords": [
+            "spotlight",
+            "api-result",
+            "spotlightresult"
+          ]
         },
         {
           "id": "spotlight-api-config",
@@ -1624,7 +2275,11 @@
           "description": "Learn about SpotlightConfig in the Spotlight Search system.",
           "href": "/docs/components/spotlight#api-config",
           "category": "spotlight",
-          "keywords": ["spotlight", "api-config", "spotlightconfig"]
+          "keywords": [
+            "spotlight",
+            "api-config",
+            "spotlightconfig"
+          ]
         }
       ]
     },
@@ -1655,7 +2310,11 @@
           "description": "Learn about Live demo in the Tree View system.",
           "href": "/docs/components/tree#demo",
           "category": "tree",
-          "keywords": ["tree", "demo", "live demo"]
+          "keywords": [
+            "tree",
+            "demo",
+            "live demo"
+          ]
         },
         {
           "id": "tree-installation",
@@ -1663,7 +2322,11 @@
           "description": "Learn about Installation in the Tree View system.",
           "href": "/docs/components/tree#installation",
           "category": "tree",
-          "keywords": ["tree", "installation", "installation"]
+          "keywords": [
+            "tree",
+            "installation",
+            "installation"
+          ]
         },
         {
           "id": "tree-usage",
@@ -1671,7 +2334,11 @@
           "description": "Learn about Basic usage in the Tree View system.",
           "href": "/docs/components/tree#usage",
           "category": "tree",
-          "keywords": ["tree", "usage", "basic usage"]
+          "keywords": [
+            "tree",
+            "usage",
+            "basic usage"
+          ]
         },
         {
           "id": "tree-keyboard",
@@ -1679,7 +2346,11 @@
           "description": "Learn about Keyboard navigation in the Tree View system.",
           "href": "/docs/components/tree#keyboard",
           "category": "tree",
-          "keywords": ["tree", "keyboard", "keyboard navigation"]
+          "keywords": [
+            "tree",
+            "keyboard",
+            "keyboard navigation"
+          ]
         },
         {
           "id": "tree-multiselect",
@@ -1687,7 +2358,11 @@
           "description": "Learn about Multi-select in the Tree View system.",
           "href": "/docs/components/tree#multiselect",
           "category": "tree",
-          "keywords": ["tree", "multiselect", "multi-select"]
+          "keywords": [
+            "tree",
+            "multiselect",
+            "multi-select"
+          ]
         },
         {
           "id": "tree-lines",
@@ -1695,7 +2370,11 @@
           "description": "Learn about Connecting lines in the Tree View system.",
           "href": "/docs/components/tree#lines",
           "category": "tree",
-          "keywords": ["tree", "lines", "connecting lines"]
+          "keywords": [
+            "tree",
+            "lines",
+            "connecting lines"
+          ]
         },
         {
           "id": "tree-programmatic",
@@ -1703,7 +2382,23 @@
           "description": "Learn about useTree in the Tree View system.",
           "href": "/docs/components/tree#programmatic",
           "category": "tree",
-          "keywords": ["tree", "programmatic", "usetree"]
+          "keywords": [
+            "tree",
+            "programmatic",
+            "usetree"
+          ]
+        },
+        {
+          "id": "tree-faq",
+          "title": "Tree View — FAQ",
+          "description": "Learn about FAQ in the Tree View system.",
+          "href": "/docs/components/tree#faq",
+          "category": "tree",
+          "keywords": [
+            "tree",
+            "faq",
+            "faq"
+          ]
         },
         {
           "id": "tree-api-root",
@@ -1711,7 +2406,11 @@
           "description": "Learn about TreeRoot in the Tree View system.",
           "href": "/docs/components/tree#api-root",
           "category": "tree",
-          "keywords": ["tree", "api-root", "treeroot"]
+          "keywords": [
+            "tree",
+            "api-root",
+            "treeroot"
+          ]
         },
         {
           "id": "tree-api-node",
@@ -1719,7 +2418,11 @@
           "description": "Learn about TreeNode in the Tree View system.",
           "href": "/docs/components/tree#api-node",
           "category": "tree",
-          "keywords": ["tree", "api-node", "treenode"]
+          "keywords": [
+            "tree",
+            "api-node",
+            "treenode"
+          ]
         },
         {
           "id": "tree-api-config",
@@ -1727,7 +2430,11 @@
           "description": "Learn about TreeConfig in the Tree View system.",
           "href": "/docs/components/tree#api-config",
           "category": "tree",
-          "keywords": ["tree", "api-config", "treeconfig"]
+          "keywords": [
+            "tree",
+            "api-config",
+            "treeconfig"
+          ]
         }
       ]
     }

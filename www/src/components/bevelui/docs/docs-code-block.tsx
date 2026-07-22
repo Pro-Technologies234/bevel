@@ -126,11 +126,16 @@ export function DocsCodeBlock({
             className="text-foreground/50"
           />
           {filename ? (
-            <span className="text-[11px] font-medium text-muted-foreground/80 font-mono">
-              {filename}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-medium text-muted-foreground/80 font-mono">
+                {filename}
+              </span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-muted/60 border border-border/50 text-muted-foreground font-semibold uppercase tracking-wider">
+                {language}
+              </span>
+            </div>
           ) : (
-            <span className="text-[11px] text-muted-foreground/40 uppercase tracking-wider">
+            <span className="text-[10px] text-muted-foreground/50 uppercase tracking-wider font-semibold">
               {language}
             </span>
           )}

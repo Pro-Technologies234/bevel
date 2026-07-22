@@ -3,19 +3,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { MetadataRoute } from "next";
+import { DOCS_SYSTEMS, getSystemHref } from "@/content/docs/manifest";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_APP_URL ?? "https://bevelui.vercel.app";
-const SYSTEMS = [
-  "product-tour",
-  "command-palette",
-  "file-upload",
-  "form-engine",
-  "sortable",
-  "palette",
-  "properties-panel",
-  "ai-chat",
-];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -61,12 +52,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
-    ...SYSTEMS.map((slug) => ({
-      url: `${SITE_URL}/docs/components/${slug}`,
+    // ── Component Systems (Single Source of Truth from manifest.ts) ───────────
+    ...DOCS_SYSTEMS.map((system) => ({
+      url: `${SITE_URL}${getSystemHref(system.route)}`,
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.85,
     })),
+
     // ── Labs previews (public, indexable) ─────────────────────────────────────
     {
       url: `${SITE_URL}/preview/vault`,

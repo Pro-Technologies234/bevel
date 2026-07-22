@@ -1,46 +1,75 @@
 # Bevel UI
 
-> Fully-engineered UI systems for React. Copy the code, own it forever. No lock-in.
+> Fully-engineered UI systems for React. Copy the source into your project and own it forever. shadcn/ui compatible. No npm package. No lock-in.
 
-Bevel UI is a collection of production-ready UI systems for React developers.
-Unlike component libraries, each system solves a complete engineering problem —
-state architecture, edge cases, and composable API included.
+Bevel UI ships complete, production-ready UI systems — not component primitives. Each system solves a hard UI engineering problem end-to-end: state machine, edge cases, keyboard navigation, accessibility, validation. You install it once with the shadcn CLI and it lives in your codebase forever.
 
-Built on: React, TypeScript, Tailwind CSS v4, shadcn/ui
-Install: npx shadcn@latest add https://bevelui.vercel.app/r/[system-name].json
+Install any system:
+npx shadcn@latest add https://bevelui.vercel.app/r/<system-name>.json
 
-## Free Systems
+Built on: React 18+/19, TypeScript, Tailwind CSS v4, shadcn/ui
 
-- **Product Tour** — Viewport-aware guided tours. SVG mask overlay, floating card positioning via @floating-ui/react, keyboard navigation, media support. https://bevelui.vercel.app/docs/components/product-tour
-- **Command Palette** — ⌘K command menu with custom fuzzy search (no Fuse.js), two-tier tab filtering, grouped results, avatar support. https://bevelui.vercel.app/docs/components/command-palette
-- **File Upload** — Drag-and-drop with per-file state machine (idle→uploading→done/error), cancel via AbortController, retry, grid/list views. https://bevelui.vercel.app/docs/components/file-upload
-- **Form Engine** — Multi-step form orchestration. Config-driven or headless. Plugin architecture. Per-step Zod validation. Conditional fields. https://bevelui.vercel.app/docs/components/form-engine
-- **Sortable** — Drag-to-reorder for lists and CSS grids. Built on @dnd-kit. Handle mode, drag overlay, useSortableList hook. https://bevelui.vercel.app/docs/components/sortable
-- **Color Palette** — Visual palette editor with 2D HSV picker. Export to hex array, CSS variables, Tailwind config, HSL strings. https://bevelui.vercel.app/docs/components/palette
+## Getting Started
 
-## Pro Systems ($49 one-time)
+- [Introduction](https://bevelui.vercel.app/docs/introduction): What Bevel UI is and how it differs from a component library
+- [Installation](https://bevelui.vercel.app/docs/installation): How to install any system with the shadcn CLI
+- [All Systems](https://bevelui.vercel.app/docs/components): Browse all 15 available systems
 
-- **Properties Panel** — Figma-style panel with seven typed control rows. Config-driven or headless. Uses shadcn Input, Select, Switch, Slider. https://bevelui.vercel.app/docs/components/properties-panel
-- **AI Chat Interface** — Streaming chat UI with thinking blocks, tool call display, markdown rendering, file attachments. Model-agnostic. https://bevelui.vercel.app/docs/components/ai-chat
+## Systems Documentation
+
+### Navigation & Search
+
+- [Product Tour](https://bevelui.vercel.app/docs/components/product-tour): Guided tour system with SVG overlay masking, viewport-aware floating cards, media support, keyboard navigation, step skip/resume. Install: npx shadcn@latest add https://bevelui.vercel.app/r/tour.json
+- [Command Palette](https://bevelui.vercel.app/docs/components/command-palette): ⌘K command menu with fuzzy search, two-tier tab filtering, grouped results, avatar support. Zero external deps. Install: npx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json
+- [Spotlight Search](https://bevelui.vercel.app/docs/components/spotlight): Async content search with category tabs, recent history, rich result cards. Triggered by /. Install: npx shadcn@latest add https://bevelui.vercel.app/r/spotlight.json
+
+### Forms & Input
+
+- [Form Engine](https://bevelui.vercel.app/docs/components/form-engine): Multi-step form orchestration. Config-driven or headless modes. Plugin system (Zod, analytics, server validation). react-hook-form + zod. Per-step validation. Conditional fields. Custom layouts. Install: npx shadcn@latest add https://bevelui.vercel.app/r/form-engine.json
+- [File Upload](https://bevelui.vercel.app/docs/components/file-upload): Drag-and-drop file upload with per-file progress, cancel, retry, grid/list views, modal mode. Bring your own upload function. Install: npx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json
+
+### Drag & Drop
+
+- [Sortable](https://bevelui.vercel.app/docs/components/sortable): Headless drag-to-reorder for any list. useSortableList hook manages the array. Handle mode, drag overlay. Install: npx shadcn@latest add https://bevelui.vercel.app/r/sortable.json
+- [Kanban](https://bevelui.vercel.app/docs/components/kanban): Multi-container drag-and-drop board. Drag cards between columns, reorder columns. Virtual state machine with live placeholders. Install: npx shadcn@latest add https://bevelui.vercel.app/r/kanban.json
+
+### Layout & Panels
+
+- [Properties Panel](https://bevelui.vercel.app/docs/components/properties-panel): Figma-style properties panel with collapsible sections, typed control rows, data-driven or headless API. Install: npx shadcn@latest add https://bevelui.vercel.app/r/properties-panel.json
+- [Resizable Panels](https://bevelui.vercel.app/docs/components/resizable): Split-pane layouts with smooth drag-to-resize, min/max constraints, collapsible panels. Zero re-renders during drag. Install: npx shadcn@latest add https://bevelui.vercel.app/r/resizable.json
+- [Tree View](https://bevelui.vercel.app/docs/components/tree): Recursive hierarchical data with expand/collapse, multi-select, keyboard navigation, optional connecting lines. Install: npx shadcn@latest add https://bevelui.vercel.app/r/tree.json
+
+### Media & Color
+
+- [Media Gallery](https://bevelui.vercel.app/docs/components/gallery): Selectable media grid for images, video, audio, documents. Multi-select, type filtering, keyboard lightbox, drag-to-reorder. Install: npx shadcn@latest add https://bevelui.vercel.app/r/gallery.json
+- [Image Cropper](https://bevelui.vercel.app/docs/components/cropper): Eight-handle crop with aspect ratio enforcement, rule-of-thirds overlay, offscreen canvas export at full resolution. Install: npx shadcn@latest add https://bevelui.vercel.app/r/cropper.json
+- [Palette Editor](https://bevelui.vercel.app/docs/components/palette): Visual color palette editor with 2D HSV picker, sortable swatches, export to hex/CSS vars/Tailwind/HSL. Install: npx shadcn@latest add https://bevelui.vercel.app/r/palette.json
+
+### Collaboration
+
+- [Collaborative Cursors](https://bevelui.vercel.app/docs/components/cursors): Real-time presence overlay with position sync, idle detection, label overlap resolver. Install: npx shadcn@latest add https://bevelui.vercel.app/r/cursors.json
+- [Onboarding Checklist](https://bevelui.vercel.app/docs/components/checklist): Floating checklist widget with step dependencies, localStorage persistence, animated expand/collapse. Install: npx shadcn@latest add https://bevelui.vercel.app/r/checklist.json
 
 ## Bevel Labs
 
-Six fully functional demo applications built entirely with Bevel systems.
-Vault (file manager), Onboard (SaaS onboarding), Launchpad (deployment dashboard),
-Intake (job application form), Briefcase (client handoff), Compass (settings hub).
+Six fully functional demo applications built with Bevel systems:
+- Vault (Google Drive-style file manager using File Upload + Command Palette)
+- Onboard (SaaS signup flow using Form Engine + Product Tour)
+- Launchpad (developer deployment dashboard using Command Palette + Product Tour)
+- Intake (job application form using Form Engine)
+- Briefcase (client project handoff using Form Engine + File Upload)
+- Compass (settings hub with 5 sections, navigable via sidebar and ⌘K)
 
-Source code available with Pro license.
-
-## Docs
-
-Full documentation: https://bevelui.vercel.app/docs
-Quick start: https://bevelui.vercel.app/docs/quick-start
+Labs source code is available with the Pro license.
 
 ## Pricing
 
-- Free: All free systems, MIT licensed
-- Pro: $49 one-time — all Pro systems + Bevel Labs source code
+- Free: MIT licensed. Includes Product Tour, Command Palette, File Upload, Form Engine, Sortable, Kanban, Tree View, Gallery, Palette Editor, Properties Panel, Resizable, Spotlight, Checklist.
+- Pro: $49 one-time payment. All systems + Image Cropper, Collaborative Cursors + Bevel Labs source.
 
-## Optional
+## Key Facts
 
-- llms-full.txt: https://bevelui.vercel.app/llms-full.txt
+- Based on: shadcn/ui (same primitives, drops into existing setup)
+- No npm package to manage — source lives in your project
+- Works with any backend, any data-fetching library
+- React 18+ and React 19 compatible
