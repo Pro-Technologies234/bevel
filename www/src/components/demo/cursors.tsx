@@ -6,47 +6,62 @@ import {
   CursorCanvas,
   useCursors,
 } from "@/components/bevelui/cursors";
+import { cn } from "@/lib/utils";
 
-// ─── Simulated users ──────────────────────────────────────────────────────────
+// ─── Simulated collaborators ────────────────────────────────────────────────
 
-const SIMULATED_USERS = [
-  { userId: "sim-1", userName: "Alice" },
-  { userId: "sim-2", userName: "Bob" },
-  { userId: "sim-3", userName: "Charlie" },
-  { userId: "sim-4", userName: "Diana" },
+const COLLABORATORS = [
+  { userId: "sim-1", userName: "Alice",   color: "#a78bfa", avatar: "A" },
+  { userId: "sim-2", userName: "Marcus",  color: "#34d399", avatar: "M" },
+  { userId: "sim-3", userName: "Priya",   color: "#fb923c", avatar: "P" },
+  { userId: "sim-4", userName: "Jordan",  color: "#60a5fa", avatar: "J" },
 ];
 
-// Random-walk simulation — wired to updateCursor exactly as real transport would be
+// Sticky note content for the canvas
+const STICKY_NOTES = [
+  { id: "n1", x: "8%",  y: "12%", bg: "#fef08a", text: "Redesign header nav", rotate: "-2deg" },
+  { id: "n2", x: "38%", y: "8%",  bg: "#bbf7d0", text: "Fix mobile overflow",  rotate: "1.5deg" },
+  { id: "n3", x: "66%", y: "15%", bg: "#bfdbfe", text: "Migrate to Turso DB",  rotate: "-1deg" },
+  { id: "n4", x: "18%", y: "55%", bg: "#fecaca", text: "Auth token refresh",   rotate: "2deg" },
+  { id: "n5", x: "55%", y: "52%", bg: "#e9d5ff", text: "Add dark mode toggle", rotate: "-1.5deg" },
+];
+
+// ─── Simulation engine ──────────────────────────────────────────────────────
+
 function SimulatedCursors() {
   const { updateCursor } = useCursors();
 
   React.useEffect(() => {
-    // Per-user velocity state
-    const state = Object.fromEntries(
-      SIMULATED_USERS.map((u) => [
-        u.userId,
-        {
-          x: 0.1 + Math.random() * 0.8,
-          y: 0.1 + Math.random() * 0.8,
-          vx: (Math.random() - 0.5) * 0.01,
-          vy: (Math.random() - 0.5) * 0.01,
-        },
-      ]),
-    );
+    // Each cursor wanders naturally via smooth Bézier-like velocity fields
+    const state: Record<string, { x: number; y: number; vx: number; vy: number; phase: number }> =
+      Object.fromEntries(
+        COLLABORATORS.map((u, i) => [
+          u.userId,
+          {
+            x: 0.15 + i * 0.2,
+            y: 0.2 + (i % 2) * 0.4,
+            vx: (Math.random() - 0.5) * 0.008,
+            vy: (Math.random() - 0.5) * 0.008,
+            phase: i * 1.5,
+          },
+        ])
+      );
 
+    let frame = 0;
     const tick = setInterval(() => {
-      SIMULATED_USERS.forEach((user) => {
+      frame++;
+      COLLABORATORS.forEach((user) => {
         const s = state[user.userId];
-        // Accelerate randomly, damp, bounce off walls
-        s.vx += (Math.random() - 0.5) * 0.008;
-        s.vy += (Math.random() - 0.5) * 0.008;
-        s.vx = Math.max(-0.025, Math.min(0.025, s.vx)) * 0.92;
-        s.vy = Math.max(-0.025, Math.min(0.025, s.vy)) * 0.92;
-        s.x = Math.max(0.04, Math.min(0.96, s.x + s.vx));
-        s.y = Math.max(0.04, Math.min(0.96, s.y + s.vy));
-        // Bounce
-        if (s.x <= 0.04 || s.x >= 0.96) s.vx *= -1;
-        if (s.y <= 0.04 || s.y >= 0.96) s.vy *= -1;
+        // Organic wandering: velocity nudge + sinusoidal drift
+        s.vx += (Math.random() - 0.5) * 0.006 + Math.sin(frame * 0.04 + s.phase) * 0.002;
+        s.vy += (Math.random() - 0.5) * 0.006 + Math.cos(frame * 0.03 + s.phase) * 0.002;
+        // Damp & clamp
+        s.vx = Math.max(-0.018, Math.min(0.018, s.vx)) * 0.94;
+        s.vy = Math.max(-0.018, Math.min(0.018, s.vy)) * 0.94;
+        s.x = Math.max(0.03, Math.min(0.97, s.x + s.vx));
+        s.y = Math.max(0.03, Math.min(0.97, s.y + s.vy));
+        if (s.x <= 0.03 || s.x >= 0.97) s.vx *= -1;
+        if (s.y <= 0.03 || s.y >= 0.97) s.vy *= -1;
 
         updateCursor({
           userId: user.userId,
@@ -54,7 +69,7 @@ function SimulatedCursors() {
           position: { x: s.x, y: s.y },
         });
       });
-    }, 80);
+    }, 60);
 
     return () => clearInterval(tick);
   }, [updateCursor]);
@@ -65,62 +80,106 @@ function SimulatedCursors() {
 // ─── Main demo ────────────────────────────────────────────────────────────────
 
 export function CursorsDemo() {
+  const [activeCount, setActiveCount] = React.useState(4);
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-3">
+      {/* Header bar */}
+      <div className="flex items-center justify-between px-1">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[13px] font-semibold text-foreground">Shared canvas</span>
+          <span className="text-[11px] text-muted-foreground/60">
+            {activeCount} collaborators online
+          </span>
+        </div>
+
+        {/* Presence avatars */}
+        <div className="flex items-center">
+          {COLLABORATORS.slice(0, activeCount).map((u, i) => (
+            <div
+              key={u.userId}
+              title={u.userName}
+              className="w-7 h-7 rounded-full border-2 border-background flex items-center justify-center text-[10px] font-bold text-white shrink-0 -ml-2 first:ml-0 transition-all"
+              style={{ backgroundColor: u.color, zIndex: COLLABORATORS.length - i }}
+            >
+              {u.avatar}
+            </div>
+          ))}
+          <div className="ml-2 text-[10px] text-muted-foreground font-mono">+{Math.max(0, 12 - activeCount)} more</div>
+        </div>
+      </div>
+
+      {/* Canvas */}
       <CursorsRoot
         localUser={{ userId: "local-user", userName: "You" }}
-        config={{
-          showSelf: false,
-          idleAfter: 5,
-          removeAfter: 15,
-          throttleMs: 40,
-        }}
-        onMove={(_pos) => {
-          // In production: socket.emit("cursor", { userId, position: pos })
-        }}
+        config={{ showSelf: false, idleAfter: 8, removeAfter: 20, throttleMs: 30 }}
       >
-        <CursorCanvas className="h-80 rounded-xl border border-border bg-card/40 overflow-hidden bg-background">
+        <CursorCanvas className="relative w-full h-[400px] rounded-xl border border-border bg-[#0d0d0d] overflow-hidden">
           <SimulatedCursors />
-          {/* Decorative grid */}
+
+          {/* Dot-grid background */}
           <svg
-            className="absolute inset-0 w-full h-full opacity-[0.04] pointer-events-none"
+            className="absolute inset-0 w-full h-full opacity-[0.12] pointer-events-none"
             aria-hidden
           >
             <defs>
-              <pattern
-                id="cg"
-                width="40"
-                height="40"
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  d="M 40 0 L 0 0 0 40"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                />
+              <pattern id="dot-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="1" fill="currentColor" className="text-muted-foreground" />
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#cg)" />
+            <rect width="100%" height="100%" fill="url(#dot-grid)" />
           </svg>
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-            <p className="text-[13px] font-mono text-muted-foreground/30">
-              Move your cursor here
-            </p>
+
+          {/* Sticky notes */}
+          {STICKY_NOTES.map((note) => (
+            <div
+              key={note.id}
+              className="absolute w-28 p-2.5 rounded-md shadow-lg text-[11px] font-medium text-gray-800 leading-snug select-none pointer-events-none"
+              style={{
+                left: note.x,
+                top: note.y,
+                backgroundColor: note.bg,
+                transform: `rotate(${note.rotate})`,
+              }}
+            >
+              {note.text}
+            </div>
+          ))}
+
+          {/* Guide label */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
+            <span className="text-[10px] font-mono text-muted-foreground/40 tracking-wide">
+              move your cursor over the canvas
+            </span>
           </div>
         </CursorCanvas>
       </CursorsRoot>
 
-      <p className="text-[11px] text-muted-foreground/40 font-mono">
-        4 simulated users · label overlaps resolved each frame · idle fade after
-        5s
-      </p>
+      {/* Controls */}
+      <div className="flex items-center gap-3 px-1">
+        <span className="text-[11px] text-muted-foreground/60 font-mono">Simulated users:</span>
+        <div className="flex gap-1.5">
+          {[1, 2, 3, 4].map((n) => (
+            <button
+              key={n}
+              onClick={() => setActiveCount(n)}
+              className={cn(
+                "w-6 h-6 rounded-md text-[11px] font-mono border transition-colors",
+                activeCount === n
+                  ? "bg-primary text-black border-primary"
+                  : "bg-muted/40 text-muted-foreground border-border hover:border-muted-foreground"
+              )}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
 // ─── Transport wiring demo ─────────────────────────────────────────────────────
-// Shows the canonical pattern for wiring a real transport.
 
 export function CursorsTransportDemo() {
   return (
@@ -142,7 +201,6 @@ function CollabPage() {
 }
 
 // 2. Wire incoming events from inside the canvas
-//    (updateCursor / removeCursor are stable refs — safe in effect deps)
 function TransportWiring() {
   const { updateCursor, removeCursor } = useCursors();
 

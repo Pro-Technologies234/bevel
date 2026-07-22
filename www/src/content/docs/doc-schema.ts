@@ -3,11 +3,6 @@
  *
  * Each doc page is described by a DocPage object.
  * These are stored as JSON and rendered by the page component.
- *
- * When you add a backend/CMS later, you can:
- *   1. Keep this schema as the data contract
- *   2. Replace the local JSON imports with API fetch calls
- *   3. The page components don't need to change
  */
 
 export type DocPageMeta = {
@@ -15,6 +10,12 @@ export type DocPageMeta = {
   description: string;
   badge?: string;
   slug: string;
+  category?: string;
+  useCases?: string[];
+  tier?: "free" | "pro" | "beta";
+  builtWith?: string[];
+  related?: string[];
+  registryName?: string;
   prev?: { label: string; href: string };
   next?: { label: string; href: string };
 };
@@ -83,19 +84,41 @@ export type FileTreeNode = {
   children?: FileTreeNode[];
 };
 
-/**
- * "demo" blocks reference a component by name.
- * The page renders a <React.Suspense> wrapper around a dynamic import.
- * This keeps JSON serialisable while still supporting live demos.
- */
 export type DocBlockDemo = {
   type: "demo";
-  /** Must match a key in the page's demoRegistry */
   component: string;
   label?: string;
   code?: string;
   codeFilename?: string;
   preview?: string;
+};
+
+export type DocBlockInstall = {
+  type: "install";
+  registryName: string;
+  optionalSteps?: {
+    title: string;
+    code?: string;
+    note?: string;
+  }[];
+};
+
+export type DocBlockFaq = {
+  type: "faq";
+  items: {
+    q: string;
+    a: string;
+  }[];
+};
+
+export type DocBlockRelated = {
+  type: "related";
+  currentRoute: string;
+};
+
+export type DocBlockBuiltWith = {
+  type: "built-with";
+  techs: string[];
 };
 
 export type DocBlock =
@@ -105,7 +128,11 @@ export type DocBlock =
   | DocBlockPropsTable
   | DocBlockSteps
   | DocBlockFileTree
-  | DocBlockDemo;
+  | DocBlockDemo
+  | DocBlockInstall
+  | DocBlockFaq
+  | DocBlockRelated
+  | DocBlockBuiltWith;
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 

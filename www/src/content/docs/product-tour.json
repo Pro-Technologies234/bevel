@@ -3,6 +3,12 @@
     "title": "Product Tour",
     "description": "A fully-engineered guided tour system. Highlights any element on the page, positions a floating card that never escapes the viewport, supports media, and handles keyboard navigation out of the box.",
     "badge": "Components System",
+    "category": "navigation-search",
+    "useCases": ["Onboarding", "SaaS app", "Feature discovery"],
+    "tier": "free",
+    "builtWith": ["Motion", "@floating-ui/react", "Tailwind CSS"],
+    "related": ["command-palette", "checklist"],
+    "registryName": "tour",
     "features": [
       "6 composable parts",
       "@floating-ui/react positioning",
@@ -34,6 +40,7 @@
     { "id": "usage", "label": "Basic usage", "depth": 1 },
     { "id": "with-media", "label": "With media", "depth": 1 },
     { "id": "programmatic", "label": "Programmatic control", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
     { "id": "api-tourstepdef", "label": "TourStepDef", "depth": 2 },
     { "id": "api-touranchor", "label": "TourAnchor", "depth": 2 },
     { "id": "api-tourroot", "label": "TourRoot", "depth": 2 }
@@ -124,32 +131,13 @@
       "title": "Installation",
       "blocks": [
         {
-          "type": "text",
-          "content": "The tour system has two peer dependencies. Install them if you haven't already."
-        },
-        {
-          "type": "code",
-          "language": "bash",
-          "code": "npm install @floating-ui/react motion"
-        },
-        {
-          "type": "text",
-          "content": "Then copy the tour files into your project."
-        },
-        {
-          "type": "steps",
-          "steps": [
+          "type": "install",
+          "registryName": "tour",
+          "optionalSteps": [
             {
-              "title": "Add the files",
-              "description": "Copy the entire tour folder into components/bevelui/.",
-              "code": "npx shadcn@latest add https://bevelui.vercel.app/r/tour.json",
-              "codeLanguage": "bash"
-            },
-            {
-              "title": "Import and use",
-              "description": "Wrap your page with TourRoot and place TourAnchor around any element you want to highlight.",
-              "code": "import { TourRoot, TourAnchor, TourTrigger } from \"@/components/bevelui/tour\"",
-              "codeLanguage": "tsx"
+              "title": "Peer dependencies",
+              "code": "npm install @floating-ui/react motion",
+              "note": "Required for floating card placement and smooth overlay transitions."
             }
           ]
         }
@@ -204,6 +192,25 @@
           "type": "code",
           "language": "tsx",
           "code": "import { useTour } from \"@/components/bevelui/tour\";\n\nfunction MyToolbar() {\n  const {\n    start, stop, next, prev,\n    skip, goTo, currentStep,\n    totalSteps, isOpen\n  } = useTour();\n\n  return (\n    <div>\n      <button onClick={start}>Start tour</button>\n      <button onClick={() => goTo(3)}>Jump to step 3</button>\n      <button onClick={skip}>Skip</button>\n      <span>{currentStep} / {totalSteps}</span>\n    </div>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "How does Product Tour handle responsive layouts and window resizing?",
+              "a": "Product Tour utilizes @floating-ui/react position listeners. When the user resizes the screen or scrolls, the card position and SVG mask auto-recalculate dynamically without breaking placement."
+            },
+            {
+              "q": "Can I trigger the tour automatically for new users?",
+              "a": "Yes! Pass defaultOpen={true} to TourRoot or trigger it programmatically using start() inside useTour() when user onboarding state is detected in your database or localStorage."
+            }
+          ]
         }
       ]
     },

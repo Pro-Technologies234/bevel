@@ -22,11 +22,11 @@
     "slug": "properties-panel",
     "prev": {
       "label": "Palette Editor",
-      "href": "/docs/components/palette-editor"
+      "href": "/docs/components/palette"
     },
     "next": {
       "label": "Tree View",
-      "href": "/docs/components/tree-view"
+      "href": "/docs/components/tree"
     }
   },
   "tocs": [

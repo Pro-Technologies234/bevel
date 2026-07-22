@@ -76,9 +76,9 @@ export const SYSTEMS = [
     painRemoved:
       "No more building custom color pickers or managing complex palette states.",
     what: "A flexible palette editor with real-time preview, import/export functionality, and a clean UI. Customize your color schemes without writing any CSS.",
-    href: "/docs/components/palette-editor",
-    accent: "#818cf8",
-    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/palette-editor.json",
+    href: "/docs/components/palette",
+    date: "2025-02-04",
+    cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/palette.json",
     demo: <PaletteEditorDemo />,
   },
   {

@@ -12,54 +12,8 @@ import {
   websiteJsonLd,
 } from "@/lib/metadata";
 
-const nohemiSans = localFont({
-  src: [
-    {
-      path: "../assets/fonts/nohemi/Nohemi-Thin.woff2",
-      weight: "100",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-Light.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-SemiBold.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-ExtraBold.woff2",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../assets/fonts/nohemi/Nohemi-Black.woff2",
-      weight: "900",
-      style: "normal",
-    },
-  ],
-  variable: "--font-sans", // Optional: for Tailwind CSS integration
-});
-
-const geistMono = TASA_Orbiter({
-  variable: "--font-mono",
+const hostGrotesk = Host_Grotesk({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -85,7 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${nohemiSans.variable} ${geistMono.variable} antialiased font-mono selection:bg-foreground dark:bg-black bg-white selection:text-background`}
+        className={`${hostGrotesk.variable} antialiased font-sans selection:bg-foreground dark:bg-black bg-white selection:text-background`}
       >
         <ThemeProvider
           attribute="class"

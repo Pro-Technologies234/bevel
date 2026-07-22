@@ -1,8 +1,9 @@
-﻿import { SortableContent } from "@/components/docs/sortable";
-import { docsProductTourMetadata } from "@/lib/metadata";
+import { SortableContent } from "@/components/docs/sortable";
+import { getSystemMetadata } from "@/content/docs/manifest";
 
-export const metadata = docsProductTourMetadata;
+export const metadata = getSystemMetadata("sortable");
 
-export default function ProductTourPage() {
+export default function SortablePage() {
   return <SortableContent />;
 }
+

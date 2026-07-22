@@ -23,7 +23,7 @@
     "slug": "spotlight",
     "prev": {
       "label": "Media Gallery",
-      "href": "/docs/components/media-gallery"
+      "href": "/docs/components/gallery"
     },
     "next": {
       "label": "Onboarding Checklist",

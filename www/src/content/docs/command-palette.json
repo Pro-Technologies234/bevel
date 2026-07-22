@@ -3,6 +3,12 @@
     "title": "Command Palette",
     "description": "A fully-engineered ⌘K command menu with fuzzy search, two-tier tab filtering, keyboard navigation, grouped results, avatar support, and a keyboard shortcut footer.",
     "badge": "Components System",
+    "category": "navigation-search",
+    "useCases": ["Dashboard", "Productivity app", "Admin panel"],
+    "tier": "free",
+    "builtWith": ["Motion", "Tailwind CSS"],
+    "related": ["spotlight", "product-tour"],
+    "registryName": "command-palette",
     "features": [
       "Zero dependencies",
       "Custom fuzzy search",
@@ -35,6 +41,7 @@
     { "id": "sections", "label": "Sections and items", "depth": 1 },
     { "id": "tabs", "label": "Source and filter tabs", "depth": 1 },
     { "id": "programmatic", "label": "Programmatic control", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
     { "id": "api-item", "label": "CommandPaletteItem", "depth": 2 },
     { "id": "api-section", "label": "CommandPaletteSection", "depth": 2 },
     { "id": "api-root", "label": "CommandPaletteRoot", "depth": 2 }
@@ -129,14 +136,8 @@
       "title": "Installation",
       "blocks": [
         {
-          "type": "code",
-          "language": "bash",
-          "code": "npx shadcn@latest add https://bevelui.vercel.app/r/command-palette.json"
-        },
-        {
-          "type": "callout",
-          "variant": "info",
-          "content": "The command palette has no additional npm dependencies beyond what shadcn already installs. Fuzzy search is implemented from scratch — no external library required."
+          "type": "install",
+          "registryName": "command-palette"
         }
       ]
     },
@@ -200,6 +201,25 @@
           "type": "code",
           "language": "tsx",
           "code": "import { useCommandPalette } from \"@/components/bevelui/command-palette\";\n\nfunction NavSearch() {\n  const { open, isOpen, query } = useCommandPalette();\n\n  return (\n    <button onClick={open}>\n      Search... <kbd>⌘K</kbd>\n    </button>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "Does Command Palette require Fuse.js or cmdk?",
+              "a": "No! Command Palette includes an in-house scoring algorithm designed specifically for instant sub-millisecond filtering with zero external npm dependencies."
+            },
+            {
+              "q": "Can I trigger the modal programmatically without pressing ⌘K?",
+              "a": "Yes! Use the useCommandPalette() hook anywhere inside your component tree and call open() or toggle()."
+            }
+          ]
         }
       ]
     },

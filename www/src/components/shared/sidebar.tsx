@@ -19,7 +19,14 @@ export type SidebarAction = {
   /** Short badge label e.g. "New", "Beta", "Soon" */
   badge?: string;
   /** Colour of the badge. Defaults to indigo gradient */
-  badgeVariant?: "primary" | "new" | "indigo" | "green" | "amber" | "red";
+  badgeVariant?:
+    | "primary"
+    | "new"
+    | "indigo"
+    | "green"
+    | "amber"
+    | "red"
+    | "pro";
   disabled?: boolean;
   /** Optional icon next to the label */
   icon?: React.ComponentType<{
@@ -59,7 +66,7 @@ const BADGE_CLASSES: Record<
   NonNullable<SidebarAction["badgeVariant"]>,
   string
 > = {
-  new: "bg-linear-to-tr from-yellow-400 text-black  to-yellow-200 border-none",
+  new: "bg-linear-to-tr from-indigo-600 to-blue-500 text-white border-indigo-500",
   primary: "bg-primary/15 text-primary border-primary/20",
   indigo:
     "bg-linear-to-tr from-indigo-600 to-indigo-400 text-white border-transparent",
@@ -68,6 +75,7 @@ const BADGE_CLASSES: Record<
   amber:
     "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/20",
   red: "bg-linear-to-tr from-red-600 text-white to-red-400 border-red-500",
+  pro: "bg-linear-to-tr from-yellow-400 text-black  to-yellow-200 border-none",
 };
 
 // ─── Single action row ────────────────────────────────────────────────────────
