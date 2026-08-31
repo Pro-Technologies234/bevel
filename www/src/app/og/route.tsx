@@ -468,6 +468,77 @@ function PricingOG() {
   );
 }
 
+function PageOG({ name, description }: { name: string; description: string }) {
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: BLACK,
+        display: "flex",
+        flexDirection: "column",
+        padding: 64,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `linear-gradient(${BORDER} 1px, transparent 1px), linear-gradient(90deg, ${BORDER} 1px, transparent 1px)`,
+          backgroundSize: "64px 64px",
+          maskImage:
+            "radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%)",
+        }}
+      />
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          marginBottom: "auto",
+          zIndex: 1,
+        }}
+      >
+        <BevelLogo />
+        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 16 }}>
+          Bevel UI
+        </span>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", zIndex: 1 }}>
+        <h1
+          style={{
+            fontSize: 76,
+            fontWeight: 900,
+            color: "white",
+            lineHeight: 0.98,
+            letterSpacing: "-0.04em",
+            margin: 0,
+            marginBottom: 20,
+          }}
+        >
+          {name}
+        </h1>
+        <p
+          style={{
+            fontSize: 20,
+            color: GRAY,
+            fontWeight: 300,
+            margin: 0,
+            maxWidth: 620,
+            lineHeight: 1.5,
+          }}
+        >
+          {description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Route handler ────────────────────────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
@@ -488,6 +559,9 @@ export async function GET(req: NextRequest) {
       break;
     case "pricing":
       element = <PricingOG />;
+      break;
+    case "page":
+      element = <PageOG name={name} description={description} />;
       break;
     default:
       element = <DefaultOG />;

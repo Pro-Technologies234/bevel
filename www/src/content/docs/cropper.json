@@ -3,6 +3,7 @@
     "title": "Image Cropper",
     "description": "Dual coordinate spaces, eight-handle drag with aspect ratio enforcement, rule-of-thirds overlay, and offscreen canvas export at full image resolution.",
     "badge": "Pro System",
+    "registryName": "cropper",
     "keywords": [
       "crop",
       "cropping",

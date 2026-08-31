@@ -3,6 +3,7 @@
     "title": "Kanban",
     "description": "A multi-container drag-and-drop board. Drag cards within and between columns, drag columns to reorder, with a virtual state machine that shows placeholders live during drag — committed once on drop.",
     "badge": "Components System",
+    "registryName": "kanban",
     "features": [
       "6 composable parts",
       "Multi-container DnD via dnd-kit",

@@ -3,6 +3,7 @@
     "title": "Spotlight Search",
     "description": "Async content search with category tabs, recent history, and rich result cards. Triggered by / — distinct from Command Palette, which handles actions. Results come from your API.",
     "badge": "Components System",
+    "registryName": "spotlight",
     "features": [
       "Async debounced search",
       "Category tabs",

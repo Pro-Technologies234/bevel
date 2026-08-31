@@ -137,7 +137,7 @@ export const rootMetadata: Metadata = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const homeMetadata: Metadata = {
-  title: "Bevel UI — The UI Systems Your App Actually Needs",
+  title: "The UI Systems Your App Actually Needs",
   description:
     "Fully-engineered, copy-to-own UI systems for React. Product Tour, Command Palette, File Upload, Form Engine — drop into your codebase with one shadcn CLI command.",
   alternates: { canonical: SITE_URL },
@@ -210,6 +210,131 @@ export const labsMetadata: Metadata = {
       "Six real working apps built with Bevel — file manager, onboarding flow, dev dashboard, and more.",
     images: [og("labs")],
   },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// OTHER MARKETING PAGES
+// ─────────────────────────────────────────────────────────────────────────────
+
+function pageOg(type: string) {
+  return `${SITE_URL}/og?type=page&name=${encodeURIComponent(type)}`;
+}
+
+export const aboutMetadata: Metadata = {
+  title: "About",
+  description:
+    "Why Bevel UI exists, the copy-to-own philosophy behind it, and who's building it.",
+  alternates: { canonical: `${SITE_URL}/about` },
+  openGraph: {
+    url: `${SITE_URL}/about`,
+    title: "About — Bevel UI",
+    description:
+      "Why Bevel UI exists, and the copy-to-own philosophy behind every system.",
+    images: [
+      {
+        url: pageOg("About Bevel UI"),
+        width: 1200,
+        height: 630,
+        alt: "About Bevel UI",
+      },
+    ],
+  },
+  twitter: {
+    title: "About — Bevel UI",
+    description: "Why Bevel UI exists, and the philosophy behind it.",
+    images: [pageOg("About Bevel UI")],
+  },
+};
+
+export const compareMetadata: Metadata = {
+  title: "Compare",
+  description:
+    "How Bevel UI's copy-to-own systems compare to primitive-only libraries, full component kits, and building it yourself.",
+  alternates: { canonical: `${SITE_URL}/compare` },
+  openGraph: {
+    url: `${SITE_URL}/compare`,
+    title: "Compare — Bevel UI",
+    description:
+      "Systems vs. primitives vs. component kits vs. building it yourself.",
+    images: [
+      {
+        url: pageOg("Compare Bevel UI"),
+        width: 1200,
+        height: 630,
+        alt: "Compare Bevel UI",
+      },
+    ],
+  },
+  twitter: {
+    title: "Compare — Bevel UI",
+    description: "How Bevel UI compares to the alternatives.",
+    images: [pageOg("Compare Bevel UI")],
+  },
+};
+
+export const changelogMetadata: Metadata = {
+  title: "Changelog",
+  description:
+    "What's new, updated, and shipping next across every Bevel UI system.",
+  alternates: { canonical: `${SITE_URL}/changelog` },
+  openGraph: {
+    url: `${SITE_URL}/changelog`,
+    title: "Changelog — Bevel UI",
+    description: "What's new and updated across every Bevel UI system.",
+    images: [
+      {
+        url: pageOg("Changelog"),
+        width: 1200,
+        height: 630,
+        alt: "Bevel UI Changelog",
+      },
+    ],
+  },
+  twitter: {
+    title: "Changelog — Bevel UI",
+    description: "What's new and updated across every Bevel UI system.",
+    images: [pageOg("Changelog")],
+  },
+};
+
+export const enterpriseMetadata: Metadata = {
+  title: "Enterprise",
+  description:
+    "Bevel UI for teams — shared licensing, priority support, and a consistent system across every product surface.",
+  alternates: { canonical: `${SITE_URL}/enterprise` },
+  openGraph: {
+    url: `${SITE_URL}/enterprise`,
+    title: "Enterprise — Bevel UI",
+    description:
+      "Bevel UI for teams — shared licensing, priority support, and one consistent system.",
+    images: [
+      {
+        url: pageOg("Bevel UI for Teams"),
+        width: 1200,
+        height: 630,
+        alt: "Bevel UI for Teams",
+      },
+    ],
+  },
+  twitter: {
+    title: "Enterprise — Bevel UI",
+    description: "Bevel UI for teams.",
+    images: [pageOg("Bevel UI for Teams")],
+  },
+};
+
+export const termsMetadata: Metadata = {
+  title: "Terms of Service",
+  description: "The terms that govern use of Bevel UI's site, code, and paid plans.",
+  alternates: { canonical: `${SITE_URL}/terms` },
+  robots: { index: true, follow: true },
+};
+
+export const privacyMetadata: Metadata = {
+  title: "Privacy Policy",
+  description: "What data Bevel UI collects, why, and how it's handled.",
+  alternates: { canonical: `${SITE_URL}/privacy` },
+  robots: { index: true, follow: true },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -1,17 +1,17 @@
 "use client";
 
-import { MediaLibary } from "@/components/docs/file-upload/media-libary";
-import { FormEngineShowcase } from "@/components/bevelui/docs/form-engine-content";
+import { MediaLibrary } from "@/components/showcase/media-library";
+import { FormEngineShowcase } from "@/components/demo/form-engine-demo";
 
-import { TourDemo } from "@/components/demo/tour";
-import { CommandPaletteDemo } from "@/components/demo/command-palette";
-import { SortableDemo } from "@/components/demo/sortable";
-import { PaletteEditorDemo } from "@/components/demo/palette-editor";
-import { PropertiesPanelDemo } from "@/components/demo/properties-panel";
-import { TreeDemo } from "@/components/demo/tree";
-import { GalleryDemo } from "@/components/demo/gallery";
-import { SpotlightDemo } from "../demo/spotlight";
-import { ChecklistDemo } from "../demo/checklist";
+import { TourDemo } from "@/components/demo/tour-demo";
+import { CommandPaletteDemo } from "@/components/demo/command-palette-demo";
+import { SortableDemo } from "@/components/demo/sortable-demo";
+import { PaletteEditorDemo } from "@/components/demo/palette-editor-demo";
+import { PropertiesPanelDemo } from "@/components/demo/properties-panel-demo";
+import { TreeDemo } from "@/components/demo/tree-demo";
+import { GalleryDemo } from "@/components/demo/gallery-demo";
+import { SpotlightDemo } from "../demo/spotlight-demo";
+import { ChecklistDemo } from "../demo/checklist-demo";
 
 export const SYSTEMS = [
   {
@@ -46,7 +46,7 @@ export const SYSTEMS = [
     href: "/docs/components/file-upload",
     accent: "#f97316",
     cmd: "npx shadcn@latest add https://bevelui.vercel.app/r/file-upload.json",
-    demo: <MediaLibary />,
+    demo: <MediaLibrary />,
   },
   {
     id: "form-engine",

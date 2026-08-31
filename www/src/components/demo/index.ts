@@ -1,28 +1,52 @@
 "use client";
-import { TourDemo } from "./tour";
-import { CommandPaletteDemo } from "./command-palette";
-import { FileUploadDemo } from "./file-upload";
-import { FormEngineDemo } from "./form-engine";
-import { SortableDemo } from "./sortable";
-import { TreeDemo } from "./tree";
-import { PropertiesPanelDemo } from "./properties-panel";
-import { PaletteEditorDemo } from "./palette-editor";
-import { GalleryDemo } from "./gallery";
-import { SpotlightDemo } from "./spotlight";
-// import { ChecklistDemo } from "./checklist";
-import { KanbanDemo } from "./kanban";
 
+import { AudioVisualizerDemo } from "./audio-visualizer-demo";
+import { CanvasDemo } from "./canvas-demo";
+import { ChecklistDemo } from "./checklist-demo";
+import { CommandPaletteDemo } from "./command-palette-demo";
+import { CropperDemo, CropperCustomLayoutDemo } from "./cropper-demo";
+import { CursorsDemo, CursorsTransportDemo } from "./cursors-demo";
+import { DiffViewerDemo } from "./diff-viewer-demo";
+import { FileUploadDemo } from "./file-upload-demo";
+import { FormEngineDemo, FormEngineShowcase } from "./form-engine-demo";
+import { GalleryDemo, GalleryMinimalDemo } from "./gallery-demo";
+import { KanbanDemo } from "./kanban-demo";
+import { NotificationCenterDemo } from "./notification-center-demo";
+import { PaletteEditorDemo } from "./palette-editor-demo";
+import { PropertiesPanelDemo } from "./properties-panel-demo";
+import { ResizableDemo } from "./resizable-demo";
+import { SortableDemo } from "./sortable-demo";
+import { SpotlightDemo } from "./spotlight-demo";
+import { TourDemo } from "./tour-demo";
+import { TreeDemo } from "./tree-demo";
+
+/**
+ * Flat registry of every demo component keyed by the name referenced from
+ * a doc page's `{ "type": "demo", "component": "..." }` block. Shared by
+ * every /docs/components/[slug] page via DocPageRenderer.
+ */
 export const DEMO_REGISTRY: Record<string, React.ComponentType> = {
-  tour: TourDemo,
-  "command-palette": CommandPaletteDemo,
-  "file-upload": FileUploadDemo,
-  "form-engine": FormEngineDemo,
-  sortable: SortableDemo,
-  "palette-editor": PaletteEditorDemo,
-  "properties-panel": PropertiesPanelDemo,
-  tree: TreeDemo,
-  gallery: GalleryDemo,
-  spotlight: SpotlightDemo,
-  // checklist: ChecklistDemo,
-  kanban: KanbanDemo,
+  AudioVisualizerDemo,
+  CanvasDemo,
+  ChecklistDemo,
+  CommandPaletteDemo,
+  CropperDemo,
+  CropperCustomLayoutDemo,
+  CursorsDemo,
+  CursorsTransportDemo,
+  DiffViewerDemo,
+  FileUploadDemo,
+  FormEngineDemo,
+  FormEngineShowcase,
+  GalleryDemo,
+  GalleryMinimalDemo,
+  KanbanDemo,
+  NotificationCenterDemo,
+  PaletteEditorDemo,
+  PropertiesPanelDemo,
+  ResizableDemo,
+  SortableDemo,
+  SpotlightDemo,
+  TourDemo,
+  TreeDemo,
 };

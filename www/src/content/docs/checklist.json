@@ -3,6 +3,7 @@
     "title": "Onboarding Checklist",
     "description": "A floating checklist widget with step dependencies, localStorage persistence, and animated expand/collapse. The get-started widget every SaaS ships — done right.",
     "badge": "Components System",
+    "registryName": "checklist",
     "features": [
       "Step dependency graph",
       "localStorage persistence",

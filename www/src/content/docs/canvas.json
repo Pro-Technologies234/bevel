@@ -1,0 +1,576 @@
+{
+  "meta": {
+    "title": "Infinite Canvas",
+    "description": "A pannable, zoomable node canvas — drag to pan, wheel to zoom, shift-drag to rubber-band select, drag nodes individually or as a group. The engine writes transforms straight to the DOM during gestures, so panning and dragging stay smooth regardless of node count.",
+    "badge": "Components System",
+    "category": "canvas-editor",
+    "useCases": [
+      "Node-based editor",
+      "Whiteboard / diagramming tool",
+      "Visual workflow builder"
+    ],
+    "tier": "new",
+    "builtWith": ["Pointer Events API", "CSS transforms", "Tailwind CSS"],
+    "related": ["properties-panel", "sortable"],
+    "registryName": "canvas",
+    "features": [
+      "Pan, zoom, and rubber-band select out of the box",
+      "Single and multi-node dragging, with optional grid snapping",
+      "Three pan triggers: plain drag, space+drag, or middle-mouse",
+      "zoomToFit and centerOn for programmatic camera control",
+      "Gesture-critical updates write to the DOM directly — React re-renders only on commit"
+    ],
+    "keywords": [
+      "canvas",
+      "infinite canvas",
+      "pan",
+      "zoom",
+      "node editor",
+      "whiteboard",
+      "drag",
+      "selection",
+      "viewport",
+      "rubber band select"
+    ],
+    "slug": "canvas",
+    "prev": {
+      "label": "Properties Panel",
+      "href": "/docs/components/properties-panel"
+    },
+    "next": {
+      "label": "Sortable",
+      "href": "/docs/components/sortable"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "nodes", "label": "Adding and updating nodes", "depth": 1 },
+    { "id": "selection", "label": "Selection", "depth": 1 },
+    { "id": "viewport", "label": "Pan, zoom, and camera control", "depth": 1 },
+    { "id": "pan-trigger", "label": "Pan trigger modes", "depth": 1 },
+    { "id": "custom", "label": "Custom layout", "depth": 1 },
+    { "id": "performance", "label": "Performance model", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
+    { "id": "api-root", "label": "CanvasRoot", "depth": 2 },
+    { "id": "api-config", "label": "CanvasConfig", "depth": 2 },
+    { "id": "api-node", "label": "CanvasNode", "depth": 2 },
+    { "id": "api-node-view", "label": "CanvasNodeView", "depth": 2 },
+    { "id": "api-hook", "label": "useCanvas", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "An infinite canvas looks like a solved problem until you build one. Pan has to feel instant, which rules out re-rendering React on every pointermove. Zoom has to zoom toward the cursor, not the origin, which means converting screen coordinates to canvas coordinates before and after every scale change. Selection needs both click-to-select and shift-drag rubber-banding, and both need to agree with whatever's mid-drag. None of it can block the frame."
+        },
+        {
+          "type": "text",
+          "content": "CanvasRoot owns a single engine instance that holds the viewport, the node list, and the current gesture. Pan and node-drag write directly to the DOM through cached element refs and skip React entirely while the gesture is in progress; the engine only calls back into React once a gesture ends, to commit the final state. Selection boxes render through React since they're a lightweight, short-lived overlay — see Performance model for the full breakdown."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/canvas/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "CanvasNode, CanvasConfig, CanvasEngine"
+                },
+                {
+                  "name": "canvas-engine.ts",
+                  "type": "file",
+                  "comment": "pan/zoom/drag/selection logic",
+                  "highlight": true
+                },
+                {
+                  "name": "canvas-context.tsx",
+                  "type": "file",
+                  "comment": "useCanvasCtx"
+                },
+                {
+                  "name": "canvas-root.tsx",
+                  "type": "file",
+                  "comment": "creates the engine, provides context"
+                },
+                {
+                  "name": "canvas-viewport.tsx",
+                  "type": "file",
+                  "comment": "pointer/wheel handling, world layer"
+                },
+                {
+                  "name": "canvas-node-view.tsx",
+                  "type": "file",
+                  "comment": "per-node drag + selection ring"
+                },
+                {
+                  "name": "canvas-selection-box.tsx",
+                  "type": "file",
+                  "comment": "rubber-band select overlay"
+                },
+                {
+                  "name": "use-canvas.ts",
+                  "type": "file",
+                  "comment": "public hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Category still forming",
+          "content": "Canvas is filed under \"canvas-editor\" for now — update this if it should sit under a different category once the docs taxonomy for node/editor systems is finalized."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drag empty space to pan, scroll to zoom toward the cursor, shift-drag to rubber-band select, drag a node (or a multi-selection) to move it. Positions snap to the grid."
+        },
+        {
+          "type": "demo",
+          "component": "CanvasDemo",
+          "label": "Interactive demo",
+          "preview": "canvas"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "install",
+          "registryName": "canvas"
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass defaultNodes and a renderNode function to CanvasRoot. The engine handles position, selection, and drag — renderNode only returns what goes inside each node's box."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/board/page.tsx",
+          "code": "import { CanvasRoot } from \"@/components/bevelui/canvas\";\nimport type { CanvasNode } from \"@/components/bevelui/canvas\";\n\nconst initialNodes: CanvasNode[] = [\n  { id: \"1\", x: 40, y: 40, width: 180, height: 100, data: { label: \"Start\" } },\n  { id: \"2\", x: 320, y: 160, width: 180, height: 100, data: { label: \"Process\" } },\n];\n\nexport default function BoardPage() {\n  return (\n    <div className=\"h-[600px] w-full\">\n      <CanvasRoot\n        defaultNodes={initialNodes}\n        config={{ gridSnap: 8 }}\n        renderNode={(node, isSelected) => (\n          <div\n            className={`flex h-full w-full items-center justify-center rounded-lg border bg-card text-sm ${\n              isSelected ? \"border-primary\" : \"border-border\"\n            }`}\n          >\n            {(node.data as { label: string })?.label}\n          </div>\n        )}\n      />\n    </div>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "nodes",
+      "title": "Adding and updating nodes",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Node mutations go through useCanvas and are immutable, matching the convention used by Sortable and Palette Editor — each call returns a new node array rather than mutating in place. Pass onChange to CanvasRoot to persist the node list wherever it needs to live."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const { addNode, removeNode, updateNode, moveNodes } = useCanvas();\n\naddNode({ id: crypto.randomUUID(), x: 100, y: 100, width: 160, height: 90 });\n\nupdateNode(\"1\", { width: 220 });\n\nmoveNodes([\"1\", \"2\"], 24, 0); // nudge two nodes right by 24px\n\nremoveNode(\"2\");"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Persisting node state",
+          "code": "const [nodes, setNodes] = React.useState(initialNodes);\n\n<CanvasRoot\n  defaultNodes={nodes}\n  onChange={(updated) => setNodes(updated)}\n  renderNode={(node) => <NodeCard node={node} />}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "selection",
+      "title": "Selection",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Clicking a node selects it and starts a drag in the same gesture. Shift-click adds to the current selection. Dragging empty space with the default pan trigger rubber-bands a selection box; the exact gesture that triggers rubber-banding vs. panning depends on config.panTrigger — see Pan trigger modes."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const { selection, select, clearSelection } = useCanvas();\n\nselect([\"1\", \"2\"], \"add\");   // add to current selection\nselect([\"3\"], \"toggle\");     // toggle membership\nselect([\"1\"]);               // replace selection\nclearSelection();"
+        }
+      ]
+    },
+    {
+      "id": "viewport",
+      "title": "Pan, zoom, and camera control",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Panning and zooming work out of the box from pointer and wheel input. zoomToFit and centerOn give you programmatic control — useful for a \"fit to screen\" toolbar button or focusing a node after it's created or searched for."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const { zoomTo, zoomToFit, centerOn, viewport } = useCanvas();\n\nzoomToFit();          // frames all nodes with default padding\nzoomToFit(80);        // custom padding in px\ncenterOn(\"node-3\");   // centers the viewport on a specific node\nzoomTo(1);            // reset to 100%\n\nconsole.log(viewport); // { x, y, zoom }"
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Zoom follows the cursor",
+          "content": "Wheel-triggered zoom in CanvasViewport passes the pointer position to zoomTo as the zoom origin, so the point under the cursor stays fixed while the rest of the canvas scales around it. Call zoomTo without an origin for a plain zoom around the current view center."
+        }
+      ]
+    },
+    {
+      "id": "pan-trigger",
+      "title": "Pan trigger modes",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "config.panTrigger decides which gesture pans the canvas and which one rubber-band selects. Pick the mode that matches the rest of your app's interaction model."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "\"drag\"",
+              "type": "panTrigger",
+              "description": "Default. Plain drag on empty space pans; shift+drag rubber-bands a selection."
+            },
+            {
+              "prop": "\"space-drag\"",
+              "type": "panTrigger",
+              "description": "Hold Space and drag to pan (the design-tool convention). Plain drag rubber-bands."
+            },
+            {
+              "prop": "\"middle-mouse\"",
+              "type": "panTrigger",
+              "description": "Middle-click drag pans. Left-click drag on empty space rubber-bands."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "custom",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass children to CanvasRoot instead of renderNode to compose your own viewport — for example to add a zoom control overlay, a minimap, or a toolbar anchored inside the same context."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  CanvasRoot, CanvasViewport, useCanvas,\n} from \"@/components/bevelui/canvas\";\n\nfunction ZoomControls() {\n  const { viewport, zoomTo, zoomToFit } = useCanvas();\n  return (\n    <div className=\"absolute bottom-3 right-3 flex items-center gap-2 rounded-lg border border-border bg-card/90 px-2 py-1 text-xs\">\n      <button onClick={() => zoomTo(viewport.zoom * 0.9)}>-</button>\n      <span>{Math.round(viewport.zoom * 100)}%</span>\n      <button onClick={() => zoomTo(viewport.zoom * 1.1)}>+</button>\n      <button onClick={() => zoomToFit()}>Fit</button>\n    </div>\n  );\n}\n\nexport function Board() {\n  return (\n    <CanvasRoot defaultNodes={nodes} className=\"relative h-full w-full\">\n      <CanvasViewport renderNode={(node) => <NodeCard node={node} />} />\n      <ZoomControls />\n    </CanvasRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "Performance model",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Two gestures are perf-sensitive enough to bypass React entirely while in progress: panning and node dragging. Both write a CSS transform directly to a cached DOM element on every pointermove, and only call the engine's notify() once the gesture ends — at which point React re-renders with the committed viewport or node positions. Rubber-band selection notifies on every move instead, since it's a short-lived, lower-frequency gesture and the visual is a single lightweight overlay div rather than a scene with potentially hundreds of nodes."
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "Reading state mid-drag",
+          "content": "Because pan and node-drag skip notify(), useCanvas's viewport and nodes values won't reflect a drag in progress — they update once the gesture ends. If you need live position data during a drag (e.g. for a coordinates readout), read engine.getViewport() / engine.getNodes() directly rather than the hook's snapshot."
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "Can nodes contain interactive content, like inputs or buttons?",
+              "a": "Yes. renderNode returns arbitrary React content. CanvasNodeView calls stopPropagation on pointerdown so clicks inside a node don't trigger a canvas pan or rubber-band select; interactive elements inside your node content behave normally."
+            },
+            {
+              "q": "How do I lock a node in place?",
+              "a": "Set locked: true on the node. CanvasNodeView skips drag entirely for locked nodes and shows a default cursor instead of the grab cursor."
+            },
+            {
+              "q": "Does zoom affect drag distance?",
+              "a": "No — updateNodeDrag divides the raw pointer delta by the current zoom level before applying it, so a node tracks the cursor 1:1 in canvas space regardless of zoom."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "CanvasRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "defaultNodes",
+              "type": "CanvasNode[]",
+              "default": "[]",
+              "description": "Initial node list. Canvas manages its own node state internally after this."
+            },
+            {
+              "prop": "onChange",
+              "type": "(nodes: CanvasNode[]) => void",
+              "description": "Called whenever the node list changes — add, remove, update, or move."
+            },
+            {
+              "prop": "config",
+              "type": "CanvasConfig",
+              "description": "Viewport and interaction options."
+            },
+            {
+              "prop": "renderNode",
+              "type": "(node: CanvasNode, isSelected: boolean) => React.ReactNode",
+              "description": "Renders a single node's content in the default layout. Ignored if children is passed."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the default CanvasViewport when no children are passed."
+            },
+            {
+              "prop": "children",
+              "type": "React.ReactNode",
+              "description": "Replaces the default viewport layout entirely. Use CanvasViewport and useCanvas to compose your own."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "CanvasConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "minZoom",
+              "type": "number",
+              "default": "0.1",
+              "description": "Lower bound for zoomTo and wheel zoom."
+            },
+            {
+              "prop": "maxZoom",
+              "type": "number",
+              "default": "4",
+              "description": "Upper bound for zoomTo and wheel zoom."
+            },
+            {
+              "prop": "gridSnap",
+              "type": "number",
+              "default": "0",
+              "description": "Snaps dragged node positions to this grid size in px. 0 disables snapping."
+            },
+            {
+              "prop": "panTrigger",
+              "type": "\"drag\" | \"space-drag\" | \"middle-mouse\"",
+              "default": "\"drag\"",
+              "description": "Which pointer gesture pans the canvas vs. rubber-band selects. See Pan trigger modes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-node",
+      "title": "CanvasNode",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "id",
+              "type": "string",
+              "required": true,
+              "description": "Unique identifier."
+            },
+            {
+              "prop": "x",
+              "type": "number",
+              "required": true,
+              "description": "Position in canvas (world) coordinates, not screen pixels."
+            },
+            {
+              "prop": "y",
+              "type": "number",
+              "required": true,
+              "description": "Position in canvas (world) coordinates, not screen pixels."
+            },
+            {
+              "prop": "width",
+              "type": "number",
+              "required": true,
+              "description": "Node width in canvas units."
+            },
+            {
+              "prop": "height",
+              "type": "number",
+              "required": true,
+              "description": "Node height in canvas units."
+            },
+            {
+              "prop": "zIndex",
+              "type": "number",
+              "description": "Stacking order. Defaults to 0 for all nodes."
+            },
+            {
+              "prop": "locked",
+              "type": "boolean",
+              "description": "Disables dragging for this node when true."
+            },
+            {
+              "prop": "data",
+              "type": "unknown",
+              "description": "Arbitrary consumer payload. The engine never reads or mutates this — use it to carry whatever renderNode needs."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-node-view",
+      "title": "CanvasNodeView",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Renders a single node with drag and selection wired up. Used internally by the default layout — reach for it directly only when composing children yourself."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "node",
+              "type": "CanvasNode",
+              "required": true,
+              "description": "The node to render."
+            },
+            {
+              "prop": "children",
+              "type": "React.ReactNode",
+              "required": true,
+              "description": "The node's visible content."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the node's positioned wrapper."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useCanvas",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Call from anywhere under CanvasRoot for programmatic control and read access. Throws if used outside one."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "nodes",
+              "type": "CanvasNode[]",
+              "description": "React-visible node snapshot, updated on commit (not mid-drag)."
+            },
+            {
+              "prop": "viewport",
+              "type": "{ x: number; y: number; zoom: number }",
+              "description": "React-visible viewport snapshot, updated on commit (not mid-pan/zoom-drag)."
+            },
+            {
+              "prop": "selection",
+              "type": "Set<string>",
+              "description": "Currently selected node IDs."
+            },
+            {
+              "prop": "dragState",
+              "type": "CanvasDragState",
+              "description": "The current gesture: none, pan, node-drag, or select-box, with gesture-specific fields."
+            },
+            {
+              "prop": "zoomTo",
+              "type": "(zoom: number, originClient?: { x: number; y: number }) => void",
+              "description": "Sets zoom, clamped to minZoom/maxZoom. Pass originClient to zoom toward a screen point."
+            },
+            {
+              "prop": "zoomToFit",
+              "type": "(padding?: number) => void",
+              "description": "Frames all nodes in the viewport. Default padding is 40px."
+            },
+            {
+              "prop": "centerOn",
+              "type": "(nodeId: string) => void",
+              "description": "Centers the viewport on the given node without changing zoom."
+            },
+            {
+              "prop": "select",
+              "type": "(ids: string[], mode?: \"replace\" | \"add\" | \"toggle\") => void",
+              "description": "Updates selection. Defaults to \"replace\"."
+            },
+            {
+              "prop": "clearSelection",
+              "type": "() => void",
+              "description": "Deselects all nodes."
+            },
+            {
+              "prop": "addNode",
+              "type": "(node: CanvasNode) => void",
+              "description": "Appends a node and calls onChange."
+            },
+            {
+              "prop": "removeNode",
+              "type": "(id: string) => void",
+              "description": "Removes a node (and clears it from selection) and calls onChange."
+            },
+            {
+              "prop": "updateNode",
+              "type": "(id: string, patch: Partial<Omit<CanvasNode, \"id\">>) => void",
+              "description": "Merges a partial update into a node and calls onChange."
+            },
+            {
+              "prop": "moveNodes",
+              "type": "(ids: string[], dx: number, dy: number) => void",
+              "description": "Offsets one or more nodes by a delta in canvas units and calls onChange."
+            },
+            {
+              "prop": "screenToCanvas",
+              "type": "(clientX: number, clientY: number) => { x: number; y: number }",
+              "description": "Converts a screen (client) pixel coordinate to canvas world coordinates."
+            },
+            {
+              "prop": "canvasToScreen",
+              "type": "(x: number, y: number) => { x: number; y: number }",
+              "description": "Converts a canvas world coordinate to a screen (client) pixel coordinate."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

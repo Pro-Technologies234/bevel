@@ -3,6 +3,7 @@
     "title": "Collaborative Cursors",
     "description": "Real-time presence overlay with conflict-free position sync, idle detection, and a label overlap resolver that prevents names from stacking.",
     "badge": "Pro System",
+    "registryName": "cursors",
     "keywords": [
       "collaborative",
       "presence",

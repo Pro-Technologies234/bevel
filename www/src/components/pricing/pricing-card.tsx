@@ -168,7 +168,8 @@ export function PricingCard({
       <Button
         onClick={handleCheckout}
         disabled={isLoading}
-        className="w-full font-semibold transition-all rounded-full p-5 font-sans cursor-pointer"
+        size="lg"
+        className="w-full font-semibold font-sans"
         variant={featured ? "default" : "inverted"}
       >
         {isLoading ? "Processing..." : buttonText}

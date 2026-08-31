@@ -3,6 +3,7 @@
     "title": "Sortable",
     "description": "A headless drag-to-reorder system. Wrap any list in SortableRoot, mark rows with SortableItem, and optionally restrict drag to a SortableHandle grip. useSortableList manages the item array.",
     "badge": "Components System",
+    "registryName": "sortable",
     "features": [
       "@dnd-kit/sortable",
       "Whole-row or handle-only drag",

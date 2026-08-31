@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { startCheckout } from "@/actions/subscription";
-import { Badge } from "@/components/ui/badge";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import { PricingCard } from "@/components/pricing/pricing-card";
 import { pricingMetadata, softwareApplicationJsonLd } from "@/lib/metadata";
 export const metadata = pricingMetadata;
@@ -83,15 +83,12 @@ export default async function PricingPage() {
           __html: JSON.stringify(softwareApplicationJsonLd),
         }}
       />
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen">
         {/* Header */}
         <div className="text-center px-6 pt-20 pb-16">
-          <Badge className="bg-muted/60 p-3 gap-2 text-[10px] uppercase select-none text-foreground/80 my-8">
-            <span className="h-1.5 w-1.5 rounded-full dark:bg-green-400 bg-green-600 relative">
-              <span className="rounded-full dark:bg-green-400 bg-green-600 absolute inset-0 animate-ping"></span>
-            </span>
+          <Eyebrow className="my-8">
             Free components available — no signup required
-          </Badge>
+          </Eyebrow>
 
           <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-5 font-sans">
             Simple pricing.

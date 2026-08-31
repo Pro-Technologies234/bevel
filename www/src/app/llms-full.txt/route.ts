@@ -58,16 +58,9 @@ export async function GET() {
     }
   }
 
-  // Add all 15 systems documentation
+  // Add all systems documentation
   for (const system of DOCS_SYSTEMS) {
-    const jsonFileName =
-      system.demoKey === "palette-editor"
-        ? "palette-editor.json"
-        : system.demoKey === "tree"
-          ? "tree-view.json"
-          : `${system.route}.json`;
-
-    const filePath = path.join(docsDir, jsonFileName);
+    const filePath = path.join(docsDir, `${system.route}.json`);
     if (fs.existsSync(filePath)) {
       try {
         const json = JSON.parse(fs.readFileSync(filePath, "utf-8"));

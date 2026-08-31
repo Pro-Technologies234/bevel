@@ -1,0 +1,481 @@
+{
+  "meta": {
+    "title": "Audio Waveform Visualizer",
+    "description": "Real-time Web Audio frequency and waveform analysis rendered as bars, an oscilloscope wave, or a circular spectrum. Connects to any <audio>/<video> element, a MediaStream (mic input), or an AudioBuffer.",
+    "badge": "Components System",
+    "category": "media-color",
+    "useCases": ["Music player", "Podcast app", "Voice/mic input UI"],
+    "tier": "new",
+    "builtWith": ["Web Audio API", "Canvas API", "Tailwind CSS"],
+    "related": ["gallery", "cropper"],
+    "registryName": "audio-visualizer",
+    "features": [
+      "Bars, wave, and circular render modes",
+      "Connects to <audio>/<video>, MediaStream, or AudioBuffer",
+      "Runs entirely off the React render loop — canvas painted via requestAnimationFrame",
+      "Solid color or gradient fills via colorStops",
+      "Headless: swap the canvas for your own render target via useAudioVisualizer"
+    ],
+    "keywords": [
+      "audio",
+      "waveform",
+      "visualizer",
+      "frequency",
+      "spectrum",
+      "canvas",
+      "web audio api",
+      "analyser"
+    ],
+    "slug": "audio-visualizer",
+    "prev": {
+      "label": "Media Gallery",
+      "href": "/docs/components/gallery"
+    },
+    "next": {
+      "label": "Image Cropper",
+      "href": "/docs/components/cropper"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Basic usage", "depth": 1 },
+    { "id": "sources", "label": "Connecting a source", "depth": 1 },
+    { "id": "modes", "label": "Render modes", "depth": 1 },
+    { "id": "styling", "label": "Color and gradients", "depth": 1 },
+    { "id": "custom", "label": "Custom layout", "depth": 1 },
+    { "id": "autoplay", "label": "Autoplay policy", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
+    { "id": "api-root", "label": "AudioVisualizerRoot", "depth": 2 },
+    { "id": "api-config", "label": "VisualizerConfig", "depth": 2 },
+    { "id": "api-canvas", "label": "VisualizerCanvas", "depth": 2 },
+    { "id": "api-hook", "label": "useAudioVisualizer", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Rendering audio isn't the hard part — the Web Audio API gives you frequency and time-domain data in a couple of lines. The hard part is everything around it: an AnalyserNode tied to the right AudioContext lifecycle, a MediaElementAudioSourceNode that throws if you create it twice on the same element, a render loop that has to run on requestAnimationFrame instead of React state so it doesn't re-render the whole tree 60 times a second, and three different source types — an <audio> element, a microphone stream, a decoded buffer — that all need to plug into the same graph without you rewriting the connection logic each time."
+        },
+        {
+          "type": "text",
+          "content": "AudioVisualizerRoot owns the AudioContext, the analyser, and the render loop through a single engine instance. The default layout renders a canvas that fills its container. Pass children to replace it with your own layout using the same useAudioVisualizer hook."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/audio-visualizer/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "VisualizerConfig + VisualizerEngine"
+                },
+                {
+                  "name": "visualizer-engine.ts",
+                  "type": "file",
+                  "comment": "AudioContext, analyser, draw loop",
+                  "highlight": true
+                },
+                {
+                  "name": "visualizer-context.tsx",
+                  "type": "file",
+                  "comment": "useVisualizerCtx"
+                },
+                {
+                  "name": "visualizer-canvas.tsx",
+                  "type": "file",
+                  "comment": "canvas element + resize handling"
+                },
+                {
+                  "name": "visualizer-root.tsx",
+                  "type": "file",
+                  "comment": "creates the engine, provides context"
+                },
+                {
+                  "name": "use-audio-visualizer.ts",
+                  "type": "file",
+                  "comment": "public hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "The render loop skips React",
+          "content": "The engine's subscribe callback fires only on start(), stop(), setMode(), and setConfig() — never per animation frame. Frame-by-frame drawing happens inside a requestAnimationFrame loop that writes straight to the canvas. Your component tree stays idle while the visualizer runs."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Play the test tone, then switch between bars, wave, and circular. The tone is generated on the fly with two oscillators and an LFO sweep so there's always something worth looking at — real usage connects your own audio, not this."
+        },
+        {
+          "type": "demo",
+          "component": "AudioVisualizerDemo",
+          "label": "Interactive demo",
+          "preview": "audio-visualizer"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "install",
+          "registryName": "audio-visualizer"
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Render AudioVisualizerRoot with a config, then connect a source and start the engine from a user gesture. The default layout — a single canvas filling its parent — renders automatically."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/player/page.tsx",
+          "code": "import { useRef } from \"react\";\nimport {\n  AudioVisualizerRoot,\n  useAudioVisualizer,\n} from \"@/components/bevelui/audio-visualizer\";\n\nfunction PlayButton() {\n  const { connect, start, resume } = useAudioVisualizer();\n  const audioRef = useRef<HTMLAudioElement>(null);\n\n  async function onPlay() {\n    await resume(); // required by browser autoplay policy\n    if (audioRef.current) {\n      connect(audioRef.current);\n      audioRef.current.play();\n      start();\n    }\n  }\n\n  return (\n    <>\n      <audio ref={audioRef} src=\"/track.mp3\" crossOrigin=\"anonymous\" />\n      <button onClick={onPlay}>Play</button>\n    </>\n  );\n}\n\nexport default function PlayerPage() {\n  return (\n    <AudioVisualizerRoot\n      className=\"h-40 w-full\"\n      config={{ mode: \"bars\", barCount: 64, color: \"#c2f13c\" }}\n    >\n      <PlayButton />\n    </AudioVisualizerRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "title": "Connecting a source",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "connect() accepts an HTMLMediaElement, a MediaStream, or an AudioBuffer, and wires each into the same analyser graph. Element and buffer sources are also connected to the AudioContext's destination so playback is audible; a MediaStream from getUserMedia is deliberately left unconnected to destination to avoid microphone feedback."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Media element",
+          "code": "const { connect, start, resume } = useAudioVisualizer();\n\nasync function onPlay(el: HTMLAudioElement) {\n  await resume();\n  connect(el);\n  el.play();\n  start();\n}"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Microphone (MediaStream)",
+          "code": "const { connect, start, resume } = useAudioVisualizer();\n\nasync function onEnableMic() {\n  await resume();\n  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });\n  connect(stream);\n  start();\n}"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "Decoded AudioBuffer",
+          "code": "const { connect, start, resume } = useAudioVisualizer();\n\nasync function onPlayBuffer(buffer: AudioBuffer) {\n  await resume();\n  connect(buffer); // starts playback of the buffer immediately\n  start();\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "One source node per element",
+          "content": "createMediaElementSource() throws if called twice on the same <audio>/<video> element. The engine caches the source node per element internally, so calling connect() again on the same element — for example when switching tracks but reusing the player — is safe and won't throw."
+        }
+      ]
+    },
+    {
+      "id": "modes",
+      "title": "Render modes",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Three modes cover the common visual language for audio UI. Switch at runtime with setMode() — the analyser and source stay connected, only the drawing function changes."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "\"bars\"",
+              "type": "VisualizerMode",
+              "description": "Frequency spectrum as vertical bars. Bar count and gap are configurable. Default mode."
+            },
+            {
+              "prop": "\"wave\"",
+              "type": "VisualizerMode",
+              "description": "Time-domain oscilloscope trace — the raw waveform shape rather than frequency energy."
+            },
+            {
+              "prop": "\"circular\"",
+              "type": "VisualizerMode",
+              "description": "Frequency spectrum radiating outward from a center point, radius set by circularRadiusRatio."
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const { mode, setMode } = useAudioVisualizer();\n\n<select value={mode} onChange={(e) => setMode(e.target.value as any)}>\n  <option value=\"bars\">Bars</option>\n  <option value=\"wave\">Wave</option>\n  <option value=\"circular\">Circular</option>\n</select>"
+        }
+      ]
+    },
+    {
+      "id": "styling",
+      "title": "Color and gradients",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Set config.color for a solid fill, or config.colorStops for a vertical gradient — when colorStops is non-empty it takes priority over color. Both apply to whichever mode is active. backgroundColor defaults to transparent so the canvas sits over whatever container you place it in."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<AudioVisualizerRoot\n  config={{\n    mode: \"bars\",\n    colorStops: [\n      { offset: 0, color: \"#c2f13c\" },\n      { offset: 1, color: \"#0c0c0c\" },\n    ],\n    backgroundColor: \"transparent\",\n  }}\n/>"
+        }
+      ]
+    },
+    {
+      "id": "custom",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass children to AudioVisualizerRoot to replace the default single canvas with your own layout — multiple canvases, custom controls, or a mode switcher alongside the render surface. useAudioVisualizer exposes the full engine API from anywhere inside the root."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  AudioVisualizerRoot,\n  VisualizerCanvas,\n  useAudioVisualizer,\n} from \"@/components/bevelui/audio-visualizer\";\n\nfunction Toolbar() {\n  const { isRunning, mode, setMode } = useAudioVisualizer();\n  return (\n    <div className=\"flex items-center justify-between\">\n      <span>{isRunning ? \"Rendering\" : \"Idle\"}</span>\n      <button onClick={() => setMode(mode === \"bars\" ? \"wave\" : \"bars\")}>\n        Toggle mode\n      </button>\n    </div>\n  );\n}\n\nexport function Player() {\n  return (\n    <AudioVisualizerRoot config={{ mode: \"bars\" }}>\n      <Toolbar />\n      <div className=\"h-32 rounded-lg border border-border\">\n        <VisualizerCanvas />\n      </div>\n    </AudioVisualizerRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "autoplay",
+      "title": "Autoplay policy",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Browsers create every AudioContext in a suspended state until a user gesture resumes it. Call resume() inside the same click/tap handler that starts playback — before connect() and start() — or the analyser will silently receive no data."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "async function onPlayClick() {\n  await resume();   // must run inside the gesture handler\n  connect(source);\n  start();\n}"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "Does the visualizer work with cross-origin audio?",
+              "a": "Only if the source sets appropriate CORS headers and the <audio>/<video> element has crossOrigin=\"anonymous\" set. Without that, createMediaElementSource() will connect but the analyser will read silence."
+            },
+            {
+              "q": "Can I run more than one visualizer on the page?",
+              "a": "Yes. Each AudioVisualizerRoot creates its own engine and AudioContext. Connecting the same source to two roots is possible but uncommon — more typically each root connects a different source."
+            },
+            {
+              "q": "Why is nothing rendering even though audio is playing?",
+              "a": "The two most common causes are a suspended AudioContext (call resume() from the gesture handler that starts playback) and a canvas with zero height from its container — VisualizerCanvas fills whatever size its parent gives it."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "AudioVisualizerRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "config",
+              "type": "VisualizerConfig",
+              "description": "Initial render and analysis configuration. Passed once to create the engine; update it afterward via setConfig from useAudioVisualizer."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the default canvas when no children are passed."
+            },
+            {
+              "prop": "children",
+              "type": "React.ReactNode",
+              "description": "Replaces the default canvas layout entirely. Use VisualizerCanvas and useAudioVisualizer to compose your own."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "VisualizerConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "mode",
+              "type": "\"bars\" | \"wave\" | \"circular\"",
+              "default": "\"bars\"",
+              "description": "Which visualization is drawn."
+            },
+            {
+              "prop": "fftSize",
+              "type": "number",
+              "default": "256",
+              "description": "Power-of-two between 32 and 32768. Higher values give more frequency resolution at the cost of CPU."
+            },
+            {
+              "prop": "smoothingTimeConstant",
+              "type": "number",
+              "default": "0.8",
+              "description": "0–1. Higher values produce smoother, slower-responding data between frames."
+            },
+            {
+              "prop": "barCount",
+              "type": "number",
+              "default": "48",
+              "description": "Number of bars in bars mode, and radial spokes in circular mode. Derived from fftSize if omitted."
+            },
+            {
+              "prop": "gapRatio",
+              "type": "number",
+              "default": "0.3",
+              "description": "Gap between bars as a fraction of bar width. Bars mode only."
+            },
+            {
+              "prop": "color",
+              "type": "string",
+              "default": "\"#c2f13c\"",
+              "description": "Solid fill/stroke color. Ignored if colorStops is non-empty."
+            },
+            {
+              "prop": "colorStops",
+              "type": "{ offset: number; color: string }[]",
+              "default": "[]",
+              "description": "Defines a vertical gradient. Takes priority over color when non-empty."
+            },
+            {
+              "prop": "backgroundColor",
+              "type": "string",
+              "default": "\"transparent\"",
+              "description": "Canvas background. \"transparent\" clears the canvas each frame instead of filling it."
+            },
+            {
+              "prop": "lineWidth",
+              "type": "number",
+              "default": "2",
+              "description": "Stroke width in wave and circular modes."
+            },
+            {
+              "prop": "circularRadiusRatio",
+              "type": "number",
+              "default": "0.35",
+              "description": "Base radius as a fraction of the canvas's shorter dimension. Circular mode only."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-canvas",
+      "title": "VisualizerCanvas",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Renders the canvas element the engine draws into. Rendered automatically by AudioVisualizerRoot when no children are passed — use it directly only when composing a custom layout."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the canvas element. The canvas fills its parent's width and height; size the parent to size the visualizer."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useAudioVisualizer",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Call from anywhere under AudioVisualizerRoot. Throws if used outside one."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "isRunning",
+              "type": "boolean",
+              "description": "Whether the render loop is currently active."
+            },
+            {
+              "prop": "mode",
+              "type": "VisualizerMode",
+              "description": "The currently active render mode."
+            },
+            {
+              "prop": "config",
+              "type": "Required<VisualizerConfig>",
+              "description": "The fully resolved config, defaults included."
+            },
+            {
+              "prop": "connect",
+              "type": "(source: HTMLMediaElement | MediaStream | AudioBuffer) => void",
+              "description": "Wires a source into the analyser graph, replacing any previous source."
+            },
+            {
+              "prop": "disconnect",
+              "type": "() => void",
+              "description": "Disconnects the current source without stopping the render loop."
+            },
+            {
+              "prop": "start",
+              "type": "() => void",
+              "description": "Starts the requestAnimationFrame draw loop."
+            },
+            {
+              "prop": "stop",
+              "type": "() => void",
+              "description": "Stops the draw loop. Does not disconnect the source or close the AudioContext."
+            },
+            {
+              "prop": "setMode",
+              "type": "(mode: VisualizerMode) => void",
+              "description": "Switches the active render mode without affecting the connected source."
+            },
+            {
+              "prop": "setConfig",
+              "type": "(patch: Partial<VisualizerConfig>) => void",
+              "description": "Merges a partial config update. Changing fftSize or smoothingTimeConstant updates the underlying AnalyserNode."
+            },
+            {
+              "prop": "resume",
+              "type": "() => Promise<void>",
+              "description": "Resumes a suspended AudioContext. Must be called from inside a user-gesture handler before connect()/start()."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

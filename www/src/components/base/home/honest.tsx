@@ -3,20 +3,11 @@
 /**
  * SECTION: "Honest"
  *
- * WHAT THIS REPLACES:
- * The old Problem.tsx had three abstract points ("Component libraries don't ship product",
- * "Third-party UI is a liability at runtime", "Forked snippets don't scale") + a code window.
- * That framing is too theoretical. It sounds like a conference talk, not a conversation.
- *
- * WHAT THIS DOES INSTEAD:
- * It acknowledges the specific reality of how developers actually work —
- * not "the industry has a problem" but "here is what your actual week looks like."
- * The three items are scenes, not arguments. The developer recognises their own situation.
- *
- * VISUAL APPROACH:
- * Three horizontal cards that feel like internal monologue.
- * Each card has a "before" thought (italic, muted) and a "what Bevel does" statement.
- * No code window. No numbered points. No section label that says "The Problem."
+ * Three scenes a developer recognises, not abstract industry arguments.
+ * Redesigned as three independent numbered cards (not one connected strip)
+ * so each moment gets its own depth, icon, and accent — matching the
+ * bento/illustration language used elsewhere on the page instead of a flat
+ * bordered row.
  */
 
 import { useRef } from "react";
@@ -25,12 +16,20 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Wrapper } from "@/components/shared/wrapper";
 import { cn } from "@/lib/utils";
+import { IconCloudUpload, IconForms, IconRoute } from "@tabler/icons-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MOMENTS = [
+const MOMENTS: {
+  icon: typeof IconCloudUpload;
+  accent: string;
+  thought: string;
+  reality: string;
+  bevel: string;
+}[] = [
   {
-    // The "sprint" moment — most developers recognise this
+    icon: IconCloudUpload,
+    accent: "#f97316",
     thought:
       '"We just need a quick file upload with progress — shouldn\'t take more than a day."',
     reality:
@@ -39,7 +38,8 @@ const MOMENTS = [
       "File Upload ships all of that. You drop it in, wire up your upload function, done.",
   },
   {
-    // The "reuse" moment
+    icon: IconForms,
+    accent: "#e879f9",
     thought:
       '"I\'ll just copy the form wizard from the last project and clean it up."',
     reality:
@@ -48,7 +48,8 @@ const MOMENTS = [
       "Form Engine is a clean architecture. Not a copy. No history attached.",
   },
   {
-    // The "onboarding" moment
+    icon: IconRoute,
+    accent: "#818cf8",
     thought:
       "\"The product tour can't be that hard — it's just a tooltip that follows the user around.\"",
     reality:
@@ -103,56 +104,70 @@ export default function Honest() {
   return (
     <section ref={sectionRef} className="relative py-24 overflow-hidden">
       <Wrapper>
-        {/* Heading — no section label, just the thought */}
-        <div ref={headingRef} className="mb-16 max-w-x mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-sans font-semibold  leading-tight tracking-tight">
+        <div ref={headingRef} className="mb-14 max-w-lg mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-sans font-semibold leading-tight tracking-tight">
             It always takes
             <br />
             <span className="gradient-primary">longer than it should.</span>
           </h2>
-          <p className="text-muted-foreground mt-4 leading-relaxed max-w-md">
+          <p className="text-muted-foreground mt-4 leading-relaxed max-w-md mx-auto">
             Not because you're slow. Because the architecture genuinely takes
             time to get right. Bevel packages that time so you don't spend it.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="flex flex-col ">
+        <div className="grid gap-4 md:grid-cols-3">
           {MOMENTS.map((moment, i) => (
             <div
               key={i}
               ref={(el) => {
                 if (el) cardsRef.current[i] = el;
               }}
-              className={cn(
-                "group grid md:grid-cols-3 gap-0 rounded-md overflow-hidden border border-border/60",
-                "hover:border-border transition-colors duration-200",
-              )}
+              className="group flex flex-col gap-5 rounded-2xl border border-border/60 bg-card/40 p-6 hover:border-border hover:-translate-y-0.5 transition-all duration-200"
               style={{ willChange: "transform, opacity" }}
             >
-              {/* The thought */}
-              <div className="p-8 bg-muted/30 border-r border-border/60">
-                <span className=" font-sans font-semibold uppercase block mb-3">
-                  The estimate
+              <div className="flex items-center justify-between">
+                <div
+                  className="flex items-center justify-center h-10 w-10 rounded-xl"
+                  style={{ background: `${moment.accent}1a`, color: moment.accent }}
+                >
+                  <moment.icon size={19} strokeWidth={1.7} />
+                </div>
+                <span className="font-mono text-2xl font-semibold text-muted-foreground/15 tabular-nums">
+                  0{i + 1}
                 </span>
-                <p className="text-sm italic text-muted-foreground leading-relaxed">
-                  {moment.thought}
-                </p>
               </div>
 
-              {/* The reality */}
-              <div className="p-8 bg-muted/30 border-r border-border/60">
-                <span className="font-sans font-semibold uppercase block mb-3">
-                  What actually happens
-                </span>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {moment.reality}
-                </p>
+              <div className="flex flex-col gap-3">
+                <div>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/50 block mb-1.5">
+                    The estimate
+                  </span>
+                  <p className="text-sm italic text-muted-foreground leading-relaxed">
+                    {moment.thought}
+                  </p>
+                </div>
+
+                <div className="h-px bg-border/60" />
+
+                <div>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/50 block mb-1.5">
+                    What actually happens
+                  </span>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {moment.reality}
+                  </p>
+                </div>
               </div>
 
-              {/* The Bevel answer */}
-              <div className="p-8 bg-muted/30 ">
-                <span className="font-sans font-semibold uppercase block mb-3 gradient-primary">
+              <div
+                className="mt-auto rounded-xl p-4"
+                style={{ background: `${moment.accent}0d` }}
+              >
+                <span
+                  className="text-[10px] font-mono uppercase tracking-widest block mb-1.5"
+                  style={{ color: moment.accent }}
+                >
                   With Bevel
                 </span>
                 <p className="text-sm leading-relaxed font-medium">

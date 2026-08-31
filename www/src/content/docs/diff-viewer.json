@@ -1,0 +1,488 @@
+{
+  "meta": {
+    "title": "Diff Viewer / Merge Editor",
+    "description": "Line and word-level diffing built on a real Myers shortest-edit-script implementation, plus three-way merge with per-conflict accept-ours/accept-theirs resolution. Split or unified view, foldable context, and hunk-level virtualization for large diffs.",
+    "badge": "Components System",
+    "category": "layout-panels",
+    "useCases": ["Code review", "Version history", "Content merge UI"],
+    "tier": "new",
+    "builtWith": ["Myers diff algorithm", "Tailwind CSS"],
+    "related": ["tree", "properties-panel"],
+    "registryName": "diff-viewer",
+    "features": [
+      "Two-way diff and three-way merge from the same engine",
+      "Real Myers O(ND) algorithm — line diff and word diff share one implementation",
+      "Split and unified view, foldable unchanged context",
+      "Per-conflict accept ours / accept theirs / accept both / keep original",
+      "Hunk-granularity virtualization above a configurable line-count threshold"
+    ],
+    "keywords": [
+      "diff",
+      "merge",
+      "conflict",
+      "myers",
+      "version",
+      "compare",
+      "code review"
+    ],
+    "slug": "diff-viewer",
+    "prev": {
+      "label": "Tree View",
+      "href": "/docs/components/tree"
+    },
+    "next": {
+      "label": "Properties Panel",
+      "href": "/docs/components/properties-panel"
+    }
+  },
+  "tocs": [
+    { "id": "overview", "label": "Overview", "depth": 1 },
+    { "id": "demo", "label": "Live demo", "depth": 1 },
+    { "id": "installation", "label": "Installation", "depth": 1 },
+    { "id": "usage", "label": "Two-way diff", "depth": 1 },
+    { "id": "merge", "label": "Three-way merge", "depth": 1 },
+    { "id": "view-modes", "label": "Split vs. unified", "depth": 1 },
+    { "id": "word-diff", "label": "Word-level highlighting", "depth": 1 },
+    { "id": "context", "label": "Folding unchanged context", "depth": 1 },
+    { "id": "resolving", "label": "Resolving conflicts", "depth": 1 },
+    { "id": "performance", "label": "Virtualization", "depth": 1 },
+    { "id": "custom", "label": "Custom layout", "depth": 1 },
+    { "id": "engine", "label": "Using the diff engine directly", "depth": 1 },
+    { "id": "faq", "label": "FAQ", "depth": 1 },
+    { "id": "api-root", "label": "DiffViewerRoot", "depth": 2 },
+    { "id": "api-config", "label": "DiffViewerConfig", "depth": 2 },
+    { "id": "api-hook", "label": "useDiffViewer", "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "A naive line diff just tells you two texts differ — it doesn't tell you which part of a changed line actually changed, doesn't group runs of context into foldable sections, and gives you nothing for the case where two people edited the same file independently. Getting from \"these two strings are different\" to a diff view someone can actually review means a real shortest-edit-script algorithm, a second pass to pair up changed lines for word-level highlighting, hunk grouping with context folding, and — for merge — an independent diff against a common base on both sides so overlapping edits can be told apart from non-overlapping ones."
+        },
+        {
+          "type": "text",
+          "content": "DiffViewerRoot runs a real Myers O(ND) diff (the same family of algorithm behind git diff), reused for both line-level and word-level comparison. Pass original/modified for a two-way diff, or base/ours/theirs for a three-way merge with conflict resolution. The default layout — stats bar, view-mode toggle, hunk list — renders automatically; pass children to replace it."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/diff-viewer/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                {
+                  "name": "types.ts",
+                  "type": "file",
+                  "comment": "DiffLine, DiffHunk, DiffViewerConfig"
+                },
+                {
+                  "name": "diff-algorithm.ts",
+                  "type": "file",
+                  "comment": "generic Myers diff",
+                  "highlight": true
+                },
+                {
+                  "name": "diff-engine.ts",
+                  "type": "file",
+                  "comment": "line/word diff, hunking, 3-way merge",
+                  "highlight": true
+                },
+                {
+                  "name": "diff-viewer-context.tsx",
+                  "type": "file",
+                  "comment": "useDiffViewerCtx"
+                },
+                {
+                  "name": "diff-viewer-root.tsx",
+                  "type": "file",
+                  "comment": "computes diff, owns resolution state"
+                },
+                {
+                  "name": "diff-viewer-layout.tsx",
+                  "type": "file",
+                  "comment": "stats bar + view toggle + hunk list"
+                },
+                {
+                  "name": "diff-hunk-view.tsx",
+                  "type": "file",
+                  "comment": "unchanged / change / conflict rendering"
+                },
+                {
+                  "name": "diff-line-row.tsx",
+                  "type": "file",
+                  "comment": "single line, +/− sign, word spans"
+                },
+                {
+                  "name": "lazy-hunk.tsx",
+                  "type": "file",
+                  "comment": "IntersectionObserver-based virtualization"
+                },
+                {
+                  "name": "use-diff-viewer.ts",
+                  "type": "file",
+                  "comment": "public hook"
+                },
+                { "name": "index.ts", "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "One algorithm, two granularities",
+          "content": "myersDiff is generic over token type. diffLines calls it once with lines as tokens for the line-level diff, then calls it again with words as tokens on each paired removed/added line for word-level highlighting. Same function, two granularities."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Switch between a two-way diff and a three-way merge with an active conflict. In the merge tab, accept a side per conflict, or use \"Accept all ours\"/\"Accept all theirs\" — the merged result panel updates live and reports whether every conflict has been resolved."
+        },
+        {
+          "type": "demo",
+          "component": "DiffViewerDemo",
+          "label": "Interactive demo",
+          "preview": "diff-viewer"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "install",
+          "registryName": "diff-viewer"
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Two-way diff",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass original and modified as plain strings. The default layout renders the stats bar, the split/unified toggle, and the hunk list."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/review/page.tsx",
+          "code": "import { DiffViewerRoot } from \"@/components/bevelui/diff-viewer\";\n\nexport default function ReviewPage() {\n  return (\n    <DiffViewerRoot\n      original={originalFileContents}\n      modified={modifiedFileContents}\n      config={{ contextLines: 3, wordDiff: true }}\n    />\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "merge",
+      "title": "Three-way merge",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass base, ours, and theirs instead of original/modified. Each side is diffed independently against base; a region touched by only one side auto-merges, and a region touched by both sides with different results becomes a conflict hunk. Use onFullyResolved to react once every conflict has a resolution, and useDiffViewer's getMergedText anywhere under the root to read the current merged output."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { DiffViewerRoot, DiffViewerLayout, useDiffViewer } from \"@/components/bevelui/diff-viewer\";\n\nfunction MergedPreview() {\n  const { getMergedText, isFullyResolved } = useDiffViewer();\n  return (\n    <pre className={isFullyResolved() ? \"text-emerald-600\" : \"text-amber-600\"}>\n      {getMergedText()}\n    </pre>\n  );\n}\n\nexport function MergeView() {\n  return (\n    <DiffViewerRoot\n      base={baseText}\n      ours={oursText}\n      theirs={theirsText}\n      onFullyResolved={(merged) => saveDraft(merged)}\n    >\n      <DiffViewerLayout />\n      <MergedPreview />\n    </DiffViewerRoot>\n  );\n}"
+        },
+        {
+          "type": "callout",
+          "variant": "warning",
+          "title": "original/modified and base/ours/theirs are mutually exclusive",
+          "content": "DiffViewerRootProps is a discriminated union — pass either the two-way pair or the three-way trio, never a mix. TypeScript will reject original/modified alongside base/ours/theirs at the type level."
+        }
+      ]
+    },
+    {
+      "id": "view-modes",
+      "title": "Split vs. unified",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Split view lays removed and added lines side by side in two columns; unified view interleaves them in a single column, the familiar git diff format. Set the initial mode via config.viewMode and let people toggle it from the layout's built-in control, or drive it yourself with useDiffViewer's viewMode/setViewMode."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<DiffViewerRoot original={a} modified={b} config={{ viewMode: \"unified\" }} />"
+        }
+      ]
+    },
+    {
+      "id": "word-diff",
+      "title": "Word-level highlighting",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "When a removed line and an added line are paired within the same change run, the engine runs a second Myers pass over their whitespace-preserving word tokens and highlights only the spans that actually changed, rather than shading the entire line. Pairing is positional within the run — the first removed line pairs with the first added line, and so on — so word diff is most meaningful when a change block replaces lines roughly one-for-one. Set config.wordDiff to false to disable it and shade whole lines instead."
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "title": "Folding unchanged context",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "config.contextLines controls how many unchanged lines stay visible around each change before the middle collapses into a foldable \"N unchanged lines\" button. Runs at the very start or end of the file, or short enough to not need folding, are left fully expanded. Any collapsed hunk expands on click."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<DiffViewerRoot original={a} modified={b} config={{ contextLines: 5 }} />"
+        }
+      ]
+    },
+    {
+      "id": "resolving",
+      "title": "Resolving conflicts",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Each conflict hunk shows ours and theirs side by side with an Accept button on each, plus \"Accept both\" and \"Keep original\" (the pre-conflict base text). Use resolveAll(\"ours\" | \"theirs\") to resolve every open conflict at once — useful for a \"take mine\"/\"take theirs\" bulk action — or resolveConflict(hunkId, choice) for one at a time."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const { hunks, resolveConflict, resolveAll, isFullyResolved } = useDiffViewer();\n\nconst firstConflict = hunks.find((h) => h.kind === \"conflict\");\nif (firstConflict) resolveConflict(firstConflict.id, \"ours\");\n\nresolveAll(\"theirs\"); // bulk-resolve every remaining conflict"
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "Virtualization",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Above config.virtualizeThreshold total lines, each hunk renders behind an IntersectionObserver instead of unconditionally — hunks outside the viewport (plus a 600px margin) are replaced with a height-matched placeholder, and swap back in as they scroll into range. Virtualization is applied per hunk, not per line: large diffs tend to be dominated by a handful of very large unchanged or change hunks rather than thousands of tiny ones, so hunk-granularity is enough to keep a large diff smooth without the bookkeeping of a full line-level virtualized list."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "<DiffViewerRoot original={a} modified={b} config={{ virtualizeThreshold: 300 }} />"
+        }
+      ]
+    },
+    {
+      "id": "custom",
+      "title": "Custom layout",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass children to DiffViewerRoot to replace the default stats bar and hunk list — for example to render your own toolbar and reuse only DiffHunkView for the actual line rendering."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import {\n  DiffViewerRoot, DiffHunkView, useDiffViewer,\n} from \"@/components/bevelui/diff-viewer\";\n\nfunction Toolbar() {\n  const { stats, viewMode, setViewMode } = useDiffViewer();\n  return (\n    <div className=\"flex items-center justify-between\">\n      <span>+{stats.additions} −{stats.deletions}</span>\n      <button onClick={() => setViewMode(viewMode === \"split\" ? \"unified\" : \"split\")}>\n        Toggle view\n      </button>\n    </div>\n  );\n}\n\nfunction HunkList() {\n  const { hunks } = useDiffViewer();\n  return <>{hunks.map((h) => <DiffHunkView key={h.id} hunk={h} />)}</>;\n}\n\nexport function CustomDiff() {\n  return (\n    <DiffViewerRoot original={a} modified={b}>\n      <Toolbar />\n      <HunkList />\n    </DiffViewerRoot>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "engine",
+      "title": "Using the diff engine directly",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The underlying algorithm and engine functions are exported for cases that need diff output without any UI — a CLI, a background job, a test assertion."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "import { myersDiff, diffLines, buildHunks, computeDiff } from \"@/components/bevelui/diff-viewer\";\n\n// Generic diff over any token type\nconst ops = myersDiff([\"a\", \"b\", \"c\"], [\"a\", \"x\", \"c\"]);\n\n// Line-level diff with word spans\nconst lines = diffLines(originalText, modifiedText);\n\n// Group into hunks with folded context\nconst hunks = buildHunks(lines, 3);\n\n// Or do both plus stats in one call, matching what DiffViewerRoot uses internally\nconst { hunks: h2, stats } = computeDiff(originalText, modifiedText, {\n  viewMode: \"split\",\n  contextLines: 3,\n  wordDiff: true,\n  virtualizeThreshold: 500,\n});"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q": "How does three-way merge decide what counts as a conflict?",
+              "a": "Both ours and theirs are diffed independently against base. If a base line range is touched by only one side, or both sides produce the identical result, it auto-merges. If both sides changed the same range to different results, it becomes a conflict hunk requiring a choice."
+            },
+            {
+              "q": "Can I diff more than two files, or a full directory?",
+              "a": "DiffViewerRoot handles one text pair (or one three-way trio) at a time. For multiple files, render one DiffViewerRoot per file and build your own file list/tabs around it."
+            },
+            {
+              "q": "Does word-level highlighting work across languages other than code?",
+              "a": "Yes — tokenization for word diff just splits on whitespace, so it applies to prose as reasonably as source code. It doesn't do language-aware tokenization (e.g. splitting on punctuation inside an identifier)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "DiffViewerRoot",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Props are a discriminated union: pass original/modified for a two-way diff, or base/ours/theirs for a three-way merge — not both."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "original",
+              "type": "string",
+              "description": "Two-way mode. The \"before\" text."
+            },
+            {
+              "prop": "modified",
+              "type": "string",
+              "description": "Two-way mode. The \"after\" text."
+            },
+            {
+              "prop": "base",
+              "type": "string",
+              "description": "Three-way mode. The common ancestor text."
+            },
+            {
+              "prop": "ours",
+              "type": "string",
+              "description": "Three-way mode. One side's version of the text."
+            },
+            {
+              "prop": "theirs",
+              "type": "string",
+              "description": "Three-way mode. The other side's version of the text."
+            },
+            {
+              "prop": "config",
+              "type": "DiffViewerConfig",
+              "description": "Diff and display options."
+            },
+            {
+              "prop": "className",
+              "type": "string",
+              "description": "Applied to the default DiffViewerLayout when no children are passed."
+            },
+            {
+              "prop": "children",
+              "type": "React.ReactNode",
+              "description": "Replaces the default stats bar + hunk list layout entirely."
+            },
+            {
+              "prop": "onFullyResolved",
+              "type": "(mergedText: string) => void",
+              "description": "Three-way mode only. Called once every conflict hunk has a resolution, and again if resolutions change thereafter."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "DiffViewerConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "viewMode",
+              "type": "\"unified\" | \"split\"",
+              "default": "\"split\"",
+              "description": "Initial layout. Changeable afterward via useDiffViewer's setViewMode."
+            },
+            {
+              "prop": "contextLines",
+              "type": "number",
+              "default": "3",
+              "description": "Unchanged lines kept visible around each change before the middle of a long run folds."
+            },
+            {
+              "prop": "wordDiff",
+              "type": "boolean",
+              "default": "true",
+              "description": "Compute word-level highlight spans inside paired changed lines."
+            },
+            {
+              "prop": "virtualizeThreshold",
+              "type": "number",
+              "default": "500",
+              "description": "Total line count above which hunks virtualize via IntersectionObserver."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useDiffViewer",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Call from anywhere under DiffViewerRoot. Throws if used outside one."
+        },
+        {
+          "type": "props-table",
+          "rows": [
+            {
+              "prop": "hunks",
+              "type": "DiffHunk[]",
+              "description": "The computed hunk list — kind \"unchanged\", \"change\", or \"conflict\"."
+            },
+            {
+              "prop": "stats",
+              "type": "{ additions: number; deletions: number; conflicts: number }",
+              "description": "Totals across the whole diff."
+            },
+            {
+              "prop": "resolutions",
+              "type": "Record<string, ConflictChoice>",
+              "description": "Current resolution per conflict hunk ID, where set."
+            },
+            {
+              "prop": "viewMode",
+              "type": "\"unified\" | \"split\"",
+              "description": "Current view mode."
+            },
+            {
+              "prop": "setViewMode",
+              "type": "(mode: \"unified\" | \"split\") => void",
+              "description": "Switches view mode."
+            },
+            {
+              "prop": "resolveConflict",
+              "type": "(hunkId: string, choice: ConflictChoice) => void",
+              "description": "Resolves a single conflict hunk. choice is \"ours\" | \"theirs\" | \"both\" | \"base\"."
+            },
+            {
+              "prop": "resolveAll",
+              "type": "(choice: ConflictChoice) => void",
+              "description": "Applies the same choice to every conflict hunk, overwriting any existing resolutions."
+            },
+            {
+              "prop": "toggleContext",
+              "type": "(hunkId: string) => void",
+              "description": "Expands or collapses a foldable unchanged-context hunk."
+            },
+            {
+              "prop": "getMergedText",
+              "type": "() => string",
+              "description": "Reconstructs the full text from unchanged, change, and resolved-conflict hunks. Unresolved conflicts fall back to base."
+            },
+            {
+              "prop": "isFullyResolved",
+              "type": "() => boolean",
+              "description": "True once every conflict hunk has an entry in resolutions."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

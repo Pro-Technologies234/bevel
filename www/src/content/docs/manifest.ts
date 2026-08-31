@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import {
+  IconArrowsMove,
   IconChecklist,
   IconCrop,
   IconCursorOff,
@@ -14,7 +15,10 @@ import {
   IconPhotoFilled,
   IconPointer,
   IconRoute,
+  IconWaveSine,
   IconWorldSearch,
+  IconGitMerge,
+  IconBell,
 } from "@tabler/icons-react";
 import type { SidebarSection } from "@/components/shared/sidebar";
 
@@ -324,6 +328,73 @@ export const DOCS_SYSTEMS: DocsManifestItem[] = [
     icon: IconChecklist,
     related: ["product-tour", "form-engine"],
     keywords: ["checklist", "onboarding", "widget"],
+  },
+  {
+    registryName: "audio-visualizer",
+    title: "Audio Waveform Visualizer",
+    description:
+      "Real-time Web Audio frequency and waveform analysis rendered as bars, an oscilloscope wave, or a circular spectrum. Connects to any <audio>/<video> element, MediaStream, or AudioBuffer.",
+    route: "audio-visualizer",
+    category: "media-color",
+    tier: "new",
+    useCases: ["Music player", "Podcast app", "Voice/mic input UI"],
+    builtWith: ["Web Audio API", "Canvas API", "Tailwind CSS"],
+    demoKey: "audio-visualizer",
+    icon: IconWaveSine,
+    related: ["gallery", "cropper"],
+    keywords: [
+      "audio",
+      "waveform",
+      "visualizer",
+      "frequency",
+      "spectrum",
+      "canvas",
+    ],
+  },
+  {
+    registryName: "canvas",
+    title: "Infinite Canvas",
+    description:
+      "Pannable, zoomable whiteboard surface with rubber-band multi-select and drag. Pan and drag write directly to the DOM for zero-re-render performance — React only renders what's inside each node.",
+    route: "canvas",
+    category: "layout-panels",
+    tier: "new",
+    useCases: ["Whiteboard", "Design tool", "Node-based editor"],
+    builtWith: ["Tailwind CSS"],
+    demoKey: "canvas",
+    icon: IconArrowsMove,
+    related: ["properties-panel", "tree"],
+    keywords: ["canvas", "whiteboard", "pan", "zoom", "infinite", "nodes"],
+  },
+  {
+    registryName: "diff-viewer",
+    title: "Diff Viewer / Merge Editor",
+    description:
+      "Line and word-level diffing built on a real Myers algorithm implementation, plus three-way merge with per-conflict accept-ours/accept-theirs resolution. Split or unified view, foldable context.",
+    route: "diff-viewer",
+    category: "layout-panels",
+    tier: "new",
+    useCases: ["Code review", "Version history", "Content merge UI"],
+    builtWith: ["Canvas-free — pure algorithm + DOM", "Tailwind CSS"],
+    demoKey: "diff-viewer",
+    icon: IconGitMerge,
+    related: ["tree", "properties-panel"],
+    keywords: ["diff", "merge", "conflict", "myers", "version", "compare"],
+  },
+  {
+    registryName: "notification-center",
+    title: "Notification Center",
+    description:
+      "Queued, grouped notification system with priority-based toast eviction, pause-on-hover timing, undo, and a persistent inbox separate from the transient toast queue.",
+    route: "notification-center",
+    category: "collaboration",
+    tier: "new",
+    useCases: ["SaaS app", "Dashboard", "Real-time feed"],
+    builtWith: ["@floating-ui/react", "Tailwind CSS"],
+    demoKey: "notification-center",
+    icon: IconBell,
+    related: ["checklist", "kanban"],
+    keywords: ["notification", "toast", "inbox", "grouping", "undo"],
   },
 ];
 

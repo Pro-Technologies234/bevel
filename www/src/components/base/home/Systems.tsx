@@ -12,14 +12,15 @@ import { Separator } from "@/components/ui/separator";
 
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { SYSTEMS } from "@/components/showcase";
+import {
+  DOCS_SYSTEMS,
+  DOCS_CATEGORIES,
+  getSystemHref,
+  getTierBadge,
+  type DocsCategoryId,
+} from "@/content/docs/manifest";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,6 +29,11 @@ export default function Systems() {
   const headingRef = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState(SYSTEMS[0].id);
   const active = SYSTEMS.find((s) => s.id === activeId)!;
+  const [activeCategory, setActiveCategory] = useState<DocsCategoryId | "all">("all");
+  const filteredSystems =
+    activeCategory === "all"
+      ? DOCS_SYSTEMS
+      : DOCS_SYSTEMS.filter((s) => s.category === activeCategory);
 
   useGSAP(
     () => {
@@ -186,26 +192,86 @@ export default function Systems() {
             </div>
           </div>
         </div>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:hidden">
-          {SYSTEMS.map((s, i) => (
-            <Link href={s.href}>
-              <Card className=" rounded-sm bg-muted/20">
-                <CardHeader>
-                  <CardTitle>{s.title}</CardTitle>
-                  <CardDescription className="text-xs">
-                    {s.what}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent></CardContent>
-              </Card>
-            </Link>
-          ))}
+        {/* Full catalog — every system in the manifest, not just the ones with a live demo above */}
+        <div className="mt-10">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+            <p className="text-[11px] font-mono uppercase tracking-widest text-muted-foreground/50">
+              The full catalog — {filteredSystems.length} of {DOCS_SYSTEMS.length} systems
+            </p>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button
+                onClick={() => setActiveCategory("all")}
+                className={cn(
+                  "px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors border",
+                  activeCategory === "all"
+                    ? "bg-primary/10 border-primary/30 text-primary"
+                    : "border-border/60 text-muted-foreground hover:text-foreground hover:border-border",
+                )}
+              >
+                All
+              </button>
+              {DOCS_CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={cn(
+                    "px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors border whitespace-nowrap",
+                    activeCategory === cat.id
+                      ? "bg-primary/10 border-primary/30 text-primary"
+                      : "border-border/60 text-muted-foreground hover:text-foreground hover:border-border",
+                  )}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {filteredSystems.map((system) => {
+              const badge = getTierBadge(system.tier);
+              const Icon = system.icon;
+              return (
+                <Link
+                  key={system.registryName}
+                  href={getSystemHref(system.route)}
+                  className="group flex items-start gap-3 rounded-xl border border-border/60 bg-muted/10 p-4 hover:border-primary/40 hover:bg-primary/5 transition-colors"
+                >
+                  {Icon && (
+                    <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-muted/60 group-hover:bg-primary/15 transition-colors shrink-0">
+                      <Icon
+                        size={16}
+                        strokeWidth={1.6}
+                        className="text-muted-foreground group-hover:text-primary transition-colors"
+                      />
+                    </div>
+                  )}
+                  <div className="min-w-0 flex flex-col gap-1">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-xs font-medium truncate">
+                        {system.title}
+                      </span>
+                      {badge && (
+                        <Badge
+                          variant={
+                            badge.variant === "pro"
+                              ? "default"
+                              : "secondary"
+                          }
+                          className="text-[9px] px-1 py-0 h-4"
+                        >
+                          {badge.label}
+                        </Badge>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-muted-foreground/60 truncate">
+                      {system.category.replace("-", " & ")}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
-        {/* More coming — different tone than before */}
-        <p className="text-center text-xs text-muted-foreground/50 mt-5 font-mono">
-          More systems in development — drag to reorder, rich text editor, and
-          others.
-        </p>
       </Wrapper>
     </section>
   );

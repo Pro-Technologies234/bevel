@@ -1,0 +1,270 @@
+{
+  "meta": {
+    "title": "Notification Center",
+    "description": "A queued, grouped notification system with two surfaces: transient toasts and a persistent inbox. Priority-based eviction, pause-on-hover timing, undo, and cross-route history — all wired.",
+    "badge": "New",
+    "features": [
+      "Explicit groupKey stacking",
+      "Priority-based toast eviction",
+      "Pause/resume on hover",
+      "Persistent inbox + unread count",
+      "Undo support"
+    ],
+    "slug": "notification-center",
+    "prev": { "label": "Kanban", "href": "/docs/components/kanban" },
+    "next": { "label": "AI Chat Interface", "href": "/docs/components/ai-chat" }
+  },
+  "tocs": [
+    { "id": "overview",       "label": "Overview",           "depth": 1 },
+    { "id": "demo",           "label": "Live demo",          "depth": 1 },
+    { "id": "installation",   "label": "Installation",       "depth": 1 },
+    { "id": "usage",          "label": "Basic usage",        "depth": 1 },
+    { "id": "grouping",       "label": "Grouping & stacking","depth": 1 },
+    { "id": "eviction",       "label": "Priority & eviction","depth": 1 },
+    { "id": "pause-resume",   "label": "Pause on hover",     "depth": 1 },
+    { "id": "undo",           "label": "Undo",               "depth": 1 },
+    { "id": "inbox",          "label": "The inbox",          "depth": 1 },
+    { "id": "persistence",    "label": "Cross-route persistence", "depth": 1 },
+    { "id": "api-root",       "label": "NotificationRoot",   "depth": 2 },
+    { "id": "api-config",     "label": "NotificationConfig", "depth": 2 },
+    { "id": "api-hook",       "label": "useNotifications",   "depth": 2 }
+  ],
+  "sections": [
+    {
+      "id": "overview",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Toast libraries handle one toast at a time. Real products need more: five comments arrive in two seconds and should collapse into one stacked toast, not five. A critical error toast shouldn't get silently evicted because three low-priority toasts were already on screen. A user hovers to read a toast and the countdown should pause — then resume from where it left off, not restart. And after the toast is gone, the notification shouldn't be gone — it needs to live in an inbox the user can open later."
+        },
+        {
+          "type": "text",
+          "content": "NotificationRoot owns all of it: a grouping engine keyed by an explicit groupKey (falling back to type), priority-weighted eviction when the toast surface is full, pause/resume timing that tracks remaining time precisely, and a separate persistent history feeding the inbox. Call notify() from anywhere in the tree via useNotifications() — the toast and inbox surfaces update automatically."
+        },
+        {
+          "type": "file-tree",
+          "nodes": [
+            {
+              "name": "components/bevelui/notification-center/",
+              "type": "folder",
+              "isOpen": true,
+              "children": [
+                { "name": "types.ts",                       "type": "file", "comment": "Notification, ToastGroupState, config" },
+                { "name": "notification-context.tsx",       "type": "file", "comment": "NotificationCtx + useNotificationCtx" },
+                { "name": "use-notification-engine.ts",     "type": "file", "comment": "reducer + timers + grouping/eviction", "highlight": true },
+                { "name": "notification-root.tsx",          "type": "file", "comment": "provider — mount once, high in the tree" },
+                { "name": "notification-toast-viewport.tsx","type": "file", "comment": "positions + stacks active toast groups" },
+                { "name": "notification-toast.tsx",         "type": "file", "comment": "single toast: progress bar, pause, undo" },
+                { "name": "notification-inbox.tsx",         "type": "file", "comment": "bell icon + floating-ui history panel" },
+                { "name": "notification-item.tsx",          "type": "file", "comment": "inbox row renderer" },
+                { "name": "use-notifications.ts",           "type": "file", "comment": "public hook — notify() and friends" },
+                { "name": "index.ts",                        "type": "file" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "tip",
+          "title": "Mount once, near the root",
+          "content": "NotificationRoot should wrap your app at the layout level, not per-page. History and active toasts live in its state — remounting it clears both. That's what makes notifications survive route changes for free."
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Live demo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Trigger a few notifications in a row to see grouping and eviction in action. Hover a toast to pause its countdown, and open the bell to see the full history."
+        },
+        {
+          "type": "demo",
+          "component": "NotificationCenterDemo",
+          "label": "Interactive demo — notifications are simulated"
+        }
+      ]
+    },
+    {
+      "id": "installation",
+      "title": "Installation",
+      "blocks": [
+        {
+          "type": "steps",
+          "steps": [
+            {
+              "title": "Install dependencies",
+              "code": "npm install @floating-ui/react @tabler/icons-react",
+              "codeLanguage": "bash"
+            },
+            {
+              "title": "Add the system files",
+              "code": "npx shadcn@latest add https://bevelui.pxxl.click/r/notification-center.json",
+              "codeLanguage": "bash"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "usage",
+      "title": "Basic usage",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Mount NotificationRoot once near the root of your app. Anywhere inside it, call notify() from useNotifications() to push a notification onto both the toast surface and the inbox history."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/layout.tsx",
+          "code": "import { NotificationRoot } from \"@/components/bevelui/notification-center\";\n\nexport default function RootLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body>\n        <NotificationRoot config={{ maxVisibleToasts: 3, defaultTtl: 5000 }}>\n          {children}\n        </NotificationRoot>\n      </body>\n    </html>\n  );\n}"
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "app/comments/actions.ts",
+          "code": "\"use client\";\nimport { useNotifications } from \"@/components/bevelui/notification-center\";\n\nexport function useCommentActions() {\n  const { notify } = useNotifications();\n\n  function onNewComment(comment: { author: string; postId: string }) {\n    notify({\n      type: \"comment\",\n      groupKey: `comments:${comment.postId}`,\n      title: `New comment from ${comment.author}`,\n      priority: \"normal\",\n    });\n  }\n\n  return { onNewComment };\n}"
+        }
+      ]
+    },
+    {
+      "id": "grouping",
+      "title": "Grouping & stacking",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass groupKey to control stacking explicitly — notifications sharing a key merge into one toast with a count badge instead of piling up separately. If you omit groupKey, the engine falls back to type, so all notifications of the same type stack by default. Set config.groupBy to \"none\" to disable stacking entirely and treat every notification as its own toast."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "// Three calls, same groupKey → one toast showing \"3\"\nnotify({ type: \"comment\", groupKey: \"comments:post-42\", title: \"Alex commented\" });\nnotify({ type: \"comment\", groupKey: \"comments:post-42\", title: \"Priya commented\" });\nnotify({ type: \"comment\", groupKey: \"comments:post-42\", title: \"Sam commented\" });\n// Toast shows \"Sam commented\" with a \"3\" badge — history keeps all three individually."
+        },
+        {
+          "type": "callout",
+          "variant": "info",
+          "content": "Grouping only affects the toast surface. The inbox always lists every notification individually, in full — nothing is lost when toasts merge."
+        }
+      ]
+    },
+    {
+      "id": "eviction",
+      "title": "Priority & eviction",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Set config.maxVisibleToasts to cap how many toast groups show at once (default 3). When a new group would exceed the cap, the engine evicts the lowest-priority, least-recently-active group first — never touching the newly arriving one. A critical error toast won't get pushed out by routine low-priority chatter."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "notify({ type: \"system\", title: \"Sync failed\", priority: \"critical\", ttl: null });\n// ttl: null means this toast persists until manually dismissed or undone —\n// useful for anything the user must actively acknowledge."
+        }
+      ]
+    },
+    {
+      "id": "pause-resume",
+      "title": "Pause on hover",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Hovering a toast pauses its countdown at the exact remaining time and freezes the progress bar; moving away resumes it from there rather than restarting. This is handled per toast group automatically by NotificationToast — no configuration needed."
+        }
+      ]
+    },
+    {
+      "id": "undo",
+      "title": "Undo",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pass an undo callback and an Undo action renders automatically, in both the toast and the inbox row. Calling it fires your callback and marks the notification undone in history — it isn't deleted, so there's still a record of what happened."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "code": "const deleted = await deleteItem(itemId);\nnotify({\n  type: \"delete\",\n  title: \"Item deleted\",\n  undo: async () => { await restoreItem(deleted.id); },\n});"
+        }
+      ]
+    },
+    {
+      "id": "inbox",
+      "title": "The inbox",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drop NotificationInbox anywhere — typically a header or nav bar. It renders a bell icon with an unread badge and opens a floating-ui panel listing full history, independent of whatever is currently on the toast surface."
+        },
+        {
+          "type": "code",
+          "language": "tsx",
+          "filename": "components/header.tsx",
+          "code": "import { NotificationInbox } from \"@/components/bevelui/notification-center\";\n\nexport function Header() {\n  return (\n    <header className=\"flex items-center justify-between px-4 py-2\">\n      <span>My App</span>\n      <NotificationInbox />\n    </header>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "id": "persistence",
+      "title": "Cross-route persistence",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "History and active toast state live in NotificationRoot's own state, provided once via context. As long as the route change doesn't remount NotificationRoot — i.e. it's mounted in a root layout, not a page — navigating between pages doesn't clear notifications or reset the inbox."
+        }
+      ]
+    },
+    {
+      "id": "api-root",
+      "title": "NotificationRoot",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "config", "type": "NotificationConfig", "description": "maxVisibleToasts, defaultTtl, groupBy, maxHistory, toastPosition." },
+            { "prop": "renderToast", "type": "(group: ToastGroupState) => ReactNode", "description": "Replace the default toast rendering entirely." },
+            { "prop": "showToastViewport", "type": "boolean", "default": "true", "description": "Set false to render your own toast surface via useNotifications()." },
+            { "prop": "children", "type": "ReactNode", "description": "Your app." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-config",
+      "title": "NotificationConfig",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "maxVisibleToasts", "type": "number", "default": "3", "description": "Max toast groups shown at once before priority-based eviction kicks in." },
+            { "prop": "defaultTtl", "type": "number", "default": "5000", "description": "Auto-dismiss time (ms) applied when a notification omits ttl." },
+            { "prop": "groupBy", "type": "\"groupKey\" | \"type\" | \"none\"", "default": "\"groupKey\"", "description": "Stacking strategy. groupKey falls back to type when omitted; none disables stacking." },
+            { "prop": "maxHistory", "type": "number", "default": "200", "description": "Max notifications retained in the inbox before the oldest are dropped." },
+            { "prop": "toastPosition", "type": "\"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\"", "default": "\"bottom-right\"", "description": "Corner the toast viewport renders in." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-hook",
+      "title": "useNotifications",
+      "blocks": [
+        {
+          "type": "props-table",
+          "rows": [
+            { "prop": "notify", "type": "(input: NotificationInput) => string", "description": "Push a notification. Returns its id." },
+            { "prop": "dismissToast", "type": "(groupKey: string) => void", "description": "Remove a toast group from the active toast surface." },
+            { "prop": "dismissAllToasts", "type": "() => void", "description": "Clear the entire toast surface. History is untouched." },
+            { "prop": "undo", "type": "(id: string) => void", "description": "Fire a notification's undo callback and mark it undone." },
+            { "prop": "pauseToast / resumeToast", "type": "(groupKey: string) => void", "description": "Manually pause or resume a toast group's countdown." },
+            { "prop": "markRead / markAllRead", "type": "(id?: string) => void", "description": "Mark inbox items read." },
+            { "prop": "clearHistory", "type": "() => void", "description": "Empty the inbox entirely." },
+            { "prop": "removeFromHistory", "type": "(id: string) => void", "description": "Remove a single notification from history." },
+            { "prop": "unreadCount", "type": "number", "description": "Derived count of unread history items." }
+          ]
+        }
+      ]
+    }
+  ]
+}

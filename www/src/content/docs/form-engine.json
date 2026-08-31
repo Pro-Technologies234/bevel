@@ -3,6 +3,7 @@
     "title": "Form Engine",
     "description": "A step orchestration engine for multi-step and single-step forms. Owns the flow — you own the fields. Bring any validation library via plugins, or wire in your own form state with FormEngineStep.",
     "badge": "System",
+    "registryName": "form-engine",
     "features": [
       "Config-driven or headless",
       "Plugin architecture",

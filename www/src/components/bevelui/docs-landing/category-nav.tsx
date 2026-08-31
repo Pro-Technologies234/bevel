@@ -12,7 +12,7 @@ export function CategoryNav({
   categories: DocsCategory[];
   className?: string;
 }) {
-  const [activeId, setActiveId] = useState(categories[0]?.id);
+  const [activeId, setActiveId] = useState<string | undefined>(categories[0]?.id);
   const chipRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   useEffect(() => {
@@ -57,7 +57,9 @@ export function CategoryNav({
           return (
             <button
               key={cat.id}
-              ref={(el) => (chipRefs.current[cat.id] = el)}
+              ref={(el) => {
+                chipRefs.current[cat.id] = el;
+              }}
               type="button"
               onClick={() => handleClick(cat.id)}
               className={cn(

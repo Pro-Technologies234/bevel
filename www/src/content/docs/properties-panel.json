@@ -3,6 +3,7 @@
     "title": "Properties Panel",
     "description": "A Figma-style properties panel with collapsible sections, typed control rows, and a data-driven or headless API. Powered by shadcn's Input, Select, Switch, and Slider.",
     "badge": "Components System",
+    "registryName": "properties-panel",
     "features": [
       "Config-driven or headless",
       "7 built-in control types",

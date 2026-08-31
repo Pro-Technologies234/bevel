@@ -25,8 +25,9 @@ const navigations = [
   { id: "intro", label: "Intro", href: "/" },
   { id: "docs", label: "Documentation", href: "/docs/introduction" },
   { id: "systems", label: "Systems", href: "/docs/components" },
-  // { id: "pricing", label: "Pricing", href: "/pricing" },
-  // { id: "labs", label: "Labs", href: "/labs" },
+  { id: "compare", label: "Compare", href: "/compare" },
+  { id: "pricing", label: "Pricing", href: "/pricing" },
+  { id: "changelog", label: "Changelog", href: "/changelog" },
 ];
 
 export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
@@ -71,14 +72,18 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
             {/* Desktop nav links */}
             <ul className="hidden md:flex items-center gap-1">
               {navigations.slice(1).map((item) => {
-                const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                const isActive =
+                  pathname === item.href ||
+                  (item.href !== "/" && pathname.startsWith(item.href));
                 return (
                   <li key={item.id}>
                     <Link
                       href={item.href}
                       className={cn(
                         "text-[13px] font-medium transition-colors px-3 py-1.5 rounded-full hover:bg-muted/60",
-                        isActive ? "text-foreground bg-muted/40" : "text-muted-foreground hover:text-foreground"
+                        isActive
+                          ? "text-foreground bg-muted/40"
+                          : "text-muted-foreground hover:text-foreground",
                       )}
                     >
                       {item.label}
@@ -98,20 +103,22 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
 
             {/* CTA — hidden on mobile */}
             <div className="hidden md:flex items-center gap-1.5">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                <Button variant="ghost" size="icon" className="rounded-full w-9 h-9 text-muted-foreground hover:text-foreground">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full w-9 h-9 text-muted-foreground hover:text-foreground"
+                >
                   <IconBrandGithub size={18} />
                 </Button>
               </a>
               <ThemeToggle />
               <Link href="/docs/introduction">
-                <Button
-                  size="sm"
-                  className="rounded-full px-4 gap-1.5 font-semibold shadow-sm ml-1"
-                >
-                  <IconBoltFilled size={14} />
-                  Get Started
-                </Button>
+                <Button>Get Started</Button>
               </Link>
             </div>
 
@@ -173,7 +180,9 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
               {/* Drawer nav */}
               <nav className="flex-1 overflow-y-auto p-4 flex flex-col gap-1">
                 {navigations.map((item) => {
-                  const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+                  const isActive =
+                    pathname === item.href ||
+                    (item.href !== "/" && pathname.startsWith(item.href));
                   return (
                     <Link
                       key={item.id}
@@ -183,7 +192,7 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
                         "px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
                         isActive
                           ? "bg-primary/10 text-primary"
-                          : "text-foreground/80 hover:bg-muted hover:text-foreground"
+                          : "text-foreground/80 hover:bg-muted hover:text-foreground",
                       )}
                     >
                       {item.label}
@@ -196,15 +205,23 @@ export function Navbar({ isFixed = true }: { isFixed?: boolean }) {
               <div className="p-4 border-t border-border/40 flex items-center justify-between bg-muted/10">
                 <div className="flex items-center gap-2">
                   <ThemeToggle />
-                  <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="icon" className="rounded-full w-9 h-9 text-muted-foreground hover:text-foreground">
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-full w-9 h-9 text-muted-foreground hover:text-foreground"
+                    >
                       <IconBrandGithub size={18} />
                     </Button>
                   </a>
                 </div>
-                <Button size="sm" className="rounded-full" asChild>
-                  <Link href="/docs/introduction">Get Started</Link>
-                </Button>
+                <Link href="/docs/introduction">
+                  <Button>Get Started</Button>
+                </Link>
               </div>
             </motion.div>
           </>

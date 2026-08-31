@@ -28,6 +28,9 @@ import {
   IconFolder,
   IconFileTypeTsx,
   IconFileTypeTs,
+  IconPackageOff,
+  IconPlugOff,
+  IconLock,
 } from "@tabler/icons-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -118,14 +121,15 @@ export default function HowItWorks() {
             {/* Three properties — shown as facts not bullets */}
             <div className="grid grid-cols-3 gap-3 pt-2">
               {[
-                { label: "No npm package", sub: "It installs as source" },
-                { label: "No runtime dep", sub: "Nothing imports bevelui" },
-                { label: "No updates forced", sub: "You own the version" },
+                { icon: IconPackageOff, label: "No npm package", sub: "It installs as source" },
+                { icon: IconPlugOff, label: "No runtime dep", sub: "Nothing imports bevelui" },
+                { icon: IconLock, label: "No updates forced", sub: "You own the version" },
               ].map((item) => (
                 <div
                   key={item.label}
                   className="p-3 rounded-xl bg-muted/20 border border-border/60"
                 >
+                  <item.icon size={15} strokeWidth={1.7} className="text-primary mb-2" />
                   <p className="text-xs font-semibold mb-1">{item.label}</p>
                   <p className="text-[10px] text-muted-foreground leading-relaxed">
                     {item.sub}
@@ -136,7 +140,11 @@ export default function HowItWorks() {
           </div>
 
           {/* Right — the file tree (proof of ownership) */}
-          <div ref={rightRef}>
+          <div ref={rightRef} className="relative">
+            <div
+              aria-hidden
+              className="absolute -inset-6 -z-10 rounded-full bg-primary/10 blur-[80px]"
+            />
             <div className="rounded-2xl overflow-hidden border border-border/60 bg-muted/10">
               {/* Window bar */}
               <div className="flex items-center gap-2 px-5 py-3 bg-muted/30 border-b border-border/60">

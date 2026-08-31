@@ -3,49 +3,31 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Badge } from "@/components/ui/badge";
+import { Eyebrow } from "@/components/shared/eyebrow";
 import { Button } from "@/components/ui/button";
-import { GlowEffect } from "@/components/ui/glow-effect";
 import {
   IconBoltFilled,
-  IconBrandFramerMotion,
-  IconBrandReact,
-  IconBrandTailwind,
-  IconBrandTypescript,
   IconChevronRight,
+  IconLayoutKanban,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  CommandPaletteIllustration,
+  KanbanIllustration,
+  PresenceIllustration,
+  FloatingBubble,
+} from "./illustrations";
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const bgImageRef = useRef<HTMLImageElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-
-  const brands = [
-    { label: "React", icon: IconBrandReact },
-    { label: "TypeScript", icon: IconBrandTypescript },
-    { label: "Tailwind CSS", icon: IconBrandTailwind },
-    { label: "Motion", icon: IconBrandFramerMotion },
-  ];
+  const collageRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      // Background image scale – add force3D for GPU acceleration
-      gsap.fromTo(
-        bgImageRef.current,
-        { scale: 1.5 },
-        { scale: 1, duration: 2, ease: "power2.out", force3D: true },
-      );
-
-      // Staggered entrance
       const tl = gsap.timeline({
         defaults: { duration: 0.8, ease: "power3.out" },
       });
@@ -55,96 +37,97 @@ export function Hero() {
         .from(paragraphRef.current, { y: 40, opacity: 0 }, "-=0.4")
         .from(buttonsRef.current, { y: 30, opacity: 0 }, "-=0.3")
         .from(
-          ".brand-icon",
-          {
-            y: 20,
-            opacity: 0,
-            stagger: 0.1,
-            duration: 0.6,
-            ease: "back.out(1.2)",
-          },
-          "-=0.2",
+          collageRef.current,
+          { y: 40, opacity: 0, scale: 0.96, duration: 1 },
+          "-=0.3",
         );
     },
     { scope: containerRef, revertOnUpdate: true },
   );
+
   return (
     <main
       ref={containerRef}
-      className="h-172 flex items-center flex-col justify-center space-y-4 relative z-1"
+      className="relative flex flex-col items-center justify-center gap-4 overflow-hidden pt-32 pb-20 md:pt-40"
     >
-      <div className="w-full absolute inset-0 -z-1 select-none">
-        <img
-          ref={bgImageRef}
-          src="/images/home/hero.jpg"
-          alt="Hero Background"
-          className="absolute inset-0 w-full h-full object-cover grayscale opacity-12"
-          style={{ willChange: "transform" }}
-          loading="eager"
+      {/* Gradient glow field — replaces the old static photo background */}
+      <div aria-hidden className="absolute inset-0 -z-10 select-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(194,241,60,0.12),transparent_55%)]" />
+        <div className="absolute top-40 -left-24 h-72 w-72 rounded-full bg-indigo-500/15 blur-[100px]" />
+        <div className="absolute top-56 -right-16 h-64 w-64 rounded-full bg-fuchsia-500/15 blur-[100px]" />
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+            maskImage:
+              "radial-gradient(ellipse 60% 60% at 50% 20%, black 20%, transparent 100%)",
+          }}
         />
-        {/* <div className=" absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent" /> */}
       </div>
 
-      <Badge
-        ref={badgeRef}
-        variant="secondary"
-        className="bg-muted/60 p-3 gap-2 text-[10px] uppercase select-none text-foreground/80"
-      >
-        <span className="h-1.5 w-1.5 rounded-full dark:bg-green-400 bg-green-600 relative">
-          <span className="rounded-full dark:bg-green-400 bg-green-600 absolute inset-0 animate-ping"></span>
-        </span>
-        Engineering-first UI Systems
-      </Badge>
+      <Eyebrow ref={badgeRef}>19 systems shipped — MIT licensed</Eyebrow>
 
       <h1
         ref={headingRef}
-        className="text-3xl md:text-6xl font-sans font-medium max-w-xs md:max-w-xl text-center tracking-tight"
+        className="text-4xl md:text-7xl font-sans font-medium max-w-xs md:max-w-2xl text-center tracking-tight text-balance"
       >
         The UI Systems Your App Actually Needs
       </h1>
 
       <p
         ref={paragraphRef}
-        className="max-w-sm md:max-w-lg not-md:text-xs text-center"
+        className="max-w-sm md:max-w-lg not-md:text-xs text-center text-muted-foreground"
       >
-        Bevel gives you fully-engineered, copy-to-own UI systems — not just
-        components. Every system is built to drop straight into your codebase
-        with no installs, no lock-in, and full shadcn compatibility.
+        Command palettes, kanban boards, form engines, file uploaders — the
+        parts every serious app needs and nobody wants to build twice. Bevel
+        ships them fully engineered. One CLI command drops the source into your
+        repo. From there, it&apos;s just your code.
       </p>
 
-      <div ref={buttonsRef} className="flex items-center gap-4">
-        <div className="relative">
-          <GlowEffect
-            colors={["#0894FF", "#C959DD", "#FF2E54", "#FF9004"]}
-            mode="static"
-            blur="medium"
-            className="z-1 bottom-0 inset-x-0 top-8 h-2"
-          />
-          <Link href="/docs/components">
-            <Button
-              variant="inverted"
-              className="md:p-4.5 text-xs font-semibold tracking-tight cursor-pointer rounded-full md:px-6"
-            >
-              <span className="z-1">Browse Systems</span> <IconChevronRight />
-            </Button>
-          </Link>
-        </div>
+      <div ref={buttonsRef} className="flex items-center gap-3 pt-2">
+        <Link href="/docs/components">
+          <Button variant="inverted" size="lg">
+            <span>Browse Systems</span> <IconChevronRight />
+          </Button>
+        </Link>
         <Link href="/docs/introduction">
-          <Button className="md:p-4.5 text-xs font-semibold tracking-tight cursor-pointer rounded-full md:px-6 relative bevel">
+          <Button size="lg">
             <IconBoltFilled /> Read the docs <IconChevronRight />
           </Button>
         </Link>
       </div>
 
-      <div className="flex items-center gap-2 mt-8">
-        {brands.map((brand) => (
-          <Tooltip key={brand.label}>
-            <TooltipTrigger className="brand-icon">
-              <brand.icon size={40} strokeWidth={1.1} />
-            </TooltipTrigger>
-            <TooltipContent>{brand.label}</TooltipContent>
-          </Tooltip>
-        ))}
+      {/* Floating collage — the same illustration language used in the Bento
+          section below, introduced early so the hero doesn't read as a
+          generic photo-background SaaS template. */}
+      <div
+        ref={collageRef}
+        className="relative mt-14 w-full max-w-3xl px-6"
+        style={{ willChange: "transform" }}
+      >
+        <div className="relative h-56 md:h-64">
+          <CommandPaletteIllustration className="absolute left-1/2 top-0 w-64 md:w-72 -translate-x-[85%] rotate-[-4deg] shadow-2xl" />
+
+          <div className="absolute left-1/2 top-6 -translate-x-[10%] rotate-[3deg] rounded-xl border border-white/10 bg-linear-to-br from-orange-600 to-orange-900 p-4 shadow-2xl">
+            <div className="flex items-center gap-1.5 mb-3">
+              <IconLayoutKanban size={13} className="text-white/70" />
+              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50">
+                Kanban
+              </span>
+            </div>
+            <KanbanIllustration />
+          </div>
+
+          <div className="absolute left-1/2 top-24 translate-x-[45%] rotate-[6deg] rounded-xl border border-white/10 bg-linear-to-br from-fuchsia-600 to-violet-900 p-4 shadow-2xl">
+            <PresenceIllustration />
+          </div>
+
+          <FloatingBubble className="left-1/2 top-2 -translate-x-[140%] -rotate-12">
+            <IconBoltFilled size={15} />
+          </FloatingBubble>
+        </div>
       </div>
     </main>
   );

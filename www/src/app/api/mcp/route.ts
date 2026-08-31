@@ -177,14 +177,7 @@ function handleToolCall(name: string, args: any) {
     }
 
     const docsDir = path.join(process.cwd(), "src", "content", "docs");
-    const jsonFileName =
-      system.demoKey === "palette-editor"
-        ? "palette-editor.json"
-        : system.demoKey === "tree"
-          ? "tree-view.json"
-          : `${system.route}.json`;
-
-    const filePath = path.join(docsDir, jsonFileName);
+    const filePath = path.join(docsDir, `${system.route}.json`);
     let docContent = `System: ${system.title}\nDescription: ${system.description}\nInstall: ${getInstallCommand(system.registryName)}\nDocs URL: ${SITE_URL}/docs/components/${system.route}\n\n`;
 
     if (fs.existsSync(filePath)) {
