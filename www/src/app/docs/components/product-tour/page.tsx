@@ -6,4 +6,3 @@ export const metadata = getSystemMetadata("product-tour");
 export default function ProductTourPage() {
   return <ProductTourContent />;
 }
-

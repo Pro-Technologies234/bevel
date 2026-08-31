@@ -1,9 +1,8 @@
-import { TreeViewContent } from "@/components/docs/tree-view";
+import { TreeContent } from "@/components/bevelui/docs/tree-content";
 import { getSystemMetadata } from "@/content/docs/manifest";
 
 export const metadata = getSystemMetadata("tree");
 
 export default function TreePage() {
-  return <TreeViewContent />;
+  return <TreeContent />;
 }
-

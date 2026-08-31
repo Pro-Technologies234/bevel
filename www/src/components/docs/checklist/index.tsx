@@ -2,7 +2,7 @@
 
 import pageData from "@/content/docs/checklist.json";
 import { DocPageRenderer } from "@/components/bevelui/docs/doc-page-renderer";
-import { ChecklistDemo } from "./checklist-demo";
+import { ChecklistDemo } from "../../demo/checklist-demo";
 
 export function ChecklistContent() {
   return (

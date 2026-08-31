@@ -11,7 +11,7 @@ import { PropertiesPanelDemo } from "@/components/demo/properties-panel";
 import { TreeDemo } from "@/components/demo/tree";
 import { GalleryDemo } from "@/components/demo/gallery";
 import { SpotlightDemo } from "../demo/spotlight";
-import { ChecklistDemo } from "../docs/checklist/checklist-demo";
+import { ChecklistDemo } from "../demo/checklist";
 
 export const SYSTEMS = [
   {

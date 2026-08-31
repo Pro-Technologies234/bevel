@@ -555,4 +555,3 @@ export const docsComponentsMetadata: Metadata = {
     ],
   },
 };
-

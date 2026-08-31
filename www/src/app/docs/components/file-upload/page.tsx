@@ -6,4 +6,3 @@ export const metadata = getSystemMetadata("file-upload");
 export default function FileUploadPage() {
   return <FileUploadContent />;
 }
-

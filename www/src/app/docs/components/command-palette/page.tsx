@@ -6,4 +6,3 @@ export const metadata = getSystemMetadata("command-palette");
 export default function CommandPalettePage() {
   return <CommandPaletteContent />;
 }
-

@@ -6,4 +6,3 @@ export const metadata = getSystemMetadata("form-engine");
 export default function FormEnginePage() {
   return <FormEngineContent />;
 }
-
